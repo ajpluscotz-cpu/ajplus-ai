@@ -72,6 +72,31 @@ function sendMessage() {
             ${text}
         </div>
     `;
+    setTimeout(() => {
+
+    let reply = "Samahani, bado ninajifunza.";
+
+    if (text.toLowerCase().includes("ndoa")) {
+        reply = "Kwa tatizo la ndoa, ni muhimu mawasiliano mazuri, uvumilivu na ushauri wa kitaalamu.";
+    }
+
+    if (text.toLowerCase().includes("biashara")) {
+        reply = "AJPLUS AI inapendekeza kufanya utafiti wa soko kabla ya kuanza biashara.";
+    }
+
+    if (text.toLowerCase().includes("dini")) {
+        reply = "Ninaweza kusaidia maswali ya dini kwa heshima na kwa kuzingatia vyanzo sahihi.";
+    }
+
+    msgs.innerHTML += `
+        <div class="msg ai">
+            ${reply}
+        </div>
+    `;
+
+    msgs.scrollTop = msgs.scrollHeight;
+
+}, 800);
 
     input.value = "";
 
