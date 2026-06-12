@@ -1,39 +1,17 @@
-// ====================================
-// AJPLUS AI Main Application
-// ====================================
-
-console.log("AJPLUS AI Started Successfully");
-
 // Navigation
 function goTo(page){
-    console.log("Opening:", page);
-}
 
-// Authentication
-function loginUser(){
-    alert("Login system coming soon...");
-}
+    // Ficha screens zote
+    document.querySelectorAll(".screen").forEach(screen=>{
+        screen.classList.remove("active");
+    });
 
-function registerUser(){
-    alert("Registration system coming soon...");
-}
+    // Onyesha screen inayotakiwa
+    const target = document.getElementById("screen-" + page);
 
-// AI Chat
-function sendMessage(){
-    const input = document.getElementById("chatInput");
-
-    if(!input) return;
-
-    const message = input.value.trim();
-
-    if(message === "") return;
-
-    console.log("User:", message);
-
-    input.value = "";
-}
-
-// Dashboard
-function openDashboard(){
-    console.log("Dashboard Opened");
+    if(target){
+        target.classList.add("active");
+    }else{
+        console.error("Screen haijapatikana:", page);
+    }
 }
