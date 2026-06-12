@@ -57,7 +57,25 @@ function doDemo() {
 }
 
 function sendMessage() {
-    console.log("Message sent");
+
+    const input = document.getElementById("chat-input");
+    const msgs = document.getElementById("chat-msgs");
+
+    if (!input || !msgs) return;
+
+    const text = input.value.trim();
+
+    if (text === "") return;
+
+    msgs.innerHTML += `
+        <div class="msg user">
+            ${text}
+        </div>
+    `;
+
+    input.value = "";
+
+    msgs.scrollTop = msgs.scrollHeight;
 }
 
 function handleKey(event) {
