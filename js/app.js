@@ -54,3 +54,12 @@ function doSignup() {
 function doDemo() {
     goTo("dashboard");
 }
+function handleKey(event) {
+    if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+    }
+}
+
+function autoGrow(el) {
+   
