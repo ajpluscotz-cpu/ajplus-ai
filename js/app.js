@@ -1,62 +1,45 @@
-// ===================================
-// AJPLUS AI Navigation System
-// ===================================
+console.log("AJPLUS AI Loaded");
 
-console.log("AJPLUS AI Started");
+function goTo(page) {
 
-// Fungua screen
-function goTo(page){
-
-    // Ficha screen zote
-    document.querySelectorAll(".screen").forEach(screen=>{
+    document.querySelectorAll(".screen").forEach(screen => {
         screen.classList.remove("active");
     });
 
-    // Onyesha screen inayotakiwa
     const target = document.getElementById("screen-" + page);
 
-    if(target){
+    if (target) {
         target.classList.add("active");
-    }else{
-        console.error("Screen haipo:", page);
+    } else {
+        console.log("Screen haipo:", page);
     }
 }
 
-// Tabs za Login/Register
-function switchAuthTab(tab){
+function switchAuthTab(tab) {
 
-    document.querySelectorAll(".atab").forEach(btn=>{
+    document.querySelectorAll(".atab").forEach(btn => {
         btn.classList.remove("active");
     });
 
-    document.querySelectorAll(".aform").forEach(form=>{
+    document.querySelectorAll(".aform").forEach(form => {
         form.classList.remove("active");
     });
 
-    if(tab === "signup"){
-        document.getElementById("tab-signup")?.classList.add("active");
-        document.getElementById("signup-form")?.classList.add("active");
-    }
-
-    if(tab === "login"){
+    if (tab === "login") {
         document.getElementById("tab-login")?.classList.add("active");
-        document.getElementById("login-form")?.classList.add("active");
+        document.getElementById("form-login")?.classList.add("active");
+    }
+
+    if (tab === "signup") {
+        document.getElementById("tab-signup")?.classList.add("active");
+        document.getElementById("form-signup")?.classList.add("active");
     }
 }
 
-// Dashboard
-function showDash(page){
-
+function showDash(page) {
     goTo("dashboard");
-
-    document.querySelectorAll(".dash-page").forEach(item=>{
-        item.classList.remove("active");
-    });
-
-    document.getElementById("dash-" + page)?.classList.add("active");
 }
 
-// Sidebar
-function toggleSidebar(){
-    document.querySelector(".sidebar")?.classList.toggle("open");
+function toggleSidebar() {
+    console.log("Sidebar");
 }
