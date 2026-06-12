@@ -43,6 +43,7 @@ function showDash(page) {
 function toggleSidebar() {
     console.log("Sidebar");
 }
+
 function doLogin() {
     goTo("dashboard");
 }
@@ -54,6 +55,11 @@ function doSignup() {
 function doDemo() {
     goTo("dashboard");
 }
+
+function sendMessage() {
+    console.log("Message sent");
+}
+
 function handleKey(event) {
     if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault();
@@ -62,4 +68,6 @@ function handleKey(event) {
 }
 
 function autoGrow(el) {
-   
+    el.style.height = "auto";
+    el.style.height = el.scrollHeight + "px";
+}
