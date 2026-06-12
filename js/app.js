@@ -43,3 +43,14 @@ function showDash(page) {
 function toggleSidebar() {
     console.log("Sidebar");
 }
+function doLogin() {
+    goTo("dashboard");
+}
+
+function doSignup() {
+    goTo("dashboard");
+}
+
+function doDemo() {
+    goTo("dashboard");
+}
