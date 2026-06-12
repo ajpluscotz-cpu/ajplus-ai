@@ -71,3 +71,12 @@ function autoGrow(el) {
     el.style.height = "auto";
     el.style.height = el.scrollHeight + "px";
 }
+
+function quickPrompt(text) {
+    const input = document.getElementById("chat-input");
+
+    if (input) {
+        input.value = text;
+        sendMessage();
+    }
+}
