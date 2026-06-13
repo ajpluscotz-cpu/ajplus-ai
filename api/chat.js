@@ -24,6 +24,11 @@ JINSI YA KUJIBU:
 - Jibu kwa urafiki kama rafiki wa karibu
 - Tumia mifano ya Tanzania (TZS, BRELA, TRA, NMB, M-Pesa)
 - Jibu kwa ufupi na wazi`;
+- Tumia Kiswahili cha Tanzania cha Dar es Salaam — si cha Kenya
+- Epuka maneno: "maze", "aii", "si ndio", "freshi", "niaje"
+- Tumia: "habari", "poa", "sawa", "ndiyo", "basi"
+- Ukisema "ndoa" zungumza kama mzee wa Tanzania
+- Ukisema bei tumia TZS daima
 
 module.exports = async function handler(req, res) {
     res.setHeader("Access-Control-Allow-Origin", "*");
