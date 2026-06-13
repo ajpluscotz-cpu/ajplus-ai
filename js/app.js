@@ -338,14 +338,26 @@ function getWelcomeMsg() {
     return `<div class="msg ai">
         <div class="msg-av ai-av">🤖</div>
         <div class="msg-bub">
-            <strong>Mambo! Mimi ni AJPLUS AI 🇹🇿</strong><br><br>
-            Mimi ni Akili Bandia (AI) ya kwanza ya Kitanzania!<br>
-            Nimeundwa na <strong>AJ PLUS COMPANY LIMITED</strong>.<br><br>
-            Ninaweza kukusaidia na:<br>
-            💼 Biashara &amp; Invoice &nbsp;|&nbsp; 📋 CV &amp; Kazi<br>
-            💑 Ndoa &amp; Mahusiano &nbsp;|&nbsp; 🕌 Dini<br>
-            🌾 Kilimo &nbsp;|&nbsp; ⚖️ Sheria &nbsp;|&nbsp; 🏥 Afya<br><br>
-            <em>Andika swali lako hapa chini bana! 💪</em>
+          <strong>Karibu AJPLUS AI 🇹🇿</strong><br><br>
+
+Mimi ni Akili Bandia ya kwanza ya Kitanzania, iliyoundwa na
+<strong>AJ PLUS COMPANY LIMITED</strong>.
+
+<br><br>
+
+Ninaweza kukusaidia kuhusu:<br>
+💼 Biashara na Ujasiriamali<br>
+📋 CV, Kazi na Elimu<br>
+💑 Mahusiano na Familia<br>
+🕌 Dini na Maadili<br>
+🌾 Kilimo na Ufugaji<br>
+⚖️ Sheria za Msingi<br>
+🏥 Afya na Lishe<br>
+💻 Teknolojia na Akili Bandia (AI)
+
+<br><br>
+
+<em>Karibu AJPLUS AI. Andika swali lako hapa chini nami nitakusaidia.</em>
         </div></div>`;
 }
 
