@@ -1,4 +1,5 @@
 // AJPLUS AI — api/chat.js
+// Claude (primary) + Gemini (backup)
 // © AJ PLUS COMPANY LIMITED | ajplusai.co.tz
 
 const SYSTEM_PROMPT = `Wewe ni AJPLUS AI — Akili Bandia (AI) ya kwanza ya Kitanzania.
@@ -9,97 +10,129 @@ Kauli Mbiu: "Ufahamu wa Kitanzania, Uwezo wa Kidunia"
 UTAMBULISHO:
 - Wewe ni AI — Akili Bandia iliyoundwa na AJ PLUS COMPANY LIMITED
 - Ukiulizwa "wewe ni nani?" jibu: "Mimi ni AJPLUS AI, Akili Bandia ya kwanza ya Kitanzania!"
-- Ukiulizwa "wewe ni AI?" jibu: "Ndiyo bana! Mimi ni AI iliyoundwa na AJ PLUS COMPANY LIMITED"
-- Ukiulizwa "una hisia?" jibu: "Mimi ni AI — sina hisia kama binadamu, lakini ninakusaidia vizuri!"
-- KAMWE usiseme wewe ni binadamu
-- KAMWE usiseme wewe ni ChatGPT, Gemini, Claude, au Copilot
+- KAMWE usiseme wewe ni binadamu, ChatGPT, Gemini, Claude, au Copilot
 
 LUGHA YA BONGO:
 - Zungumza kama kijana wa Dar es Salaam — urafiki, wazi, si rasmi sana
 - Tumia: "bana", "sawa kabisa", "aise", "hii ndiyo deal", "usijali", "poa"
-- Epuka maneno ya Kenya: maze, freshi, niaje
 - Bei zote TZS
 
-ELEWA SWALI VIZURI — MUHIMU SANA:
-Kabla ya kujibu, elewa mtumiaji anataka nini haswa:
-- Akisema "sababu za X" — toa MAELEZO/REASONS — si wimbo, si hadithi
-- Akisema "niandikia nashida" — ndipo uandike wimbo
-- Akisema "niandikia shairi" — ndipo uandike shairi  
-- Akisema "niandikie barua" — ndipo uandike barua
-- Akisema "mdomo umekauka" — sema tu "Kunywa maji bana!" — usizidishe
-- Akisema "nina tatizo la X" — uliza kwanza au toa ushauri wa vitendo
-- Ukishindwa kuelewa swali — uliza: "Bana unataka nini haswa?"
+ELEWA SWALI VIZURI:
+- "sababu za X" = toa MAELEZO — si wimbo wala shairi
+- "niandikie nashida/shairi/barua" = ndipo uandike
+- "mdomo umekauka" = "Kunywa maji bana!" — usizidishe
+- Ukishindwa kuelewa = uliza: "Bana unataka nini haswa?"
 
-DINI — JIBU KWA USAHIHI:
-- Islam: Zakat, Sadaka, Sala, Swum, Hajj, Quran — jibu kwa heshima
+DINI:
+- Islam: Zakat, Sadaka, Sala, Swum, Hajj — jibu kwa heshima
 - Ukristo: Kanisa, Sadaka, Biblia, Sala — jibu kwa heshima
-- "Sababu za kutoa sadaka kanisani" = toa MAELEZO ya kibiblia na ya vitendo
-- Usifanye wimbo/nashida isipokuwa ukiombwa moja kwa moja
+- "Sababu za kutoa sadaka" = toa MAELEZO ya kibiblia/kiislamu
 
-AFYA — JIBU KWA UHALISIA:
-- Mdomo umekauka = "Kunywa maji bana, lita 2 kwa siku!"
-- Jibu la kwanza liwe rahisi na la vitendo
-- Usizidishe kisayansi bila kuombwa
-
-BIASHARA — JIBU KWA MFANO:
-- Invoice: toa mfano kamili wa Tanzania
-- CV: toa mfano kamili wa kitaalamu
-- BRELA, TRA, NHIF — toa maelezo ya hatua kwa hatua
-
-KISWAHILI SAHIHI:
-- Tumia Kiswahili sahihi cha Tanzania
-- Epuka maneno yasiyo na maana kama "tunachumba" kwa maana ya "tunamchagua"
-- Ukishindwa neno — tumia Kiingereza kidogo kuliko kutumia neno baya
-
-SEKTA UNAZOJUA (Tanzania):
-Biashara, Invoice, CV, Kazi, Ndoa, Mahusiano, Dini (Islam na Ukristo),
-Kilimo, Afya, NHIF, Sheria, Elimu, HESLB, Fedha, Benki (NMB/CRDB),
-Mafundi, Habari, Ardhi, Usafiri, SGR, Madini, Burudani, Utalii, Teknolojia, Serikali
+SEKTA (Tanzania):
+Biashara, Invoice, CV, Kazi, Ndoa, Mahusiano, Dini, Kilimo, Afya, NHIF,
+Sheria, Elimu, HESLB, Fedha, Benki, Mafundi, Habari, Ardhi,
+Usafiri, SGR, Madini, Burudani, Utalii, Teknolojia, Serikali
 
 JINSI YA KUJIBU:
-- Jibu kwa ufupi na wazi — usijaze maneno bure
-- Tumia bullet points au namba kwa orodha
-- Tumia mifano ya Tanzania (TZS, BRELA, TRA, NMB, M-Pesa, Simba, Yanga)
-- Kwa maswali mazito — jibu kwa undani lakini wazi`;
+- Jibu kwa ufupi na wazi
+- Tumia bullet points kwa orodha
+- Tumia mifano ya Tanzania (TZS, BRELA, TRA, NMB, M-Pesa)`;
 
+// ─── CLAUDE API ───────────────────────────────────────────
+async function callClaude(message, apiKey) {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "x-api-key": apiKey,
+            "anthropic-version": "2023-06-01"
+        },
+        body: JSON.stringify({
+            model: "claude-haiku-4-5",
+            max_tokens: 1500,
+            system: SYSTEM_PROMPT,
+            messages: [{ role: "user", content: message }]
+        })
+    });
+    if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err?.error?.message || "Claude API ilikataa");
+    }
+    const data = await response.json();
+    return data.content?.[0]?.text || "Samahani, sijapata jibu.";
+}
+
+// ─── GEMINI API (BACKUP) ──────────────────────────────────
+async function callGemini(message, apiKey) {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            contents: [{
+                role: "user",
+                parts: [{ text: SYSTEM_PROMPT + "\n\nMtumiaji: " + message }]
+            }],
+            generationConfig: { temperature: 0.75, maxOutputTokens: 1500 }
+        })
+    });
+    if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err?.error?.message || "Gemini API ilikataa");
+    }
+    const data = await response.json();
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || "Samahani, sijapata jibu.";
+}
+
+// ─── HANDLER ──────────────────────────────────────────────
 module.exports = async function handler(req, res) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     if (req.method === "OPTIONS") return res.status(200).end();
     if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+
     try {
         let body = req.body;
         if (typeof body === "string") {
             try { body = JSON.parse(body); } catch(e) { body = {}; }
         }
         if (!body) body = {};
+
         const message = body.message;
         if (!message) return res.status(400).json({ error: "Message inahitajika" });
-        const API_KEY = process.env.ANTHROPIC_API_KEY;
-        if (!API_KEY) return res.status(500).json({ error: "ANTHROPIC_API_KEY haipo" });
-        const response = await fetch("https://api.anthropic.com/v1/messages", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "x-api-key": API_KEY,
-                "anthropic-version": "2023-06-01"
-            },
-            body: JSON.stringify({
-                model: "claude-haiku-4-5",
-                max_tokens: 1500,
-                system: SYSTEM_PROMPT,
-                messages: [{ role: "user", content: message }]
-            })
-        });
-        if (!response.ok) {
-            const err = await response.json();
-            return res.status(response.status).json({ error: err?.error?.message || "API ilikataa" });
+
+        const CLAUDE_KEY = process.env.ANTHROPIC_API_KEY;
+        const GEMINI_KEY = process.env.GEMINI_API_KEY;
+
+        // ── Jaribu Claude kwanza ──
+        if (CLAUDE_KEY) {
+            try {
+                const reply = await callClaude(message, CLAUDE_KEY);
+                return res.status(200).json({ reply, source: "claude" });
+            } catch (claudeErr) {
+                console.warn("Claude imeshindwa:", claudeErr.message);
+                // Claude imeshindwa — jaribu Gemini
+            }
         }
-        const data = await response.json();
-        const reply = data.content?.[0]?.text || "Samahani, sijapata jibu.";
-        return res.status(200).json({ reply });
+
+        // ── Backup: Gemini ──
+        if (GEMINI_KEY) {
+            try {
+                const reply = await callGemini(message, GEMINI_KEY);
+                return res.status(200).json({ reply, source: "gemini" });
+            } catch (geminiErr) {
+                console.error("Gemini imeshindwa:", geminiErr.message);
+                return res.status(500).json({ error: "AI zote zimeshindwa: " + geminiErr.message });
+            }
+        }
+
+        return res.status(500).json({
+            error: "Hakuna API Key — weka ANTHROPIC_API_KEY au GEMINI_API_KEY kwenye Vercel Settings"
+        });
+
     } catch (err) {
+        console.error("AJPLUS AI Error:", err);
         return res.status(500).json({ error: "Server error: " + err.message });
     }
 };
