@@ -17,16 +17,10 @@ function escapeHtml(text) {
 
 function getWelcomeMsg() {
     return `<div class="msg ai">
-        <div class="msg-av ai-av">🤖</div>
+        <div class="msg-av"><img src="assets/logo.jpeg" alt="AJPLUS AI" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1.5px solid #C9A84C"></div>
         <div class="msg-bub">
             <strong>Mambo bana! Mimi ni AJPLUS AI 🇹🇿</strong><br><br>
-            Mimi ni Akili Bandia (AI) ya kwanza ya Kitanzania!<br>
-            Nimeundwa na <strong>AJ PLUS COMPANY LIMITED</strong>.<br><br>
-            Ninaweza kukusaidia na:<br>
-            💼 Biashara &amp; Invoice &nbsp;|&nbsp; 📋 CV &amp; Kazi<br>
-            💑 Ndoa &amp; Mahusiano &nbsp;|&nbsp; 🕌 Dini<br>
-            🌾 Kilimo &nbsp;|&nbsp; ⚖️ Sheria &nbsp;|&nbsp; 🏥 Afya<br><br>
-            <em>Andika swali lako hapa chini bana! 💪</em>
+            Andika swali lako hapa chini — nitakujibu! 💪
         </div>
     </div>`;
 }
@@ -144,12 +138,9 @@ async function sendMessage() {
 
     const loadId = "load-" + Date.now();
     msgs.innerHTML += `<div class="msg ai" id="${loadId}">
-        <div class="msg-av ai-av">🤖</div>
-        <div class="typing-dots">
-            <div class="typing-dot"></div>
-            <div class="typing-dot"></div>
-            <div class="typing-dot"></div>
-        </div></div>`;
+        <div class="msg-av"><img src="assets/logo.jpeg" alt="AI" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1.5px solid #C9A84C;animation:spin 1.2s linear infinite"></div>
+        <div class="msg-bub" style="color:#888;font-size:.84rem;padding:8px 12px">AJPLUS AI inafikiri...</div>
+    </div>`;
     msgs.scrollTop = msgs.scrollHeight;
 
     try {
@@ -157,15 +148,15 @@ async function sendMessage() {
         const loadEl = document.getElementById(loadId);
         if (loadEl) {
             loadEl.innerHTML = `
-                <div class="msg-av ai-av">🤖</div>
+                <div class="msg-av"><img src="assets/logo.jpeg" alt="AI" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1.5px solid #C9A84C"></div>
                 <div style="max-width:85%">
                     <div class="msg-bub">${formatReply(reply)}</div>
                     <button onclick="copyMsg(this)" data-text="${escapeHtml(reply)}" style="
-                        margin-top:5px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);
-                        color:#aaa;font-size:.72rem;padding:4px 10px;border-radius:6px;cursor:pointer;
+                        margin-top:5px;background:rgba(201,168,76,.08);border:1.5px solid rgba(201,168,76,.2);
+                        color:#888;font-size:.72rem;padding:4px 10px;border-radius:6px;cursor:pointer;
                         display:flex;align-items:center;gap:5px;font-family:inherit;transition:all .2s"
-                    onmouseover="this.style.background='rgba(201,168,76,.15)';this.style.color='#C9A84C'"
-                    onmouseout="this.style.background='rgba(255,255,255,.07)';this.style.color='#aaa'">
+                    onmouseover="this.style.color='#C9A84C'"
+                    onmouseout="this.style.color='#888'">
                         📋 Nakili jibu
                     </button>
                 </div>`;
@@ -174,8 +165,9 @@ async function sendMessage() {
     } catch (err) {
         const loadEl = document.getElementById(loadId);
         if (loadEl) {
-            loadEl.innerHTML = `<div class="msg-av ai-av">🤖</div>
-                <div class="msg-bub" style="color:var(--red)">❌ ${escapeHtml(err.message)}</div>`;
+            loadEl.innerHTML = `
+                <div class="msg-av"><img src="assets/logo.jpeg" alt="AI" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1.5px solid #C9A84C"></div>
+                <div class="msg-bub" style="color:#EF4444">❌ ${escapeHtml(err.message)}</div>`;
         }
     }
     msgs.scrollTop = msgs.scrollHeight;
@@ -186,18 +178,19 @@ function copyMsg(btn) {
     navigator.clipboard.writeText(text).then(() => {
         btn.textContent = "✅ Imenakiliwa!";
         btn.style.color = "#22C55E";
-        setTimeout(() => {
-            btn.innerHTML = "📋 Nakili jibu";
-            btn.style.color = "#aaa";
-        }, 2000);
+        setTimeout(() => { btn.innerHTML = "📋 Nakili jibu"; btn.style.color = "#888"; }, 2000);
     }).catch(() => showToast("⚠️ Imeshindwa kunakili", "warning"));
 }
 
 function appendMsg(msgs, type, content) {
     const isUser = type === "user";
     msgs.innerHTML += `<div class="msg ${type}">
-        <div class="msg-av ${isUser ? "user-av" : "ai-av"}">${isUser ? "👤" : "🤖"}</div>
-        <div class="msg-bub">${content}</div></div>`;
+        ${isUser
+            ? `<div class="msg-av" style="background:linear-gradient(135deg,#C9A84C,#A8832C);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.82rem;width:30px;height:30px;border-radius:50%;flex-shrink:0">👤</div>`
+            : `<div class="msg-av"><img src="assets/logo.jpeg" alt="AI" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1.5px solid #C9A84C"></div>`
+        }
+        <div class="msg-bub">${content}</div>
+    </div>`;
 }
 
 function handleKey(e) {
@@ -236,7 +229,7 @@ function formatReply(text) {
         .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
         .replace(/\*(.*?)\*/g, "<em>$1</em>")
         .replace(/`(.*?)`/g, "<code>$1</code>")
-        .replace(/## (.*?)(<br>|$)/g, "<strong style='color:var(--gold);font-size:1rem'>$1</strong><br>")
+        .replace(/## (.*?)(<br>|$)/g, "<strong style='color:#C9A84C;font-size:1rem'>$1</strong><br>")
         .replace(/\n/g, "<br>");
 }
 
@@ -319,22 +312,22 @@ function selectPayment(el, type) {
     const details = document.getElementById("pay-details");
     if (!details) return;
     const html = {
-        lipa: `<div style="background:var(--card2);border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:20px;margin-top:16px;text-align:center">
-            <p style="color:var(--gold);font-weight:800;margin-bottom:8px">📱 Lipa Namba</p>
-            <p style="font-size:1.6rem;font-weight:900;color:var(--white);letter-spacing:3px">44934738</p>
-            <p style="color:var(--gold);font-size:.85rem">AJ PLUS COMPANY LIMITED</p>
-            <p style="color:var(--muted);font-size:.8rem;margin-top:5px">M-Pesa · Airtel · Tigo · NMB · CRDB</p>
-            <button onclick="showModal('mo-lipa')" class="btn btn-gold btn-sm" style="margin-top:12px">Ona QR Code</button></div>`,
-        nmb: `<div style="background:var(--card2);border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:20px;margin-top:16px">
-            <p style="color:var(--gold);font-weight:800;margin-bottom:10px">🏦 NMB Bank Transfer</p>
-            <p style="color:var(--muted);font-size:.85rem">Jina:</p>
-            <p style="color:var(--white);font-weight:700">AJ PLUS COMPANY LIMITED</p>
-            <p style="color:var(--muted);font-size:.85rem;margin-top:8px">Akaunti:</p>
-            <p style="color:var(--gold);font-size:1.3rem;font-weight:900;letter-spacing:2px">23510095544</p></div>`,
-        wa: `<div style="background:var(--card2);border:1px solid rgba(37,211,102,.2);border-radius:14px;padding:20px;margin-top:16px;text-align:center">
-            <p style="color:#25D366;font-weight:800;margin-bottom:10px">💬 Lipa via WhatsApp</p>
+        lipa: `<div style="background:#F7F5F0;border:1.5px solid rgba(201,168,76,.3);border-radius:14px;padding:18px;margin-top:14px;text-align:center">
+            <p style="color:#C9A84C;font-weight:800;margin-bottom:7px">📱 Lipa Namba</p>
+            <p style="font-size:1.5rem;font-weight:900;letter-spacing:3px">44934738</p>
+            <p style="color:#C9A84C;font-size:.83rem">AJ PLUS COMPANY LIMITED</p>
+            <p style="color:#888;font-size:.78rem;margin-top:4px">M-Pesa · Airtel · Tigo · NMB · CRDB</p>
+            <button onclick="showModal('mo-lipa')" class="btn btn-gold btn-sm" style="margin-top:10px">Ona QR Code</button></div>`,
+        nmb: `<div style="background:#F7F5F0;border:1.5px solid rgba(201,168,76,.3);border-radius:14px;padding:18px;margin-top:14px">
+            <p style="color:#C9A84C;font-weight:800;margin-bottom:8px">🏦 NMB Bank Transfer</p>
+            <p style="color:#888;font-size:.83rem">Jina:</p>
+            <p style="font-weight:700">AJ PLUS COMPANY LIMITED</p>
+            <p style="color:#888;font-size:.83rem;margin-top:6px">Akaunti:</p>
+            <p style="color:#C9A84C;font-size:1.2rem;font-weight:900;letter-spacing:2px">23510095544</p></div>`,
+        wa: `<div style="background:#F7F5F0;border:1.5px solid rgba(37,211,102,.2);border-radius:14px;padding:18px;margin-top:14px;text-align:center">
+            <p style="color:#25D366;font-weight:800;margin-bottom:8px">💬 Lipa via WhatsApp</p>
             <a href="https://wa.me/255762307647?text=Nataka+kulipa+Pro+TZS+15000" target="_blank" class="btn btn-wa btn-full">Anza Mazungumzo</a>
-            <p style="color:var(--muted);font-size:.75rem;margin-top:8px">⏱️ Access ndani ya dakika 30</p></div>`
+            <p style="color:#888;font-size:.73rem;margin-top:6px">⏱️ Access ndani ya dakika 30</p></div>`
     };
     details.innerHTML = html[type] || "";
 }
@@ -352,20 +345,3 @@ window.addEventListener("DOMContentLoaded", () => {
         msgs.innerHTML = getWelcomeMsg();
     }
 });
-
-// Override getWelcomeMsg with new design
-function getWelcomeMsg() {
-    return `<div class="msg ai">
-        <div class="msg-av"><img src="assets/logo.jpeg" alt="AJPLUS AI" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1.5px solid #C9A84C"></div>
-        <div class="msg-bub">
-            <strong>Mambo bana! Mimi ni AJPLUS AI 🇹🇿</strong><br><br>
-            Mimi ni Akili Bandia (AI) ya kwanza ya Kitanzania!<br>
-            Nimeundwa na <strong>AJ PLUS COMPANY LIMITED</strong>.<br><br>
-            Ninaweza kukusaidia na:<br>
-            💼 Biashara &amp; Invoice &nbsp;|&nbsp; 📋 CV &amp; Kazi<br>
-            💑 Ndoa &amp; Mahusiano &nbsp;|&nbsp; 🕌 Dini<br>
-            🌾 Kilimo &nbsp;|&nbsp; ⚖️ Sheria &nbsp;|&nbsp; 🏥 Afya<br><br>
-            <em>Andika swali lako hapa chini bana! 💪</em>
-        </div>
-    </div>`;
-}
