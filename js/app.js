@@ -56,7 +56,7 @@ function doDemo() {
     goTo("dashboard");
 }
 
-function sendMessage() {
+async function sendMessage() {
 
     const input = document.getElementById("chat-input");
     const msgs = document.getElementById("chat-msgs");
@@ -73,20 +73,9 @@ function sendMessage() {
         </div>
     `;
     setTimeout(() => {
+        setTimeout(async () => {
 
-    let reply = "Samahani, bado ninajifunza.";
-
-    if (text.toLowerCase().includes("ndoa")) {
-        reply = "Kwa tatizo la ndoa, ni muhimu mawasiliano mazuri, uvumilivu na ushauri wa kitaalamu.";
-    }
-
-    if (text.toLowerCase().includes("biashara")) {
-        reply = "AJPLUS AI inapendekeza kufanya utafiti wa soko kabla ya kuanza biashara.";
-    }
-
-    if (text.toLowerCase().includes("dini")) {
-        reply = "Ninaweza kusaidia maswali ya dini kwa heshima na kwa kuzingatia vyanzo sahihi.";
-    }
+    const reply = await getAIResponse(text);
 
     msgs.innerHTML += `
         <div class="msg ai">
@@ -120,6 +109,31 @@ function quickPrompt(text) {
 
     if (input) {
         input.value = text;
+        async function getAIResponse(text) {
+
+    const API_KEY = "WEKA_API_KEY_YAKO_HAPA";
+
+    const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{
+                        text: text
+                    }]
+                }]
+            })
+        }
+    );
+
+    const data = await response.json();
+
+    return data.candidates[0].content.parts[0].text;
+}
         sendMessage();
     }
 }
