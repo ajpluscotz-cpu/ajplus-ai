@@ -19,7 +19,7 @@ LUGHA YA BONGO:
 
 ELEWA SWALI VIZURI:
 - "sababu za X" = toa MAELEZO — si wimbo wala shairi
-- "niandikie nashida/shairi/barua" = ndipo uandike
+- "niandikie hadithi/shairi/barua" = ndipo uandike
 - "mdomo umekauka" = "Kunywa maji bana!" — usizidishe
 - Ukishindwa kuelewa = uliza: "Bana unataka nini haswa?"
 
@@ -38,7 +38,7 @@ JINSI YA KUJIBU:
 - Tumia bullet points kwa orodha
 - Tumia mifano ya Tanzania (TZS, BRELA, TRA, NMB, M-Pesa)`;
 
-// ─── CLAUDE API ───────────────────────────────────────────
+// ─── CLAUDE API (Imebadilishwa Model ID ya Haiku) ────────────────
 async function callClaude(message, apiKey) {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
@@ -48,7 +48,7 @@ async function callClaude(message, apiKey) {
             "anthropic-version": "2023-06-01"
         },
         body: JSON.stringify({
-            model: "claude-haiku-4-5",
+            model: "claude-3-5-haiku-20241022", // Model ID sahihi
             max_tokens: 1500,
             system: SYSTEM_PROMPT,
             messages: [{ role: "user", content: message }]
@@ -62,16 +62,20 @@ async function callClaude(message, apiKey) {
     return data.content?.[0]?.text || "Samahani, sijapata jibu.";
 }
 
-// ─── GEMINI API (BACKUP) ──────────────────────────────────
+// ─── GEMINI API (Imeongezwa System Instruction ya Uhakika) ───────
 async function callGemini(message, apiKey) {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
     const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+            // Hapa System Prompt inawekwa sehemu yake maalum ili Gemini asiipuuze
+            systemInstruction: {
+                parts: [{ text: SYSTEM_PROMPT }]
+            },
             contents: [{
                 role: "user",
-                parts: [{ text: SYSTEM_PROMPT + "\n\nMtumiaji: " + message }]
+                parts: [{ text: message }]
             }],
             generationConfig: { temperature: 0.75, maxOutputTokens: 1500 }
         })
@@ -97,7 +101,12 @@ module.exports = async function handler(req, res) {
         if (typeof body === "string") {
             try { body = JSON.parse(body); } catch(e) { body = {}; }
         }
-        if (!body) body = {};
+        if (!body || Object.keys(body).length === 0) {
+            // Kama Vercel haijai-parse, soma kama buffer au string raw (Usalama zaidi)
+            if (req.body && typeof req.body === 'object') {
+                body = req.body;
+            }
+        }
 
         const message = body.message;
         if (!message) return res.status(400).json({ error: "Message inahitajika" });
@@ -111,8 +120,7 @@ module.exports = async function handler(req, res) {
                 const reply = await callClaude(message, CLAUDE_KEY);
                 return res.status(200).json({ reply, source: "claude" });
             } catch (claudeErr) {
-                console.warn("Claude imeshindwa:", claudeErr.message);
-                // Claude imeshindwa — jaribu Gemini
+                console.warn("Claude imeshindwa, tunahamia Gemini:", claudeErr.message);
             }
         }
 
