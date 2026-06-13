@@ -352,3 +352,20 @@ window.addEventListener("DOMContentLoaded", () => {
         msgs.innerHTML = getWelcomeMsg();
     }
 });
+
+// Override getWelcomeMsg with new design
+function getWelcomeMsg() {
+    return `<div class="msg ai">
+        <div class="msg-av"><img src="assets/logo.jpeg" alt="AJPLUS AI" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1.5px solid #C9A84C"></div>
+        <div class="msg-bub">
+            <strong>Mambo bana! Mimi ni AJPLUS AI 🇹🇿</strong><br><br>
+            Mimi ni Akili Bandia (AI) ya kwanza ya Kitanzania!<br>
+            Nimeundwa na <strong>AJ PLUS COMPANY LIMITED</strong>.<br><br>
+            Ninaweza kukusaidia na:<br>
+            💼 Biashara &amp; Invoice &nbsp;|&nbsp; 📋 CV &amp; Kazi<br>
+            💑 Ndoa &amp; Mahusiano &nbsp;|&nbsp; 🕌 Dini<br>
+            🌾 Kilimo &nbsp;|&nbsp; ⚖️ Sheria &nbsp;|&nbsp; 🏥 Afya<br><br>
+            <em>Andika swali lako hapa chini bana! 💪</em>
+        </div>
+    </div>`;
+}
