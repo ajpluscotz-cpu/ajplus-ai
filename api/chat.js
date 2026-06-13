@@ -1,5 +1,5 @@
 // AJPLUS AI — api/chat.js
-// Claude (primary) + Gemini (backup)
+// Claude (primary) + Gemini (backup) + Supabase (database)
 // © AJ PLUS COMPANY LIMITED | ajplusai.co.tz
 
 const SYSTEM_PROMPT = `Wewe ni AJPLUS AI — Akili Bandia (AI) ya kwanza ya Kitanzania.
@@ -26,7 +26,6 @@ ELEWA SWALI VIZURI:
 DINI:
 - Islam: Zakat, Sadaka, Sala, Swum, Hajj — jibu kwa heshima
 - Ukristo: Kanisa, Sadaka, Biblia, Sala — jibu kwa heshima
-- "Sababu za kutoa sadaka" = toa MAELEZO ya kibiblia/kiislamu
 
 SEKTA (Tanzania):
 Biashara, Invoice, CV, Kazi, Ndoa, Mahusiano, Dini, Kilimo, Afya, NHIF,
@@ -36,7 +35,97 @@ Usafiri, SGR, Madini, Burudani, Utalii, Teknolojia, Serikali
 JINSI YA KUJIBU:
 - Jibu kwa ufupi na wazi
 - Tumia bullet points kwa orodha
-- Tumia mifano ya Tanzania (TZS, BRELA, TRA, NMB, M-Pesa)`;
+- Tumia mifano ya Tanzania (TZS, BRELA, TRA, NMB, M-Pesa)
+- Mwisho wa kila jibu — ongeza mstari mmoja wa kushukuru kama: "Asante bana! Niko hapa ukihitaji zaidi 💪"`;
+
+// ─── SUPABASE ─────────────────────────────────────────────
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
+
+async function supabaseQuery(table, method, data = null, filter = null) {
+    if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) return null;
+    try {
+        let url = `${SUPABASE_URL}/rest/v1/${table}`;
+        if (filter) url += `?${filter}`;
+        const opts = {
+            method,
+            headers: {
+                "Content-Type": "application/json",
+                "apikey": SUPABASE_SERVICE_KEY,
+                "Authorization": `Bearer ${SUPABASE_SERVICE_KEY}`,
+                "Prefer": method === "POST" ? "return=representation" : ""
+            }
+        };
+        if (data) opts.body = JSON.stringify(data);
+        const res = await fetch(url, opts);
+        if (res.ok && method !== "DELETE") {
+            const text = await res.text();
+            return text ? JSON.parse(text) : null;
+        }
+        return null;
+    } catch (e) {
+        console.error("Supabase error:", e.message);
+        return null;
+    }
+}
+
+// Hifadhi mazungumzo
+async function saveChat(userEmail, message, reply) {
+    await supabaseQuery("chats", "POST", {
+        user_email: userEmail || "anonymous",
+        message,
+        reply
+    });
+}
+
+// Angalia mtumiaji
+async function getUser(email) {
+    if (!email) return null;
+    const users = await supabaseQuery("users", "GET", null, `email=eq.${email}`);
+    return users?.[0] || null;
+}
+
+// Unda/Update mtumiaji
+async function upsertUser(email, name = null) {
+    if (!email) return null;
+    const existing = await getUser(email);
+    if (existing) {
+        // Update questions count
+        const today = new Date().toISOString().split('T')[0];
+        const count = existing.last_question_date === today ? (existing.questions_today + 1) : 1;
+        await supabaseQuery("users", "PATCH", {
+            questions_today: count,
+            last_question_date: today
+        }, `email=eq.${email}`);
+        return { ...existing, questions_today: count };
+    } else {
+        const result = await supabaseQuery("users", "POST", {
+            email,
+            name: name || email.split('@')[0],
+            plan: 'free',
+            questions_today: 1,
+            last_question_date: new Date().toISOString().split('T')[0]
+        });
+        return result?.[0] || null;
+    }
+}
+
+// Angalia limit ya maswali
+async function checkLimit(email) {
+    if (!email) return { allowed: true, plan: 'free' };
+    const user = await upsertUser(email);
+    if (!user) return { allowed: true, plan: 'free' };
+    if (user.plan === 'pro' || user.plan === 'business') {
+        return { allowed: true, plan: user.plan };
+    }
+    // Free plan — maswali 20 kwa siku
+    const today = new Date().toISOString().split('T')[0];
+    if (user.last_question_date !== today) return { allowed: true, plan: 'free' };
+    if (user.questions_today > 20) {
+        return { allowed: false, plan: 'free', message: "Umefika kikomo cha maswali 20 kwa leo! Panda Pro kwa TZS 15,000/mwezi." };
+    }
+    return { allowed: true, plan: 'free' };
+}
 
 // ─── CLAUDE API ───────────────────────────────────────────
 async function callClaude(message, apiKey) {
@@ -69,13 +158,8 @@ async function callGemini(message, apiKey) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            systemInstruction: {
-                parts: [{ text: SYSTEM_PROMPT }]
-            },
-            contents: [{
-                role: "user",
-                parts: [{ text: message }]
-            }],
+            systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+            contents: [{ role: "user", parts: [{ text: message }] }],
             generationConfig: { temperature: 0.75, maxOutputTokens: 1500 }
         })
     });
@@ -103,35 +187,54 @@ module.exports = async function handler(req, res) {
         if (!body) body = {};
 
         const message = body.message;
+        const userEmail = body.email || null;
+
         if (!message) return res.status(400).json({ error: "Message inahitajika" });
+
+        // Angalia limit
+        const limitCheck = await checkLimit(userEmail);
+        if (!limitCheck.allowed) {
+            return res.status(429).json({
+                error: limitCheck.message,
+                upgrade: true
+            });
+        }
 
         const CLAUDE_KEY = process.env.ANTHROPIC_API_KEY;
         const GEMINI_KEY = process.env.GEMINI_API_KEY;
 
-        // ── Jaribu Claude kwanza ──
+        let reply = null;
+        let source = null;
+
+        // Jaribu Claude kwanza
         if (CLAUDE_KEY) {
             try {
-                const reply = await callClaude(message, CLAUDE_KEY);
-                return res.status(200).json({ reply, source: "claude" });
+                reply = await callClaude(message, CLAUDE_KEY);
+                source = "claude";
             } catch (claudeErr) {
-                console.warn("Claude imeshindwa, tunahamia Gemini:", claudeErr.message);
+                console.warn("Claude imeshindwa:", claudeErr.message);
             }
         }
 
-        // ── Backup: Gemini ──
-        if (GEMINI_KEY) {
+        // Backup: Gemini
+        if (!reply && GEMINI_KEY) {
             try {
-                const reply = await callGemini(message, GEMINI_KEY);
-                return res.status(200).json({ reply, source: "gemini" });
+                reply = await callGemini(message, GEMINI_KEY);
+                source = "gemini";
             } catch (geminiErr) {
                 console.error("Gemini imeshindwa:", geminiErr.message);
-                return res.status(500).json({ error: "AI zote zimeshindwa: " + geminiErr.message });
+                return res.status(500).json({ error: "AI zote zimeshindwa" });
             }
         }
 
-        return res.status(500).json({
-            error: "Hakuna API Key — weka ANTHROPIC_API_KEY au GEMINI_API_KEY kwenye Vercel Settings"
-        });
+        if (!reply) {
+            return res.status(500).json({ error: "Hakuna API Key — weka kwenye Vercel Settings" });
+        }
+
+        // Hifadhi mazungumzo Supabase
+        await saveChat(userEmail, message, reply);
+
+        return res.status(200).json({ reply, source, plan: limitCheck.plan });
 
     } catch (err) {
         console.error("AJPLUS AI Error:", err);
