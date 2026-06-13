@@ -19,7 +19,7 @@ LUGHA YA BONGO:
 
 ELEWA SWALI VIZURI:
 - "sababu za X" = toa MAELEZO — si wimbo wala shairi
-- "niandikie hadithi/shairi/barua" = ndipo uandike
+- "niandikie nashida/shairi/barua" = ndipo uandike
 - "mdomo umekauka" = "Kunywa maji bana!" — usizidishe
 - Ukishindwa kuelewa = uliza: "Bana unataka nini haswa?"
 
@@ -38,7 +38,7 @@ JINSI YA KUJIBU:
 - Tumia bullet points kwa orodha
 - Tumia mifano ya Tanzania (TZS, BRELA, TRA, NMB, M-Pesa)`;
 
-// ─── CLAUDE API (Imebadilishwa Model ID ya Haiku) ────────────────
+// ─── CLAUDE API ───────────────────────────────────────────
 async function callClaude(message, apiKey) {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
@@ -48,7 +48,7 @@ async function callClaude(message, apiKey) {
             "anthropic-version": "2023-06-01"
         },
         body: JSON.stringify({
-            model: "claude-3-5-haiku-20241022", // Model ID sahihi
+            model: "claude-haiku-4-5",
             max_tokens: 1500,
             system: SYSTEM_PROMPT,
             messages: [{ role: "user", content: message }]
@@ -59,10 +59,10 @@ async function callClaude(message, apiKey) {
         throw new Error(err?.error?.message || "Claude API ilikataa");
     }
     const data = await response.json();
-return data.content?.[0]?.text || "Samahani, sijapata jibu.";
+    return data.content?.[0]?.text || "Samahani, sijapata jibu.";
+}
 
-
-// ─── GEMINI API (Imeongezwa System Instruction ya Uhakika) ───────
+// ─── GEMINI API (BACKUP) ──────────────────────────────────
 async function callGemini(message, apiKey) {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
     const response = await fetch(url, {
@@ -87,7 +87,6 @@ async function callGemini(message, apiKey) {
     return data.candidates?.[0]?.content?.parts?.[0]?.text || "Samahani, sijapata jibu.";
 }
 
-
 // ─── HANDLER ──────────────────────────────────────────────
 module.exports = async function handler(req, res) {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -101,12 +100,7 @@ module.exports = async function handler(req, res) {
         if (typeof body === "string") {
             try { body = JSON.parse(body); } catch(e) { body = {}; }
         }
-        if (!body || Object.keys(body).length === 0) {
-            // Kama Vercel haijai-parse, soma kama buffer au string raw (Usalama zaidi)
-            if (req.body && typeof req.body === 'object') {
-                body = req.body;
-            }
-        }
+        if (!body) body = {};
 
         const message = body.message;
         if (!message) return res.status(400).json({ error: "Message inahitajika" });
