@@ -4,224 +4,310 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AJPLUS AI — Ufahamu wa Kitanzania, Uwezo wa Kidunia</title>
-<meta name="description" content="AJPLUS AI — Mshauri wa kwanza wa Kitanzania. Sekta 20, Kiswahili cha mtaani, Invoice, CV, Dini, Ndoa na zaidi.">
+<meta name="description" content="AJPLUS AI — Mshauri wa kwanza wa Kitanzania.">
 <meta name="theme-color" content="#C9A84C">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-/* ═══ ROOT ═══════════════════════════════════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --gold:#C9A84C;--gold2:#F0C060;--gold-light:rgba(201,168,76,.12);
-  --dark:#1a1a1a;--dark2:#2d2d2d;
-  --white:#FFFFFF;--bg:#F7F5F0;--bg2:#EFEFEF;
+  --gold:#C9A84C;--gold2:#F0C060;--gold-light:rgba(201,168,76,.1);
+  --white:#FFFFFF;--bg:#F7F5F0;--bg2:#EFEFEB;
   --text:#1a1a1a;--muted:#888;--border:#E5E0D5;
   --green:#22C55E;--red:#EF4444;--orange:#F59E0B;
   --wa:#25D366;--radius:14px;
   --font:'Segoe UI','Helvetica Neue',Arial,sans-serif;
-  --shadow:0 2px 12px rgba(0,0,0,.08);
+  --shadow:0 2px 10px rgba(0,0,0,.07);
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16px;line-height:1.65;overflow-x:hidden}
 a{color:var(--gold);text-decoration:none}
-::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
 
-/* ═══ SCREENS ════════════════════════════════════ */
+/* SCREENS */
 .screen{display:none;min-height:100vh}
 .screen.active{display:block}
 #screen-auth.active{display:flex}
 
-/* ═══ BUTTONS ════════════════════════════════════ */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 26px;border-radius:50px;font-size:.92rem;font-weight:700;border:none;transition:all .22s;cursor:pointer;text-decoration:none;font-family:var(--font)}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 24px;border-radius:50px;font-size:.9rem;font-weight:700;border:none;transition:all .2s;cursor:pointer;text-decoration:none;font-family:var(--font)}
 .btn-gold{background:linear-gradient(135deg,var(--gold),#A8832C);color:#fff}
-.btn-gold:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(201,168,76,.35)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(201,168,76,.3)}
 .btn-ghost{background:transparent;color:var(--text);border:1.5px solid var(--border)}
 .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
 .btn-wa{background:var(--wa);color:#fff}
-.btn-sm{padding:7px 16px;font-size:.82rem}
-.btn-lg{padding:14px 38px;font-size:1rem}
+.btn-sm{padding:7px 15px;font-size:.8rem}
+.btn-lg{padding:13px 36px;font-size:.98rem}
 .btn-full{width:100%}
 
-/* ═══ FORMS ══════════════════════════════════════ */
-.fg{margin-bottom:14px}
-.fl{display:block;font-size:.83rem;font-weight:600;color:var(--text);margin-bottom:5px}
-.fi{width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-size:.9rem;transition:border-color .2s;outline:none;font-family:var(--font)}
+/* FORMS */
+.fg{margin-bottom:13px}
+.fl{display:block;font-size:.82rem;font-weight:600;margin-bottom:5px}
+.fi{width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;color:var(--text);font-size:.88rem;transition:border-color .2s;outline:none;font-family:var(--font)}
 .fi:focus{border-color:var(--gold)}
 .fi::placeholder{color:var(--muted)}
-textarea.fi{resize:vertical;min-height:80px}
-select.fi option{background:var(--white)}
+textarea.fi{resize:vertical;min-height:78px}
 
-/* ═══ NAVBAR ═════════════════════════════════════ */
-.nav{position:fixed;top:0;left:0;right:0;z-index:900;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 4%;background:var(--white);border-bottom:1.5px solid var(--border);box-shadow:var(--shadow)}
-.nav-brand{display:flex;align-items:center;gap:9px;cursor:pointer}
-.nav-logo{width:36px;height:36px;object-fit:cover;border-radius:50%;border:2px solid var(--gold)}
-.nav-title{font-size:1.1rem;font-weight:900;color:var(--gold)}
-.nav-links{display:flex;gap:4px;list-style:none}
-.nav-links a{color:var(--muted);font-size:.84rem;font-weight:500;padding:6px 12px;border-radius:8px;transition:all .2s;cursor:pointer}
-.nav-links a:hover{color:var(--gold);background:var(--gold-light)}
-.nav-right{display:flex;gap:8px;align-items:center}
-.nav-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#A8832C);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;color:#fff}
-.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
-.ham span{width:21px;height:2px;background:var(--text);border-radius:2px}
-
-/* ═══ BADGE ══════════════════════════════════════ */
-.badge{display:inline-flex;align-items:center;gap:7px;background:var(--gold-light);border:1px solid rgba(201,168,76,.3);border-radius:50px;padding:5px 16px;font-size:.75rem;font-weight:700;color:var(--gold);letter-spacing:.5px;text-transform:uppercase}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 1.6s ease-in-out infinite;flex-shrink:0}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.65)}}
-
-/* ═══ REVEAL ══════════════════════════════════════ */
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .5s,transform .5s}
-.reveal.in{opacity:1;transform:translateY(0)}
-
-/* ═══ LOGO SPIN ═══════════════════════════════════ */
+/* SPIN */
 @keyframes spin{to{transform:rotate(360deg)}}
-.logo-spin{animation:spin 1.2s linear infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.65)}}
+@keyframes mIn{from{opacity:0;transform:scale(.95) translateY(12px)}to{opacity:1;transform:none}}
 
-/* ═══════════════════════════════════════════════
-   LANDING
-═══════════════════════════════════════════════ */
-#screen-landing{padding-top:60px}
+/* NAVBAR */
+.nav{position:fixed;top:0;left:0;right:0;z-index:900;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 4%;background:var(--white);border-bottom:1.5px solid var(--border);box-shadow:var(--shadow)}
+.nav-brand{display:flex;align-items:center;gap:9px;cursor:pointer}
+.nav-logo{width:34px;height:34px;object-fit:cover;border-radius:50%;border:2px solid var(--gold)}
+.nav-title{font-size:1.05rem;font-weight:900;color:var(--gold)}
+.nav-links{display:flex;gap:3px;list-style:none}
+.nav-links a{color:var(--muted);font-size:.83rem;font-weight:500;padding:6px 11px;border-radius:8px;transition:all .2s;cursor:pointer}
+.nav-links a:hover{color:var(--gold);background:var(--gold-light)}
+.nav-right{display:flex;gap:7px;align-items:center}
+.nav-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#A8832C);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;color:#fff}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+.ham span{width:20px;height:2px;background:var(--text);border-radius:2px}
 
-.hero{min-height:calc(100vh - 60px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:56px 5% 48px;background:linear-gradient(160deg,var(--white) 0%,var(--bg) 100%)}
-.hero-logo{width:100px;height:100px;object-fit:cover;border-radius:50%;border:3px solid var(--gold);margin:0 auto 18px;display:block;box-shadow:0 0 30px rgba(201,168,76,.25)}
-.hero h1{font-size:clamp(2.2rem,6vw,4rem);font-weight:900;color:var(--gold);line-height:1.1;margin-bottom:8px}
-.hero-tag{font-size:clamp(.95rem,2vw,1.1rem);color:var(--muted);font-style:italic;margin-bottom:5px}
-.hero-sub{font-size:.9rem;color:var(--muted);margin-bottom:26px}
-.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:36px}
-.spills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-.spill{background:var(--white);border:1.5px solid var(--border);border-radius:50px;padding:6px 14px;font-size:.8rem;color:var(--text);display:flex;align-items:center;gap:6px;transition:all .2s;box-shadow:var(--shadow)}
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold-light);border:1px solid rgba(201,168,76,.25);border-radius:50px;padding:4px 14px;font-size:.73rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.5px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.6s ease-in-out infinite;flex-shrink:0}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}
+.reveal.in{opacity:1;transform:translateY(0)}
+.gline{width:44px;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;margin:7px auto 0}
+
+/* ═══ LANDING ═══════════════════════════════════ */
+#screen-landing{padding-top:58px}
+.hero{min-height:calc(100vh - 58px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:52px 5% 44px;background:linear-gradient(160deg,var(--white) 0%,var(--bg) 100%)}
+.hero-logo{width:90px;height:90px;object-fit:cover;border-radius:50%;border:3px solid var(--gold);margin:0 auto 16px;display:block;box-shadow:0 0 26px rgba(201,168,76,.22)}
+.hero h1{font-size:clamp(2rem,5.5vw,3.8rem);font-weight:900;color:var(--gold);line-height:1.1;margin-bottom:7px}
+.hero-tag{font-size:clamp(.9rem,2vw,1rem);color:var(--muted);font-style:italic;margin-bottom:4px}
+.hero-sub{font-size:.88rem;color:var(--muted);margin-bottom:24px}
+.hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+.spills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.spill{background:var(--white);border:1.5px solid var(--border);border-radius:50px;padding:5px 13px;font-size:.78rem;color:var(--text);display:flex;align-items:center;gap:5px;box-shadow:var(--shadow);transition:all .2s}
 .spill:hover{border-color:var(--gold);color:var(--gold)}
 
-/* NEEDS GRID */
-.needs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;max-width:1100px;margin:0 auto}
-.need-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:18px 12px;text-align:center;cursor:pointer;transition:all .25s;box-shadow:var(--shadow)}
-.need-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 8px 24px rgba(201,168,76,.2)}
-.need-icon{font-size:2rem;margin-bottom:8px;display:block}
-.need-name{font-size:.86rem;font-weight:700;color:var(--text);margin-bottom:3px}
-.need-desc{font-size:.73rem;color:var(--muted);line-height:1.4}
+/* NEEDS */
+.needs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:11px;max-width:1060px;margin:0 auto}
+.need-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 11px;text-align:center;cursor:pointer;transition:all .22s;box-shadow:var(--shadow)}
+.need-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 7px 20px rgba(201,168,76,.18)}
+.need-icon{font-size:1.9rem;margin-bottom:7px;display:block}
+.need-name{font-size:.84rem;font-weight:700;margin-bottom:2px}
+.need-desc{font-size:.71rem;color:var(--muted);line-height:1.4}
 
-/* PRICING */
-.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;max-width:900px;margin:0 auto}
-.plan{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:24px 20px;position:relative;transition:all .25s;box-shadow:var(--shadow)}
-.plan:hover{border-color:var(--gold);transform:translateY(-3px)}
-.plan.hot{border-color:var(--gold);background:linear-gradient(160deg,rgba(201,168,76,.06),var(--white))}
-.plan-pop{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--gold),#A8832C);color:#fff;font-size:.68rem;font-weight:800;padding:3px 14px;border-radius:20px;white-space:nowrap}
-.plan-name{font-size:.7rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.plan-price{font-size:1.9rem;font-weight:900;color:var(--text);line-height:1;margin-bottom:2px}
-.plan-price span{font-size:.8rem;font-weight:500;color:var(--muted)}
-.plan-feats{list-style:none;margin:12px 0 18px;display:flex;flex-direction:column;gap:6px}
-.plan-feats li{font-size:.81rem;color:var(--text);display:flex;align-items:flex-start;gap:7px}
+/* PLANS */
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;max-width:860px;margin:0 auto}
+.plan{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:22px 18px;position:relative;transition:all .22s;box-shadow:var(--shadow)}
+.plan:hover{border-color:var(--gold);transform:translateY(-2px)}
+.plan.hot{border-color:var(--gold);background:linear-gradient(160deg,rgba(201,168,76,.05),var(--white))}
+.plan-pop{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--gold),#A8832C);color:#fff;font-size:.66rem;font-weight:800;padding:2px 12px;border-radius:20px;white-space:nowrap}
+.plan-name{font-size:.68rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.plan-price{font-size:1.8rem;font-weight:900;line-height:1;margin-bottom:2px}
+.plan-price span{font-size:.78rem;font-weight:500;color:var(--muted)}
+.plan-feats{list-style:none;margin:11px 0 16px;display:flex;flex-direction:column;gap:5px}
+.plan-feats li{font-size:.79rem;display:flex;align-items:flex-start;gap:6px}
 .plan-feats li::before{content:'✓';color:var(--green);font-weight:800;flex-shrink:0}
 .plan-feats li.no::before{content:'✗';color:var(--red)}
 .plan-feats li.no{color:var(--muted)}
 
 /* SECTIONS */
-.sec{padding:68px 5%}
+.sec{padding:64px 5%}
 .sec-alt{background:var(--bg2)}
-.slabel{text-align:center;font-size:.7rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
-.stitle{text-align:center;font-size:clamp(1.4rem,3.5vw,2.1rem);font-weight:900;color:var(--text);margin-bottom:10px}
+.slabel{text-align:center;font-size:.68rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
+.stitle{text-align:center;font-size:clamp(1.35rem,3.2vw,2rem);font-weight:900;margin-bottom:9px}
 .stitle span{color:var(--gold)}
-.gline{width:48px;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;margin:8px auto 0}
 
-/* PAYMENT */
-.pay-box{background:var(--white);border:1.5px solid var(--border);border-radius:20px;padding:28px;max-width:580px;margin:0 auto;text-align:center;box-shadow:var(--shadow)}
-.pay-num{font-size:1.5rem;font-weight:900;color:var(--text);letter-spacing:3px;margin:10px 0 4px}
-.pay-name{font-size:.88rem;color:var(--gold);font-weight:700;margin-bottom:12px}
+/* PAY */
+.pay-box{background:var(--white);border:1.5px solid var(--border);border-radius:20px;padding:26px;max-width:560px;margin:0 auto;text-align:center;box-shadow:var(--shadow)}
 
-/* ═══════════════════════════════════════════════
-   AUTH
-═══════════════════════════════════════════════ */
+/* AUTH */
 #screen-auth{min-height:100vh;align-items:center;justify-content:center;background:var(--bg)}
-.auth-box{background:var(--white);border:1.5px solid var(--border);border-radius:20px;padding:34px 30px;width:100%;max-width:400px;margin:20px;box-shadow:var(--shadow);position:relative;z-index:1}
-.auth-logo{text-align:center;margin-bottom:20px}
-.auth-logo img{width:64px;height:64px;object-fit:cover;border-radius:50%;border:3px solid var(--gold);margin-bottom:8px}
-.auth-logo h2{font-size:1.2rem;font-weight:900;color:var(--gold)}
-.auth-logo p{font-size:.78rem;color:var(--muted)}
-.auth-tabs{display:flex;background:var(--bg);border-radius:10px;padding:4px;margin-bottom:18px}
-.atab{flex:1;padding:8px;text-align:center;font-size:.84rem;font-weight:700;color:var(--muted);border-radius:8px;cursor:pointer;transition:all .2s;border:none;background:none;font-family:var(--font)}
+.auth-box{background:var(--white);border:1.5px solid var(--border);border-radius:20px;padding:32px 28px;width:100%;max-width:390px;margin:20px;box-shadow:var(--shadow);position:relative}
+.auth-logo{text-align:center;margin-bottom:18px}
+.auth-logo img{width:60px;height:60px;object-fit:cover;border-radius:50%;border:3px solid var(--gold);margin-bottom:7px}
+.auth-logo h2{font-size:1.15rem;font-weight:900;color:var(--gold)}
+.auth-logo p{font-size:.76rem;color:var(--muted)}
+.auth-tabs{display:flex;background:var(--bg);border-radius:10px;padding:3px;margin-bottom:16px}
+.atab{flex:1;padding:7px;text-align:center;font-size:.82rem;font-weight:700;color:var(--muted);border-radius:8px;cursor:pointer;transition:all .2s;border:none;background:none;font-family:var(--font)}
 .atab.active{background:linear-gradient(135deg,var(--gold),#A8832C);color:#fff}
 .aform{display:none}
 .aform.active{display:block}
-.auth-back{position:absolute;top:14px;left:16px;background:none;border:none;color:var(--muted);font-size:.84rem;cursor:pointer;font-family:var(--font)}
+.auth-back{position:absolute;top:13px;left:15px;background:none;border:none;color:var(--muted);font-size:.82rem;cursor:pointer;font-family:var(--font)}
 .auth-back:hover{color:var(--gold)}
 
-/* ═══════════════════════════════════════════════
-   DASHBOARD
-═══════════════════════════════════════════════ */
-#screen-dashboard{padding-top:60px}
-.dlayout{display:grid;grid-template-columns:200px 1fr;min-height:calc(100vh - 60px)}
-.sidebar{background:var(--white);border-right:1.5px solid var(--border);padding:14px 10px;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto;display:flex;flex-direction:column;gap:2px}
-.slabel2{font-size:.65rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:10px 10px 4px}
-.sitem{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:9px;font-size:.83rem;color:var(--muted);cursor:pointer;transition:all .2s;border:none;background:none;width:100%;text-align:left;font-family:var(--font)}
+/* DASHBOARD */
+#screen-dashboard{padding-top:58px}
+.dlayout{display:grid;grid-template-columns:195px 1fr;min-height:calc(100vh - 58px)}
+
+/* SIDEBAR */
+.sidebar{background:var(--white);border-right:1.5px solid var(--border);padding:12px 9px;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto;display:flex;flex-direction:column;gap:2px}
+.slabel2{font-size:.63rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:9px 9px 3px}
+.sitem{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;font-size:.82rem;color:var(--muted);cursor:pointer;transition:all .2s;border:none;background:none;width:100%;text-align:left;font-family:var(--font)}
 .sitem:hover{color:var(--text);background:var(--bg)}
 .sitem.act{color:var(--gold);background:var(--gold-light);font-weight:600}
-.sitem .si{font-size:1rem;width:20px;text-align:center;flex-shrink:0}
-.sdiv{height:1px;background:var(--border);margin:5px 0}
+.sitem .si{font-size:.95rem;width:19px;text-align:center;flex-shrink:0}
+.sdiv{height:1px;background:var(--border);margin:4px 0}
 .sbottom{margin-top:auto}
-.dmain{padding:20px 22px;overflow-y:auto}
+
+/* MAIN */
+.dmain{padding:16px 18px;overflow-y:auto;background:var(--bg)}
 .dash-page{display:none}
 .dash-page.active{display:block}
 
+/* CHAT LAYOUT */
+.cwrap{
+  display:grid;
+  grid-template-columns:1fr 240px;
+  gap:12px;
+  height:calc(100vh - 58px - 32px - 16px);
+}
+
 /* CHAT PANEL */
-.cwrap{display:grid;grid-template-columns:1fr 260px;gap:12px;height:calc(100vh - 60px - 40px - 20px)}
-.cpanel{display:flex;flex-direction:column;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
-.ctop{display:flex;align-items:center;justify-content:space-between;padding:12px 15px;background:var(--white);border-bottom:1.5px solid var(--border)}
-.cai-info{display:flex;align-items:center;gap:10px}
-.cai-av{width:34px;height:34px;border-radius:50%;overflow:hidden;border:2px solid var(--gold);flex-shrink:0}
+.cpanel{
+  display:flex;
+  flex-direction:column;
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.ctop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 14px;
+  background:var(--white);
+  border-bottom:1.5px solid var(--border);
+  flex-shrink:0;
+}
+.cai-info{display:flex;align-items:center;gap:9px}
+.cai-av{width:32px;height:32px;border-radius:50%;overflow:hidden;border:2px solid var(--gold);flex-shrink:0}
 .cai-av img{width:100%;height:100%;object-fit:cover}
-.cmsgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px;background:var(--bg)}
+
+/* MESSAGES */
+.cmsgs{
+  flex:1;
+  overflow-y:auto;
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+  background:var(--bg);
+  min-height:0;
+}
 .msg{display:flex;gap:8px;max-width:88%}
 .msg.ai{align-self:flex-start}
 .msg.user{align-self:flex-end;flex-direction:row-reverse}
-.msg-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.82rem;flex-shrink:0;overflow:hidden;border:1.5px solid var(--border)}
-.msg-av img{width:100%;height:100%;object-fit:cover}
-.user-av-icon{background:linear-gradient(135deg,var(--gold),#A8832C);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.82rem}
-.msg-bub{padding:10px 14px;border-radius:16px;font-size:.87rem;line-height:1.65}
+.msg-av{width:30px;height:30px;border-radius:50%;flex-shrink:0;overflow:hidden}
+.msg-bub{padding:9px 13px;border-radius:16px;font-size:.86rem;line-height:1.62}
 .msg.ai .msg-bub{background:var(--white);border:1.5px solid var(--border);border-bottom-left-radius:4px;color:var(--text)}
 .msg.user .msg-bub{background:linear-gradient(135deg,var(--gold),#A8832C);color:#fff;border-bottom-right-radius:4px}
 .msg-bub strong{color:var(--gold)}
 .msg.user .msg-bub strong{color:#fff}
-.msg-bub code{background:var(--gold-light);padding:1px 6px;border-radius:4px;font-size:.85em;color:var(--gold)}
+.msg-bub code{background:var(--gold-light);padding:1px 5px;border-radius:4px;font-size:.84em;color:var(--gold)}
 
-/* TYPING — LOGO INAZUNGUKA */
-.typing-wrap{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--white);border:1.5px solid var(--border);border-radius:16px;border-bottom-left-radius:4px}
-.typing-logo{width:24px;height:24px;border-radius:50%;object-fit:cover;animation:spin 1.2s linear infinite}
-.typing-text{font-size:.82rem;color:var(--muted)}
-
-.cinput-row{display:flex;gap:8px;align-items:flex-end;padding:10px 12px;border-top:1.5px solid var(--border);background:var(--white)}
-#chat-input{flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--text);font-size:.87rem;resize:none;outline:none;max-height:110px;font-family:var(--font)}
+/* INPUT ROW — iko juu kidogo, si chini kabisa */
+.cinput-row{
+  display:flex;
+  gap:7px;
+  align-items:flex-end;
+  padding:10px 12px;
+  border-top:1.5px solid var(--border);
+  background:var(--white);
+  flex-shrink:0;
+  margin-bottom:4px;
+}
+#chat-input{
+  flex:1;
+  background:var(--bg);
+  border:1.5px solid var(--border);
+  border-radius:22px;
+  padding:9px 15px;
+  color:var(--text);
+  font-size:.86rem;
+  resize:none;
+  outline:none;
+  max-height:100px;
+  font-family:var(--font);
+  line-height:1.5;
+}
 #chat-input:focus{border-color:var(--gold)}
-.csend{width:38px;height:38px;background:linear-gradient(135deg,var(--gold),#A8832C);border:none;border-radius:10px;font-size:1rem;color:#fff;flex-shrink:0;cursor:pointer;transition:transform .2s}
+.csend{
+  width:36px;height:36px;
+  background:linear-gradient(135deg,var(--gold),#A8832C);
+  border:none;border-radius:50%;
+  font-size:.95rem;color:#fff;
+  flex-shrink:0;cursor:pointer;
+  transition:transform .2s;
+  display:flex;align-items:center;justify-content:center;
+}
 .csend:hover{transform:scale(1.08)}
 
-/* EXPORT PANEL */
-.epanel{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;flex-direction:column;gap:10px;height:fit-content;box-shadow:var(--shadow)}
-.ebtn{display:flex;align-items:center;gap:8px;padding:9px 11px;border-radius:9px;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;transition:all .2s;font-size:.8rem;font-weight:600;color:var(--text);width:100%;font-family:var(--font)}
+/* EXPORT PANEL — inajaza sidebar yake */
+.epanel{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius);
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  height:100%;
+}
+.epanel-header{
+  padding:12px 14px;
+  border-bottom:1.5px solid var(--border);
+  flex-shrink:0;
+}
+.epanel-body{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  padding:10px;
+  gap:6px;
+  overflow-y:auto;
+}
+.epanel-footer{
+  padding:10px;
+  border-top:1.5px solid var(--border);
+  flex-shrink:0;
+}
+.ebtn{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 11px;border-radius:9px;
+  border:1.5px solid var(--border);background:var(--bg);
+  cursor:pointer;transition:all .2s;
+  font-size:.79rem;font-weight:600;color:var(--text);
+  width:100%;font-family:var(--font);
+  flex:1;
+}
 .ebtn:hover{border-color:var(--gold);background:var(--gold-light);color:var(--gold)}
-.ei{font-size:1rem;width:22px;text-align:center;flex-shrink:0}
-.el{flex:1;text-align:left;line-height:1.3}
+.ei{font-size:.95rem;width:20px;text-align:center;flex-shrink:0}
+.el{flex:1;text-align:left;line-height:1.25}
+.etag{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2);border-radius:20px;padding:1px 7px;font-size:.63rem;font-weight:700;flex-shrink:0}
 
 /* MODALS */
-.mo{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;display:none;align-items:center;justify-content:center;padding:18px}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:1000;display:none;align-items:center;justify-content:center;padding:18px}
 .mo.open{display:flex}
-.mobox{background:var(--white);border:1.5px solid var(--border);border-radius:18px;padding:26px;max-width:420px;width:100%;position:relative;animation:mIn .25s ease;box-shadow:0 20px 60px rgba(0,0,0,.15)}
-@keyframes mIn{from{opacity:0;transform:scale(.95) translateY(12px)}to{opacity:1;transform:none}}
-.moclose{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer}
+.mobox{background:var(--white);border:1.5px solid var(--border);border-radius:18px;padding:24px;max-width:400px;width:100%;position:relative;animation:mIn .22s ease;box-shadow:0 20px 50px rgba(0,0,0,.12)}
+.moclose{position:absolute;top:11px;right:13px;background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer}
 
 /* TOAST */
-.toast{position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--white);border:1.5px solid var(--green);color:var(--text);padding:10px 16px;border-radius:10px;font-size:.84rem;font-weight:600;display:flex;align-items:center;gap:8px;transform:translateX(130%);transition:transform .3s;max-width:280px;box-shadow:var(--shadow)}
+.toast{position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--white);border:1.5px solid var(--green);color:var(--text);padding:9px 15px;border-radius:10px;font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:7px;transform:translateX(130%);transition:transform .3s;max-width:270px;box-shadow:var(--shadow)}
 .toast.show{transform:translateX(0)}
 .toast.warning{border-color:var(--orange)}
 .toast.error{border-color:var(--red)}
 
 /* WA FLOAT — haizibe input */
-.wa-float{position:fixed;bottom:22px;left:22px;z-index:800;width:50px;height:50px;background:var(--wa);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 16px rgba(37,211,102,.4);text-decoration:none;transition:transform .2s}
+.wa-float{position:fixed;bottom:24px;left:22px;z-index:800;width:48px;height:48px;background:var(--wa);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 4px 14px rgba(37,211,102,.4);text-decoration:none;transition:transform .2s}
 .wa-float:hover{transform:scale(1.1)}
-.wa-badge{position:absolute;top:-4px;right:-3px;background:var(--red);color:#fff;font-size:.56rem;font-weight:800;padding:2px 5px;border-radius:10px}
+.wa-badge{position:absolute;top:-4px;right:-3px;background:var(--red);color:#fff;font-size:.54rem;font-weight:800;padding:2px 4px;border-radius:10px}
 
-/* PAYMENTS */
-.pmgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:11px;margin-bottom:18px}
-.pmcard{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px;cursor:pointer;transition:all .22s;display:flex;align-items:center;gap:11px;box-shadow:var(--shadow)}
+/* PMCARD */
+.pmgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px}
+.pmcard{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
 .pmcard:hover,.pmcard.sel{border-color:var(--gold);background:var(--gold-light)}
 
 /* RESPONSIVE */
@@ -229,22 +315,22 @@ select.fi option{background:var(--white)}
   .nav-links{display:none}
   .ham{display:flex}
   .dlayout{grid-template-columns:1fr}
-  .sidebar{display:none;position:fixed;top:60px;left:0;bottom:0;width:200px;z-index:800;box-shadow:4px 0 20px rgba(0,0,0,.1)}
+  .sidebar{display:none;position:fixed;top:58px;left:0;bottom:0;width:195px;z-index:800;box-shadow:4px 0 18px rgba(0,0,0,.1)}
   .sidebar.open{display:flex}
-  .cwrap{grid-template-columns:1fr}
+  .cwrap{grid-template-columns:1fr;height:calc(100vh - 58px - 32px - 16px)}
   .epanel{display:none}
   .wa-float{bottom:80px}
 }
 @media(max-width:600px){
-  .hero h1{font-size:2rem}
-  .auth-box{padding:24px 16px}
-  .dmain{padding:12px}
+  .hero h1{font-size:1.9rem}
+  .auth-box{padding:22px 15px}
+  .dmain{padding:10px}
 }
 </style>
 </head>
 <body>
 
-<!-- ═══ NAVBAR ═══════════════════════════════════ -->
+<!-- NAVBAR -->
 <nav class="nav">
   <div class="nav-brand" onclick="goTo('landing')">
     <img class="nav-logo" src="assets/logo.jpeg" alt="AJPLUS AI">
@@ -261,25 +347,20 @@ select.fi option{background:var(--white)}
     <button class="btn btn-gold btn-sm" onclick="goTo('auth');switchAuthTab('signup')">Jisajili Bure</button>
   </div>
   <div class="nav-right" id="nav-user" style="display:none">
-    <div style="display:flex;align-items:center;gap:8px;background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 12px 4px 5px;cursor:pointer" onclick="showDash('chat')">
+    <div style="display:flex;align-items:center;gap:7px;background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 12px 4px 5px;cursor:pointer" onclick="showDash('chat')">
       <div class="nav-av">A</div>
-      <span style="font-size:.82rem;font-weight:600;color:var(--text)">Mtumiaji</span>
+      <span style="font-size:.8rem;font-weight:600">Mtumiaji</span>
     </div>
   </div>
-  <div class="ham" onclick="toggleSidebar()">
-    <span></span><span></span><span></span>
-  </div>
+  <div class="ham" onclick="toggleSidebar()"><span></span><span></span><span></span></div>
 </nav>
 
-<!-- ═══════════════════════════════════════════════
-     LANDING
-═══════════════════════════════════════════════ -->
+<!-- ═══ LANDING ═══════════════════════════════════ -->
 <div class="screen active" id="screen-landing">
 
-<!-- HERO -->
 <section class="hero">
-  <div class="badge" style="margin-bottom:16px"><span class="dot"></span>AJPLUS AI — Tanzania 🇹🇿</div>
-  <img class="hero-logo" src="assets/logo.jpeg" alt="AJPLUS AI Logo">
+  <div class="badge" style="margin-bottom:14px"><span class="dot"></span>AJPLUS AI — Tanzania 🇹🇿</div>
+  <img class="hero-logo" src="assets/logo.jpeg" alt="AJPLUS AI">
   <h1>AJPLUS AI</h1>
   <p class="hero-tag">Ufahamu wa Kitanzania, Uwezo wa Kidunia</p>
   <p class="hero-sub">Mshauri wa Kwanza wa Kitanzania — ajplusai.co.tz</p>
@@ -289,51 +370,49 @@ select.fi option{background:var(--white)}
   </div>
   <div class="spills">
     <div class="spill">🇹🇿 AI ya Tanzania</div>
-    <div class="spill">🗣️ Kiswahili cha Mtaani + Rasmi</div>
-    <div class="spill">🧠 Sekta 20 za Tanzania</div>
+    <div class="spill">🗣️ Kiswahili cha Mtaani</div>
+    <div class="spill">🧠 Sekta 20</div>
     <div class="spill">⬇️ PDF · Word · TXT</div>
     <div class="spill">💳 M-Pesa · Airtel · NMB</div>
     <div class="spill">💬 WhatsApp Support</div>
   </div>
 </section>
 
-<!-- SEKTA -->
 <section class="sec sec-alt" id="sec-zana">
   <p class="slabel">Sekta 20 za Tanzania</p>
   <h2 class="stitle">Leo Unahitaji <span>Nini?</span></h2>
-  <div class="gline" style="margin-bottom:32px"></div>
+  <div class="gline" style="margin-bottom:28px"></div>
   <div class="needs-grid">
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">💑</span><div class="need-name">Ndoa & Mahusiano</div><div class="need-desc">Ushauri wa ndoa, uchumba</div></div>
+    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">💑</span><div class="need-name">Ndoa & Mahusiano</div><div class="need-desc">Ushauri wa ndoa</div></div>
     <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🕌</span><div class="need-name">Dini</div><div class="need-desc">Islam & Ukristo</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🚀</span><div class="need-name">Biashara & Invoice</div><div class="need-desc">Invoice, Faida, Mpango</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">📋</span><div class="need-name">CV & Kazi</div><div class="need-desc">CV kamili, Cover Letter</div></div>
+    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🚀</span><div class="need-name">Biashara & Invoice</div><div class="need-desc">Invoice, Mpango</div></div>
+    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">📋</span><div class="need-name">CV & Kazi</div><div class="need-desc">CV, Cover Letter</div></div>
     <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🔧</span><div class="need-name">Mafundi AI</div><div class="need-desc">Gari, umeme, bomba</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🌾</span><div class="need-name">Kilimo & Mifugo</div><div class="need-desc">Bei ya mazao, mbolea</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🏥</span><div class="need-name">Afya & NHIF</div><div class="need-desc">NHIF, CHF, hospitali</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">⚖️</span><div class="need-name">Sheria & Haki</div><div class="need-desc">Haki zako, BRELA, TRA</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🎓</span><div class="need-name">Elimu & HESLB</div><div class="need-desc">Mkopo wa chuo, NECTA</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🏦</span><div class="need-name">Fedha & Benki</div><div class="need-desc">NMB, CRDB, VICOBA</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🏗️</span><div class="need-name">Ardhi & Nyumba</div><div class="need-desc">Hati za ardhi, NHC</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">⛽</span><div class="need-name">Usafiri & SGR</div><div class="need-desc">SGR, ATCL, DART</div></div>
+    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🌾</span><div class="need-name">Kilimo</div><div class="need-desc">Bei ya mazao</div></div>
+    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🏥</span><div class="need-name">Afya & NHIF</div><div class="need-desc">NHIF, hospitali</div></div>
+    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">⚖️</span><div class="need-name">Sheria & Haki</div><div class="need-desc">BRELA, TRA</div></div>
+    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🎓</span><div class="need-name">Elimu & HESLB</div><div class="need-desc">Mkopo, NECTA</div></div>
+    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🏦</span><div class="need-name">Fedha & Benki</div><div class="need-desc">NMB, CRDB</div></div>
+    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🏗️</span><div class="need-name">Ardhi & Nyumba</div><div class="need-desc">Hati za ardhi</div></div>
+    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">⛽</span><div class="need-name">Usafiri & SGR</div><div class="need-desc">SGR, DART</div></div>
     <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">💎</span><div class="need-name">Madini & Gesi</div><div class="need-desc">Tanzanite, TPDC</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🎵</span><div class="need-name">Burudani</div><div class="need-desc">Bongo Flava, Simba/Yanga</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🌊</span><div class="need-name">Utalii Tanzania</div><div class="need-desc">Serengeti, Kilimanjaro</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">📱</span><div class="need-name">Teknolojia & TCRA</div><div class="need-desc">Sim card, mobile money</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">📰</span><div class="need-name">Habari & Media</div><div class="need-desc">Headlines, Press Release</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🌍</span><div class="need-name">Biashara ya Nje</div><div class="need-desc">EAC, SADC, export</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🏛️</span><div class="need-name">Serikali & Huduma</div><div class="need-desc">Vitambulisho, leseni</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🧠</span><div class="need-name">Stadi za Maisha</div><div class="need-desc">Afya ya akili, malengo</div></div>
+    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🎵</span><div class="need-name">Burudani</div><div class="need-desc">Bongo Flava</div></div>
+    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🌊</span><div class="need-name">Utalii</div><div class="need-desc">Serengeti, Zanzibar</div></div>
+    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">📱</span><div class="need-name">Teknolojia</div><div class="need-desc">TCRA, mobile money</div></div>
+    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">📰</span><div class="need-name">Habari & Media</div><div class="need-desc">Press Release</div></div>
+    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🌍</span><div class="need-name">Biashara ya Nje</div><div class="need-desc">EAC, export</div></div>
+    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🏛️</span><div class="need-name">Serikali</div><div class="need-desc">Vitambulisho, leseni</div></div>
+    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🧠</span><div class="need-name">Stadi za Maisha</div><div class="need-desc">Afya ya akili</div></div>
   </div>
-  <div style="text-align:center;margin-top:24px">
-    <button class="btn btn-gold" onclick="goTo('auth')">🔓 Anza Kuzungumza na AJPLUS AI →</button>
+  <div style="text-align:center;margin-top:22px">
+    <button class="btn btn-gold" onclick="goTo('auth')">🔓 Anza Kuzungumza →</button>
   </div>
 </section>
 
-<!-- PRICING -->
 <section class="sec" id="sec-bei">
   <p class="slabel">Bei</p>
   <h2 class="stitle">Chagua <span>Mpango Wako</span></h2>
-  <div class="gline" style="margin-bottom:36px"></div>
+  <div class="gline" style="margin-bottom:32px"></div>
   <div class="plans">
     <div class="plan reveal">
       <p class="plan-name">Free</p>
@@ -344,7 +423,7 @@ select.fi option{background:var(--white)}
         <li>AI ya kweli</li>
         <li>Export PDF na TXT</li>
         <li class="no">Historia ya mazungumzo</li>
-        <li class="no">Export Word na PNG</li>
+        <li class="no">Export Word</li>
       </ul>
       <button class="btn btn-ghost btn-full" onclick="goTo('auth')">Anza Bure</button>
     </div>
@@ -357,17 +436,16 @@ select.fi option{background:var(--white)}
         <li>Sekta zote 20</li>
         <li>Historia ya mazungumzo</li>
         <li>Export PDF, Word, TXT</li>
-        <li>Web Search — habari za leo</li>
         <li>WhatsApp Share</li>
       </ul>
       <button class="btn btn-gold btn-full" onclick="goTo('auth');switchAuthTab('signup')">Anza Pro Sasa</button>
     </div>
     <div class="plan reveal">
-      <p class="plan-name">Biashara (B2B)</p>
+      <p class="plan-name">Biashara B2B</p>
       <div class="plan-price">TZS 250,000<span>/mwezi</span></div>
       <ul class="plan-feats">
         <li>Kila kitu cha Pro</li>
-        <li>API Access + Dashboard</li>
+        <li>API Access</li>
         <li>Wafanyakazi wengi</li>
         <li>Branding yako</li>
         <li>Support 24h</li>
@@ -377,78 +455,72 @@ select.fi option{background:var(--white)}
   </div>
 </section>
 
-<!-- PAYMENTS -->
 <section class="sec sec-alt" id="sec-lipa">
   <p class="slabel">Malipo</p>
   <h2 class="stitle">Lipa kwa <span>Njia Yoyote</span></h2>
-  <div class="gline" style="margin-bottom:32px"></div>
+  <div class="gline" style="margin-bottom:28px"></div>
   <div class="pay-box reveal">
-    <p style="color:var(--gold);font-weight:800;font-size:.98rem;margin-bottom:4px">📱 Scan QR au Tumia Namba</p>
-    <div class="pay-num">44934738</div>
-    <p class="pay-name">AJ PLUS COMPANY LIMITED</p>
-    <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0 12px">
-      <span style="background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 12px;font-size:.78rem;font-weight:600">📱 M-Pesa</span>
-      <span style="background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 12px;font-size:.78rem;font-weight:600">📱 Airtel</span>
-      <span style="background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 12px;font-size:.78rem;font-weight:600">📱 Tigo/Yas</span>
-      <span style="background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 12px;font-size:.78rem;font-weight:600">🏦 NMB</span>
-      <span style="background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 12px;font-size:.78rem;font-weight:600">🏦 CRDB</span>
+    <p style="color:var(--gold);font-weight:800;margin-bottom:4px">📱 Tumia Namba au QR</p>
+    <p style="font-size:1.5rem;font-weight:900;letter-spacing:3px;margin:8px 0 3px">44934738</p>
+    <p style="color:var(--gold);font-size:.86rem;font-weight:700;margin-bottom:11px">AJ PLUS COMPANY LIMITED</p>
+    <div style="display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:11px">
+      <span style="background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 11px;font-size:.76rem;font-weight:600">📱 M-Pesa</span>
+      <span style="background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 11px;font-size:.76rem;font-weight:600">📱 Airtel</span>
+      <span style="background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 11px;font-size:.76rem;font-weight:600">📱 Tigo</span>
+      <span style="background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 11px;font-size:.76rem;font-weight:600">🏦 NMB</span>
+      <span style="background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 11px;font-size:.76rem;font-weight:600">🏦 CRDB</span>
     </div>
-    <div style="background:var(--bg);border-radius:10px;padding:11px;margin-bottom:11px;text-align:left">
-      <p style="font-size:.78rem;font-weight:700;margin-bottom:4px">🏦 NMB Bank Direct</p>
-      <p style="font-size:.78rem;color:var(--muted)">Jina: <strong style="color:var(--text)">AJ PLUS COMPANY LIMITED</strong></p>
-      <p style="font-size:.78rem;color:var(--muted)">Akaunti: <strong style="color:var(--gold);font-size:.95rem;letter-spacing:2px">23510095544</strong></p>
+    <div style="background:var(--bg);border-radius:10px;padding:10px;margin-bottom:10px;text-align:left">
+      <p style="font-size:.76rem;font-weight:700;margin-bottom:3px">🏦 NMB Bank</p>
+      <p style="font-size:.76rem;color:var(--muted)">Akaunti: <strong style="color:var(--gold);font-size:.92rem;letter-spacing:2px">23510095544</strong></p>
     </div>
-    <a href="https://wa.me/255762307647?text=Habari!%20Nimetuma%20malipo%20ya%20AJPLUS%20AI." target="_blank" class="btn btn-wa btn-full">💬 Tuma Risiti WhatsApp</a>
-    <p style="font-size:.74rem;color:var(--muted);margin-top:8px">⏱️ Access ndani ya dakika 30</p>
+    <a href="https://wa.me/255762307647?text=Nimetuma+malipo+ya+AJPLUS+AI." target="_blank" class="btn btn-wa btn-full">💬 Tuma Risiti WhatsApp</a>
+    <p style="font-size:.72rem;color:var(--muted);margin-top:7px">⏱️ Access ndani ya dakika 30</p>
   </div>
 </section>
 
-<!-- CTA -->
 <section class="sec" style="text-align:center">
-  <h2 style="font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;color:var(--text);margin-bottom:8px">Jiunge na <span style="color:var(--gold)">AJPLUS AI</span> Leo</h2>
-  <p style="color:var(--muted);max-width:400px;margin:0 auto 22px;font-size:.9rem">Mshauri wa kwanza wa Kitanzania. Bure. Bila kadi ya benki.</p>
+  <h2 style="font-size:clamp(1.5rem,3vw,2.2rem);font-weight:900;margin-bottom:7px">Jiunge na <span style="color:var(--gold)">AJPLUS AI</span> Leo</h2>
+  <p style="color:var(--muted);max-width:380px;margin:0 auto 20px;font-size:.88rem">Mshauri wa kwanza wa Kitanzania. Bure. Bila kadi ya benki.</p>
   <button class="btn btn-gold btn-lg" onclick="goTo('auth');switchAuthTab('signup')">🚀 Unda Akaunti Bure</button>
 </section>
 
-<!-- FOOTER -->
-<footer style="background:var(--bg2);border-top:1.5px solid var(--border);padding:36px 5% 20px">
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px;margin-bottom:24px">
+<footer style="background:var(--bg2);border-top:1.5px solid var(--border);padding:32px 5% 18px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:22px;margin-bottom:20px">
     <div>
-      <div style="display:flex;align-items:center;gap:9px;margin-bottom:8px">
-        <img src="assets/logo.jpeg" style="width:34px;height:34px;border-radius:50%;border:2px solid var(--gold);object-fit:cover" alt="AJPLUS AI">
-        <span style="font-size:1rem;font-weight:900;color:var(--gold)">AJPLUS AI</span>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
+        <img src="assets/logo.jpeg" style="width:32px;height:32px;border-radius:50%;border:2px solid var(--gold);object-fit:cover" alt="AJPLUS AI">
+        <span style="font-size:.98rem;font-weight:900;color:var(--gold)">AJPLUS AI</span>
       </div>
-      <p style="font-size:.8rem;color:var(--muted);line-height:1.6">Mshauri wa kwanza wa Kitanzania.</p>
-      <p style="font-size:.76rem;color:var(--muted);margin-top:4px">🌐 ajplusai.co.tz</p>
+      <p style="font-size:.78rem;color:var(--muted)">Mshauri wa kwanza wa Kitanzania.</p>
+      <p style="font-size:.74rem;color:var(--muted);margin-top:3px">🌐 ajplusai.co.tz</p>
     </div>
     <div>
-      <h4 style="font-size:.68rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Viungo</h4>
-      <div style="display:flex;flex-direction:column;gap:5px">
-        <a onclick="goTo('auth')" style="font-size:.82rem;color:var(--muted);cursor:pointer">AI Chat</a>
-        <a onclick="document.getElementById('sec-bei')?.scrollIntoView({behavior:'smooth'})" style="font-size:.82rem;color:var(--muted);cursor:pointer">Bei</a>
-        <a onclick="showModal('mo-enterprise')" style="font-size:.82rem;color:var(--muted);cursor:pointer">Enterprise</a>
+      <h4 style="font-size:.66rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:9px">Viungo</h4>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <a onclick="goTo('auth')" style="font-size:.8rem;color:var(--muted);cursor:pointer">AI Chat</a>
+        <a onclick="document.getElementById('sec-bei')?.scrollIntoView({behavior:'smooth'})" style="font-size:.8rem;color:var(--muted);cursor:pointer">Bei</a>
+        <a onclick="showModal('mo-enterprise')" style="font-size:.8rem;color:var(--muted);cursor:pointer">Enterprise</a>
       </div>
     </div>
     <div>
-      <h4 style="font-size:.68rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Wasiliana</h4>
-      <div style="display:flex;flex-direction:column;gap:5px">
-        <a href="mailto:info@ajplusai.co.tz" style="font-size:.82rem;color:var(--muted)">📧 info@ajplusai.co.tz</a>
-        <a href="https://wa.me/255762307647" target="_blank" style="font-size:.82rem;color:var(--wa);font-weight:700">💬 +255762307647</a>
-        <span style="font-size:.82rem;color:var(--muted)">📍 Dar es Salaam, Tanzania</span>
+      <h4 style="font-size:.66rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:9px">Wasiliana</h4>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <a href="mailto:info@ajplusai.co.tz" style="font-size:.8rem;color:var(--muted)">📧 info@ajplusai.co.tz</a>
+        <a href="https://wa.me/255762307647" target="_blank" style="font-size:.8rem;color:var(--wa);font-weight:700">💬 +255762307647</a>
+        <span style="font-size:.8rem;color:var(--muted)">📍 Dar es Salaam</span>
       </div>
     </div>
   </div>
-  <div style="height:1px;background:var(--border);margin-bottom:14px"></div>
-  <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:center">
-    <p style="font-size:.76rem;color:var(--muted)">© 2025 AJ PLUS COMPANY LIMITED. Haki Zote Zimehifadhiwa.</p>
-    <span style="background:var(--gold-light);border:1px solid rgba(201,168,76,.3);color:var(--gold);font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:12px">🇹🇿 Made in Tanzania</span>
+  <div style="height:1px;background:var(--border);margin-bottom:12px"></div>
+  <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:7px;align-items:center">
+    <p style="font-size:.74rem;color:var(--muted)">© 2025 AJ PLUS COMPANY LIMITED.</p>
+    <span style="background:var(--gold-light);border:1px solid rgba(201,168,76,.25);color:var(--gold);font-size:.68rem;font-weight:700;padding:2px 9px;border-radius:12px">🇹🇿 Made in Tanzania</span>
   </div>
 </footer>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     AUTH
-═══════════════════════════════════════════════ -->
+<!-- ═══ AUTH ═══════════════════════════════════════ -->
 <div class="screen" id="screen-auth">
   <button class="auth-back" onclick="goTo('landing')">← Rudi</button>
   <div class="auth-box">
@@ -464,8 +536,8 @@ select.fi option{background:var(--white)}
     <div class="aform active" id="form-login">
       <div class="fg"><label class="fl">Barua Pepe</label><input class="fi" id="l-email" type="email" placeholder="wewe@mfano.com"></div>
       <div class="fg"><label class="fl">Nywila</label><input class="fi" id="l-pass" type="password" placeholder="••••••••"></div>
-      <button class="btn btn-gold btn-full" style="margin-bottom:10px" onclick="doLogin()">Ingia kwenye AJPLUS AI</button>
-      <div style="text-align:center;font-size:.78rem;color:var(--muted);margin-bottom:10px">au</div>
+      <button class="btn btn-gold btn-full" style="margin-bottom:9px" onclick="doLogin()">Ingia kwenye AJPLUS AI</button>
+      <div style="text-align:center;font-size:.76rem;color:var(--muted);margin-bottom:9px">au</div>
       <button class="btn btn-ghost btn-full" onclick="doDemo()">🚀 Jaribu Demo — Bila Akaunti</button>
     </div>
     <div class="aform" id="form-signup">
@@ -483,19 +555,16 @@ select.fi option{background:var(--white)}
           <option>Nyingine</option>
         </select>
       </div>
-      <button class="btn btn-gold btn-full" style="margin-bottom:8px" onclick="doSignup()">🚀 Unda Akaunti Bure</button>
-      <p style="text-align:center;font-size:.75rem;color:var(--muted)">Kwa kuendelea unakubali <a href="#">Masharti</a></p>
+      <button class="btn btn-gold btn-full" style="margin-bottom:7px" onclick="doSignup()">🚀 Unda Akaunti Bure</button>
+      <p style="text-align:center;font-size:.73rem;color:var(--muted)">Kwa kuendelea unakubali <a href="#">Masharti</a></p>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     DASHBOARD
-═══════════════════════════════════════════════ -->
+<!-- ═══ DASHBOARD ══════════════════════════════════ -->
 <div class="screen" id="screen-dashboard">
 <div class="dlayout">
 
-<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <div class="slabel2">Kuu</div>
   <button class="sitem act" id="si-chat" onclick="showDash('chat')"><span class="si">💬</span>AI Chat</button>
@@ -508,97 +577,88 @@ select.fi option{background:var(--white)}
   <button class="sitem" onclick="goTo('landing')"><span class="si">🏠</span>Nyumbani</button>
   <div class="sbottom">
     <div class="sdiv"></div>
-    <div style="padding:10px;background:var(--gold-light);border-radius:10px;margin-top:5px;border:1px solid rgba(201,168,76,.2)">
-      <p style="font-size:.7rem;color:var(--gold);font-weight:700;margin-bottom:2px">Mpango: Free</p>
-      <p style="font-size:.68rem;color:var(--muted)">Maswali 20/siku</p>
-      <button class="btn btn-gold btn-sm btn-full" style="margin-top:7px;font-size:.74rem" onclick="showDash('pay')">Pro — TZS 15,000/mwezi</button>
+    <div style="padding:9px;background:var(--gold-light);border-radius:10px;margin-top:4px;border:1px solid rgba(201,168,76,.2)">
+      <p style="font-size:.68rem;color:var(--gold);font-weight:700;margin-bottom:2px">Mpango: Free</p>
+      <p style="font-size:.66rem;color:var(--muted)">Maswali 20/siku</p>
+      <button class="btn btn-gold btn-sm btn-full" style="margin-top:6px;font-size:.72rem" onclick="showDash('pay')">Pro — TZS 15,000</button>
     </div>
-    <a href="https://wa.me/255762307647" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;color:var(--wa);font-size:.81rem;font-weight:600;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.2);margin-top:5px;text-decoration:none">
+    <a href="https://wa.me/255762307647" target="_blank" style="display:flex;align-items:center;gap:7px;padding:7px 9px;border-radius:9px;color:var(--wa);font-size:.79rem;font-weight:600;background:rgba(37,211,102,.07);border:1px solid rgba(37,211,102,.18);margin-top:5px;text-decoration:none">
       <span>💬</span>WhatsApp Support
     </a>
-    <button class="sitem" style="margin-top:4px;color:var(--red)" onclick="doLogout()"><span class="si">🚪</span>Toka</button>
+    <button class="sitem" style="margin-top:3px;color:var(--red)" onclick="doLogout()"><span class="si">🚪</span>Toka</button>
   </div>
 </aside>
 
-<!-- MAIN -->
 <main class="dmain">
 
 <!-- AI CHAT -->
 <div class="dash-page active" id="dp-chat">
-  <div style="margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+  <div style="margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:7px">
     <div>
-      <h2 style="color:var(--text);font-size:1.05rem;font-weight:800">💬 AJPLUS AI Chat</h2>
-      <p style="color:var(--muted);font-size:.78rem">Kiswahili · Mtaani · Kanisani · Msikitini</p>
+      <h2 style="font-size:1rem;font-weight:800">💬 AJPLUS AI Chat</h2>
+      <p style="color:var(--muted);font-size:.76rem">Kiswahili · Mtaani · Kanisani · Msikitini</p>
     </div>
     <button class="btn btn-ghost btn-sm" onclick="clearChat()">🗑️ Futa</button>
   </div>
   <div class="cwrap">
+    <!-- Chat Panel -->
     <div class="cpanel">
       <div class="ctop">
         <div class="cai-info">
           <div class="cai-av">
-            <img src="assets/logo.jpeg" alt="AJPLUS AI" id="chat-logo">
+            <img src="assets/logo.jpeg" alt="AJPLUS AI">
           </div>
           <div>
-            <div style="font-size:.88rem;font-weight:700;color:var(--text)">AJPLUS AI</div>
-            <div style="font-size:.7rem;color:var(--green);display:flex;align-items:center;gap:4px"><span class="dot" style="width:5px;height:5px"></span>Inapatikana 24/7</div>
+            <div style="font-size:.86rem;font-weight:700">AJPLUS AI</div>
+            <div style="font-size:.68rem;color:var(--green);display:flex;align-items:center;gap:3px"><span class="dot" style="width:5px;height:5px"></span>Inapatikana 24/7</div>
           </div>
         </div>
         <div style="display:flex;gap:5px">
-          <span style="background:var(--gold-light);color:var(--gold);border:1px solid rgba(201,168,76,.3);border-radius:20px;padding:2px 9px;font-size:.68rem;font-weight:700">AI ya Kweli</span>
-          <span style="background:var(--bg);color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:2px 9px;font-size:.68rem;font-weight:700">Tanzania 🇹🇿</span>
+          <span style="background:var(--gold-light);color:var(--gold);border:1px solid rgba(201,168,76,.25);border-radius:20px;padding:2px 8px;font-size:.66rem;font-weight:700">AI ya Kweli</span>
+          <span style="background:var(--bg);color:var(--muted);border:1px solid var(--border);border-radius:20px;padding:2px 8px;font-size:.66rem;font-weight:700">🇹🇿</span>
         </div>
       </div>
       <div class="cmsgs" id="chat-msgs"></div>
       <div class="cinput-row">
         <textarea id="chat-input" rows="1"
-          placeholder="Andika swali lako... Kiswahili cha kawaida, mtaani, kanisani au msikitini"
+          placeholder="Andika swali lako hapa..."
           onkeydown="handleKey(event)"
           oninput="autoGrow(this)"></textarea>
         <button class="csend" onclick="sendMessage()">➤</button>
       </div>
     </div>
 
-    <!-- Export Panel -->
+    <!-- Export Panel — inajaza vizuri -->
     <div class="epanel">
-      <div>
-        <h3 style="color:var(--text);font-size:.9rem;font-weight:700">⬇️ Hifadhi Mazungumzo</h3>
-        <p style="font-size:.74rem;color:var(--muted);margin-top:2px">Pakua jibu la AI</p>
+      <div class="epanel-header">
+        <h3 style="font-size:.88rem;font-weight:700">⬇️ Hifadhi Mazungumzo</h3>
+        <p style="font-size:.72rem;color:var(--muted);margin-top:2px">Pakua jibu la AI</p>
       </div>
-      <input class="fi" id="doc-title" style="font-size:.78rem;padding:7px 10px" placeholder="Jina la hati..." value="AJPLUS AI — Kazi Yangu">
-      <div style="display:flex;flex-direction:column;gap:6px">
-        <button class="ebtn" onclick="exportPDF()"><span class="ei">📄</span><span class="el"><b>PDF</b><br><small style="color:var(--muted)">Ripoti, CV, Proposal</small></span><span style="background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2);border-radius:20px;padding:1px 8px;font-size:.65rem;font-weight:700">Bure</span></button>
-        <button class="ebtn" onclick="exportWord()"><span class="ei">📝</span><span class="el"><b>Word (.doc)</b><br><small style="color:var(--muted)">Endelea kuhariri</small></span><span style="background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2);border-radius:20px;padding:1px 8px;font-size:.65rem;font-weight:700">Bure</span></button>
-        <button class="ebtn" onclick="exportTXT()"><span class="ei">📋</span><span class="el"><b>Text (.txt)</b><br><small style="color:var(--muted)">Nakala rahisi</small></span><span style="background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2);border-radius:20px;padding:1px 8px;font-size:.65rem;font-weight:700">Bure</span></button>
-        <button class="ebtn" onclick="copyLastReply()"><span class="ei">📋</span><span class="el"><b>Nakili Jibu</b><br><small style="color:var(--muted)">Copy clipboard</small></span><span style="background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2);border-radius:20px;padding:1px 8px;font-size:.65rem;font-weight:700">Bure</span></button>
-        <button class="ebtn" onclick="shareWhatsApp()"><span class="ei">💬</span><span class="el"><b>Shiriki WhatsApp</b><br><small style="color:var(--muted)">Tuma kwa marafiki</small></span><span style="background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2);border-radius:20px;padding:1px 8px;font-size:.65rem;font-weight:700">Bure</span></button>
+      <div class="epanel-body">
+        <input class="fi" id="doc-title" style="font-size:.76rem;padding:6px 10px;flex-shrink:0" placeholder="Jina la hati..." value="AJPLUS AI — Kazi Yangu">
+        <button class="ebtn" onclick="exportPDF()"><span class="ei">📄</span><span class="el"><b>PDF</b><br><small style="color:var(--muted);font-size:.7rem">Ripoti, CV, Proposal</small></span><span class="etag">Bure</span></button>
+        <button class="ebtn" onclick="exportWord()"><span class="ei">📝</span><span class="el"><b>Word (.doc)</b><br><small style="color:var(--muted);font-size:.7rem">Endelea kuhariri</small></span><span class="etag">Bure</span></button>
+        <button class="ebtn" onclick="exportTXT()"><span class="ei">📋</span><span class="el"><b>Text (.txt)</b><br><small style="color:var(--muted);font-size:.7rem">Nakala rahisi</small></span><span class="etag">Bure</span></button>
+        <button class="ebtn" onclick="copyLastReply()"><span class="ei">📋</span><span class="el"><b>Nakili Jibu</b><br><small style="color:var(--muted);font-size:.7rem">Copy clipboard</small></span><span class="etag">Bure</span></button>
+        <button class="ebtn" onclick="shareWhatsApp()"><span class="ei">💬</span><span class="el"><b>Shiriki WhatsApp</b><br><small style="color:var(--muted);font-size:.7rem">Tuma kwa marafiki</small></span><span class="etag">Bure</span></button>
+      </div>
+      <div class="epanel-footer">
+        <p style="font-size:.7rem;color:var(--muted);text-align:center">🎤 <strong style="color:var(--gold)">Voice AI</strong> — Inakuja! 🇹🇿</p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- DASHBOARD HOME -->
+<!-- DASHIBODI -->
 <div class="dash-page" id="dp-home">
-  <h2 style="color:var(--text);margin-bottom:18px;font-size:1.1rem">🏠 Dashibodi ya AJPLUS AI</h2>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px">
-    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)">
-      <div style="font-size:1.7rem;font-weight:900;color:var(--gold)">20</div>
-      <div style="font-size:.74rem;color:var(--muted)">Sekta za Tanzania</div>
-    </div>
-    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)">
-      <div style="font-size:1.7rem;font-weight:900;color:var(--green)">AI</div>
-      <div style="font-size:.74rem;color:var(--muted)">Claude + Gemini</div>
-    </div>
-    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)">
-      <div style="font-size:1.7rem;font-weight:900;color:var(--text)">24/7</div>
-      <div style="font-size:.74rem;color:var(--muted)">Inapatikana</div>
-    </div>
-    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)">
-      <div style="font-size:1.2rem;font-weight:900;color:var(--green)">Free</div>
-      <div style="font-size:.74rem;color:var(--muted)">Mpango wako</div>
-    </div>
+  <h2 style="margin-bottom:16px;font-size:1rem">🏠 Dashibodi</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:18px">
+    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:13px;box-shadow:var(--shadow)"><div style="font-size:1.6rem;font-weight:900;color:var(--gold)">20</div><div style="font-size:.72rem;color:var(--muted)">Sekta za Tanzania</div></div>
+    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:13px;box-shadow:var(--shadow)"><div style="font-size:1.6rem;font-weight:900;color:var(--green)">AI</div><div style="font-size:.72rem;color:var(--muted)">Claude + Gemini</div></div>
+    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:13px;box-shadow:var(--shadow)"><div style="font-size:1.6rem;font-weight:900">24/7</div><div style="font-size:.72rem;color:var(--muted)">Inapatikana</div></div>
+    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:13px;box-shadow:var(--shadow)"><div style="font-size:1.1rem;font-weight:900;color:var(--green)">Free</div><div style="font-size:.72rem;color:var(--muted)">Mpango wako</div></div>
   </div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap">
+  <div style="display:flex;gap:7px;flex-wrap:wrap">
     <button class="btn btn-gold btn-sm" onclick="showDash('chat')">💬 Anza AI Chat</button>
     <button class="btn btn-ghost btn-sm" onclick="showDash('pay')">💳 Panda Pro</button>
   </div>
@@ -606,19 +666,16 @@ select.fi option{background:var(--white)}
 
 <!-- MALIPO -->
 <div class="dash-page" id="dp-pay">
-  <h2 style="color:var(--text);margin-bottom:5px;font-size:1.05rem">💳 Malipo &amp; Mpango</h2>
-  <p style="color:var(--muted);font-size:.84rem;margin-bottom:18px">Panda mpango wako</p>
-  <div style="background:var(--gold-light);border:1.5px solid rgba(201,168,76,.3);border-radius:var(--radius);padding:14px 16px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
-    <div>
-      <p style="font-size:.74rem;color:var(--muted)">Mpango wa Sasa</p>
-      <p style="font-size:1.1rem;font-weight:900;color:var(--gold)">Free</p>
-    </div>
-    <button class="btn btn-gold btn-sm" onclick="showModal('mo-lipa')">💳 Panda Pro — TZS 15,000</button>
+  <h2 style="margin-bottom:4px;font-size:1rem">💳 Malipo</h2>
+  <p style="color:var(--muted);font-size:.82rem;margin-bottom:16px">Panda mpango wako</p>
+  <div style="background:var(--gold-light);border:1.5px solid rgba(201,168,76,.25);border-radius:var(--radius);padding:13px 15px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:7px">
+    <div><p style="font-size:.72rem;color:var(--muted)">Sasa</p><p style="font-size:1.05rem;font-weight:900;color:var(--gold)">Free</p></div>
+    <button class="btn btn-gold btn-sm" onclick="showModal('mo-lipa')">💳 Panda Pro</button>
   </div>
   <div class="pmgrid">
-    <div class="pmcard" onclick="selectPayment(this,'lipa')"><div style="font-size:1.5rem">📱</div><div><h4 style="font-size:.87rem;font-weight:700">Lipa Namba / QR</h4><p style="font-size:.72rem;color:var(--muted)">Mitandao yote + Benki</p></div></div>
-    <div class="pmcard" onclick="selectPayment(this,'nmb')"><div style="font-size:1.5rem">🏦</div><div><h4 style="font-size:.87rem;font-weight:700">NMB Bank</h4><p style="font-size:.72rem;color:var(--muted)">Transfer ya benki</p></div></div>
-    <div class="pmcard" onclick="selectPayment(this,'wa')"><div style="font-size:1.5rem">💬</div><div><h4 style="font-size:.87rem;font-weight:700">WhatsApp</h4><p style="font-size:.72rem;color:var(--muted)">Tuma risiti</p></div></div>
+    <div class="pmcard" onclick="selectPayment(this,'lipa')"><div style="font-size:1.4rem">📱</div><div><h4 style="font-size:.85rem;font-weight:700">Lipa Namba/QR</h4><p style="font-size:.7rem;color:var(--muted)">Mitandao + Benki</p></div></div>
+    <div class="pmcard" onclick="selectPayment(this,'nmb')"><div style="font-size:1.4rem">🏦</div><div><h4 style="font-size:.85rem;font-weight:700">NMB Bank</h4><p style="font-size:.7rem;color:var(--muted)">Transfer</p></div></div>
+    <div class="pmcard" onclick="selectPayment(this,'wa')"><div style="font-size:1.4rem">💬</div><div><h4 style="font-size:.85rem;font-weight:700">WhatsApp</h4><p style="font-size:.7rem;color:var(--muted)">Tuma risiti</p></div></div>
   </div>
   <div id="pay-details"></div>
 </div>
@@ -627,43 +684,37 @@ select.fi option{background:var(--white)}
 </div>
 </div>
 
-<!-- ═══ ENTERPRISE MODAL ═══════════════════════ -->
+<!-- MODALS -->
 <div class="mo" id="mo-enterprise">
   <div class="mobox">
     <button class="moclose" onclick="closeModal('mo-enterprise')">✕</button>
-    <h2 style="font-size:1.1rem;font-weight:800;margin-bottom:4px">🏢 Enterprise / B2B</h2>
-    <p style="color:var(--muted);font-size:.82rem;margin-bottom:16px">Kwa makampuni, NGOs na taasisi.</p>
+    <h2 style="font-size:1.05rem;font-weight:800;margin-bottom:3px">🏢 Enterprise / B2B</h2>
+    <p style="color:var(--muted);font-size:.8rem;margin-bottom:14px">Kwa makampuni na taasisi.</p>
     <div class="fg"><label class="fl">Jina la Kampuni</label><input class="fi" placeholder="Kampuni yako"></div>
     <div class="fg"><label class="fl">Barua Pepe au Simu</label><input class="fi" placeholder="wewe@kampuni.com"></div>
-    <button class="btn btn-gold btn-full" style="margin-bottom:8px" onclick="closeModal('mo-enterprise');showToast('✅ Ombi limetumwa!')">📤 Tuma Ombi</button>
-    <a href="https://wa.me/255762307647" target="_blank" class="btn btn-wa btn-full">💬 WhatsApp Moja kwa Moja</a>
+    <button class="btn btn-gold btn-full" style="margin-bottom:7px" onclick="closeModal('mo-enterprise');showToast('✅ Ombi limetumwa!')">📤 Tuma Ombi</button>
+    <a href="https://wa.me/255762307647" target="_blank" class="btn btn-wa btn-full">💬 WhatsApp</a>
   </div>
 </div>
 
-<!-- ═══ LIPA MODAL ════════════════════════════ -->
 <div class="mo" id="mo-lipa">
   <div class="mobox" style="text-align:center">
     <button class="moclose" onclick="closeModal('mo-lipa')">✕</button>
-    <h2 style="font-size:1.05rem;font-weight:800;margin-bottom:3px">💳 Panda Pro</h2>
-    <p style="color:var(--gold);font-size:.84rem;font-weight:700;margin-bottom:12px">TZS 15,000 / mwezi</p>
-    <div style="background:var(--bg);border-radius:10px;padding:12px;margin-bottom:11px">
-      <p style="font-size:.8rem;color:var(--muted);margin-bottom:4px">Lipa namba:</p>
-      <p style="font-size:1.4rem;font-weight:900;letter-spacing:3px">44934738</p>
-      <p style="font-size:.76rem;color:var(--gold);font-weight:700">AJ PLUS COMPANY LIMITED</p>
-      <p style="font-size:.72rem;color:var(--muted);margin-top:2px">M-Pesa · Airtel · Tigo · NMB · CRDB</p>
+    <h2 style="font-size:1rem;font-weight:800;margin-bottom:3px">💳 Panda Pro</h2>
+    <p style="color:var(--gold);font-size:.82rem;font-weight:700;margin-bottom:11px">TZS 15,000 / mwezi</p>
+    <div style="background:var(--bg);border-radius:10px;padding:11px;margin-bottom:10px">
+      <p style="font-size:.78rem;color:var(--muted);margin-bottom:3px">Lipa namba:</p>
+      <p style="font-size:1.35rem;font-weight:900;letter-spacing:3px">44934738</p>
+      <p style="font-size:.74rem;color:var(--gold);font-weight:700">AJ PLUS COMPANY LIMITED</p>
     </div>
-    <a href="https://wa.me/255762307647?text=Nimetuma+TZS+15000+kwa+Pro." target="_blank" class="btn btn-wa btn-full" style="margin-bottom:7px">💬 Tuma Risiti WhatsApp</a>
-    <p style="font-size:.73rem;color:var(--muted)">⏱️ Access ndani ya dakika 30</p>
+    <a href="https://wa.me/255762307647?text=Nimetuma+TZS+15000." target="_blank" class="btn btn-wa btn-full" style="margin-bottom:6px">💬 Tuma Risiti WhatsApp</a>
+    <p style="font-size:.71rem;color:var(--muted)">⏱️ Access ndani ya dakika 30</p>
   </div>
 </div>
 
-<!-- ═══ TOAST ══════════════════════════════════ -->
 <div class="toast" id="toast">✅ Imefanikiwa!</div>
 
-<!-- ═══ WA FLOAT ══════════════════════════════ -->
-<a href="https://wa.me/255762307647" target="_blank" class="wa-float" title="WhatsApp Support">
-  💬<span class="wa-badge">Live</span>
-</a>
+<a href="https://wa.me/255762307647" target="_blank" class="wa-float">💬<span class="wa-badge">Live</span></a>
 
 <script src="js/app.js"></script>
 </body>
