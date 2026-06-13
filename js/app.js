@@ -5,48 +5,13 @@
 
 console.log("AJPLUS AI Loaded ✅");
 
-// ─── CONFIG ───────────────────────────────────────────────
-const GEMINI_MODEL = "gemini-2.0-flash";
-
-const SYSTEM_PROMPT = `
-Wewe ni AJPLUS AI — mshauri wa kwanza wa Kitanzania.
-Umeundwa na AJ PLUS COMPANY LIMITED.
-Tovuti: ajplusai.co.tz | Simu: +255762307647 | info@ajplusai.co.tz
-Kauli Mbiu: "Ufahamu wa Kitanzania, Uwezo wa Kidunia"
-
-MUHIMU SANA — UTAMBULISHO WAKO:
-- Wewe ni AJPLUS AI peke yako — si ChatGPT, si Gemini, si Claude, si Copilot
-- Ukiulizwa "wewe ni nani?" jibu: "Mimi ni AJPLUS AI, mshauri wa kwanza wa Kitanzania!"
-
-LUGHA — JIBU KWA LUGHA YA MTUMIAJI:
-- Kiswahili cha mtaani → jibu kwa urafiki na kawaida
-- Kiswahili rasmi → jibu rasmi
-- Kiingereza → jibu kwa Kiingereza
-- Mchanganyiko → jibu kwa mchanganyiko huo
-
-SEKTA UNAZOJUA (Tanzania):
-Biashara & Invoice, CV & Kazi, Ndoa & Mahusiano, Dini (Islam & Ukristo),
-Kilimo & Mifugo, Afya & NHIF, Sheria & Haki, Elimu & HESLB,
-Fedha & Benki (NMB/CRDB/VICOBA), Mafundi (gari/umeme/bomba),
-Habari & Media, Ardhi & Nyumba, Usafiri & SGR, Madini & Gesi,
-Burudani, Utalii Tanzania, Teknolojia & TCRA, Biashara ya Nje,
-Serikali & Huduma, Stadi za Maisha
-
-JINSI YA KUJIBU:
-- Jibu kwa urafiki kama rafiki anayejua mengi
-- Tumia mifano ya Tanzania (TZS, BRELA, TRA, NMB, M-Pesa, n.k.)
-- Jibu kwa ufupi na wazi
-- Tumia bullet points au namba kwa orodha
-`;
+const SYSTEM_PROMPT = `Wewe ni AJPLUS AI — mshauri wa kwanza wa Kitanzania.`;
 
 // ─── NAVIGATION ──────────────────────────────────────────
 function goTo(page) {
     document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
     const target = document.getElementById("screen-" + page);
-    if (target) {
-        target.classList.add("active");
-        window.scrollTo(0, 0);
-    }
+    if (target) { target.classList.add("active"); window.scrollTo(0, 0); }
     if (page === "dashboard") {
         showDash("chat");
         const g = document.getElementById("nav-guest");
@@ -56,7 +21,6 @@ function goTo(page) {
     }
 }
 
-// ─── DASHBOARD PAGES ──────────────────────────────────────
 function showDash(page) {
     document.querySelectorAll(".dash-page").forEach(p => p.classList.remove("active"));
     document.querySelectorAll(".sitem").forEach(s => s.classList.remove("act"));
@@ -64,7 +28,6 @@ function showDash(page) {
     const si = document.getElementById("si-" + page);
     if (dp) dp.classList.add("active");
     if (si) si.classList.add("act");
-    // Make sure dashboard screen is active
     const dash = document.getElementById("screen-dashboard");
     if (dash && !dash.classList.contains("active")) {
         document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
@@ -72,7 +35,6 @@ function showDash(page) {
     }
 }
 
-// ─── AUTH TABS ────────────────────────────────────────────
 function switchAuthTab(tab) {
     document.querySelectorAll(".atab").forEach(b => b.classList.remove("active"));
     document.querySelectorAll(".aform").forEach(f => f.classList.remove("active"));
@@ -82,7 +44,6 @@ function switchAuthTab(tab) {
     if (formEl) formEl.classList.add("active");
 }
 
-// ─── AUTH ACTIONS ─────────────────────────────────────────
 function doLogin() {
     const email = document.getElementById("l-email")?.value.trim();
     const pass = document.getElementById("l-pass")?.value.trim();
@@ -115,7 +76,6 @@ function doLogout() {
     showToast("👋 Umefanikiwa kutoka");
 }
 
-// ─── SIDEBAR ──────────────────────────────────────────────
 function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
     if (sidebar) sidebar.classList.toggle("open");
@@ -160,20 +120,41 @@ async function sendMessage() {
         const reply = await getAIResponse(text);
         const loadEl = document.getElementById(loadId);
         if (loadEl) {
-            loadEl.innerHTML = `<div class="msg-av ai-av">🤖</div><div class="msg-bub">${formatReply(reply)}</div>`;
+            loadEl.innerHTML = `
+                <div class="msg-av ai-av">🤖</div>
+                <div style="max-width:85%">
+                    <div class="msg-bub">${formatReply(reply)}</div>
+                    <button onclick="copyMsg(this)" data-text="${escapeHtml(reply)}" style="
+                        margin-top:5px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);
+                        color:#aaa;font-size:.72rem;padding:4px 10px;border-radius:6px;cursor:pointer;
+                        display:flex;align-items:center;gap:5px;font-family:inherit;transition:all .2s
+                    " onmouseover="this.style.background='rgba(201,168,76,.15)';this.style.color='#C9A84C'"
+                       onmouseout="this.style.background='rgba(255,255,255,.07)';this.style.color='#aaa'">
+                        📋 Nakili jibu
+                    </button>
+                </div>`;
         }
         chatHistory.push({ role: "ai", text: reply });
     } catch (err) {
         const loadEl = document.getElementById(loadId);
         if (loadEl) {
             loadEl.innerHTML = `<div class="msg-av ai-av">🤖</div>
-                <div class="msg-bub" style="color:var(--red)">
-                ❌ ${escapeHtml(err.message)}<br>
-                <small style="color:var(--muted)">Weka GEMINI_API_KEY kwenye Vercel → Settings → Environment Variables</small>
-                </div>`;
+                <div class="msg-bub" style="color:var(--red)">❌ ${escapeHtml(err.message)}</div>`;
         }
     }
     msgs.scrollTop = msgs.scrollHeight;
+}
+
+function copyMsg(btn) {
+    const text = btn.getAttribute("data-text");
+    navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = "✅ Imenakiliwa!";
+        btn.style.color = "#22C55E";
+        setTimeout(() => {
+            btn.innerHTML = "📋 Nakili jibu";
+            btn.style.color = "#aaa";
+        }, 2000);
+    }).catch(() => showToast("⚠️ Imeshindwa kunakili", "warning"));
 }
 
 function appendMsg(msgs, type, content) {
@@ -197,9 +178,8 @@ function quickPrompt(text) {
     if (input) { input.value = text; input.focus(); sendMessage(); }
 }
 
-// ─── GEMINI API ───────────────────────────────────────────
+// ─── API ──────────────────────────────────────────────────
 async function getAIResponse(userText) {
-    // Jaribu backend /api/chat kwanza (Vercel serverless — API key salama)
     try {
         const res = await fetch("/api/chat", {
             method: "POST",
@@ -210,38 +190,17 @@ async function getAIResponse(userText) {
             const data = await res.json();
             return data.reply || "Samahani, sijapata jibu.";
         }
-    } catch (_) { /* backend haijaundwa — endelea */ }
-
-    // Fallback: Direct API (development tu)
-    const API_KEY = window.GEMINI_API_KEY || "";
-    if (!API_KEY) {
-        throw new Error("API key haipo. Weka GEMINI_API_KEY kwenye Vercel Environment Variables.");
-    }
-
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${API_KEY}`;
-    const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            contents: [{ role: "user", parts: [{ text: SYSTEM_PROMPT + "\n\nMtumiaji: " + userText }] }],
-            generationConfig: { temperature: 0.75, maxOutputTokens: 1500 }
-        })
-    });
-
-    if (!response.ok) {
-        const err = await response.json();
-        throw new Error(err?.error?.message || "Gemini API ilikataa ombi");
-    }
-    const data = await response.json();
-    return data.candidates?.[0]?.content?.parts?.[0]?.text || "Samahani, sijapata jibu.";
+    } catch (_) {}
+    throw new Error("Samahani, kuna tatizo la mtandao. Jaribu tena!");
 }
 
-// ─── FORMAT REPLY ─────────────────────────────────────────
+// ─── FORMAT ───────────────────────────────────────────────
 function formatReply(text) {
     return escapeHtml(text)
         .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
         .replace(/\*(.*?)\*/g, "<em>$1</em>")
         .replace(/`(.*?)`/g, "<code>$1</code>")
+        .replace(/## (.*?)(<br>|$)/g, "<strong style='color:var(--gold);font-size:1rem'>$1</strong><br>")
         .replace(/\n/g, "<br>");
 }
 
@@ -355,7 +314,7 @@ function selectPayment(el, type) {
     details.innerHTML = html[type] || "";
 }
 
-// ─── REVEAL ANIMATION ─────────────────────────────────────
+// ─── REVEAL ───────────────────────────────────────────────
 const _observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("in"); });
 }, { threshold: 0.1 });
@@ -370,13 +329,14 @@ function getWelcomeMsg() {
     return `<div class="msg ai">
         <div class="msg-av ai-av">🤖</div>
         <div class="msg-bub">
-            <strong>Karibu AJPLUS AI! 🇹🇿</strong><br><br>
-            Mimi ni mshauri wako wa kwanza wa Kitanzania.<br>
-            Ninaweza kukusaidia na:<br><br>
+            <strong>Mambo! Mimi ni AJPLUS AI 🇹🇿</strong><br><br>
+            Mimi ni Akili Bandia (AI) ya kwanza ya Kitanzania!<br>
+            Nimeundwa na <strong>AJ PLUS COMPANY LIMITED</strong>.<br><br>
+            Ninaweza kukusaidia na:<br>
             💼 Biashara &amp; Invoice &nbsp;|&nbsp; 📋 CV &amp; Kazi<br>
             💑 Ndoa &amp; Mahusiano &nbsp;|&nbsp; 🕌 Dini<br>
             🌾 Kilimo &nbsp;|&nbsp; ⚖️ Sheria &nbsp;|&nbsp; 🏥 Afya<br><br>
-            <em>Andika swali lako hapa chini!</em>
+            <em>Andika swali lako hapa chini bana! 💪</em>
         </div></div>`;
 }
 
