@@ -59,8 +59,8 @@ async function callClaude(message, apiKey) {
         throw new Error(err?.error?.message || "Claude API ilikataa");
     }
     const data = await response.json();
-    return data.content?.[0]?.text || "Samahani, sijapata jibu.";
-}
+return data.content?.[0]?.text || "Samahani, sijapata jibu.";
+
 
 // ─── GEMINI API (Imeongezwa System Instruction ya Uhakika) ───────
 async function callGemini(message, apiKey) {
@@ -69,7 +69,6 @@ async function callGemini(message, apiKey) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            // Hapa System Prompt inawekwa sehemu yake maalum ili Gemini asiipuuze
             systemInstruction: {
                 parts: [{ text: SYSTEM_PROMPT }]
             },
@@ -87,6 +86,7 @@ async function callGemini(message, apiKey) {
     const data = await response.json();
     return data.candidates?.[0]?.content?.parts?.[0]?.text || "Samahani, sijapata jibu.";
 }
+
 
 // ─── HANDLER ──────────────────────────────────────────────
 module.exports = async function handler(req, res) {
