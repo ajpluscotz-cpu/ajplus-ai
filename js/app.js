@@ -1,7 +1,7 @@
 console.log("AJPLUS AI Loaded");
 
 // ─── CONFIG ───────────────────────────────────────────────
-const GEMINI_API_KEY = "WEKA_API_KEY_YAKO_HAPA"; // ← Weka API key yako hapa
+const GEMINI_API_KEY = "const GEMINI_API_KEY = "PLACEHOLDER";"; // ← Weka API key yako hapa
 const GEMINI_MODEL   = "gemini-2.0-flash";
 
 const SYSTEM_PROMPT = `
