@@ -5,27 +5,44 @@
 
 console.log("AJPLUS AI Loaded ✅");
 
-// Kumbuka: SYSTEM_PROMPT kuu inasimamiwa na api/chat.js (Backend) kwa usalama zaidi.
-
-// ─── UTILITY FUNCTIONS ─────────────────────────────────────
+// ─── HELPERS ──────────────────────────────────────────────
 function escapeHtml(text) {
     if (!text) return "";
-    return text
+    return String(text)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(/"/g, "&quot;");
 }
 
 function getWelcomeMsg() {
     return `<div class="msg ai">
         <div class="msg-av ai-av">🤖</div>
-        <div class="msg-bub">Mambo vipi bana! Mimi ni AJPLUS AI, Akili Bandia yako ya kwanza ya Kitanzania. Nipo hapa kukusaidia mambo kibao. Nieleze nini dili kwa sasa? 🇹🇿</div>
+        <div class="msg-bub">
+            <strong>Mambo bana! Mimi ni AJPLUS AI 🇹🇿</strong><br><br>
+            Mimi ni Akili Bandia (AI) ya kwanza ya Kitanzania!<br>
+            Nimeundwa na <strong>AJ PLUS COMPANY LIMITED</strong>.<br><br>
+            Ninaweza kukusaidia na:<br>
+            💼 Biashara &amp; Invoice &nbsp;|&nbsp; 📋 CV &amp; Kazi<br>
+            💑 Ndoa &amp; Mahusiano &nbsp;|&nbsp; 🕌 Dini<br>
+            🌾 Kilimo &nbsp;|&nbsp; ⚖️ Sheria &nbsp;|&nbsp; 🏥 Afya<br><br>
+            <em>Andika swali lako hapa chini bana! 💪</em>
+        </div>
     </div>`;
 }
 
-// ─── NAVIGATION ──────────────────────────────────────────
+// ─── TOAST ────────────────────────────────────────────────
+let _toastT;
+function showToast(msg, type = "") {
+    const t = document.getElementById("toast");
+    if (!t) return;
+    t.textContent = msg;
+    t.className = "toast" + (type ? " " + type : "") + " show";
+    clearTimeout(_toastT);
+    _toastT = setTimeout(() => t.classList.remove("show"), 3200);
+}
+
+// ─── NAVIGATION ───────────────────────────────────────────
 function goTo(page) {
     document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
     const target = document.getElementById("screen-" + page);
@@ -62,6 +79,7 @@ function switchAuthTab(tab) {
     if (formEl) formEl.classList.add("active");
 }
 
+// ─── AUTH ─────────────────────────────────────────────────
 function doLogin() {
     const email = document.getElementById("l-email")?.value.trim();
     const pass = document.getElementById("l-pass")?.value.trim();
@@ -97,11 +115,6 @@ function doLogout() {
 function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
     if (sidebar) sidebar.classList.toggle("open");
-}
-
-function showToast(msg, type = "success") {
-    // Hakikisha una mfumo wa toast au utumie alert ya kawaida kama haupo
-    console.log(`[Toast - ${type}]: ${msg}`);
 }
 
 // ─── CHAT ─────────────────────────────────────────────────
@@ -150,9 +163,9 @@ async function sendMessage() {
                     <button onclick="copyMsg(this)" data-text="${escapeHtml(reply)}" style="
                         margin-top:5px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);
                         color:#aaa;font-size:.72rem;padding:4px 10px;border-radius:6px;cursor:pointer;
-                        display:flex;align-items:center;gap:5px;font-family:inherit;transition:all .2s
-                    " onmouseover="this.style.background='rgba(201,168,76,.15)';this.style.color='#C9A84C'"
-                       onmouseout="this.style.background='rgba(255,255,255,.07)';this.style.color='#aaa'">
+                        display:flex;align-items:center;gap:5px;font-family:inherit;transition:all .2s"
+                    onmouseover="this.style.background='rgba(201,168,76,.15)';this.style.color='#C9A84C'"
+                    onmouseout="this.style.background='rgba(255,255,255,.07)';this.style.color='#aaa'">
                         📋 Nakili jibu
                     </button>
                 </div>`;
@@ -226,3 +239,116 @@ function formatReply(text) {
         .replace(/## (.*?)(<br>|$)/g, "<strong style='color:var(--gold);font-size:1rem'>$1</strong><br>")
         .replace(/\n/g, "<br>");
 }
+
+// ─── EXPORT ───────────────────────────────────────────────
+function getDocTitle() {
+    return (document.getElementById("doc-title")?.value || "AJPLUS_AI").replace(/\s+/g, "_");
+}
+
+function getAllChatText() {
+    const msgs = document.getElementById("chat-msgs");
+    if (!msgs) return "";
+    let out = "AJPLUS AI — Mazungumzo\n" + "=".repeat(40) + "\n\n";
+    msgs.querySelectorAll(".msg").forEach(m => {
+        const bub = m.querySelector(".msg-bub");
+        if (bub) out += (m.classList.contains("user") ? "Wewe: " : "AJPLUS AI: ") + bub.innerText + "\n\n";
+    });
+    return out;
+}
+
+function getLastAIReply() {
+    const bubbles = document.getElementById("chat-msgs")?.querySelectorAll(".msg.ai .msg-bub");
+    return bubbles?.length ? bubbles[bubbles.length - 1].innerText : "";
+}
+
+function exportPDF() {
+    const content = getAllChatText();
+    if (!content) { showToast("⚠️ Hakuna mazungumzo", "warning"); return; }
+    if (typeof window.jspdf === "undefined") { showToast("⚠️ jsPDF haijapatikana", "warning"); return; }
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.setFontSize(14);
+    doc.text(getDocTitle().replace(/_/g, " "), 20, 20);
+    doc.setFontSize(10);
+    doc.text(doc.splitTextToSize(content, 170), 20, 32);
+    doc.save(getDocTitle() + ".pdf");
+    showToast("📄 PDF imepakiwa!");
+}
+
+function exportWord() {
+    const content = getAllChatText();
+    if (!content) { showToast("⚠️ Hakuna mazungumzo", "warning"); return; }
+    const blob = new Blob(["\ufeff" + content], { type: "application/msword;charset=utf-8" });
+    const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: getDocTitle() + ".doc" });
+    a.click(); URL.revokeObjectURL(a.href);
+    showToast("📝 Word imepakiwa!");
+}
+
+function exportTXT() {
+    const content = getAllChatText();
+    if (!content) { showToast("⚠️ Hakuna mazungumzo", "warning"); return; }
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: getDocTitle() + ".txt" });
+    a.click(); URL.revokeObjectURL(a.href);
+    showToast("📋 TXT imepakiwa!");
+}
+
+function copyLastReply() {
+    const reply = getLastAIReply();
+    if (!reply) { showToast("⚠️ Hakuna jibu la kunakili", "warning"); return; }
+    navigator.clipboard.writeText(reply).then(() => showToast("📋 Jibu limenakiliwa!")).catch(() => showToast("⚠️ Imeshindwa", "warning"));
+}
+
+function shareWhatsApp() {
+    const reply = getLastAIReply();
+    if (!reply) { showToast("⚠️ Hakuna jibu la kushiriki", "warning"); return; }
+    window.open("https://wa.me/?text=" + encodeURIComponent("AJPLUS AI:\n\n" + reply + "\n\n— ajplusai.co.tz"), "_blank");
+}
+
+// ─── MODALS ───────────────────────────────────────────────
+function showModal(id) { document.getElementById(id)?.classList.add("open"); }
+function closeModal(id) { document.getElementById(id)?.classList.remove("open"); }
+document.addEventListener("click", e => {
+    document.querySelectorAll(".mo.open").forEach(mo => { if (e.target === mo) mo.classList.remove("open"); });
+});
+
+// ─── PAYMENT ──────────────────────────────────────────────
+function selectPayment(el, type) {
+    document.querySelectorAll(".pmcard").forEach(c => c.classList.remove("sel"));
+    el.classList.add("sel");
+    const details = document.getElementById("pay-details");
+    if (!details) return;
+    const html = {
+        lipa: `<div style="background:var(--card2);border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:20px;margin-top:16px;text-align:center">
+            <p style="color:var(--gold);font-weight:800;margin-bottom:8px">📱 Lipa Namba</p>
+            <p style="font-size:1.6rem;font-weight:900;color:var(--white);letter-spacing:3px">44934738</p>
+            <p style="color:var(--gold);font-size:.85rem">AJ PLUS COMPANY LIMITED</p>
+            <p style="color:var(--muted);font-size:.8rem;margin-top:5px">M-Pesa · Airtel · Tigo · NMB · CRDB</p>
+            <button onclick="showModal('mo-lipa')" class="btn btn-gold btn-sm" style="margin-top:12px">Ona QR Code</button></div>`,
+        nmb: `<div style="background:var(--card2);border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:20px;margin-top:16px">
+            <p style="color:var(--gold);font-weight:800;margin-bottom:10px">🏦 NMB Bank Transfer</p>
+            <p style="color:var(--muted);font-size:.85rem">Jina:</p>
+            <p style="color:var(--white);font-weight:700">AJ PLUS COMPANY LIMITED</p>
+            <p style="color:var(--muted);font-size:.85rem;margin-top:8px">Akaunti:</p>
+            <p style="color:var(--gold);font-size:1.3rem;font-weight:900;letter-spacing:2px">23510095544</p></div>`,
+        wa: `<div style="background:var(--card2);border:1px solid rgba(37,211,102,.2);border-radius:14px;padding:20px;margin-top:16px;text-align:center">
+            <p style="color:#25D366;font-weight:800;margin-bottom:10px">💬 Lipa via WhatsApp</p>
+            <a href="https://wa.me/255762307647?text=Nataka+kulipa+Pro+TZS+15000" target="_blank" class="btn btn-wa btn-full">Anza Mazungumzo</a>
+            <p style="color:var(--muted);font-size:.75rem;margin-top:8px">⏱️ Access ndani ya dakika 30</p></div>`
+    };
+    details.innerHTML = html[type] || "";
+}
+
+// ─── REVEAL ───────────────────────────────────────────────
+const _observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("in"); });
+}, { threshold: 0.1 });
+document.querySelectorAll(".reveal").forEach(el => _observer.observe(el));
+
+// ─── INIT ─────────────────────────────────────────────────
+window.addEventListener("DOMContentLoaded", () => {
+    const msgs = document.getElementById("chat-msgs");
+    if (msgs && msgs.innerHTML.trim() === "") {
+        msgs.innerHTML = getWelcomeMsg();
+    }
+});
