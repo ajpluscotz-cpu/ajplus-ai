@@ -8,58 +8,68 @@ Tovuti: ajplusai.co.tz | Simu: +255762307647 | info@ajplusai.co.tz
 Kauli Mbiu: "Ufahamu wa Kitanzania, Uwezo wa Kidunia"
 
 ═══ UTAMBULISHO ═══
-- Wewe ni AI — Akili Bandia iliyoundwa na AJ PLUS COMPANY LIMITED
+- Wewe ni AJPLUS AI — Akili Bandia iliyoundwa na AJ PLUS COMPANY LIMITED
 - Ukiulizwa "wewe ni nani?" → "Mimi ni AJPLUS AI, Akili Bandia ya kwanza ya Kitanzania! 🇹🇿"
 - KAMWE usiseme wewe ni ChatGPT, Gemini, Claude, au Copilot
 
-═══ LUGHA YA BONGO ═══
-Zungumza kama kijana wa mtaani wa Dar es Salaam.
-- Salamu: "Mambo vipi bana!" / "Aise!" / "Poa kabisa!"
-- Kukubaliana: "Kweli kabisa!" / "Hasa hivyo!" / "Hapo ndipo!"
-- Maneno: "Hii ndiyo deal" / "Si mchezo" / "Usijali" / "Chapuo"
-- Mwisho wa jibu: "Asante bana! Niko hapa ukihitaji zaidi 💪" au sawa na hiyo
+═══ LUGHA NA MTINDO ═══
+Zungumza kwa Kiswahili cha kiungwana cha Tanzania — cha karibu, cha urafiki, lakini chenye heshima.
 
-═══ ELEWA SWALI ═══
-- "sababu za X" → toa MAELEZO ya wazi
+SALAMU ZA KUANZA:
+- "Karibu sana!" / "Habari yako!" / "Nimefurahi kukusaidia!"
+- "Swali zuri kabisa!" / "Sawa kabisa!" / "Vizuri sana!"
+
+MANENO YA KIUNGWANA UNAYOTUMIA:
+- "ndugu" / "rafiki" / "mkuu" — badala ya lugha ya mtaani
+- "sawa kabisa" / "vizuri sana" / "sahihi"
+- "hakuna shida" / "kwa furaha" / "bila wasiwasi"
+- "tafadhali" / "asante" / "karibu tena"
+- "naomba" / "ninaelewa" / "nitakusaidia"
+
+MWISHO WA KILA JIBU — chagua moja:
+- "Asante kwa swali lako! Niko hapa ukihitaji msaada zaidi. 💪"
+- "Karibu tena ukihitaji msaada wowote! 🇹🇿"
+- "Nimefurahi kukusaidia! Swali lolote — niko tayari. 🤖"
+- "Tutaendelea kushirikiana. Niko hapa daima! 💯"
+
+═══ ELEWA SWALI VIZURI ═══
+- "sababu za X" → toa MAELEZO ya wazi na ya kina
 - "niandikie barua/CV/invoice" → toa mfano KAMILI wa Tanzania
-- Ukishindwa kuelewa → "Bana unataka nini haswa? 😊"
+- "bei ya leo" / "habari za leo" → toa habari za sasa
+- Ukishindwa kuelewa → "Tafadhali nieleze zaidi ili nikusaidie vizuri. 😊"
 
 ═══ DINI ═══
-- Islam na Ukristo — jibu kwa heshima kubwa na usahihi
+- Islam: Zakat, Sadaka, Sala, Swum, Hajj, Quran — jibu kwa heshima na usahihi
+- Ukristo: Kanisa, Sadaka, Biblia, Sala, Injili — jibu kwa heshima na usahihi
 
-═══ SEKTA ═══
-Biashara, CV, Kazi, Ndoa, Dini, Kilimo, Afya, NHIF, Sheria, Elimu,
-HESLB, Fedha, Benki, Mafundi, Habari, Ardhi, SGR, Madini, Burudani, Utalii, Serikali
+═══ SEKTA UNAZOJUA ═══
+Biashara, Invoice, CV, Kazi, Ndoa, Mahusiano, Dini, Kilimo, Afya, NHIF,
+Sheria, Elimu, HESLB, Fedha, Benki (NMB/CRDB), Mafundi,
+Habari, Ardhi, Usafiri (SGR/DART), Madini, Burudani, Utalii, Teknolojia, Serikali
 
 ═══ JINSI YA KUJIBU ═══
-- Jibu kwa urafiki, ufupi na wazi
-- Tumia mifano ya Tanzania (TZS, BRELA, TRA, NMB, M-Pesa)
-- Tumia bullet points kwa orodha ndefu
-- Bei ZOTE ziwe TZS`;
+- Jibu kwa urafiki wa kiungwana — wazi, mfupi na wa kueleweka
+- Tumia mifano ya Tanzania (TZS, BRELA, TRA, NMB, M-Pesa, SGR)
+- Tumia bullet points au namba kwa orodha ndefu
+- Bei ZOTE ziwe TZS isipokuwa ukiombwa vinginevyo
+- Epuka lugha ya mtaani — tumia Kiswahili sanifu cha Tanzania`;
 
 // ─── MANENO YA KUTAMBUA HABARI ZA LEO ────────────────────
 const WEB_SEARCH_KEYWORDS = [
-    // Bei za fedha
     'bei ya dola', 'exchange rate', 'dollar leo', 'usd leo', 'forex',
     'bei ya euro', 'bei ya pound', 'shilingi leo',
-    // Bei za mazao
     'bei ya mahindi', 'bei ya kahawa', 'bei ya pamba', 'bei ya korosho',
     'bei ya mafuta', 'bei ya petroli', 'bei ya diesel', 'bei ya petrol',
     'bei ya mazao', 'soko la leo', 'bei leo',
-    // Habari
     'habari za leo', 'habari za sasa', 'news leo', 'habari mpya',
     'habari tanzania', 'habari za tanzania', 'matukio ya leo',
-    // Michezo
     'matokeo ya', 'simba sc', 'yanga sc', 'timu ya taifa',
     'premier league', 'champions league', 'epl leo', 'mechi leo',
     'mechi ya leo', 'matokeo leo', 'ligi kuu',
-    // Hali ya hewa
     'hali ya hewa', 'mvua leo', 'weather', 'joto leo',
-    // Teknolojia/Bei za bidhaa
     'bei ya simu', 'bei ya gari', 'bei ya nyumba', 'bei ya ardhi',
-    // Maneno ya leo/sasa
-    'sasa hivi', 'hivi karibuni', 'wiki hii', 'mwezi huu', 'mwaka huu',
-    'leo', 'jana', 'kesho', 'siku hizi', 'wakati huu'
+    'sasa hivi', 'hivi karibuni', 'wiki hii', 'mwezi huu',
+    'leo', 'jana', 'kesho', 'siku hizi'
 ];
 
 function needsWebSearch(message) {
@@ -85,7 +95,7 @@ async function supabaseQuery(table, method, data = null, filter = null) {
                 "Prefer": method === "POST" ? "return=representation" : ""
             }
         };
-        if (data) opts.body = JSON.stringify(data);
+        if (data) opts.body = JSON.stringify(body);
         const res = await fetch(url, opts);
         if (res.ok) {
             const text = await res.text();
@@ -106,35 +116,57 @@ async function saveChat(userEmail, message, reply) {
     });
 }
 
+// Mipango mipya na vikomo vyake
+const PLAN_LIMITS = {
+    free:     { daily: 10,  name: "Bure" },
+    msingi:   { daily: 50,  name: "Msingi" },
+    kawaida:  { daily: 150, name: "Kawaida" },
+    pro:      { daily: null, name: "Pro" },      // bila kikomo
+    biashara: { daily: null, name: "Biashara" }  // bila kikomo
+};
+
 async function checkLimit(email) {
     if (!email) return { allowed: true, plan: 'free' };
     try {
         const users = await supabaseQuery("users", "GET", null, `email=eq.${email}`);
         const user = users?.[0];
         if (!user) return { allowed: true, plan: 'free' };
-        if (user.plan === 'pro' || user.plan === 'business') {
-            return { allowed: true, plan: user.plan };
-        }
+
+        const plan = user.plan || 'free';
+        const limits = PLAN_LIMITS[plan] || PLAN_LIMITS.free;
+
+        // Mipango bila kikomo
+        if (!limits.daily) return { allowed: true, plan };
+
         const today = new Date().toISOString().split('T')[0];
-        if (user.last_question_date !== today) return { allowed: true, plan: 'free' };
-        if (user.questions_today >= 20) {
+        if (user.last_question_date !== today) {
+            await supabaseQuery("users", "PATCH", {
+                questions_today: 1,
+                last_question_date: today
+            }, `email=eq.${email}`);
+            return { allowed: true, plan };
+        }
+
+        if (user.questions_today >= limits.daily) {
             return {
                 allowed: false,
-                plan: 'free',
-                message: "Aise bana! Umefika kikomo cha maswali 20 kwa leo! Panda Pro kwa TZS 15,000/mwezi 💪"
+                plan,
+                message: `Umefika kikomo cha maswali ${limits.daily} kwa leo! Panda mpango wako ili uendelee. Tembelea ajplusai.co.tz 🇹🇿`
             };
         }
+
         await supabaseQuery("users", "PATCH", {
             questions_today: (user.questions_today || 0) + 1,
             last_question_date: today
         }, `email=eq.${email}`);
-        return { allowed: true, plan: 'free' };
+
+        return { allowed: true, plan };
     } catch(e) {
         return { allowed: true, plan: 'free' };
     }
 }
 
-// ─── CLAUDE — na au bila web search ──────────────────────
+// ─── CLAUDE ───────────────────────────────────────────────
 async function callClaude(message, apiKey, useWebSearch = false) {
     const body = {
         model: "claude-haiku-4-5",
@@ -142,16 +174,13 @@ async function callClaude(message, apiKey, useWebSearch = false) {
         system: SYSTEM_PROMPT,
         messages: [{ role: "user", content: message }]
     };
-
-    // Ongeza web search ONLY kama inahitajika
     if (useWebSearch) {
         body.tools = [{
             type: "web_search_20250305",
             name: "web_search",
-            max_uses: 2  // punguza kutoka 3 hadi 2 — save credits
+            max_uses: 2
         }];
     }
-
     const response = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: {
@@ -161,12 +190,10 @@ async function callClaude(message, apiKey, useWebSearch = false) {
         },
         body: JSON.stringify(body)
     });
-
     if (!response.ok) {
         const err = await response.json();
         throw new Error(err?.error?.message || "Claude API ilikataa");
     }
-
     const data = await response.json();
     let reply = "";
     if (data.content && Array.isArray(data.content)) {
@@ -174,36 +201,29 @@ async function callClaude(message, apiKey, useWebSearch = false) {
             if (block.type === "text") reply += block.text;
         }
     }
-    return reply || "Samahani bana, sijapata jibu. Jaribu tena!";
+    return reply || "Samahani, sijapata jibu. Tafadhali jaribu tena!";
 }
 
 // ─── GEMINI (BACKUP) ──────────────────────────────────────
 async function callGemini(message, apiKey, useWebSearch = false) {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
     const body = {
         systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
         contents: [{ role: "user", parts: [{ text: message }] }],
         generationConfig: { temperature: 0.75, maxOutputTokens: 1500 }
     };
-
-    // Ongeza Google Search ONLY kama inahitajika
-    if (useWebSearch) {
-        body.tools = [{ googleSearch: {} }];
-    }
-
+    if (useWebSearch) body.tools = [{ googleSearch: {} }];
     const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
     });
-
     if (!response.ok) {
         const err = await response.json();
         throw new Error(err?.error?.message || "Gemini API ilikataa");
     }
     const data = await response.json();
-    return data.candidates?.[0]?.content?.parts?.[0]?.text || "Samahani bana, sijapata jibu!";
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || "Samahani, sijapata jibu!";
 }
 
 // ─── HANDLER ──────────────────────────────────────────────
@@ -224,25 +244,20 @@ module.exports = async function handler(req, res) {
         const message = body.message;
         const userEmail = body.email || null;
 
-        if (!message) return res.status(400).json({ error: "Message inahitajika" });
+        if (!message) return res.status(400).json({ error: "Swali linahitajika" });
 
-        // Angalia limit
         const limitCheck = await checkLimit(userEmail);
         if (!limitCheck.allowed) {
             return res.status(429).json({ error: limitCheck.message, upgrade: true });
         }
 
-        // Angalia kama swali linahitaji web search
         const useWebSearch = needsWebSearch(message);
-        console.log(`Web search: ${useWebSearch ? 'YES' : 'NO'} — "${message.substring(0, 50)}"`);
-
         const CLAUDE_KEY = process.env.ANTHROPIC_API_KEY;
         const GEMINI_KEY = process.env.GEMINI_API_KEY;
 
         let reply = null;
         let source = null;
 
-        // Claude kwanza
         if (CLAUDE_KEY) {
             try {
                 reply = await callClaude(message, CLAUDE_KEY, useWebSearch);
@@ -252,13 +267,12 @@ module.exports = async function handler(req, res) {
             }
         }
 
-        // Gemini backup
         if (!reply && GEMINI_KEY) {
             try {
                 reply = await callGemini(message, GEMINI_KEY, useWebSearch);
                 source = useWebSearch ? "gemini+web" : "gemini";
             } catch (err) {
-                return res.status(500).json({ error: "AI zote zimeshindwa bana! Jaribu tena." });
+                return res.status(500).json({ error: "Huduma haipo sasa hivi. Tafadhali jaribu tena." });
             }
         }
 
@@ -266,18 +280,11 @@ module.exports = async function handler(req, res) {
             return res.status(500).json({ error: "Hakuna API Key — weka kwenye Vercel Settings" });
         }
 
-        // Hifadhi
         await saveChat(userEmail, message, reply);
-
-        return res.status(200).json({
-            reply,
-            source,
-            plan: limitCheck.plan,
-            webSearch: useWebSearch
-        });
+        return res.status(200).json({ reply, source, plan: limitCheck.plan, webSearch: useWebSearch });
 
     } catch (err) {
         console.error("AJPLUS AI Error:", err);
-        return res.status(500).json({ error: "Server error: " + err.message });
+        return res.status(500).json({ error: "Kosa la seva: " + err.message });
     }
 };
