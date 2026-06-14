@@ -412,44 +412,63 @@ select.fi{cursor:pointer}
     <div class="sec-label">Bei</div>
     <h2 class="sec-title">Chagua <span>Mpango Wako</span></h2>
   </div>
-  <div class="plans">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:10px;max-width:900px;margin:0 auto">
+    <!-- MSINGI -->
     <div class="plan reveal">
-      <p class="plan-tier">Free</p>
-      <div class="plan-price">Bure<span> daima</span></div>
+      <p class="plan-tier">Msingi</p>
+      <div class="plan-price">20,000<span> TZS/mwezi</span></div>
       <ul class="plan-feats">
-        <li>Maswali 20 kwa siku</li>
+        <li>Maswali 50 kwa siku</li>
         <li>Sekta zote 20</li>
         <li>AI ya kweli</li>
         <li>Export PDF na TXT</li>
-        <li class="no">Historia ya mazungumzo</li>
         <li class="no">Export Word</li>
+        <li class="no">Habari za leo</li>
       </ul>
-      <button class="btn btn-ghost btn-full" onclick="goTo('auth')">Anza Bure</button>
+      <button class="btn btn-ghost btn-full" onclick="showModal('mo-lipa');setPayPlan('msingi',20000)">Lipa TZS 20,000</button>
     </div>
+    <!-- KAWAIDA -->
+    <div class="plan reveal">
+      <p class="plan-tier">Kawaida</p>
+      <div class="plan-price">40,000<span> TZS/mwezi</span></div>
+      <ul class="plan-feats">
+        <li>Maswali 150 kwa siku</li>
+        <li>Sekta zote 20</li>
+        <li>Export PDF, Word, TXT</li>
+        <li>WhatsApp Share</li>
+        <li class="no">Habari za leo</li>
+        <li class="no">Historia ya mazungumzo</li>
+      </ul>
+      <button class="btn btn-ghost btn-full" onclick="showModal('mo-lipa');setPayPlan('kawaida',40000)">Lipa TZS 40,000</button>
+    </div>
+    <!-- PRO -->
     <div class="plan hot reveal">
       <div class="plan-pop">Maarufu</div>
       <p class="plan-tier">Pro</p>
-      <div class="plan-price">15,000<span> TZS/mwezi</span></div>
+      <div class="plan-price">60,000<span> TZS/mwezi</span></div>
       <ul class="plan-feats">
         <li>Maswali bila kikomo</li>
         <li>Sekta zote 20</li>
         <li>Habari za leo (web)</li>
         <li>Export PDF, Word, TXT</li>
+        <li>Historia ya mazungumzo</li>
         <li>WhatsApp Share</li>
       </ul>
-      <button class="btn btn-gold btn-full" onclick="showModal('mo-lipa');setPayPlan('pro',15000)">Lipa TZS 15,000</button>
+      <button class="btn btn-gold btn-full" onclick="showModal('mo-lipa');setPayPlan('pro',60000)">Lipa TZS 60,000</button>
     </div>
+    <!-- BIASHARA -->
     <div class="plan reveal">
-      <p class="plan-tier">Biashara B2B</p>
-      <div class="plan-price">30,000<span> TZS/mwezi</span></div>
+      <p class="plan-tier">Biashara</p>
+      <div class="plan-price">100,000<span> TZS/mwezi</span></div>
       <ul class="plan-feats">
         <li>Kila kitu cha Pro</li>
         <li>API Access</li>
         <li>Wafanyakazi wengi</li>
         <li>Branding yako</li>
+        <li>Ripoti za kina</li>
         <li>Support 24h</li>
       </ul>
-      <button class="btn btn-ghost btn-full" onclick="showModal('mo-lipa');setPayPlan('business',30000)">Lipa TZS 30,000</button>
+      <button class="btn btn-dark btn-full" onclick="showModal('mo-lipa');setPayPlan('biashara',100000)">Lipa TZS 100,000</button>
     </div>
   </div>
 </section>
@@ -473,7 +492,7 @@ select.fi{cursor:pointer}
       <p style="font-size:.66rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px">📱 Yas/Tigo Moja kwa Moja</p>
       <p style="font-size:.86rem;font-weight:700;color:var(--text)">+255 718 620 496</p>
     </div>
-    <button class="btn btn-gold btn-full" style="margin-bottom:7px" onclick="showModal('mo-lipa');setPayPlan('pro',15000)">Lipa Sasa — TZS 15,000</button>
+    <button class="btn btn-gold btn-full" style="margin-bottom:7px" onclick="showModal('mo-lipa');setPayPlan('pro',60000)">Lipa Sasa — Kuanzia TZS 20,000</button>
     <a href="https://wa.me/255762307647?text=Nimetuma+malipo+ya+AJPLUS+AI." target="_blank" class="btn btn-wa btn-full">💬 Tuma Risiti WhatsApp</a>
     <p style="font-size:.7rem;color:var(--muted);margin-top:7px">⏱️ Access ndani ya dakika 30</p>
   </div>
@@ -587,14 +606,24 @@ select.fi{cursor:pointer}
     <div class="sdiv"></div>
     <div class="slabel2">Panda Mpango</div>
     <div class="bei-cards">
-      <div class="bei-card" onclick="showModal('mo-lipa');setPayPlan('pro',15000)">
+      <div class="bei-card" onclick="showModal('mo-lipa');setPayPlan('msingi',20000)">
+        <div class="bei-card-label">Msingi</div>
+        <div class="bei-card-price">TZS 20,000</div>
+        <div class="bei-card-desc">/mwezi · Maswali 50/siku</div>
+      </div>
+      <div class="bei-card" onclick="showModal('mo-lipa');setPayPlan('kawaida',40000)">
+        <div class="bei-card-label">Kawaida</div>
+        <div class="bei-card-price">TZS 40,000</div>
+        <div class="bei-card-desc">/mwezi · Maswali 150/siku</div>
+      </div>
+      <div class="bei-card" onclick="showModal('mo-lipa');setPayPlan('pro',60000)">
         <div class="bei-card-label">Pro</div>
-        <div class="bei-card-price">TZS 15,000</div>
+        <div class="bei-card-price">TZS 60,000</div>
         <div class="bei-card-desc">/mwezi · Bila kikomo</div>
       </div>
-      <div class="bei-card bei-card-dark" onclick="showModal('mo-lipa');setPayPlan('business',30000)">
-        <div class="bei-card-label">B2B</div>
-        <div class="bei-card-price">TZS 30,000</div>
+      <div class="bei-card bei-card-dark" onclick="showModal('mo-lipa');setPayPlan('biashara',100000)">
+        <div class="bei-card-label">Biashara</div>
+        <div class="bei-card-price">TZS 100,000</div>
         <div class="bei-card-desc">/mwezi · API + Team</div>
       </div>
     </div>
@@ -681,18 +710,30 @@ select.fi{cursor:pointer}
 <div class="dash-page" id="dp-pay">
   <h2 style="margin-bottom:3px;font-size:.9rem;font-weight:600">Malipo</h2>
   <p style="color:var(--muted);font-size:.78rem;margin-bottom:13px">Panda mpango wako</p>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:9px;margin-bottom:14px">
-    <div style="background:var(--gold);border-radius:10px;padding:13px;color:#fff">
-      <p style="font-size:.62rem;font-weight:600;opacity:.7;text-transform:uppercase;letter-spacing:.05em">Pro</p>
-      <p style="font-size:1.3rem;font-weight:700;letter-spacing:-.02em">TZS 15,000<span style="font-size:.72rem;opacity:.65">/mwezi</span></p>
-      <p style="font-size:.7rem;opacity:.75;margin-bottom:9px">Maswali bila kikomo</p>
-      <button class="btn btn-full" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-size:.76rem" onclick="showModal('mo-lipa');setPayPlan('pro',15000)">Lipa Sasa</button>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-bottom:14px">
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px">
+      <p style="font-size:.6rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em">Msingi</p>
+      <p style="font-size:1.1rem;font-weight:700;color:var(--text);letter-spacing:-.02em">TZS 20,000<span style="font-size:.7rem;color:var(--muted)">/mwezi</span></p>
+      <p style="font-size:.68rem;color:var(--muted);margin-bottom:8px">Maswali 50/siku</p>
+      <button class="btn btn-ghost btn-full" style="font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('msingi',20000)">Lipa Sasa</button>
     </div>
-    <div style="background:var(--text);border-radius:10px;padding:13px;color:#fff">
-      <p style="font-size:.62rem;font-weight:600;opacity:.45;text-transform:uppercase;letter-spacing:.05em">B2B</p>
-      <p style="font-size:1.3rem;font-weight:700;letter-spacing:-.02em">TZS 30,000<span style="font-size:.72rem;opacity:.45">/mwezi</span></p>
-      <p style="font-size:.7rem;opacity:.55;margin-bottom:9px">API + Wafanyakazi wengi</p>
-      <button class="btn btn-full" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.18);font-size:.76rem" onclick="showModal('mo-lipa');setPayPlan('business',30000)">Lipa Sasa</button>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px">
+      <p style="font-size:.6rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em">Kawaida</p>
+      <p style="font-size:1.1rem;font-weight:700;color:var(--text);letter-spacing:-.02em">TZS 40,000<span style="font-size:.7rem;color:var(--muted)">/mwezi</span></p>
+      <p style="font-size:.68rem;color:var(--muted);margin-bottom:8px">Maswali 150/siku</p>
+      <button class="btn btn-ghost btn-full" style="font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('kawaida',40000)">Lipa Sasa</button>
+    </div>
+    <div style="background:var(--gold);border-radius:10px;padding:12px;color:#fff">
+      <p style="font-size:.6rem;font-weight:600;opacity:.75;text-transform:uppercase;letter-spacing:.05em">Pro ⭐</p>
+      <p style="font-size:1.1rem;font-weight:700;letter-spacing:-.02em">TZS 60,000<span style="font-size:.7rem;opacity:.65">/mwezi</span></p>
+      <p style="font-size:.68rem;opacity:.8;margin-bottom:8px">Maswali bila kikomo</p>
+      <button class="btn btn-full" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('pro',60000)">Lipa Sasa</button>
+    </div>
+    <div style="background:var(--text);border-radius:10px;padding:12px;color:#fff">
+      <p style="font-size:.6rem;font-weight:600;opacity:.5;text-transform:uppercase;letter-spacing:.05em">Biashara</p>
+      <p style="font-size:1.1rem;font-weight:700;letter-spacing:-.02em">TZS 100,000<span style="font-size:.7rem;opacity:.45">/mwezi</span></p>
+      <p style="font-size:.68rem;opacity:.6;margin-bottom:8px">API + Wafanyakazi</p>
+      <button class="btn btn-full" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('biashara',100000)">Lipa Sasa</button>
     </div>
   </div>
 </div>
@@ -711,14 +752,22 @@ select.fi{cursor:pointer}
         <h3 style="font-size:.95rem;font-weight:700;letter-spacing:-.01em">Chagua Mpango</h3>
       </div>
       <div class="pay-body">
-        <div class="plan-tabs">
-          <div class="plan-tab active" id="ptab-pro" onclick="setPayPlan('pro',15000);switchPlanTab('pro')">
-            <div class="plan-tab-name">Pro</div>
-            <div class="plan-tab-price">15,000 TZS</div>
+        <div class="plan-tabs" style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+          <div class="plan-tab active" id="ptab-msingi" onclick="setPayPlan('msingi',20000);switchPlanTab('msingi')">
+            <div class="plan-tab-name">Msingi</div>
+            <div class="plan-tab-price">20,000 TZS</div>
           </div>
-          <div class="plan-tab" id="ptab-business" onclick="setPayPlan('business',30000);switchPlanTab('business')">
-            <div class="plan-tab-name">B2B</div>
-            <div class="plan-tab-price">30,000 TZS</div>
+          <div class="plan-tab" id="ptab-kawaida" onclick="setPayPlan('kawaida',40000);switchPlanTab('kawaida')">
+            <div class="plan-tab-name">Kawaida</div>
+            <div class="plan-tab-price">40,000 TZS</div>
+          </div>
+          <div class="plan-tab" id="ptab-pro" onclick="setPayPlan('pro',60000);switchPlanTab('pro')">
+            <div class="plan-tab-name">Pro ⭐</div>
+            <div class="plan-tab-price">60,000 TZS</div>
+          </div>
+          <div class="plan-tab" id="ptab-biashara" onclick="setPayPlan('biashara',100000);switchPlanTab('biashara')">
+            <div class="plan-tab-name">Biashara</div>
+            <div class="plan-tab-price">100,000 TZS</div>
           </div>
         </div>
         <div class="fg"><label class="fl">Jina Lako *</label><input class="fi" id="pay-name" placeholder="Jina lako kamili"></div>
@@ -889,8 +938,8 @@ async function goPayStep3() {
 function resetPayForm() {
     document.querySelectorAll('.pay-step').forEach(s => s.classList.remove('active'));
     document.getElementById('pay-step-1')?.classList.add('active');
-    switchPlanTab('pro');
-    setPayPlan('pro', 15000);
+    switchPlanTab('msingi');
+    setPayPlan('msingi', 20000);
 }
 
 // Update WA float on screen change
