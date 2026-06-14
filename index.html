@@ -24,13 +24,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 a{color:var(--gold);text-decoration:none}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
-
-/* SCREENS */
 .screen{display:none;min-height:100vh}
 .screen.active{display:block}
 #screen-auth.active{display:flex}
-
-/* BUTTONS */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 24px;border-radius:50px;font-size:.9rem;font-weight:700;border:none;transition:all .2s;cursor:pointer;text-decoration:none;font-family:var(--font)}
 .btn-gold{background:linear-gradient(135deg,var(--gold),#A8832C);color:#fff}
 .btn-gold:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(201,168,76,.3)}
@@ -40,22 +36,16 @@ a{color:var(--gold);text-decoration:none}
 .btn-sm{padding:7px 15px;font-size:.8rem}
 .btn-lg{padding:13px 36px;font-size:.98rem}
 .btn-full{width:100%}
-
-/* FORMS */
 .fg{margin-bottom:13px}
 .fl{display:block;font-size:.82rem;font-weight:600;margin-bottom:5px}
 .fi{width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;color:var(--text);font-size:.88rem;transition:border-color .2s;outline:none;font-family:var(--font)}
 .fi:focus{border-color:var(--gold)}
 .fi::placeholder{color:var(--muted)}
 textarea.fi{resize:vertical;min-height:78px}
-
-/* ANIMATIONS */
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.65)}}
 @keyframes mIn{from{opacity:0;transform:scale(.95) translateY(12px)}to{opacity:1;transform:none}}
 @keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
-
-/* NAVBAR */
 .nav{position:fixed;top:0;left:0;right:0;z-index:900;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 4%;background:var(--white);border-bottom:1.5px solid var(--border);box-shadow:var(--shadow)}
 .nav-brand{display:flex;align-items:center;gap:9px;cursor:pointer}
 .nav-logo{width:34px;height:34px;object-fit:cover;border-radius:50%;border:2px solid var(--gold)}
@@ -67,17 +57,11 @@ textarea.fi{resize:vertical;min-height:78px}
 .nav-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#A8832C);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;color:#fff}
 .ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
 .ham span{width:20px;height:2px;background:var(--text);border-radius:2px}
-
-/* BADGE */
 .badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold-light);border:1px solid rgba(201,168,76,.25);border-radius:50px;padding:4px 14px;font-size:.73rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.5px}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.6s ease-in-out infinite;flex-shrink:0}
-
-/* REVEAL */
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}
 .reveal.in{opacity:1;transform:translateY(0)}
 .gline{width:44px;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;margin:7px auto 0}
-
-/* ═══ LANDING ═══ */
 #screen-landing{padding-top:58px}
 .hero{min-height:calc(100vh - 58px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:52px 5% 44px;background:linear-gradient(160deg,var(--white) 0%,var(--bg) 100%)}
 .hero-logo{width:90px;height:90px;object-fit:cover;border-radius:50%;border:3px solid var(--gold);margin:0 auto 16px;display:block;box-shadow:0 0 26px rgba(201,168,76,.22)}
@@ -88,16 +72,12 @@ textarea.fi{resize:vertical;min-height:78px}
 .spills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
 .spill{background:var(--white);border:1.5px solid var(--border);border-radius:50px;padding:5px 13px;font-size:.78rem;color:var(--text);display:flex;align-items:center;gap:5px;box-shadow:var(--shadow);transition:all .2s}
 .spill:hover{border-color:var(--gold);color:var(--gold)}
-
-/* NEEDS */
 .needs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:11px;max-width:1060px;margin:0 auto}
 .need-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 11px;text-align:center;cursor:pointer;transition:all .22s;box-shadow:var(--shadow)}
 .need-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 7px 20px rgba(201,168,76,.18)}
 .need-icon{font-size:1.9rem;margin-bottom:7px;display:block}
 .need-name{font-size:.84rem;font-weight:700;margin-bottom:2px}
 .need-desc{font-size:.71rem;color:var(--muted);line-height:1.4}
-
-/* PLANS */
 .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;max-width:860px;margin:0 auto}
 .plan{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:22px 18px;position:relative;transition:all .22s;box-shadow:var(--shadow)}
 .plan:hover{border-color:var(--gold);transform:translateY(-2px)}
@@ -111,18 +91,12 @@ textarea.fi{resize:vertical;min-height:78px}
 .plan-feats li::before{content:'✓';color:var(--green);font-weight:800;flex-shrink:0}
 .plan-feats li.no::before{content:'✗';color:var(--red)}
 .plan-feats li.no{color:var(--muted)}
-
-/* SECTIONS */
 .sec{padding:64px 5%}
 .sec-alt{background:var(--bg2)}
 .slabel{text-align:center;font-size:.68rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
 .stitle{text-align:center;font-size:clamp(1.35rem,3.2vw,2rem);font-weight:900;margin-bottom:9px}
 .stitle span{color:var(--gold)}
-
-/* PAY */
 .pay-box{background:var(--white);border:1.5px solid var(--border);border-radius:20px;padding:26px;max-width:560px;margin:0 auto;text-align:center;box-shadow:var(--shadow)}
-
-/* AUTH */
 #screen-auth{min-height:100vh;align-items:center;justify-content:center;background:var(--bg)}
 .auth-box{background:var(--white);border:1.5px solid var(--border);border-radius:20px;padding:32px 28px;width:100%;max-width:390px;margin:20px;box-shadow:var(--shadow);position:relative}
 .auth-logo{text-align:center;margin-bottom:18px}
@@ -136,12 +110,8 @@ textarea.fi{resize:vertical;min-height:78px}
 .aform.active{display:block}
 .auth-back{position:absolute;top:13px;left:15px;background:none;border:none;color:var(--muted);font-size:.82rem;cursor:pointer;font-family:var(--font)}
 .auth-back:hover{color:var(--gold)}
-
-/* DASHBOARD */
 #screen-dashboard{padding-top:58px}
 .dlayout{display:grid;grid-template-columns:190px 1fr;min-height:calc(100vh - 58px)}
-
-/* SIDEBAR */
 .sidebar{background:var(--white);border-right:1.5px solid var(--border);padding:12px 9px;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto;display:flex;flex-direction:column;gap:2px}
 .slabel2{font-size:.63rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:9px 9px 3px}
 .sitem{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;font-size:.82rem;color:var(--muted);cursor:pointer;transition:all .2s;border:none;background:none;width:100%;text-align:left;font-family:var(--font)}
@@ -150,76 +120,24 @@ textarea.fi{resize:vertical;min-height:78px}
 .sitem .si{font-size:.95rem;width:19px;text-align:center;flex-shrink:0}
 .sdiv{height:1px;background:var(--border);margin:4px 0}
 .sbottom{margin-top:auto}
-
-/* BEI CARDS — daima zinaonekana sidebar */
 .bei-cards{padding:8px 2px;display:flex;flex-direction:column;gap:7px}
 .bei-card{background:linear-gradient(135deg,var(--gold),#A8832C);border-radius:10px;padding:10px 12px;color:#fff;cursor:pointer;transition:all .2s}
 .bei-card:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(201,168,76,.35)}
 .bei-card-label{font-size:.62rem;font-weight:700;opacity:.85;text-transform:uppercase;letter-spacing:1px}
 .bei-card-price{font-size:1.1rem;font-weight:900;margin:1px 0}
 .bei-card-desc{font-size:.66rem;opacity:.8}
-
-/* MAIN */
 .dmain{padding:16px 18px;overflow-y:auto;background:var(--bg)}
 .dash-page{display:none}
 .dash-page.active{display:block}
-
-/* CHAT LAYOUT */
-.cwrap{
-  display:flex;
-  gap:0;
-  height:calc(100vh - 58px - 36px - 16px);
-  position:relative;
-}
-
-/* CHAT PANEL */
-.cpanel{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  background:var(--white);
-  border:1.5px solid var(--border);
-  border-radius:var(--radius);
-  overflow:hidden;
-  box-shadow:var(--shadow);
-  min-width:0;
-}
-.ctop{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:10px 14px;
-  background:var(--white);
-  border-bottom:1.5px solid var(--border);
-  flex-shrink:0;
-}
+.cwrap{display:flex;gap:0;height:calc(100vh - 58px - 36px - 16px);position:relative;}
+.cpanel{flex:1;display:flex;flex-direction:column;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);min-width:0;}
+.ctop{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--white);border-bottom:1.5px solid var(--border);flex-shrink:0;}
 .cai-info{display:flex;align-items:center;gap:9px}
 .cai-av{width:32px;height:32px;border-radius:50%;overflow:hidden;border:2px solid var(--gold);flex-shrink:0}
 .cai-av img{width:100%;height:100%;object-fit:cover}
-
-/* EXPORT TOGGLE BUTTON */
-.export-toggle{
-  display:flex;align-items:center;gap:5px;
-  padding:6px 12px;border-radius:8px;
-  background:var(--bg);border:1.5px solid var(--border);
-  font-size:.78rem;font-weight:600;color:var(--muted);
-  cursor:pointer;transition:all .2s;font-family:var(--font);
-  flex-shrink:0;
-}
-.export-toggle:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-light)}
-.export-toggle.active{border-color:var(--gold);color:var(--gold);background:var(--gold-light)}
-
-/* MESSAGES */
-.cmsgs{
-  flex:1;
-  overflow-y:auto;
-  padding:14px;
-  display:flex;
-  flex-direction:column;
-  gap:11px;
-  background:var(--bg);
-  min-height:0;
-}
+.export-toggle{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);font-size:.78rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s;font-family:var(--font);flex-shrink:0;}
+.export-toggle:hover,.export-toggle.active{border-color:var(--gold);color:var(--gold);background:var(--gold-light)}
+.cmsgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:11px;background:var(--bg);min-height:0;}
 .msg{display:flex;gap:8px;max-width:88%}
 .msg.ai{align-self:flex-start}
 .msg.user{align-self:flex-end;flex-direction:row-reverse}
@@ -230,135 +148,47 @@ textarea.fi{resize:vertical;min-height:78px}
 .msg-bub strong{color:var(--gold)}
 .msg.user .msg-bub strong{color:#fff}
 .msg-bub code{background:var(--gold-light);padding:1px 5px;border-radius:4px;font-size:.84em;color:var(--gold)}
-
-/* INPUT ROW */
-.cinput-row{
-  display:flex;
-  gap:7px;
-  align-items:flex-end;
-  padding:10px 12px 12px;
-  border-top:1.5px solid var(--border);
-  background:var(--white);
-  flex-shrink:0;
-}
-#chat-input{
-  flex:1;
-  background:var(--bg);
-  border:1.5px solid var(--border);
-  border-radius:22px;
-  padding:9px 15px;
-  color:var(--text);
-  font-size:.86rem;
-  resize:none;
-  outline:none;
-  max-height:100px;
-  font-family:var(--font);
-  line-height:1.5;
-}
+.cinput-row{display:flex;gap:7px;align-items:flex-end;padding:10px 12px 12px;border-top:1.5px solid var(--border);background:var(--white);flex-shrink:0;}
+#chat-input{flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:22px;padding:9px 15px;color:var(--text);font-size:.86rem;resize:none;outline:none;max-height:100px;font-family:var(--font);line-height:1.5;}
 #chat-input:focus{border-color:var(--gold)}
-.csend{
-  width:36px;height:36px;
-  background:linear-gradient(135deg,var(--gold),#A8832C);
-  border:none;border-radius:50%;
-  font-size:.95rem;color:#fff;
-  flex-shrink:0;cursor:pointer;
-  transition:transform .2s;
-  display:flex;align-items:center;justify-content:center;
-}
+.csend{width:36px;height:36px;background:linear-gradient(135deg,var(--gold),#A8832C);border:none;border-radius:50%;font-size:.95rem;color:#fff;flex-shrink:0;cursor:pointer;transition:transform .2s;display:flex;align-items:center;justify-content:center;}
 .csend:hover{transform:scale(1.08)}
-
-/* EXPORT PANEL — slides in from right */
-.epanel{
-  width:0;
-  overflow:hidden;
-  transition:width .3s ease, opacity .3s ease;
-  opacity:0;
-  flex-shrink:0;
-}
-.epanel.open{
-  width:240px;
-  opacity:1;
-  margin-left:12px;
-}
-.epanel-inner{
-  width:240px;
-  background:var(--white);
-  border:1.5px solid var(--border);
-  border-radius:var(--radius);
-  display:flex;
-  flex-direction:column;
-  height:100%;
-  box-shadow:var(--shadow);
-  overflow:hidden;
-  animation:slideIn .3s ease;
-}
-.epanel-header{
-  padding:12px 14px;
-  border-bottom:1.5px solid var(--border);
-  flex-shrink:0;
-}
-.epanel-body{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  padding:10px;
-  gap:6px;
-  overflow-y:auto;
-}
-.epanel-footer{
-  padding:10px;
-  border-top:1.5px solid var(--border);
-  flex-shrink:0;
-}
-.ebtn{
-  display:flex;align-items:center;gap:8px;
-  padding:9px 10px;border-radius:9px;
-  border:1.5px solid var(--border);background:var(--bg);
-  cursor:pointer;transition:all .2s;
-  font-size:.78rem;font-weight:600;color:var(--text);
-  width:100%;font-family:var(--font);
-}
+.epanel{width:0;overflow:hidden;transition:width .3s ease,opacity .3s ease;opacity:0;flex-shrink:0;}
+.epanel.open{width:240px;opacity:1;margin-left:12px;}
+.epanel-inner{width:240px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);display:flex;flex-direction:column;height:100%;box-shadow:var(--shadow);overflow:hidden;animation:slideIn .3s ease;}
+.epanel-header{padding:12px 14px;border-bottom:1.5px solid var(--border);flex-shrink:0;}
+.epanel-body{flex:1;display:flex;flex-direction:column;padding:10px;gap:6px;overflow-y:auto;}
+.epanel-footer{padding:10px;border-top:1.5px solid var(--border);flex-shrink:0;}
+.ebtn{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:9px;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;transition:all .2s;font-size:.78rem;font-weight:600;color:var(--text);width:100%;font-family:var(--font);}
 .ebtn:hover{border-color:var(--gold);background:var(--gold-light);color:var(--gold)}
 .ei{font-size:.92rem;width:19px;text-align:center;flex-shrink:0}
 .el{flex:1;text-align:left;line-height:1.22}
 .etag{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2);border-radius:20px;padding:1px 6px;font-size:.62rem;font-weight:700;flex-shrink:0}
-
-/* MODALS */
 .mo{position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:1000;display:none;align-items:center;justify-content:center;padding:18px}
 .mo.open{display:flex}
-.mobox{background:var(--white);border:1.5px solid var(--border);border-radius:18px;padding:24px;max-width:400px;width:100%;position:relative;animation:mIn .22s ease;box-shadow:0 20px 50px rgba(0,0,0,.12)}
+.mobox{background:var(--white);border:1.5px solid var(--border);border-radius:18px;padding:24px;max-width:420px;width:100%;position:relative;animation:mIn .22s ease;box-shadow:0 20px 50px rgba(0,0,0,.12);max-height:90vh;overflow-y:auto}
 .moclose{position:absolute;top:11px;right:13px;background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer}
-
-/* TOAST */
 .toast{position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--white);border:1.5px solid var(--green);color:var(--text);padding:9px 15px;border-radius:10px;font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:7px;transform:translateX(130%);transition:transform .3s;max-width:270px;box-shadow:var(--shadow);font-family:var(--font)}
 .toast.show{transform:translateX(0)}
 .toast.warning{border-color:var(--orange)}
 .toast.error{border-color:var(--red)}
-
-/* WA FLOAT — haizibe chochote */
-.wa-float{
-  position:fixed;
-  bottom:24px;left:22px;
-  z-index:800;
-  display:flex;align-items:center;gap:8px;
-  background:var(--wa);
-  border-radius:50px;
-  padding:9px 16px 9px 12px;
-  color:#fff;font-size:.82rem;font-weight:700;
-  box-shadow:0 4px 14px rgba(37,211,102,.4);
-  text-decoration:none;
-  transition:all .2s;
-  font-family:var(--font);
-}
-.wa-float:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(37,211,102,.5)}
+.wa-float{position:fixed;bottom:24px;left:22px;z-index:800;display:flex;align-items:center;gap:8px;background:var(--wa);border-radius:50px;padding:9px 16px 9px 12px;color:#fff;font-size:.82rem;font-weight:700;box-shadow:0 4px 14px rgba(37,211,102,.4);text-decoration:none;transition:all .2s;font-family:var(--font);}
+.wa-float:hover{transform:translateY(-2px)}
 .wa-float span{font-size:1.1rem}
-
-/* PMCARD */
 .pmgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin-bottom:16px}
 .pmcard{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
 .pmcard:hover,.pmcard.sel{border-color:var(--gold);background:var(--gold-light)}
 
-/* RESPONSIVE */
+/* Payment steps */
+.pay-step{display:none}
+.pay-step.active{display:block}
+.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.method-card{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px;text-align:center;cursor:pointer;transition:all .2s}
+.method-card:hover,.method-card.sel{border-color:var(--gold);background:var(--gold-light)}
+.method-card .mi{font-size:1.6rem;margin-bottom:4px}
+.method-card .mn{font-size:.75rem;font-weight:700}
+.method-card .md{font-size:.68rem;color:var(--muted)}
+
 @media(max-width:900px){
   .nav-links{display:none}
   .ham{display:flex}
@@ -378,7 +208,6 @@ textarea.fi{resize:vertical;min-height:78px}
 </head>
 <body>
 
-<!-- NAVBAR -->
 <nav class="nav">
   <div class="nav-brand" onclick="goTo('landing')">
     <img class="nav-logo" src="assets/logo.jpeg" alt="AJPLUS AI">
@@ -403,7 +232,7 @@ textarea.fi{resize:vertical;min-height:78px}
   <div class="ham" onclick="toggleSidebar()"><span></span><span></span><span></span></div>
 </nav>
 
-<!-- ═══ LANDING ═══ -->
+<!-- LANDING -->
 <div class="screen active" id="screen-landing">
 <section class="hero">
   <div class="badge" style="margin-bottom:14px"><span class="dot"></span>AJPLUS AI — Tanzania 🇹🇿</div>
@@ -420,7 +249,7 @@ textarea.fi{resize:vertical;min-height:78px}
     <div class="spill">🗣️ Kiswahili cha Mtaani</div>
     <div class="spill">🧠 Sekta 20</div>
     <div class="spill">⬇️ PDF · Word · TXT</div>
-    <div class="spill">💳 M-Pesa · Airtel · NMB</div>
+    <div class="spill">💳 M-Pesa · Airtel · Yas · NMB</div>
     <div class="spill">💬 WhatsApp Support</div>
   </div>
 </section>
@@ -485,7 +314,7 @@ textarea.fi{resize:vertical;min-height:78px}
         <li>Export PDF, Word, TXT</li>
         <li>WhatsApp Share</li>
       </ul>
-      <button class="btn btn-gold btn-full" onclick="goTo('auth');switchAuthTab('signup')">Anza Pro Sasa</button>
+      <button class="btn btn-gold btn-full" onclick="showModal('mo-lipa');setPayPlan('pro',15000)">Lipa TZS 15,000</button>
     </div>
     <div class="plan reveal">
       <p class="plan-name">Biashara B2B</p>
@@ -497,7 +326,7 @@ textarea.fi{resize:vertical;min-height:78px}
         <li>Branding yako</li>
         <li>Support 24h</li>
       </ul>
-      <button class="btn btn-ghost btn-full" onclick="showModal('mo-enterprise')">Wasiliana Nasi</button>
+      <button class="btn btn-ghost btn-full" onclick="showModal('mo-lipa');setPayPlan('business',30000)">Lipa TZS 30,000</button>
     </div>
   </div>
 </section>
@@ -513,7 +342,7 @@ textarea.fi{resize:vertical;min-height:78px}
     <div style="display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:11px">
       <span style="background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 11px;font-size:.76rem;font-weight:600">📱 M-Pesa</span>
       <span style="background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 11px;font-size:.76rem;font-weight:600">📱 Airtel</span>
-      <span style="background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 11px;font-size:.76rem;font-weight:600">📱 Tigo</span>
+      <span style="background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 11px;font-size:.76rem;font-weight:600">📱 Yas/Tigo</span>
       <span style="background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 11px;font-size:.76rem;font-weight:600">🏦 NMB</span>
       <span style="background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:4px 11px;font-size:.76rem;font-weight:600">🏦 CRDB</span>
     </div>
@@ -521,6 +350,7 @@ textarea.fi{resize:vertical;min-height:78px}
       <p style="font-size:.76rem;font-weight:700;margin-bottom:3px">🏦 NMB Bank</p>
       <p style="font-size:.76rem;color:var(--muted)">Akaunti: <strong style="color:var(--gold);font-size:.92rem;letter-spacing:2px">23510095544</strong></p>
     </div>
+    <button class="btn btn-gold btn-full" style="margin-bottom:8px" onclick="showModal('mo-lipa');setPayPlan('pro',15000)">🚀 Lipa Sasa — TZS 15,000</button>
     <a href="https://wa.me/255762307647?text=Nimetuma+malipo+ya+AJPLUS+AI." target="_blank" class="btn btn-wa btn-full">💬 Tuma Risiti WhatsApp</a>
     <p style="font-size:.72rem;color:var(--muted);margin-top:7px">⏱️ Access ndani ya dakika 30</p>
   </div>
@@ -567,7 +397,7 @@ textarea.fi{resize:vertical;min-height:78px}
 </footer>
 </div>
 
-<!-- ═══ AUTH ═══ -->
+<!-- AUTH -->
 <div class="screen" id="screen-auth">
   <button class="auth-back" onclick="goTo('landing')">← Rudi</button>
   <div class="auth-box">
@@ -608,11 +438,9 @@ textarea.fi{resize:vertical;min-height:78px}
   </div>
 </div>
 
-<!-- ═══ DASHBOARD ═══ -->
+<!-- DASHBOARD -->
 <div class="screen" id="screen-dashboard">
 <div class="dlayout">
-
-<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <div class="slabel2">Kuu</div>
   <button class="sitem act" id="si-chat" onclick="showDash('chat')"><span class="si">💬</span>AI Chat</button>
@@ -623,28 +451,22 @@ textarea.fi{resize:vertical;min-height:78px}
   <div class="sdiv"></div>
   <div class="slabel2">Akaunti</div>
   <button class="sitem" onclick="goTo('landing')"><span class="si">🏠</span>Nyumbani</button>
-
   <div class="sbottom">
     <div class="sdiv"></div>
-
-    <!-- BEI CARDS — daima zinaonekana -->
     <div class="slabel2" style="margin-top:6px">Bei za Mpango</div>
     <div class="bei-cards">
-      <div class="bei-card" onclick="showDash('pay')">
+      <div class="bei-card" onclick="showModal('mo-lipa');setPayPlan('pro',15000)">
         <div class="bei-card-label">Pro</div>
         <div class="bei-card-price">TZS 15,000</div>
         <div class="bei-card-desc">/ mwezi — Maswali bila kikomo</div>
       </div>
-      <div class="bei-card" style="background:linear-gradient(135deg,#1a1a2e,#2d2d4e)" onclick="showModal('mo-enterprise')">
+      <div class="bei-card" style="background:linear-gradient(135deg,#1a1a2e,#2d2d4e)" onclick="showModal('mo-lipa');setPayPlan('business',30000)">
         <div class="bei-card-label">Biashara B2B</div>
         <div class="bei-card-price">TZS 30,000</div>
         <div class="bei-card-desc">/ mwezi — API + Wafanyakazi</div>
       </div>
     </div>
-
     <div class="sdiv" style="margin-top:8px"></div>
-
-    <!-- WA SUPPORT — sidebar -->
     <a href="https://wa.me/255762307647" target="_blank" style="display:flex;align-items:center;gap:7px;padding:8px 9px;border-radius:9px;color:var(--wa);font-size:.79rem;font-weight:700;background:rgba(37,211,102,.07);border:1px solid rgba(37,211,102,.18);margin-top:5px;text-decoration:none">
       <span>💬</span>WhatsApp Support
     </a>
@@ -652,9 +474,7 @@ textarea.fi{resize:vertical;min-height:78px}
   </div>
 </aside>
 
-<!-- MAIN -->
 <main class="dmain">
-
 <!-- AI CHAT -->
 <div class="dash-page active" id="dp-chat">
   <div style="margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:7px">
@@ -663,16 +483,11 @@ textarea.fi{resize:vertical;min-height:78px}
       <p style="color:var(--muted);font-size:.76rem">Kiswahili · Mtaani · Kanisani · Msikitini</p>
     </div>
     <div style="display:flex;gap:7px;align-items:center">
-      <!-- Export Toggle Button -->
-      <button class="export-toggle" id="export-toggle-btn" onclick="toggleExport()">
-        ⬇️ Hifadhi
-      </button>
+      <button class="export-toggle" id="export-toggle-btn" onclick="toggleExport()">⬇️ Hifadhi</button>
       <button class="btn btn-ghost btn-sm" onclick="clearChat()">🗑️ Futa</button>
     </div>
   </div>
-
   <div class="cwrap">
-    <!-- Chat Panel -->
     <div class="cpanel">
       <div class="ctop">
         <div class="cai-info">
@@ -689,15 +504,10 @@ textarea.fi{resize:vertical;min-height:78px}
       </div>
       <div class="cmsgs" id="chat-msgs"></div>
       <div class="cinput-row">
-        <textarea id="chat-input" rows="1"
-          placeholder="Andika swali lako hapa..."
-          onkeydown="handleKey(event)"
-          oninput="autoGrow(this)"></textarea>
+        <textarea id="chat-input" rows="1" placeholder="Andika swali lako hapa..." onkeydown="handleKey(event)" oninput="autoGrow(this)"></textarea>
         <button class="csend" onclick="sendMessage()">➤</button>
       </div>
     </div>
-
-    <!-- Export Panel — inaonekana ukibonyeza Hifadhi -->
     <div class="epanel" id="epanel">
       <div class="epanel-inner">
         <div class="epanel-header">
@@ -744,33 +554,90 @@ textarea.fi{resize:vertical;min-height:78px}
       <p style="font-size:.68rem;font-weight:800;opacity:.8;text-transform:uppercase;letter-spacing:1px">Pro</p>
       <p style="font-size:1.5rem;font-weight:900">TZS 15,000<span style="font-size:.76rem;opacity:.8">/mwezi</span></p>
       <p style="font-size:.74rem;opacity:.85;margin-bottom:12px">Maswali bila kikomo · Export zote</p>
-      <button class="btn btn-full" style="background:rgba(255,255,255,.25);color:#fff;border:1.5px solid rgba(255,255,255,.4);font-size:.8rem" onclick="showModal('mo-lipa')">Lipa Sasa</button>
+      <button class="btn btn-full" style="background:rgba(255,255,255,.25);color:#fff;border:1.5px solid rgba(255,255,255,.4);font-size:.8rem" onclick="showModal('mo-lipa');setPayPlan('pro',15000)">Lipa Sasa</button>
     </div>
     <div style="background:linear-gradient(135deg,#1a1a2e,#2d2d4e);border-radius:var(--radius);padding:16px;color:#fff">
       <p style="font-size:.68rem;font-weight:800;opacity:.8;text-transform:uppercase;letter-spacing:1px">Biashara B2B</p>
       <p style="font-size:1.5rem;font-weight:900">TZS 30,000<span style="font-size:.76rem;opacity:.8">/mwezi</span></p>
       <p style="font-size:.74rem;opacity:.85;margin-bottom:12px">API + Wafanyakazi wengi</p>
-      <button class="btn btn-full" style="background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3);font-size:.8rem" onclick="showModal('mo-enterprise')">Wasiliana</button>
+      <button class="btn btn-full" style="background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3);font-size:.8rem" onclick="showModal('mo-lipa');setPayPlan('business',30000)">Lipa Sasa</button>
     </div>
   </div>
-  <div class="pmgrid">
-    <div class="pmcard" onclick="selectPayment(this,'lipa')"><div style="font-size:1.4rem">📱</div><div><h4 style="font-size:.85rem;font-weight:700">Lipa Namba/QR</h4><p style="font-size:.7rem;color:var(--muted)">Mitandao + Benki</p></div></div>
-    <div class="pmcard" onclick="selectPayment(this,'nmb')"><div style="font-size:1.4rem">🏦</div><div><h4 style="font-size:.85rem;font-weight:700">NMB Bank</h4><p style="font-size:.7rem;color:var(--muted)">Transfer</p></div></div>
-    <div class="pmcard" onclick="selectPayment(this,'wa')"><div style="font-size:1.4rem">💬</div><div><h4 style="font-size:.85rem;font-weight:700">WhatsApp</h4><p style="font-size:.7rem;color:var(--muted)">Tuma risiti</p></div></div>
-  </div>
-  <div id="pay-details"></div>
 </div>
-
 </main>
 </div>
 </div>
 
-<!-- MODALS -->
+<!-- MODAL: LIPA — na form kamili -->
+<div class="mo" id="mo-lipa">
+  <div class="mobox">
+    <button class="moclose" onclick="closeModal('mo-lipa');resetPayForm()">✕</button>
+
+    <!-- Step 1: Taja plan & maelezo -->
+    <div class="pay-step active" id="pay-step-1">
+      <h2 style="font-size:1rem;font-weight:800;margin-bottom:3px">💳 Lipa — <span id="pay-plan-label">Pro</span></h2>
+      <p style="color:var(--gold);font-size:.9rem;font-weight:800;margin-bottom:14px" id="pay-amount-label">TZS 15,000 / mwezi</p>
+
+      <div class="fg"><label class="fl">Jina Lako Kamili *</label><input class="fi" id="pay-name" placeholder="Jina lako"></div>
+      <div class="fg"><label class="fl">Barua Pepe *</label><input class="fi" id="pay-email" type="email" placeholder="wewe@mfano.com"></div>
+      <div class="fg"><label class="fl">Namba ya Simu</label><input class="fi" id="pay-phone" placeholder="0624xxxxxx au 0754xxxxxx"></div>
+
+      <p style="font-size:.78rem;font-weight:700;margin-bottom:8px">Chagua Njia ya Kulipa:</p>
+      <div class="method-grid">
+        <div class="method-card sel" id="mc-yas" onclick="selectMethod('yas')">
+          <div class="mi">📱</div>
+          <div class="mn">Yas/Tigo</div>
+          <div class="md">Lipa Namba</div>
+        </div>
+        <div class="method-card" id="mc-mpesa" onclick="selectMethod('mpesa')">
+          <div class="mi">📱</div>
+          <div class="mn">M-Pesa</div>
+          <div class="md">Lipa Namba</div>
+        </div>
+        <div class="method-card" id="mc-airtel" onclick="selectMethod('airtel')">
+          <div class="mi">📱</div>
+          <div class="mn">Airtel Money</div>
+          <div class="md">Lipa Namba</div>
+        </div>
+        <div class="method-card" id="mc-nmb" onclick="selectMethod('nmb')">
+          <div class="mi">🏦</div>
+          <div class="mn">NMB Bank</div>
+          <div class="md">Transfer</div>
+        </div>
+      </div>
+
+      <button class="btn btn-gold btn-full" style="margin-top:4px" onclick="submitPayment()">
+        ➤ Endelea na Malipo
+      </button>
+    </div>
+
+    <!-- Step 2: Maelekezo ya kulipa -->
+    <div class="pay-step" id="pay-step-2">
+      <div style="text-align:center;margin-bottom:14px">
+        <div style="font-size:2.5rem">✅</div>
+        <h3 style="font-weight:800;font-size:1rem;margin-bottom:3px">Ombi Limepokewa!</h3>
+        <p style="color:var(--muted);font-size:.8rem">Sasa lipa kwa njia uliyochagua</p>
+      </div>
+
+      <div style="background:var(--bg);border-radius:12px;padding:14px;margin-bottom:12px">
+        <p style="font-size:.76rem;font-weight:700;color:var(--gold);margin-bottom:6px">💳 Maelezo ya Malipo:</p>
+        <div id="pay-instructions"></div>
+      </div>
+
+      <a id="pay-wa-btn" href="#" target="_blank" class="btn btn-wa btn-full" style="margin-bottom:8px">
+        💬 Tuma Risiti WhatsApp
+      </a>
+      <p style="font-size:.72rem;color:var(--muted);text-align:center">⏱️ Utaactivatiwa ndani ya dakika 30 baada ya kutuma risiti</p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: ENTERPRISE -->
 <div class="mo" id="mo-enterprise">
   <div class="mobox">
     <button class="moclose" onclick="closeModal('mo-enterprise')">✕</button>
     <h2 style="font-size:1.05rem;font-weight:800;margin-bottom:3px">🏢 Enterprise / B2B</h2>
-    <p style="color:var(--muted);font-size:.8rem;margin-bottom:14px">TZS 30,000/mwezi — Kwa makampuni na taasisi.</p>
+    <p style="color:var(--muted);font-size:.8rem;margin-bottom:14px">TZS 30,000/mwezi</p>
     <div class="fg"><label class="fl">Jina la Kampuni</label><input class="fi" placeholder="Kampuni yako"></div>
     <div class="fg"><label class="fl">Barua Pepe au Simu</label><input class="fi" placeholder="wewe@kampuni.com"></div>
     <button class="btn btn-gold btn-full" style="margin-bottom:7px" onclick="closeModal('mo-enterprise');showToast('✅ Ombi limetumwa!')">📤 Tuma Ombi</button>
@@ -778,30 +645,10 @@ textarea.fi{resize:vertical;min-height:78px}
   </div>
 </div>
 
-<div class="mo" id="mo-lipa">
-  <div class="mobox" style="text-align:center">
-    <button class="moclose" onclick="closeModal('mo-lipa')">✕</button>
-    <h2 style="font-size:1rem;font-weight:800;margin-bottom:3px">💳 Panda Pro</h2>
-    <p style="color:var(--gold);font-size:.82rem;font-weight:700;margin-bottom:11px">TZS 15,000 / mwezi</p>
-    <div style="background:var(--bg);border-radius:10px;padding:11px;margin-bottom:10px">
-      <p style="font-size:.78rem;color:var(--muted);margin-bottom:3px">Lipa namba:</p>
-      <p style="font-size:1.35rem;font-weight:900;letter-spacing:3px">44934738</p>
-      <p style="font-size:.74rem;color:var(--gold);font-weight:700">AJ PLUS COMPANY LIMITED</p>
-    </div>
-    <a href="https://wa.me/255762307647?text=Nimetuma+TZS+15000." target="_blank" class="btn btn-wa btn-full" style="margin-bottom:6px">💬 Tuma Risiti WhatsApp</a>
-    <p style="font-size:.71rem;color:var(--muted)">⏱️ Access ndani ya dakika 30</p>
-  </div>
-</div>
-
 <div class="toast" id="toast">✅ Imefanikiwa!</div>
-
-<!-- WA FLOAT — haizibe chochote, iko pembeni vizuri -->
-<a href="https://wa.me/255762307647" target="_blank" class="wa-float">
-  <span>💬</span> Support
-</a>
+<a href="https://wa.me/255762307647" target="_blank" class="wa-float"><span>💬</span> Support</a>
 
 <script src="js/app.js"></script>
-
 <script>
 // Export toggle
 function toggleExport() {
@@ -817,6 +664,96 @@ function toggleExport() {
         btn.classList.add('active');
         btn.textContent = '✕ Funga';
     }
+}
+
+// Payment form
+let _payPlan = 'pro';
+let _payAmount = 15000;
+let _payMethod = 'yas';
+
+function setPayPlan(plan, amount) {
+    _payPlan = plan;
+    _payAmount = amount;
+    const label = plan === 'pro' ? 'Pro' : 'Biashara B2B';
+    const el1 = document.getElementById('pay-plan-label');
+    const el2 = document.getElementById('pay-amount-label');
+    if (el1) el1.textContent = label;
+    if (el2) el2.textContent = `TZS ${amount.toLocaleString()} / mwezi`;
+}
+
+function selectMethod(method) {
+    _payMethod = method;
+    document.querySelectorAll('.method-card').forEach(c => c.classList.remove('sel'));
+    document.getElementById('mc-' + method)?.classList.add('sel');
+}
+
+async function submitPayment() {
+    const name = document.getElementById('pay-name')?.value.trim();
+    const email = document.getElementById('pay-email')?.value.trim();
+    const phone = document.getElementById('pay-phone')?.value.trim();
+
+    if (!name || !email) {
+        showToast('⚠️ Weka jina na barua pepe', 'warning');
+        return;
+    }
+
+    const btn = document.querySelector('#pay-step-1 .btn-gold');
+    if (btn) { btn.textContent = '⏳ Inatuma...'; btn.disabled = true; }
+
+    try {
+        const res = await fetch('/api/payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name, email, phone,
+                plan: _payPlan,
+                amount: _payAmount,
+                method: _payMethod
+            })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            // Show step 2
+            document.getElementById('pay-step-1').classList.remove('active');
+            document.getElementById('pay-step-2').classList.add('active');
+
+            // Maelezo ya kulipa
+            const inst = data.instructions;
+            const methods = {
+                yas: `<p style="font-size:.82rem;margin-bottom:4px">📱 <b>Yas/Tigo — Lipa Namba:</b></p><p style="font-size:1.1rem;font-weight:900;color:var(--gold);letter-spacing:2px">${inst.lipa_namba}</p>`,
+                mpesa: `<p style="font-size:.82rem;margin-bottom:4px">📱 <b>M-Pesa — Lipa Namba:</b></p><p style="font-size:1.1rem;font-weight:900;color:var(--gold);letter-spacing:2px">${inst.lipa_namba}</p>`,
+                airtel: `<p style="font-size:.82rem;margin-bottom:4px">📱 <b>Airtel — Lipa Namba:</b></p><p style="font-size:1.1rem;font-weight:900;color:var(--gold);letter-spacing:2px">${inst.lipa_namba}</p>`,
+                nmb: `<p style="font-size:.82rem;margin-bottom:4px">🏦 <b>NMB Bank:</b></p><p style="font-size:.9rem;font-weight:700">AJ PLUS COMPANY LIMITED</p><p style="font-size:1rem;font-weight:900;color:var(--gold);letter-spacing:2px">23510095544</p>`
+            };
+            const instrEl = document.getElementById('pay-instructions');
+            if (instrEl) instrEl.innerHTML = (methods[_payMethod] || '') +
+                `<p style="font-size:.78rem;color:var(--muted);margin-top:6px">Kiasi: <b style="color:var(--text)">TZS ${_payAmount.toLocaleString()}</b></p>`;
+
+            // WhatsApp link
+            const waBtn = document.getElementById('pay-wa-btn');
+            if (waBtn && data.clientWhatsApp) {
+                waBtn.href = data.clientWhatsApp;
+            } else if (waBtn) {
+                const waMsg = `Habari AJPLUS AI!\n\nNimetuma TZS ${_payAmount.toLocaleString()} kwa ${_payPlan.toUpperCase()}.\n\nJina: ${name}\nEmail: ${email}\nNjia: ${_payMethod}`;
+                waBtn.href = `https://wa.me/255762307647?text=${encodeURIComponent(waMsg)}`;
+            }
+        } else {
+            showToast('❌ ' + (data.error || 'Kosa limetokea'), 'error');
+            if (btn) { btn.textContent = '➤ Endelea na Malipo'; btn.disabled = false; }
+        }
+    } catch (err) {
+        showToast('❌ Tatizo la mtandao', 'error');
+        if (btn) { btn.textContent = '➤ Endelea na Malipo'; btn.disabled = false; }
+    }
+}
+
+function resetPayForm() {
+    document.getElementById('pay-step-1')?.classList.add('active');
+    document.getElementById('pay-step-2')?.classList.remove('active');
+    const btn = document.querySelector('#pay-step-1 .btn-gold');
+    if (btn) { btn.textContent = '➤ Endelea na Malipo'; btn.disabled = false; }
 }
 </script>
 </body>
