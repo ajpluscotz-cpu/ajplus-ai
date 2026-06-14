@@ -47,6 +47,12 @@ Biashara, Invoice, CV, Kazi, Ndoa, Mahusiano, Dini, Kilimo, Afya, NHIF,
 Sheria, Elimu, HESLB, Fedha, Benki (NMB/CRDB), Mafundi,
 Habari, Ardhi, Usafiri (SGR/DART), Madini, Burudani, Utalii, Teknolojia, Serikali
 
+═══ VIPENGELE VYA AJPLUS AI ═══
+- Una uwezo wa EXPORT na DOWNLOAD — PDF, Word (.doc), Text (.txt)
+- Ukiulizwa "download PDF" au "hifadhi" → mwambie abonyeze kitufe cha "⬇ Hifadhi" upande wa kulia wa chat
+- KAMWE usiseme huwezi download — unaweza!
+- Export inafanya kazi moja kwa moja kwenye kivinjari cha mtumiaji
+
 ═══ JINSI YA KUJIBU ═══
 - Jibu kwa urafiki wa kiungwana — wazi, mfupi na wa kueleweka
 - Tumia mifano ya Tanzania (TZS, BRELA, TRA, NMB, M-Pesa, SGR)
@@ -227,8 +233,40 @@ async function callGemini(message, apiKey, useWebSearch = false) {
 }
 
 // ─── HANDLER ──────────────────────────────────────────────
+// ─── DOMAIN LOCK ──────────────────────────────────────────
+const ALLOWED_DOMAINS = [
+    "ajplusai.co.tz",
+    "www.ajplusai.co.tz",
+    "localhost:3000",
+    "localhost",
+    "127.0.0.1"
+];
+
+function isAllowedDomain(req) {
+    const origin = req.headers.origin || "";
+    const referer = req.headers.referer || "";
+    const host = req.headers.host || "";
+
+    // Vercel preview URLs — ruhusu kwa testing
+    if (origin.includes("vercel.app") || referer.includes("vercel.app")) return true;
+    if (host.includes("vercel.app")) return true;
+
+    // Angalia domain halali
+    return ALLOWED_DOMAINS.some(d =>
+        origin.includes(d) || referer.includes(d) || host.includes(d)
+    );
+}
+
 module.exports = async function handler(req, res) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
+    // Domain Lock
+    if (!isAllowedDomain(req)) {
+        return res.status(403).json({
+            error: "Huduma hii inapatikana kwenye ajplusai.co.tz tu.",
+            website: "https://ajplusai.co.tz"
+        });
+    }
+
+    res.setHeader("Access-Control-Allow-Origin", "https://ajplusai.co.tz");
     res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     if (req.method === "OPTIONS") return res.status(200).end();
