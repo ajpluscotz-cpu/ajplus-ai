@@ -298,6 +298,11 @@ select.fi{cursor:pointer}
 .pmcard{background:var(--white);border:1px solid var(--border);border-radius:9px;padding:11px;cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:8px}
 .pmcard:hover,.pmcard.sel{border-color:var(--gold);background:var(--gold-light)}
 
+/* IMAGE STUDIO */
+.img-type-btn{padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg);font-size:.78rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;font-family:var(--font)}
+.img-type-btn:hover{border-color:var(--gold);color:var(--gold)}
+.img-type-btn.active{background:var(--gold);color:#fff;border-color:var(--gold)}
+
 /* RESPONSIVE */
 @media(max-width:900px){
   .nav-links{display:none}
@@ -598,6 +603,7 @@ select.fi{cursor:pointer}
   <button class="sitem" id="si-home" onclick="showDash('home')"><span class="si">🏠</span>Dashibodi</button>
   <div class="sdiv"></div>
   <div class="slabel2">Biashara</div>
+  <button class="sitem" id="si-image" onclick="showDash('image')"><span class="si">🎨</span>AI Picha</button>
   <button class="sitem" id="si-pay" onclick="showDash('pay')"><span class="si">💳</span>Malipo</button>
   <div class="sdiv"></div>
   <div class="slabel2">Akaunti</div>
@@ -687,6 +693,72 @@ select.fi{cursor:pointer}
           <p style="font-size:.64rem;color:var(--muted);text-align:center">🎤 Voice AI — Inakuja</p>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- AI PICHA -->
+<div class="dash-page" id="dp-image">
+  <h2 style="margin-bottom:3px;font-size:.9rem;font-weight:600">🎨 AI Picha Studio</h2>
+  <p style="color:var(--muted);font-size:.76rem;margin-bottom:14px">Tengeneza picha, poster na logo kwa AI</p>
+
+  <!-- Type selector -->
+  <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap">
+    <button class="img-type-btn active" id="itype-image" onclick="setImageType('image')">📸 Picha</button>
+    <button class="img-type-btn" id="itype-design" onclick="setImageType('design')">🎭 Poster/Design</button>
+    <button class="img-type-btn" id="itype-logo" onclick="setImageType('logo')">💎 Logo</button>
+  </div>
+
+  <!-- Prompt input -->
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px">
+    <label style="font-size:.74rem;font-weight:500;color:var(--text2);display:block;margin-bottom:6px">Eleza unachotaka:</label>
+    <textarea id="image-prompt" class="fi" rows="3"
+      placeholder="Mfano: Picha ya mpiga picha wa harusi akipiga picha Dar es Salaam, rangi za dhahabu na nyeupe..."></textarea>
+
+    <!-- Quick prompts -->
+    <div style="margin-top:8px">
+      <p style="font-size:.68rem;color:var(--muted);margin-bottom:5px">Mifano ya haraka:</p>
+      <div id="quick-prompts" style="display:flex;flex-wrap:wrap;gap:4px"></div>
+    </div>
+  </div>
+
+  <!-- Generate button -->
+  <button class="btn btn-gold btn-full" id="gen-btn" onclick="generateImage()" style="margin-bottom:12px">
+    ✨ Tengeneza Picha
+  </button>
+
+  <!-- Usage info -->
+  <div id="image-usage" style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin-bottom:12px;font-size:.74rem;color:var(--muted);display:flex;justify-content:space-between;align-items:center">
+    <span id="usage-text">Picha zilizotumika: —</span>
+    <span id="usage-bar" style="font-size:.68rem;color:var(--gold)"></span>
+  </div>
+
+  <!-- Result -->
+  <div id="image-result" style="display:none">
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+      <img id="result-img" src="" alt="AI Generated" style="width:100%;display:block;max-height:400px;object-fit:contain">
+      <div style="padding:10px;display:flex;gap:7px;border-top:1px solid var(--border)">
+        <button class="btn btn-dark btn-sm" onclick="downloadImage()">⬇ Pakua</button>
+        <button class="btn btn-ghost btn-sm" onclick="shareImageWA()">💬 WhatsApp</button>
+        <button class="btn btn-ghost btn-sm" onclick="generateImage()">🔄 Tengeneza Tena</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div id="image-loading" style="display:none;text-align:center;padding:30px">
+    <div style="width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 12px"></div>
+    <p style="font-size:.82rem;color:var(--muted)" id="loading-text">Inatengeneza picha yako...</p>
+  </div>
+
+  <!-- Locked message -->
+  <div id="image-locked" style="display:none;background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--radius);padding:18px;text-align:center">
+    <div style="font-size:2rem;margin-bottom:8px">🔒</div>
+    <h4 style="font-size:.86rem;font-weight:600;margin-bottom:4px" id="locked-title">Imefungwa</h4>
+    <p style="font-size:.76rem;color:var(--muted);margin-bottom:12px" id="locked-msg"></p>
+    <div style="display:flex;gap:7px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-gold btn-sm" onclick="showDash('pay')">⬆ Panda Mpango</button>
+      <a id="locked-wa" href="#" target="_blank" class="btn btn-wa btn-sm">💬 Lipa Ziada</a>
     </div>
   </div>
 </div>
@@ -941,6 +1013,139 @@ function resetPayForm() {
     switchPlanTab('msingi');
     setPayPlan('msingi', 20000);
 }
+
+// IMAGE STUDIO
+let _imageType = 'image';
+let _lastImageBase64 = null;
+
+const QUICK_PROMPTS = {
+    image: [
+        "Picha ya familia furaha Tanzania",
+        "Mwanamke akipiga picha pwani Zanzibar",
+        "Biashara ya duka la Tanzania",
+        "Msichana akisherehekea harusi"
+    ],
+    design: [
+        "Poster ya biashara ya chakula Tanzania",
+        "Tangazo la harusi la kisasa",
+        "Flyer ya matukio ya burudani",
+        "Banner ya kampuni ya Tanzania"
+    ],
+    logo: [
+        "Logo ya kampuni ya teknolojia Tanzania",
+        "Logo ya mkahawa wa kisasa",
+        "Logo ya biashara ya nguo",
+        "Logo ya shule ya msingi"
+    ]
+};
+
+function setImageType(type) {
+    _imageType = type;
+    document.querySelectorAll('.img-type-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('itype-' + type)?.classList.add('active');
+
+    const placeholders = {
+        image: 'Mfano: Picha ya familia furaha Dar es Salaam...',
+        design: 'Mfano: Poster ya biashara ya chakula, rangi za msisitizo...',
+        logo: 'Mfano: Logo ya mkahawa wa kisasa, rangi ya dhahabu...'
+    };
+    document.getElementById('image-prompt').placeholder = placeholders[type] || '';
+
+    // Quick prompts
+    const container = document.getElementById('quick-prompts');
+    if (container) {
+        container.innerHTML = '';
+        (QUICK_PROMPTS[type] || []).forEach(p => {
+            const btn = document.createElement('button');
+            btn.style.cssText = 'padding:3px 9px;border-radius:50px;border:1px solid var(--border);background:var(--bg);font-size:.68rem;color:var(--text2);cursor:pointer;font-family:var(--font)';
+            btn.textContent = p;
+            btn.onclick = () => { document.getElementById('image-prompt').value = p; };
+            container.appendChild(btn);
+        });
+    }
+}
+
+async function generateImage() {
+    const prompt = document.getElementById('image-prompt')?.value.trim();
+    if (!prompt) { showToast('Tafadhali andika maelezo ya picha', 'warning'); return; }
+
+    const email = localStorage.getItem('ajplus-email') || '';
+
+    // Ficha results, onyesha loading
+    document.getElementById('image-result').style.display = 'none';
+    document.getElementById('image-locked').style.display = 'none';
+    document.getElementById('image-loading').style.display = 'block';
+
+    const loadingMsgs = [
+        'Inatengeneza picha yako...',
+        'AI inafikiria...',
+        'Karibu inamaliza...'
+    ];
+    let msgIdx = 0;
+    const loadInterval = setInterval(() => {
+        msgIdx = (msgIdx + 1) % loadingMsgs.length;
+        const el = document.getElementById('loading-text');
+        if (el) el.textContent = loadingMsgs[msgIdx];
+    }, 2000);
+
+    try {
+        const res = await fetch('/api/image', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt, type: _imageType, email })
+        });
+
+        clearInterval(loadInterval);
+        const data = await res.json();
+
+        document.getElementById('image-loading').style.display = 'none';
+
+        if (data.success && data.image) {
+            _lastImageBase64 = data.image;
+            document.getElementById('result-img').src = data.image;
+            document.getElementById('image-result').style.display = 'block';
+
+            // Update usage
+            const usageText = document.getElementById('usage-text');
+            const usageBar = document.getElementById('usage-bar');
+            if (usageText) usageText.textContent = `${_imageType === 'image' ? 'Picha' : _imageType === 'design' ? 'Design' : 'Logo'} zilizotumika: ${data.used}/${data.limit}`;
+            if (usageBar) usageBar.textContent = `Zimebaki: ${data.remaining}`;
+
+            showToast('✅ Picha imetengenezwa!', 'success');
+        } else if (data.locked) {
+            // Imefungwa — onyesha ujumbe
+            document.getElementById('image-locked').style.display = 'block';
+            document.getElementById('locked-title').textContent = data.overLimit ? 'Kikomo Kimefikiwa!' : 'Huduma Haipo';
+            document.getElementById('locked-msg').textContent = data.error || data.message;
+            if (data.whatsapp) {
+                document.getElementById('locked-wa').href = data.whatsapp;
+            }
+        } else {
+            showToast('❌ ' + (data.error || 'Kosa limetokea'), 'error');
+        }
+
+    } catch(e) {
+        clearInterval(loadInterval);
+        document.getElementById('image-loading').style.display = 'none';
+        showToast('❌ Tatizo la mtandao. Jaribu tena.', 'error');
+    }
+}
+
+function downloadImage() {
+    if (!_lastImageBase64) return;
+    const a = document.createElement('a');
+    a.href = _lastImageBase64;
+    a.download = `ajplus-ai-${_imageType}-${Date.now()}.jpg`;
+    a.click();
+}
+
+function shareImageWA() {
+    showToast('💬 Pakua picha kwanza kisha itume WhatsApp!', 'warning');
+    downloadImage();
+}
+
+// Initialize image studio
+setTimeout(() => setImageType('image'), 100);
 
 // Update WA float on screen change
 const _origGoTo = window.goTo;
