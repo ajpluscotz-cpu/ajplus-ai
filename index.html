@@ -665,20 +665,22 @@ select.fi{cursor:pointer}
 <main class="dmain">
 <!-- CHAT -->
 <div class="dash-page active" id="dp-chat">
-  <div style="margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:8px">
-    <div>
-      <h2 style="font-size:.92rem;font-weight:700;letter-spacing:-.02em">AJPLUS AI Chat</h2>
-      <p style="color:var(--muted);font-size:.72rem">Kiswahili · Mtaani · Kanisani · Msikitini</p>
+  <div style="margin-bottom:8px">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px">
+      <div>
+        <h2 style="font-size:.92rem;font-weight:700;letter-spacing:-.02em">AJPLUS AI Chat</h2>
+        <p style="color:var(--muted);font-size:.72rem">Kiswahili · Mtaani · Kanisani · Msikitini</p>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">
+        <button class="trial-bar-btn" id="nina-code-btn" onclick="showTrialOverlay()" style="display:none">🔑 Nina Code</button>
+        <button class="export-toggle" id="export-toggle-btn" onclick="toggleExport()">⬇ Hifadhi</button>
+        <button class="btn btn-ghost btn-sm" onclick="clearChat()">Futa</button>
+      </div>
     </div>
-    <div style="display:flex;gap:6px">
-      <button class="export-toggle" id="export-toggle-btn" onclick="toggleExport()">⬇ Hifadhi</button>
-      <button class="btn btn-ghost btn-sm" onclick="clearChat()">Futa</button>
+    <!-- TRIAL BAR — inaonyesha siku zilizobaki -->
+    <div class="trial-bar" id="trial-bar">
+      <span class="trial-bar-text" id="trial-bar-text">⏳ Siku 3 zimebaki za jaribio lako la bure</span>
     </div>
-  </div>
-  <!-- TRIAL BAR — inaonyesha siku zilizobaki -->
-  <div class="trial-bar" id="trial-bar">
-    <span class="trial-bar-text" id="trial-bar-text">⏳ Siku 3 zimebaki za jaribio lako la bure</span>
-    <button class="trial-bar-btn" onclick="showTrialOverlay()">🔑 Nina Code</button>
   </div>
 
   <div class="cwrap">
@@ -1141,9 +1143,10 @@ function checkTrialStatus(trialDaysLeft, plan) {
   const overlay = document.getElementById('trial-overlay');
   const barText = document.getElementById('trial-bar-text');
 
+  const ninaCodeBtn = document.getElementById('nina-code-btn');
+
   if (plan === 'trial' && trialDaysLeft !== undefined) {
     if (trialDaysLeft <= 0) {
-      // Trial imeisha — funika chat
       document.getElementById('overlay-icon').textContent  = '⏰';
       document.getElementById('overlay-title').textContent = 'Muda Wako Umeisha!';
       document.getElementById('overlay-sub').textContent   =
@@ -1151,17 +1154,18 @@ function checkTrialStatus(trialDaysLeft, plan) {
       document.querySelector('#trial-overlay button:last-child').style.display = 'none';
       overlay.classList.add('show');
       if (bar) bar.classList.remove('show');
+      if (ninaCodeBtn) ninaCodeBtn.style.display = 'inline-flex';
     } else {
-      // Trial bado inaendelea — onyesha bar
       if (bar) {
         bar.classList.add('show');
         barText.textContent = `⏳ Siku ${trialDaysLeft} zimebaki za jaribio lako la bure`;
       }
+      if (ninaCodeBtn) ninaCodeBtn.style.display = 'inline-flex';
       overlay.classList.remove('show');
     }
   } else if (!['trial','free'].includes(plan)) {
-    // Ana mpango — ficha kila kitu
     if (bar) bar.classList.remove('show');
+    if (ninaCodeBtn) ninaCodeBtn.style.display = 'none';
     overlay.classList.remove('show');
   }
 }
