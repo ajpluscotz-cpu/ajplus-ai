@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════
-   AJPLUS AI — app.js (v5)
+   AJPLUS AI — app.js (v6)
    js/app.js
 ═══════════════════════════════════════════════════ */
 
@@ -110,39 +110,128 @@ function formatText(text) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
-  // Headers → bold kubwa
   t = t.replace(/^#{1,3}\s+(.+)$/gm,
     '<strong style="font-size:.88rem;display:block;margin:8px 0 3px;color:var(--text)">$1</strong>');
-
-  // Bold
   t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   t = t.replace(/__(.+?)__/g, '<strong>$1</strong>');
-
-  // Italic
   t = t.replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
   t = t.replace(/_([^_\n]+)_/g, '<em>$1</em>');
-
-  // Code
   t = t.replace(/`([^`]+)`/g,
     '<code style="background:rgba(0,0,0,.07);padding:1px 5px;border-radius:4px;font-size:.8em;font-family:monospace">$1</code>');
-
-  // Bullet points — • - *
   t = t.replace(/^[•\-\*]\s+(.+)$/gm,
     '<div style="display:flex;gap:7px;margin:4px 0;line-height:1.5">' +
     '<span style="color:var(--gold);flex-shrink:0;font-weight:700;margin-top:1px">•</span>' +
     '<span>$1</span></div>');
-
-  // Namba orodha
   t = t.replace(/^\d+\.\s+(.+)$/gm,
     '<div style="display:flex;gap:7px;margin:4px 0;line-height:1.5">' +
     '<span style="color:var(--green);flex-shrink:0;font-weight:700;min-width:16px;margin-top:1px">›</span>' +
     '<span>$1</span></div>');
-
-  // Paragraphs
   t = t.replace(/\n{2,}/g, '</p><p style="margin-top:8px">');
   t = t.replace(/\n/g, '<br>');
 
   return '<p style="margin:0">' + t + '</p>';
+}
+
+/* ══════════════════════════════════════════════════
+   IMAGE GENERATION — Kutambua na Kutengeneza Picha
+══════════════════════════════════════════════════ */
+
+// Maneno yanayoashiria ombi la picha
+const IMAGE_KEYWORDS = [
+  'tengeneza picha', 'natengenezea picha', 'nitengenezee picha',
+  'tengeneza logo', 'natengenezea logo', 'nitengenezee logo',
+  'tengeneza design', 'natengenezea design', 'nitengenezee design',
+  'tengeneza poster', 'natengenezea poster', 'nitengenezee poster',
+  'generate image', 'create image', 'make image',
+  'generate logo', 'create logo', 'make logo',
+  'picha ya', 'logo ya', 'poster ya', 'design ya',
+  'chora picha', 'chora logo', 'nionyeshe picha'
+];
+
+// Tambua aina ya picha
+function detectImageType(msg) {
+  const m = msg.toLowerCase();
+  if (m.includes('logo')) return 'logo';
+  if (m.includes('design') || m.includes('poster')) return 'design';
+  return 'image';
+}
+
+// Angalia kama ni ombi la picha
+function isImageRequest(msg) {
+  const m = msg.toLowerCase();
+  return IMAGE_KEYWORDS.some(k => m.includes(k));
+}
+
+// Tengeneza picha kupitia Stability AI
+async function generateImage(prompt, type = 'image') {
+  const email = localStorage.getItem('ajplus-email') || '';
+
+  const res = await fetch('/api/image', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prompt, type, email })
+  });
+
+  const data = await res.json();
+
+  if (!res.ok || data.error) {
+    throw new Error(data.error || 'Imeshindwa kutengeneza picha');
+  }
+
+  return data;
+}
+
+// Onyesha picha kwenye chat
+function appendImageMsg(imageBase64, prompt, type, info) {
+  const msgs = document.getElementById('chat-msgs');
+  if (!msgs) return;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'msg ai';
+
+  const av = document.createElement('div');
+  av.className = 'msg-av';
+  av.innerHTML = '<img src="assets/logo.jpeg" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+
+  const bubWrap = document.createElement('div');
+  bubWrap.style.cssText = 'display:flex;flex-direction:column;gap:8px;min-width:0;flex:1';
+
+  // Ujumbe wa maelezo
+  const textBub = document.createElement('div');
+  textBub.className = 'msg-bub';
+  textBub.innerHTML = formatText(`Picha yako iko hapa! 🎨\n\n• Aina: ${type === 'logo' ? 'Logo' : type === 'design' ? 'Design/Poster' : 'Picha'}\n• Maelezo: ${prompt}\n• Zimebaki: ${info.remaining || 0} kati ya ${info.limit || 0} za mwezi huu`);
+
+  // Picha yenyewe
+  const imgContainer = document.createElement('div');
+  imgContainer.style.cssText = 'border-radius:12px;overflow:hidden;border:2px solid var(--gold);max-width:400px;box-shadow:0 4px 16px rgba(0,0,0,.15)';
+
+  const img = document.createElement('img');
+  img.src = imageBase64;
+  img.style.cssText = 'width:100%;display:block';
+  img.alt = prompt;
+
+  imgContainer.appendChild(img);
+
+  // Download button
+  const dlBtn = document.createElement('button');
+  dlBtn.style.cssText = 'margin-top:6px;background:linear-gradient(135deg,var(--gold),var(--green));color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:.8rem;cursor:pointer;font-family:var(--font);font-weight:600;display:flex;align-items:center;gap:6px;max-width:400px';
+  dlBtn.innerHTML = '⬇️ Download Picha';
+  dlBtn.onclick = () => {
+    const a = document.createElement('a');
+    a.href = imageBase64;
+    a.download = `AJPLUS-AI-${type}-${Date.now()}.jpg`;
+    a.click();
+    showToast('✅ Picha imehifadhiwa!', 'success');
+  };
+
+  bubWrap.appendChild(textBub);
+  bubWrap.appendChild(imgContainer);
+  bubWrap.appendChild(dlBtn);
+
+  wrap.appendChild(av);
+  wrap.appendChild(bubWrap);
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
 }
 
 /* ══════════════════════════════════════════════════
@@ -157,7 +246,7 @@ function initChat() {
   if (!msgs || msgs.children.length > 0) return;
   const user = JSON.parse(localStorage.getItem('ajplus-user') || '{}');
   const name = user.name || 'rafiki';
-  appendMsg('ai', `Habari ${name}! 👋 Mimi ni **AJPLUS AI** — mshauri wako wa Kitanzania.\n\nNaweza kukusaidia na biashara, sheria, afya, elimu, dini na sekta nyingi zaidi — kwa maarifa ya kimataifa na mifano ya Tanzania. Unahitaji nini leo? 🇹🇿`);
+  appendMsg('ai', `Habari ${name}! 👋 Mimi ni **AJPLUS AI** — mshauri wako wa Kitanzania.\n\nNaweza kukusaidia na:\n• Biashara, sheria, afya, elimu, dini na sekta 20 za Tanzania\n• Kuandika barua, CV, invoice na hati za biashara\n• **Kutengeneza picha, logo na design** 🎨\n\nMfano: "Natengenezea logo ya biashara yangu ya chakula"\n\nUnahitaji nini leo? 🇹🇿`);
 }
 
 async function sendMessage() {
@@ -174,9 +263,34 @@ async function sendMessage() {
   if (sendBtn) sendBtn.disabled = true;
 
   appendMsg('user', msg);
-  chatHistory.push({ role: 'user', content: msg });
 
-  // ── LOGO INAYOZUNGUKA ──
+  // ── ANGALIA KAMA NI OMBI LA PICHA ──
+  if (isImageRequest(msg)) {
+    const typing = showTypingLogo();
+    try {
+      const type = detectImageType(msg);
+      const data = await generateImage(msg, type);
+      typing.remove();
+      appendImageMsg(data.image, msg, type, data);
+      showToast('🎨 Picha imekamilika!', 'success');
+    } catch (err) {
+      typing.remove();
+      // Angalia kama ni tatizo la mpango
+      if (err.message.includes('Mpango') || err.message.includes('zimeisha') || err.message.includes('Tafadhali ingia')) {
+        appendMsg('ai', `🔒 ${err.message}\n\nLipa kwenye ajplusai.co.tz au WhatsApp **+255762307647**`);
+      } else {
+        appendMsg('ai', `⚠️ Samahani, imeshindwa kutengeneza picha: ${err.message}\n\nJaribu tena au eleza zaidi unachotaka!`);
+      }
+    } finally {
+      chatLoading = false;
+      if (sendBtn) sendBtn.disabled = false;
+      input?.focus();
+    }
+    return;
+  }
+
+  // ── CHAT YA KAWAIDA ──
+  chatHistory.push({ role: 'user', content: msg });
   const typing = showTypingLogo();
 
   try {
@@ -195,7 +309,6 @@ async function sendMessage() {
     typing.remove();
 
     if (!res.ok || data.error) {
-      // Angalia kama trial imeisha
       if (data.showActivation) {
         if (typeof checkTrialStatus === 'function') {
           checkTrialStatus(0, 'trial');
@@ -210,7 +323,6 @@ async function sendMessage() {
     chatHistory.push({ role: 'assistant', content: reply });
     saveLog(msg, 'ok');
 
-    // Angalia hali ya trial
     if (typeof checkTrialStatus === 'function') {
       checkTrialStatus(data.trialDaysLeft, data.plan);
     }
@@ -249,12 +361,10 @@ function appendMsg(role, text) {
 
   wrap.appendChild(av);
 
-  // Wrap bubble + action buttons
   const bubWrap = document.createElement('div');
   bubWrap.style.cssText = 'display:flex;flex-direction:column;gap:4px;min-width:0;flex:1';
   bubWrap.appendChild(bub);
 
-  // Ongeza buttons ndogo chini ya jibu la AI tu
   if (role === 'ai') {
     const actions = document.createElement('div');
     actions.style.cssText = 'display:flex;gap:5px;padding:2px 0 0 2px;opacity:0;transition:opacity .2s';
@@ -272,7 +382,6 @@ function appendMsg(role, text) {
         💬 <span>WhatsApp</span>
       </button>`;
 
-    // Onyesha buttons ukipita juu ya jibu
     wrap.addEventListener('mouseenter', () => actions.style.opacity = '1');
     wrap.addEventListener('mouseleave', () => actions.style.opacity = '0');
 
@@ -284,7 +393,6 @@ function appendMsg(role, text) {
   msgs.scrollTop = msgs.scrollHeight;
 }
 
-// Helper — pata text ya jibu husika
 function getMsgText(btn) {
   return btn.closest('.msg')?.querySelector('.msg-bub')?.innerText || '';
 }
@@ -308,7 +416,6 @@ function savePDF(btn) {
     const margin = 18;
     const contentW = W - margin * 2;
 
-    // ── COLORS ──
     const GOLD   = [201, 168, 76];
     const GREEN  = [30,  181, 58];
     const DARK   = [26,  26,  26];
@@ -316,19 +423,12 @@ function savePDF(btn) {
     const MUTED  = [136, 136, 136];
     const BGPAGE = [250, 249, 246];
 
-    // ── BACKGROUND ──
     doc.setFillColor(...BGPAGE);
     doc.rect(0, 0, W, H, 'F');
-
-    // ── HEADER — bar ya dhahabu ──
     doc.setFillColor(...GOLD);
     doc.rect(0, 0, W, 22, 'F');
-
-    // Green strip chini ya header
     doc.setFillColor(...GREEN);
     doc.rect(0, 22, W, 1.5, 'F');
-
-    // Logo circle
     doc.setFillColor(...DARK);
     doc.circle(margin + 6, 11, 6, 'F');
     doc.setFillColor(...GOLD);
@@ -337,23 +437,17 @@ function savePDF(btn) {
     doc.setFontSize(7);
     doc.setFont('helvetica', 'bold');
     doc.text('AJ', margin + 6, 13, { align: 'center' });
-
-    // AJPLUS AI title
     doc.setFontSize(14);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(...WHITE);
     doc.text('AJPLUS AI', margin + 15, 10);
-
     doc.setFontSize(7.5);
     doc.setFont('helvetica', 'normal');
     doc.text('Mshauri wa Kwanza wa Kitanzania', margin + 15, 16);
-
-    // Website kulia
     doc.setFontSize(7.5);
     doc.text('ajplusai.co.tz', W - margin, 10, { align: 'right' });
     doc.text('+255 670 307 647', W - margin, 16, { align: 'right' });
 
-    // ── TITLE ya hati ──
     let y = 34;
     doc.setFillColor(...GOLD);
     doc.roundedRect(margin, y, contentW, 10, 2, 2, 'F');
@@ -362,7 +456,6 @@ function savePDF(btn) {
     doc.setFont('helvetica', 'bold');
     doc.text('JIBU LA AJPLUS AI', W / 2, y + 7, { align: 'center' });
 
-    // Tarehe
     y += 14;
     const now = new Date();
     const dateStr = now.toLocaleDateString('sw-TZ', {
@@ -374,33 +467,25 @@ function savePDF(btn) {
     doc.setTextColor(...MUTED);
     doc.text(`Tarehe: ${dateStr}`, margin, y);
 
-    // Gold divider
     y += 4;
     doc.setDrawColor(...GOLD);
     doc.setLineWidth(0.5);
     doc.line(margin, y, W - margin, y);
 
-    // ── CONTENT ──
     y += 8;
     doc.setTextColor(...DARK);
     doc.setFontSize(10.5);
     doc.setFont('helvetica', 'normal');
 
-    // Split text kwa mistari
     const lines = doc.splitTextToSize(text, contentW);
     const lineH = 6;
     const pageBottom = H - 22;
 
     for (let i = 0; i < lines.length; i++) {
       if (y + lineH > pageBottom) {
-        // Ukurasa mpya
         doc.addPage();
-
-        // Background
         doc.setFillColor(...BGPAGE);
         doc.rect(0, 0, W, H, 'F');
-
-        // Header ndogo
         doc.setFillColor(...GOLD);
         doc.rect(0, 0, W, 12, 'F');
         doc.setFillColor(...GREEN);
@@ -412,29 +497,21 @@ function savePDF(btn) {
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(7);
         doc.text('ajplusai.co.tz', W - margin, 8, { align: 'right' });
-
         y = 20;
         doc.setTextColor(...DARK);
         doc.setFontSize(10.5);
         doc.setFont('helvetica', 'normal');
       }
-
-      // Bold lines (zinaanza na **)
-      const line = lines[i];
-      doc.text(line, margin, y);
+      doc.text(lines[i], margin, y);
       y += lineH;
     }
 
-    // ── FOOTER ──
     const pageCount = doc.internal.getNumberOfPages();
     for (let p = 1; p <= pageCount; p++) {
       doc.setPage(p);
       const fH = H;
-
-      // Gold footer bar
       doc.setFillColor(...GOLD);
       doc.rect(0, fH - 14, W, 14, 'F');
-
       doc.setTextColor(...WHITE);
       doc.setFontSize(7.5);
       doc.setFont('helvetica', 'normal');
@@ -443,11 +520,8 @@ function savePDF(btn) {
       doc.text(dateStr, W - margin, fH - 5, { align: 'right' });
     }
 
-    // Save
-    const fname = `AJPLUS-AI-${now.getTime()}.pdf`;
-    doc.save(fname);
+    doc.save(`AJPLUS-AI-${now.getTime()}.pdf`);
     showToast('✅ PDF nzuri imehifadhiwa!', 'success');
-
   } catch(e) {
     console.error(e);
     showToast('❌ Tatizo: ' + e.message, 'error');
@@ -482,7 +556,7 @@ function saveWord(btn) {
 </div>
 <div class="green-bar"></div>
 <div class="title-bar">JIBU LA AJPLUS AI</div>
-<div class="meta">Tarehe: ${now} &nbsp;|&nbsp; ajplusai.co.tz</div>
+<div class="meta">Tarehe: ${now} | ajplusai.co.tz</div>
 <div class="content">${text.replace(/\n/g,'<br>')}</div>
 <div class="footer">
   © 2025 AJ PLUS COMPANY LIMITED — ajplusai.co.tz | Hati hii imeandaliwa na AJPLUS AI
