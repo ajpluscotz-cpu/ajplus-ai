@@ -6,6 +6,8 @@
 <title>AJPLUS AI — Ufahamu wa Kitanzania, Uwezo wa Kidunia</title>
 <meta name="description" content="AJPLUS AI — Mshauri wa kwanza wa Kitanzania.">
 <meta name="theme-color" content="#C9A84C">
+<link rel="icon" type="image/jpeg" href="assets/logo.jpeg">
+<link rel="apple-touch-icon" href="assets/logo.jpeg">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
@@ -1072,12 +1074,7 @@ function shareImageWA() {
 
 setTimeout(() => setImageType('image'), 100);
 
-// REVEAL
-const _ro = new IntersectionObserver(entries =>
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }),
-  { threshold: 0.08 }
-);
-document.querySelectorAll('.reveal').forEach(el => _ro.observe(el));
+// REVEAL — handled by app.js (_ro defined there)
 
 // WA FLOAT
 const _origGoTo = window.goTo;
