@@ -8,19 +8,30 @@ const STABILITY_KEY = process.env.STABILITY_API_KEY;
 
 // ─── MIPANGO NA VIKOMO ────────────────────────────────────
 const IMAGE_PLANS = {
-    free:      { images: 0,   designs: 0,   logos: 0 },
-    msingi:    { images: 0,   designs: 0,   logos: 0 },
-    kawaida:   { images: 10,  designs: 5,   logos: 0 },
-    pro:       { images: 50,  designs: 20,  logos: 5 },
-    biashara:  { images: 50,  designs: 20,  logos: 5 },
-    reseller:  { images: 50,  designs: 20,  logos: 5 }
+    trial:     { images: 5,    designs: 2,   logos: 0 },
+    free:      { images: 0,    designs: 0,   logos: 0 },
+    msingi:    { images: 20,   designs: 10,  logos: 0 },
+    kawaida:   { images: 50,   designs: 25,  logos: 2 },
+    pro:       { images: 100,  designs: 50,  logos: 5 },
+    biashara:  { images: 300,  designs: 100, logos: 20 },
+    reseller:  { images: 300,  designs: 100, logos: 20 }
 };
 
-// Bei ya ziada (TZS) — reseller anatozwa
+// Bei ya ziada (TZS)
 const EXTRA_PRICES = {
     image:  500,   // TZS 500 kwa picha moja ya ziada
     design: 1000,  // TZS 1,000 kwa design moja ya ziada
     logo:   2000   // TZS 2,000 kwa logo moja ya ziada
+};
+
+// Bei za mipango
+const PLAN_PRICES = {
+    trial:    0,
+    free:     0,
+    msingi:   30000,
+    kawaida:  60000,
+    pro:      100000,
+    biashara: 250000
 };
 
 // ─── SUPABASE ─────────────────────────────────────────────
@@ -53,33 +64,37 @@ async function supabaseQuery(table, method, data = null, filter = null) {
 
 // Angalia matumizi ya picha za mtumiaji
 async function checkImageLimit(email, type = 'image') {
-    if (!email) return { allowed: false, message: "Tafadhali ingia kwanza!" };
+    if (!email) return { allowed: false, message: "Tafadhali ingia kwanza ili uweze kutengeneza picha!" };
 
     try {
         const users = await supabaseQuery("users", "GET", null, `email=eq.${encodeURIComponent(email)}`);
         const user = users?.[0];
         if (!user) return { allowed: false, message: "Akaunti haipatikani!" };
 
-        const plan = user.plan || 'free';
-        const limits = IMAGE_PLANS[plan];
+        const plan = user.plan || 'trial';
+        const limits = IMAGE_PLANS[plan] || IMAGE_PLANS.trial;
 
         if (!limits || limits[`${type}s`] === 0) {
+            const nextPlan = plan === 'trial' || plan === 'free' ? 'Msingi (TZS 30,000/mwezi)' :
+                             plan === 'msingi' ? 'Kawaida (TZS 60,000/mwezi)' :
+                             plan === 'kawaida' ? 'Pro (TZS 100,000/mwezi)' : 'Biashara (TZS 250,000/mwezi)';
             return {
                 allowed: false,
                 locked: true,
-                message: `Mpango wako wa ${plan.toUpperCase()} haujumuishi huduma ya ${type === 'image' ? 'picha' : type === 'design' ? 'design' : 'logo'}. Panda mpango wako! 🔒`
+                message: `Mpango wako wa ${plan.toUpperCase()} haujumuishi huduma ya ${type === 'image' ? 'picha' : type === 'design' ? 'design' : 'logo'}.\n\nPanda mpango wa ${nextPlan} kupata huduma hii! Lipa: ajplusai.co.tz au WhatsApp +255762307647`
             };
         }
 
         // Angalia matumizi ya mwezi huu
-        const thisMonth = new Date().toISOString().substring(0, 7); // "2025-01"
+        const thisMonth = new Date().toISOString().substring(0, 7);
         const usageKey = `${type}_usage_${thisMonth}`;
         const currentUsage = user[usageKey] || 0;
         const limit = limits[`${type}s`];
 
         if (currentUsage >= limit) {
-            // Imefika kikomo — funga na toa ujumbe
             const extraPrice = EXTRA_PRICES[type];
+            const nextPlan = plan === 'msingi' ? 'Kawaida (TZS 60,000/mwezi)' :
+                             plan === 'kawaida' ? 'Pro (TZS 100,000/mwezi)' : 'Biashara (TZS 250,000/mwezi)';
             return {
                 allowed: false,
                 locked: true,
@@ -87,7 +102,7 @@ async function checkImageLimit(email, type = 'image') {
                 used: currentUsage,
                 limit: limit,
                 extraPrice: extraPrice,
-                message: `🔒 ${type === 'image' ? 'Picha' : type === 'design' ? 'Design' : 'Logo'} zako za mwezi huu zimeisha! (${currentUsage}/${limit})\n\nLipa TZS ${extraPrice.toLocaleString()} kwa ${type} moja ya ziada, au panda mpango wako.`,
+                message: `${type === 'image' ? 'Picha' : type === 'design' ? 'Design' : 'Logo'} zako za mwezi huu zimeisha! (${currentUsage}/${limit})\n\nChaguo lako:\n1. Lipa TZS ${extraPrice.toLocaleString()} kwa ${type} moja ya ziada\n2. Panda mpango wa ${nextPlan} kupata zaidi!\n\nWhatsApp: +255762307647`,
                 whatsapp: `https://wa.me/255762307647?text=Habari!+Ninahitaji+${type}+za+ziada.+Email:+${encodeURIComponent(email)}`
             };
         }
@@ -102,7 +117,7 @@ async function checkImageLimit(email, type = 'image') {
 
     } catch(e) {
         console.error("checkImageLimit error:", e.message);
-        return { allowed: true, plan: 'free' };
+        return { allowed: true, plan: 'trial' };
     }
 }
 
@@ -128,21 +143,19 @@ async function incrementImageUsage(email, type) {
 // ─── STABILITY AI — Kizazi cha Picha ─────────────────────
 async function generateImage(prompt, type = 'image') {
 
-    // Boresha prompt kulingana na aina
     let enhancedPrompt = prompt;
     let negativePrompt = "blurry, low quality, distorted, ugly, bad anatomy, watermark, text errors";
 
     if (type === 'logo') {
-        enhancedPrompt = `professional logo design, ${prompt}, clean, minimal, vector style, white background, high quality branding`;
+        enhancedPrompt = `professional logo design, ${prompt}, clean, minimal, vector style, white background, high quality branding, Tanzania Africa`;
         negativePrompt += ", photorealistic, complex background, noise";
     } else if (type === 'design') {
-        enhancedPrompt = `professional poster design, ${prompt}, modern layout, vibrant colors, high resolution, Tanzania style`;
+        enhancedPrompt = `professional poster design, ${prompt}, modern layout, vibrant colors, high resolution, Tanzania Africa style, Swahili`;
         negativePrompt += ", amateur, clipart";
     } else {
-        enhancedPrompt = `${prompt}, high quality, professional photography, sharp, detailed`;
+        enhancedPrompt = `${prompt}, high quality, professional photography, sharp, detailed, Tanzania Africa`;
     }
 
-    // Stability AI — SD3 Medium (nafuu na nzuri)
     const response = await fetch("https://api.stability.ai/v2beta/stable-image/generate/sd3", {
         method: "POST",
         headers: {
@@ -188,7 +201,7 @@ module.exports = async function handler(req, res) {
 
         const { prompt, type = 'image', email } = body;
 
-        if (!prompt) return res.status(400).json({ error: "Maelezo ya picha yanahitajika" });
+        if (!prompt) return res.status(400).json({ error: "Maelezo ya picha yanahitajika — niambie unataka picha ya nini!" });
         if (!STABILITY_KEY) return res.status(500).json({ error: "STABILITY_API_KEY haipo kwenye Vercel Settings" });
 
         // Angalia kikomo
@@ -220,7 +233,8 @@ module.exports = async function handler(req, res) {
             plan: limitCheck.plan,
             used: (limitCheck.used || 0) + 1,
             limit: limitCheck.limit,
-            remaining: (limitCheck.remaining || 1) - 1
+            remaining: (limitCheck.remaining || 1) - 1,
+            message: `Picha imekamilika! Umebakiwa na ${(limitCheck.remaining || 1) - 1} kati ya ${limitCheck.limit} za mwezi huu.`
         });
 
     } catch (err) {
