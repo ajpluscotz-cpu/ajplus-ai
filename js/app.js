@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════
-   AJPLUS AI — app.js (v4 FINAL)
+   AJPLUS AI — app.js (v5)
    js/app.js
 ═══════════════════════════════════════════════════ */
 
@@ -14,12 +14,10 @@ function goTo(page) {
   window.scrollTo(0, 0);
 }
 
-/* ── SIDEBAR (mobile) ──────────────────────────── */
 function toggleSidebar() {
   document.getElementById('sidebar')?.classList.toggle('open');
 }
 
-/* ── AUTH TABS ─────────────────────────────────── */
 function switchAuthTab(tab) {
   document.querySelectorAll('.atab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.aform').forEach(f => f.classList.remove('active'));
@@ -27,7 +25,6 @@ function switchAuthTab(tab) {
   document.getElementById('form-' + tab)?.classList.add('active');
 }
 
-/* ── LOGIN ─────────────────────────────────────── */
 function doLogin() {
   const email = document.getElementById('l-email')?.value.trim();
   const pass  = document.getElementById('l-pass')?.value;
@@ -42,7 +39,6 @@ function doLogin() {
   setTimeout(initChat, 300);
 }
 
-/* ── SIGNUP ────────────────────────────────────── */
 function doSignup() {
   const name  = document.getElementById('s-name')?.value.trim();
   const email = document.getElementById('s-email')?.value.trim();
@@ -58,7 +54,6 @@ function doSignup() {
   setTimeout(initChat, 300);
 }
 
-/* ── DEMO ──────────────────────────────────────── */
 function doDemo() {
   localStorage.setItem('ajplus-user',  JSON.stringify({ name: 'Mgeni', email: 'demo@ajplusai.co.tz' }));
   localStorage.setItem('ajplus-email', 'demo@ajplusai.co.tz');
@@ -68,14 +63,12 @@ function doDemo() {
   setTimeout(initChat, 300);
 }
 
-/* ── LOGOUT ────────────────────────────────────── */
 function doLogout() {
   localStorage.removeItem('ajplus-user');
   localStorage.removeItem('ajplus-email');
   goTo('landing');
 }
 
-/* ── UPDATE NAV USER ───────────────────────────── */
 function updateNavUser(name) {
   const el = document.getElementById('nav-user-name');
   const av = document.getElementById('nav-av-letter');
@@ -83,7 +76,6 @@ function updateNavUser(name) {
   if (av) av.textContent = (name || 'M')[0].toUpperCase();
 }
 
-/* ── DASHBOARD PAGES ───────────────────────────── */
 function showDash(page) {
   document.querySelectorAll('.dash-page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.sitem').forEach(s => s.classList.remove('act'));
@@ -92,18 +84,13 @@ function showDash(page) {
   document.getElementById('sidebar')?.classList.remove('open');
 }
 
-/* ── MODALS ────────────────────────────────────── */
-function showModal(id) {
-  document.getElementById(id)?.classList.add('open');
-}
-function closeModal(id) {
-  document.getElementById(id)?.classList.remove('open');
-}
+function showModal(id) { document.getElementById(id)?.classList.add('open'); }
+function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
+
 document.addEventListener('click', e => {
   if (e.target.classList.contains('mo')) e.target.classList.remove('open');
 });
 
-/* ── TOAST ─────────────────────────────────────── */
 function showToast(msg, type = '') {
   const t = document.getElementById('toast');
   if (!t) return;
@@ -115,44 +102,47 @@ function showToast(msg, type = '') {
 }
 
 /* ══════════════════════════════════════════════════
-   FORMAT TEXT — Markdown inayofanya kazi vizuri
+   FORMAT TEXT — Markdown nzuri
 ══════════════════════════════════════════════════ */
 function formatText(text) {
-  // Escape HTML kwanza
   let t = text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
-  // Headers — badilisha kuwa bold kubwa (si ## zinazoonekana)
-  t = t.replace(/^#{1,3}\s+(.+)$/gm, '<strong style="font-size:.9rem;display:block;margin:6px 0 2px">$1</strong>');
+  // Headers → bold kubwa
+  t = t.replace(/^#{1,3}\s+(.+)$/gm,
+    '<strong style="font-size:.88rem;display:block;margin:8px 0 3px;color:var(--text)">$1</strong>');
 
-  // Bold — **neno** au __neno__
+  // Bold
   t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   t = t.replace(/__(.+?)__/g, '<strong>$1</strong>');
 
-  // Italic — *neno* au _neno_
+  // Italic
   t = t.replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
   t = t.replace(/_([^_\n]+)_/g, '<em>$1</em>');
 
-  // Code — `code`
-  t = t.replace(/`([^`]+)`/g, '<code style="background:rgba(0,0,0,.07);padding:1px 5px;border-radius:4px;font-size:.8em;font-family:monospace">$1</code>');
+  // Code
+  t = t.replace(/`([^`]+)`/g,
+    '<code style="background:rgba(0,0,0,.07);padding:1px 5px;border-radius:4px;font-size:.8em;font-family:monospace">$1</code>');
 
-  // Bullet points — • au - au * mwanzo wa mstari
+  // Bullet points — • - *
   t = t.replace(/^[•\-\*]\s+(.+)$/gm,
-    '<div style="display:flex;gap:6px;margin:3px 0"><span style="color:var(--gold);flex-shrink:0;font-weight:700;margin-top:1px">•</span><span>$1</span></div>'
-  );
+    '<div style="display:flex;gap:7px;margin:4px 0;line-height:1.5">' +
+    '<span style="color:var(--gold);flex-shrink:0;font-weight:700;margin-top:1px">•</span>' +
+    '<span>$1</span></div>');
 
-  // Orodha ya namba — 1. 2. 3.
+  // Namba orodha
   t = t.replace(/^\d+\.\s+(.+)$/gm,
-    '<div style="display:flex;gap:6px;margin:3px 0"><span style="color:var(--green);flex-shrink:0;font-weight:700;min-width:16px;margin-top:1px">›</span><span>$1</span></div>'
-  );
+    '<div style="display:flex;gap:7px;margin:4px 0;line-height:1.5">' +
+    '<span style="color:var(--green);flex-shrink:0;font-weight:700;min-width:16px;margin-top:1px">›</span>' +
+    '<span>$1</span></div>');
 
-  // Mistari mipya — paragraphs
+  // Paragraphs
   t = t.replace(/\n{2,}/g, '</p><p style="margin-top:8px">');
   t = t.replace(/\n/g, '<br>');
 
-  return '<p>' + t + '</p>';
+  return '<p style="margin:0">' + t + '</p>';
 }
 
 /* ══════════════════════════════════════════════════
@@ -186,7 +176,8 @@ async function sendMessage() {
   appendMsg('user', msg);
   chatHistory.push({ role: 'user', content: msg });
 
-  const typing = showTyping();
+  // ── LOGO INAYOZUNGUKA ──
+  const typing = showTypingLogo();
 
   try {
     const email = localStorage.getItem('ajplus-email') || '';
@@ -248,16 +239,26 @@ function appendMsg(role, text) {
   msgs.scrollTop = msgs.scrollHeight;
 }
 
-function showTyping() {
+/* ── LOGO INAYOZUNGUKA — Typing Animation ── */
+function showTypingLogo() {
   const msgs = document.getElementById('chat-msgs');
   const wrap = document.createElement('div');
   wrap.className = 'msg ai';
   wrap.innerHTML = `
-    <div class="msg-av"><img src="assets/logo.jpeg" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></div>
-    <div class="msg-bub" style="display:flex;gap:5px;align-items:center;padding:12px 14px">
-      <span style="width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 1s ease-in-out infinite"></span>
-      <span style="width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 1s ease-in-out infinite .2s"></span>
-      <span style="width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 1s ease-in-out infinite .4s"></span>
+    <div class="msg-av" style="overflow:visible">
+      <img src="assets/logo.jpeg"
+        style="width:28px;height:28px;object-fit:cover;border-radius:50%;
+               border:2px solid var(--gold);
+               animation:spin 1.2s linear infinite;
+               box-shadow:0 0 8px rgba(201,168,76,.4)">
+    </div>
+    <div class="msg-bub" style="padding:10px 14px;display:flex;align-items:center;gap:6px;color:var(--muted);font-size:.78rem;font-style:italic">
+      <span>AJPLUS AI inafikiria</span>
+      <span style="display:flex;gap:3px;align-items:center">
+        <span style="width:4px;height:4px;border-radius:50%;background:var(--gold);animation:pulse 1s ease-in-out infinite"></span>
+        <span style="width:4px;height:4px;border-radius:50%;background:var(--gold);animation:pulse 1s ease-in-out infinite .2s"></span>
+        <span style="width:4px;height:4px;border-radius:50%;background:var(--gold);animation:pulse 1s ease-in-out infinite .4s"></span>
+      </span>
     </div>`;
   msgs?.appendChild(wrap);
   msgs.scrollTop = msgs.scrollHeight;
@@ -283,7 +284,7 @@ function clearChat() {
   appendMsg('ai', 'Mazungumzo yamefutwa. Naweza kukusaidia nini? 😊');
 }
 
-/* ── LOG ────────────────────────────────────────── */
+/* ── LOG ── */
 function saveLog(message, status) {
   try {
     const logs = JSON.parse(localStorage.getItem(LOGS_KEY) || '[]');
@@ -293,7 +294,7 @@ function saveLog(message, status) {
   } catch(_) {}
 }
 
-/* ── EXPORT ─────────────────────────────────────── */
+/* ── EXPORT ── */
 function getLastReply() {
   const msgs = document.querySelectorAll('.msg.ai .msg-bub');
   return msgs.length ? (msgs[msgs.length - 1].innerText || '') : '';
@@ -353,14 +354,14 @@ function shareWhatsApp() {
   window.open('https://wa.me/?text=' + encodeURIComponent('*AJPLUS AI* 🇹🇿\n\n' + content.slice(0, 500)), '_blank');
 }
 
-/* ── REVEAL ANIMATION ───────────────────────────── */
+/* ── REVEAL ANIMATION ── */
 const _ro = new IntersectionObserver(entries =>
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }),
   { threshold: 0.08 }
 );
 document.querySelectorAll('.reveal').forEach(el => _ro.observe(el));
 
-/* ── INIT ───────────────────────────────────────── */
+/* ── INIT ── */
 window.addEventListener('DOMContentLoaded', () => {
   const user = JSON.parse(localStorage.getItem('ajplus-user') || 'null');
   if (user) {
