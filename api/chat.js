@@ -1,5 +1,5 @@
 // AJPLUS AI — api/chat.js
-// Claude (primary + web search) + Gemini (backup) + Supabase
+// Claude + Gemini + Trial ya Siku 3 + Code Activation
 // © AJ PLUS COMPANY LIMITED | ajplusai.co.tz
 
 const SYSTEM_PROMPT = `Wewe ni AJPLUS AI — Mshauri wa Kwanza wa Kitanzania wenye Uwezo wa Kimataifa.
@@ -16,63 +16,44 @@ Umeundwa na AJ PLUS COMPANY LIMITED | ajplusai.co.tz | +255762307647
 - Jibu kama rafiki wa kisomi — anayejua dunia lakini anaishi Tanzania
 
 ═══ MUUNDO WA JIBU — FUATA DAIMA ═══
-
 HATUA 1 — Jibu moja kwa moja (sentensi 1-2 tu)
-HATUA 2 — Ushauri au maelezo (pointi 2-3 FUPI tu, kila moja sentensi 1)
+HATUA 2 — Ushauri au maelezo (pointi 2-3 FUPI tu)
 HATUA 3 — Swali moja tu mwishoni
 
 JUMLA YA JIBU: Mistari 6-9 tu. KAMWE zaidi ya mistari 12.
 
-MFANO WA JIBU BORA:
-Swali: "Nataka kujenga nyumba lakini sina pesa nyingi"
-Jibu SAHIHI:
-"Pole ndugu, lakini nyumba inawezekana hata na pesa kidogo — watu wengi wamefanya hivyo Tanzania.
-
-• Anza na msingi tu — jenga kidogo kidogo, si yote mara moja
-• NSSF na benki kama NMB/CRDB wana mikopo ya nyumba — riba ya chini
-• Fanya mchoro wa bei kwanza — mjenzi wa kawaida Dar anatoza TZS 80,000-150,000/m²
-
-Una ardhi tayari au unatafuta ardhi kwanza? 🏠"
-
 JIBU BAYA (EPUKA):
 ❌ Headers kubwa (## au ###) — MARUFUKU KABISA
-❌ Orodha ya 1. 2. 3. 4. 5. — tumia • badala yake, pointi 3 tu max
-❌ Mistari mingi ya maelezo — usiandike zaidi ya sentensi 1 kwa kila pointi
-❌ Maneno ya ziada: "Ni muhimu kuelewa kwamba..." "Kwa muhtasari..."
+❌ Orodha ya 1. 2. 3. 4. 5. — pointi 3 tu max
+❌ Mistari mingi — sentensi 1 kwa kila pointi
 ❌ Kujibu kwa Kiingereza bila sababu
 
 ═══ MAARIFA YAKO YA KIMATAIFA ═══
-
 BIASHARA: Harvard Business, McKinsey → BRELA, TRA, BOT, DSE Tanzania
-AFYA: WHO, CDC, Oxford → NHIF, MNH, KCMC, Bugando Tanzania  
+AFYA: WHO, CDC, Oxford → NHIF, MNH, KCMC, Bugando Tanzania
 SHERIA: UN, African Charter → Companies Act, Land Act, Employment Act TZ
 ELIMU: Finland, Singapore → NECTA, HESLB, TCU, VETA Tanzania
 FEDHA: IMF, World Bank → NMB, CRDB, BOT, M-Pesa, DSE Tanzania
 KILIMO: FAO, IFAD → ASA, TOSCI, Kariakoo, mazao ya TZ
 TEKNOLOJIA: AI, blockchain, cloud → TCRA, e-Gov, startups za TZ
-DINI: Quran+Hadith (Islam) | Biblia (Ukristo) — jibu kwa heshima na usahihi
-NDOA: John Gottman Research → Marriage Act 1971 Tanzania, mila za makabila
+DINI: Quran+Hadith (Islam) | Biblia (Ukristo) — jibu kwa heshima
+NDOA: John Gottman Research → Marriage Act 1971 Tanzania
 AFYA YA AKILI: WHO Mental Health, CBT → mazingira ya Tanzania
 
 ═══ LUGHA ═══
 - Kiswahili sanifu cha Tanzania — cha karibu na chenye heshima
 - "ndugu" / "rafiki" / "mkuu" — maneno ya urafiki
-- Swali moja tu mwishoni — si maswali 2 au 3`;
+- Swali moja tu mwishoni`;
 
-// ─── WEB SEARCH KEYWORDS ──────────────────────────────
 const WEB_SEARCH_KEYWORDS = [
   'bei ya dola','exchange rate','dollar leo','usd leo','forex',
-  'bei ya euro','bei ya pound','shilingi leo',
-  'bei ya mahindi','bei ya kahawa','bei ya pamba','bei ya korosho',
-  'bei ya mafuta','bei ya petroli','bei ya diesel',
+  'bei ya euro','shilingi leo','bei ya mahindi','bei ya kahawa',
+  'bei ya korosho','bei ya mafuta','bei ya petroli',
   'bei ya mazao','soko la leo','bei leo',
   'habari za leo','habari za sasa','news leo','habari mpya',
-  'habari tanzania','matukio ya leo',
-  'matokeo ya','simba sc','yanga sc','timu ya taifa',
-  'premier league','champions league','mechi leo','matokeo leo',
-  'hali ya hewa','mvua leo','weather','joto leo',
-  'bei ya simu','bei ya gari','bei ya nyumba',
-  'sasa hivi','wiki hii','mwezi huu'
+  'habari tanzania','matukio ya leo','simba sc','yanga sc',
+  'premier league','mechi leo','matokeo leo',
+  'hali ya hewa','mvua leo','weather','bei ya gari'
 ];
 
 function needsWebSearch(message) {
@@ -80,7 +61,6 @@ function needsWebSearch(message) {
   return WEB_SEARCH_KEYWORDS.some(k => msg.includes(k));
 }
 
-// ─── SUPABASE ─────────────────────────────────────────
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
@@ -105,68 +85,117 @@ async function supabaseQuery(table, method, data = null, filter = null) {
       return text ? JSON.parse(text) : null;
     }
     return null;
-  } catch (e) {
-    console.error('Supabase error:', e.message);
-    return null;
-  }
+  } catch(e) { return null; }
 }
 
-async function saveChat(userEmail, message, reply) {
+async function saveChat(email, message, reply) {
   await supabaseQuery('chats', 'POST', {
-    user_email: userEmail || 'anonymous',
-    message, reply
+    user_email: email || 'anonymous', message, reply
   });
 }
 
-// ─── PLAN LIMITS ──────────────────────────────────────
+// ── PLAN LIMITS ────────────────────────────────────
 const PLAN_LIMITS = {
-  free:     { daily: 10,   name: 'Bure' },
+  trial:    { daily: 20,   name: 'Jaribio (Siku 3)' },
+  free:     { daily: 5,    name: 'Bure' },
   msingi:   { daily: 50,   name: 'Msingi' },
   kawaida:  { daily: 150,  name: 'Kawaida' },
   pro:      { daily: null, name: 'Pro' },
   biashara: { daily: null, name: 'Biashara' }
 };
 
-async function checkLimit(email) {
-  if (!email) return { allowed: true, plan: 'free' };
+// ── ANGALIA HALI YA MTUMIAJI ──────────────────────
+async function checkUser(email) {
+  if (!email) {
+    return { allowed: true, plan: 'trial', trialDaysLeft: 3, isGuest: true };
+  }
+
   try {
     const users = await supabaseQuery('users', 'GET', null, `email=eq.${email}`);
-    const user = users?.[0];
-    if (!user) return { allowed: true, plan: 'free' };
-    const plan = user.plan || 'free';
+    const user  = users?.[0];
+
+    // Mtumiaji mpya — tengeneza akaunti na trial
+    if (!user) {
+      await supabaseQuery('users', 'POST', {
+        email,
+        plan: 'trial',
+        trial_start: new Date().toISOString().split('T')[0],
+        questions_today: 1,
+        last_question_date: new Date().toISOString().split('T')[0]
+      });
+      return { allowed: true, plan: 'trial', trialDaysLeft: 3 };
+    }
+
+    const plan   = user.plan || 'trial';
     const limits = PLAN_LIMITS[plan] || PLAN_LIMITS.free;
+    const today  = new Date().toISOString().split('T')[0];
+
+    // Angalia trial — siku 3
+    if (plan === 'trial') {
+      const trialStart = new Date(user.trial_start || today);
+      const now        = new Date();
+      const daysPassed = Math.floor((now - trialStart) / (1000 * 60 * 60 * 24));
+      const daysLeft   = Math.max(0, 3 - daysPassed);
+
+      if (daysLeft === 0) {
+        return {
+          allowed: false,
+          plan: 'trial',
+          trialDaysLeft: 0,
+          message: `⏰ Muda wako wa bure wa siku 3 umeisha!\n\nLipa na upate code ya kuendelea:\n💳 TZS 20,000/mwezi — Msingi\n💳 TZS 60,000/mwezi — Pro\n\nLipa: ajplusai.co.tz au WhatsApp +255762307647`,
+          showActivation: true
+        };
+      }
+
+      // Sasisha hesabu ya maswali
+      if (user.last_question_date !== today) {
+        await supabaseQuery('users', 'PATCH', {
+          questions_today: 1, last_question_date: today
+        }, `email=eq.${email}`);
+      } else {
+        await supabaseQuery('users', 'PATCH', {
+          questions_today: (user.questions_today || 0) + 1
+        }, `email=eq.${email}`);
+      }
+
+      return { allowed: true, plan: 'trial', trialDaysLeft: daysLeft };
+    }
+
+    // Mipango ya kulipa — bila kikomo au na kikomo
     if (!limits.daily) return { allowed: true, plan };
-    const today = new Date().toISOString().split('T')[0];
+
     if (user.last_question_date !== today) {
       await supabaseQuery('users', 'PATCH', {
         questions_today: 1, last_question_date: today
       }, `email=eq.${email}`);
       return { allowed: true, plan };
     }
+
     if (user.questions_today >= limits.daily) {
       return {
         allowed: false, plan,
         message: `Umefika kikomo cha maswali ${limits.daily} kwa leo! Panda mpango wako kwenye ajplusai.co.tz 🇹🇿`
       };
     }
+
     await supabaseQuery('users', 'PATCH', {
       questions_today: (user.questions_today || 0) + 1,
       last_question_date: today
     }, `email=eq.${email}`);
+
     return { allowed: true, plan };
+
   } catch(e) {
-    return { allowed: true, plan: 'free' };
+    return { allowed: true, plan: 'trial', trialDaysLeft: 3 };
   }
 }
 
-// ─── CLAUDE ───────────────────────────────────────────
+// ── CLAUDE ─────────────────────────────────────────
 async function callClaude(message, history, apiKey, useWebSearch = false) {
   const messages = [];
   if (history && Array.isArray(history)) {
     history.slice(-6).forEach(h => {
-      if (h.role && h.content) {
-        messages.push({ role: h.role, content: h.content });
-      }
+      if (h.role && h.content) messages.push({ role: h.role, content: h.content });
     });
   }
   messages.push({ role: 'user', content: message });
@@ -207,7 +236,7 @@ async function callClaude(message, history, apiKey, useWebSearch = false) {
   return reply || 'Samahani, sijapata jibu. Tafadhali jaribu tena!';
 }
 
-// ─── GEMINI (BACKUP) ──────────────────────────────────
+// ── GEMINI ─────────────────────────────────────────
 async function callGemini(message, history, apiKey, useWebSearch = false) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
   const contents = [];
@@ -247,7 +276,7 @@ async function callGemini(message, history, apiKey, useWebSearch = false) {
   return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Samahani, sijapata jibu!';
 }
 
-// ─── DOMAIN LOCK ──────────────────────────────────────
+// ── DOMAIN LOCK ────────────────────────────────────
 const ALLOWED_DOMAINS = [
   'ajplusai.co.tz', 'www.ajplusai.co.tz',
   'localhost:3000', 'localhost', '127.0.0.1'
@@ -264,7 +293,7 @@ function isAllowedDomain(req) {
   );
 }
 
-// ─── HANDLER ──────────────────────────────────────────
+// ── HANDLER ────────────────────────────────────────
 module.exports = async function handler(req, res) {
   if (!isAllowedDomain(req)) {
     return res.status(403).json({
@@ -292,9 +321,15 @@ module.exports = async function handler(req, res) {
 
     if (!message) return res.status(400).json({ error: 'Swali linahitajika' });
 
-    const limitCheck = await checkLimit(userEmail);
-    if (!limitCheck.allowed) {
-      return res.status(429).json({ error: limitCheck.message, upgrade: true });
+    // Angalia hali ya mtumiaji
+    const userCheck = await checkUser(userEmail);
+
+    if (!userCheck.allowed) {
+      return res.status(429).json({
+        error: userCheck.message,
+        showActivation: userCheck.showActivation || false,
+        upgrade: true
+      });
     }
 
     const useWebSearch = needsWebSearch(message);
@@ -308,7 +343,7 @@ module.exports = async function handler(req, res) {
       try {
         reply  = await callClaude(message, history, CLAUDE_KEY, useWebSearch);
         source = useWebSearch ? 'claude+web' : 'claude';
-      } catch (err) {
+      } catch(err) {
         console.warn('Claude imeshindwa:', err.message);
       }
     }
@@ -317,7 +352,7 @@ module.exports = async function handler(req, res) {
       try {
         reply  = await callGemini(message, history, GEMINI_KEY, useWebSearch);
         source = useWebSearch ? 'gemini+web' : 'gemini';
-      } catch (err) {
+      } catch(err) {
         return res.status(500).json({ error: 'Huduma haipo sasa hivi. Tafadhali jaribu tena.' });
       }
     }
@@ -327,13 +362,15 @@ module.exports = async function handler(req, res) {
     }
 
     await saveChat(userEmail, message, reply);
+
     return res.status(200).json({
       reply, source,
-      plan: limitCheck.plan,
+      plan: userCheck.plan,
+      trialDaysLeft: userCheck.trialDaysLeft,
       webSearch: useWebSearch
     });
 
-  } catch (err) {
+  } catch(err) {
     console.error('AJPLUS AI Error:', err);
     return res.status(500).json({ error: 'Kosa la seva: ' + err.message });
   }
