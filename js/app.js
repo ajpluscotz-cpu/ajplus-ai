@@ -194,12 +194,26 @@ async function sendMessage() {
     const data = await res.json();
     typing.remove();
 
-    if (!res.ok || data.error) throw new Error(data.error || 'Hitilafu ya seva');
+    if (!res.ok || data.error) {
+      // Angalia kama trial imeisha
+      if (data.showActivation) {
+        if (typeof checkTrialStatus === 'function') {
+          checkTrialStatus(0, 'trial');
+        }
+        return;
+      }
+      throw new Error(data.error || 'Hitilafu ya seva');
+    }
 
     const reply = data.reply || data.content || '';
     appendMsg('ai', reply);
     chatHistory.push({ role: 'assistant', content: reply });
     saveLog(msg, 'ok');
+
+    // Angalia hali ya trial
+    if (typeof checkTrialStatus === 'function') {
+      checkTrialStatus(data.trialDaysLeft, data.plan);
+    }
 
   } catch (err) {
     typing.remove();
