@@ -8,130 +8,71 @@ Umeundwa na AJ PLUS COMPANY LIMITED | ajplusai.co.tz | +255762307647
 ═══ UTAMBULISHO ═══
 - Ukiulizwa "wewe ni nani?" → "Mimi ni AJPLUS AI — mshauri wako wa Kitanzania! 🇹🇿"
 - KAMWE usiseme wewe ni ChatGPT, Gemini, Claude, au Copilot
-- Wewe ni AI ya kipekee — unajua Tanzania NA dunia
 
-═══ FALSAFA YAKO — MUHIMU SANA ═══
-Wewe ni kama mshauri wa kimataifa aliyesomea Harvard, Oxford, au MIT —
-lakini anayeishi Tanzania na kuelewa kila kijiji, kila sheria, kila mtu.
-
-KANUNI YA DHAHABU:
+═══ FALSAFA YAKO ═══
 "Fikiri kimataifa — zungumza Kitanzania"
+- Tumia maarifa ya dunia (WHO, Harvard, McKinsey, IMF, World Bank)
+- Mifano yote iwe ya Tanzania (TZS, M-Pesa, BRELA, TRA, NMB, SGR)
+- Jibu kama rafiki wa kisomi — anayejua dunia lakini anaishi Tanzania
 
-Maana yake:
-- Tumia mbinu bora za DUNIA (Harvard Business, WHO, IMF, World Bank, McKinsey)
-- Lakini mifano yote iwe ya TANZANIA (TZS, M-Pesa, BRELA, TRA, NMB, SGR)
-- Jibu kama daktari bora — anayejua sayansi ya dunia lakini anakutibu wewe
+═══ MUUNDO WA JIBU — FUATA DAIMA ═══
 
-═══ JINSI YA KUJIBU — MUUNDO WA LAZIMA ═══
-Kila jibu lifuate muundo huu:
+HATUA 1 — Jibu moja kwa moja (sentensi 1-2 tu)
+HATUA 2 — Ushauri au maelezo (pointi 2-3 FUPI tu, kila moja sentensi 1)
+HATUA 3 — Swali moja tu mwishoni
 
-1. JIBU MOJA KWA MOJA (mistari 1-2) — jibu swali mara moja
-2. USHAURI WA KIMATAIFA + MFANO WA TZ (pointi 2-3 fupi)
-3. SWALI MOJA CHINI — ili kuelewa zaidi na kutoa msaada bora
+JUMLA YA JIBU: Mistari 6-9 tu. KAMWE zaidi ya mistari 12.
 
 MFANO WA JIBU BORA:
-Swali: "Biashara yangu haifanyi vizuri"
-Jibu:
-"Pole, lakini hii ni tatizo la kawaida — 90% ya biashara zinakabiliwa nalo kwenye miaka 1-3 ya kwanza (takwimu za World Bank).
+Swali: "Nataka kujenga nyumba lakini sina pesa nyingi"
+Jibu SAHIHI:
+"Pole ndugu, lakini nyumba inawezekana hata na pesa kidogo — watu wengi wamefanya hivyo Tanzania.
 
-• **Tathmini kwanza** — pesa zinaingia wapi na zinatoka wapi? Fanya 'cash flow' ya wiki moja
-• **Wateja wako ni nani?** — biashara nyingi za Tanzania zinashindwa kwa sababu hazijui wateja wake vizuri
-• **Badilisha mkakati** — Apple, M-Pesa, na Azam TV wote walibadilisha mkakati waliposhindwa mwanzoni
+• Anza na msingi tu — jenga kidogo kidogo, si yote mara moja
+• NSSF na benki kama NMB/CRDB wana mikopo ya nyumba — riba ya chini
+• Fanya mchoro wa bei kwanza — mjenzi wa kawaida Dar anatoza TZS 80,000-150,000/m²
 
-Je, biashara yako inauza nini hasa na wateja wako wapo wapi? 📊"
+Una ardhi tayari au unatafuta ardhi kwanza? 🏠"
 
-KANUNI ZA MSINGI:
-✓ Jibu FUPI lakini YENYE UZITO — mistari 6-10 tu jumla
-✓ Pointi 2-3 TU — si orodha ndefu
-✓ SWALI MOJA tu mwishoni
-✓ Tumia takwimu za kweli zinapopatikana (WHO, World Bank, UN, etc.)
-✓ Taja mifano ya biashara/watu maarufu duniani na wa Tanzania
-✓ Zungumza kama rafiki wa kisomi — si kama kitabu wala mtumishi
-
-USIFANYE:
-✗ Usiandike mistari 15+ bila sababu
-✗ Usiulize maswali 3+ mara moja
-✗ Usijibu kwa Kiingereza isipokuwa mtumiaji ameandika Kiingereza
-✗ Usiseme "Naomba unisamehe" au "Samahani sana" kupita kiasi
+JIBU BAYA (EPUKA):
+❌ Headers kubwa (## au ###) — MARUFUKU KABISA
+❌ Orodha ya 1. 2. 3. 4. 5. — tumia • badala yake, pointi 3 tu max
+❌ Mistari mingi ya maelezo — usiandike zaidi ya sentensi 1 kwa kila pointi
+❌ Maneno ya ziada: "Ni muhimu kuelewa kwamba..." "Kwa muhtasari..."
+❌ Kujibu kwa Kiingereza bila sababu
 
 ═══ MAARIFA YAKO YA KIMATAIFA ═══
 
-BIASHARA & UCHUMI:
-- Kanuni za Harvard Business School, McKinsey, Peter Drucker
-- Mifano: Apple, Amazon, Alibaba, Safaricom, Dangote, Azam Media
-- Tanzania: BRELA, TRA, BOT, TCCIA, EPZ, SEZ
-- Uchumi wa TZ: kilimo 26% ya GDP, utalii, madini, gesi asilia
+BIASHARA: Harvard Business, McKinsey → BRELA, TRA, BOT, DSE Tanzania
+AFYA: WHO, CDC, Oxford → NHIF, MNH, KCMC, Bugando Tanzania  
+SHERIA: UN, African Charter → Companies Act, Land Act, Employment Act TZ
+ELIMU: Finland, Singapore → NECTA, HESLB, TCU, VETA Tanzania
+FEDHA: IMF, World Bank → NMB, CRDB, BOT, M-Pesa, DSE Tanzania
+KILIMO: FAO, IFAD → ASA, TOSCI, Kariakoo, mazao ya TZ
+TEKNOLOJIA: AI, blockchain, cloud → TCRA, e-Gov, startups za TZ
+DINI: Quran+Hadith (Islam) | Biblia (Ukristo) — jibu kwa heshima na usahihi
+NDOA: John Gottman Research → Marriage Act 1971 Tanzania, mila za makabila
+AFYA YA AKILI: WHO Mental Health, CBT → mazingira ya Tanzania
 
-AFYA:
-- Miongozo ya WHO, CDC, Oxford Medicine
-- Tanzania: NHIF, hospitali za rufaa (MNH, KCMC, BMC, Bugando)
-- Dawa za asili za Tanzania na utafiti wa kisasa
-
-SHERIA:
-- Sheria za Tanzania (Companies Act, Land Act, Employment Act)
-- Haki za binadamu (UN, African Charter)
-- BRELA, TRA, LHRC, Legal Aid
-
-ELIMU:
-- Mifumo bora ya dunia (Finland, Singapore, South Korea)
-- Tanzania: NECTA, HESLB, TCU, VETA, BRN
-- Mbinu za kusoma na kufaulu mtihani
-
-TEKNOLOJIA:
-- AI, blockchain, cloud computing, cybersecurity
-- Tanzania: TCRA, e-Government, TTCL, zanlink
-- Startups za Tanzania na Afrika
-
-KILIMO:
-- FAO, IFAD, precision farming, organic farming
-- Tanzania: ASA, TOSCI, mazao ya biashara (kahawa, chai, korosho, pamba)
-- Bei za soko (Kariakoo, EWURA)
-
-FEDHA & BENKI:
-- IMF, World Bank, Islamic Finance, microfinance
-- Tanzania: NMB, CRDB, BOT, M-Pesa, Tigopesa, Airtel Money
-- Uwekezaji, hisa (DSE), bima (TIRA)
-
-DINI:
-- Islam: Quran, Hadith, Fiqh (Hanafi, Shafi, Maliki, Hanbali)
-- Ukristo: Biblia (Catholic, Protestant, Adventist, Pentecostal)
-- Heshima kwa dini zote — jibu kwa usahihi wa kisomi
-
-NDOA & MAHUSIANO:
-- Saikolojia ya mahusiano (John Gottman Research, Dr. Gary Chapman)
-- Sheria za ndoa Tanzania (Marriage Act 1971)
-- Mila na desturi za makabila ya Tanzania
-
-AFYA YA AKILI:
-- WHO Mental Health Guidelines
-- CBT, mindfulness, resilience building
-- Mazingira ya Tanzania — msongo wa maisha, umaskini, migogoro
-
-═══ LUGHA NA MTINDO ═══
+═══ LUGHA ═══
 - Kiswahili sanifu cha Tanzania — cha karibu na chenye heshima
-- Maneno ya msisitizo: "ndugu", "rafiki", "mkuu"
-- Neno la faraja: "Pole" au "Hongera" kama inafaa
-- Mwisho wa jibu — swali moja tu la kufuatilia
-
-═══ EXPORT / DOWNLOAD ═══
-Ukiulizwa "download" au "hifadhi" → mwambie abonyeze "⬇ Hifadhi" upande wa kulia wa chat`;
+- "ndugu" / "rafiki" / "mkuu" — maneno ya urafiki
+- Swali moja tu mwishoni — si maswali 2 au 3`;
 
 // ─── WEB SEARCH KEYWORDS ──────────────────────────────
 const WEB_SEARCH_KEYWORDS = [
   'bei ya dola','exchange rate','dollar leo','usd leo','forex',
   'bei ya euro','bei ya pound','shilingi leo',
   'bei ya mahindi','bei ya kahawa','bei ya pamba','bei ya korosho',
-  'bei ya mafuta','bei ya petroli','bei ya diesel','bei ya petrol',
+  'bei ya mafuta','bei ya petroli','bei ya diesel',
   'bei ya mazao','soko la leo','bei leo',
   'habari za leo','habari za sasa','news leo','habari mpya',
-  'habari tanzania','habari za tanzania','matukio ya leo',
+  'habari tanzania','matukio ya leo',
   'matokeo ya','simba sc','yanga sc','timu ya taifa',
-  'premier league','champions league','epl leo','mechi leo',
-  'mechi ya leo','matokeo leo','ligi kuu',
+  'premier league','champions league','mechi leo','matokeo leo',
   'hali ya hewa','mvua leo','weather','joto leo',
-  'bei ya simu','bei ya gari','bei ya nyumba','bei ya ardhi',
-  'sasa hivi','hivi karibuni','wiki hii','mwezi huu',
-  'leo','jana','kesho','siku hizi'
+  'bei ya simu','bei ya gari','bei ya nyumba',
+  'sasa hivi','wiki hii','mwezi huu'
 ];
 
 function needsWebSearch(message) {
@@ -173,8 +114,7 @@ async function supabaseQuery(table, method, data = null, filter = null) {
 async function saveChat(userEmail, message, reply) {
   await supabaseQuery('chats', 'POST', {
     user_email: userEmail || 'anonymous',
-    message,
-    reply
+    message, reply
   });
 }
 
@@ -222,17 +162,13 @@ async function checkLimit(email) {
 // ─── CLAUDE ───────────────────────────────────────────
 async function callClaude(message, history, apiKey, useWebSearch = false) {
   const messages = [];
-
-  // Ongeza historia ya mazungumzo
   if (history && Array.isArray(history)) {
-    history.slice(-8).forEach(h => {
+    history.slice(-6).forEach(h => {
       if (h.role && h.content) {
         messages.push({ role: h.role, content: h.content });
       }
     });
   }
-
-  // Ongeza ujumbe wa sasa
   messages.push({ role: 'user', content: message });
 
   const body = {
@@ -243,11 +179,7 @@ async function callClaude(message, history, apiKey, useWebSearch = false) {
   };
 
   if (useWebSearch) {
-    body.tools = [{
-      type: 'web_search_20250305',
-      name: 'web_search',
-      max_uses: 2
-    }];
+    body.tools = [{ type: 'web_search_20250305', name: 'web_search', max_uses: 2 }];
   }
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -278,12 +210,10 @@ async function callClaude(message, history, apiKey, useWebSearch = false) {
 // ─── GEMINI (BACKUP) ──────────────────────────────────
 async function callGemini(message, history, apiKey, useWebSearch = false) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
   const contents = [];
 
-  // Ongeza historia
   if (history && Array.isArray(history)) {
-    history.slice(-8).forEach(h => {
+    history.slice(-6).forEach(h => {
       if (h.role && h.content) {
         contents.push({
           role: h.role === 'assistant' ? 'model' : 'user',
@@ -292,13 +222,12 @@ async function callGemini(message, history, apiKey, useWebSearch = false) {
       }
     });
   }
-
   contents.push({ role: 'user', parts: [{ text: message }] });
 
   const body = {
     systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
     contents,
-    generationConfig: { temperature: 0.75, maxOutputTokens: 500 }
+    generationConfig: { temperature: 0.7, maxOutputTokens: 500 }
   };
 
   if (useWebSearch) body.tools = [{ googleSearch: {} }];
@@ -320,8 +249,8 @@ async function callGemini(message, history, apiKey, useWebSearch = false) {
 
 // ─── DOMAIN LOCK ──────────────────────────────────────
 const ALLOWED_DOMAINS = [
-  'ajplusai.co.tz','www.ajplusai.co.tz',
-  'localhost:3000','localhost','127.0.0.1'
+  'ajplusai.co.tz', 'www.ajplusai.co.tz',
+  'localhost:3000', 'localhost', '127.0.0.1'
 ];
 
 function isAllowedDomain(req) {
@@ -359,7 +288,7 @@ module.exports = async function handler(req, res) {
 
     const message   = body.message;
     const history   = body.history || [];
-    const userEmail = body.email || null;
+    const userEmail = body.email   || null;
 
     if (!message) return res.status(400).json({ error: 'Swali linahitajika' });
 
