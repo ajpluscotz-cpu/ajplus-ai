@@ -228,6 +228,49 @@ const PLAN_LIMITS = {
   biashara: { daily: null, name: 'Biashara' }
 };
 
+// ── IP RATE LIMITING — MPYA ────────────────────────
+// Inazuia maombi mengi sana kutoka IP moja
+// Max: maombi 30 kwa dakika 1 kwa kila IP
+const ipRateMap = new Map();
+
+function checkIpRateLimit(req) {
+  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim()
+    || req.headers['x-real-ip']
+    || req.socket?.remoteAddress
+    || 'unknown';
+
+  const now     = Date.now();
+  const window  = 60 * 1000; // dakika 1
+  const maxReqs = 30;        // maombi 30 kwa dakika
+
+  const record = ipRateMap.get(ip) || { count: 0, start: now };
+
+  // Anza upya baada ya dakika 1
+  if (now - record.start > window) {
+    ipRateMap.set(ip, { count: 1, start: now });
+    return { allowed: true };
+  }
+
+  if (record.count >= maxReqs) {
+    return {
+      allowed: false,
+      message: 'Umetuma maombi mengi sana. Subiri dakika moja kisha jaribu tena! ⏳'
+    };
+  }
+
+  record.count++;
+  ipRateMap.set(ip, record);
+  return { allowed: true };
+}
+
+// Safisha Map kila saa — kuzuia kumbukumbu kujaa
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, record] of ipRateMap.entries()) {
+    if (now - record.start > 60 * 60 * 1000) ipRateMap.delete(ip);
+  }
+}, 60 * 60 * 1000);
+
 // ── ANGALIA HALI YA MTUMIAJI ──────────────────────
 async function checkUser(email) {
   if (!email) {
@@ -434,6 +477,12 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  // ── ANGALIA IP RATE LIMIT — MPYA ───────────────
+  const ipCheck = checkIpRateLimit(req);
+  if (!ipCheck.allowed) {
+    return res.status(429).json({ error: ipCheck.message });
+  }
 
   try {
     let body = req.body;
