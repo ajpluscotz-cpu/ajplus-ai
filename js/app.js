@@ -248,9 +248,86 @@ function appendMsg(role, text) {
   bub.innerHTML  = formatText(text);
 
   wrap.appendChild(av);
-  wrap.appendChild(bub);
+
+  // Wrap bubble + action buttons
+  const bubWrap = document.createElement('div');
+  bubWrap.style.cssText = 'display:flex;flex-direction:column;gap:4px;min-width:0;flex:1';
+  bubWrap.appendChild(bub);
+
+  // Ongeza buttons ndogo chini ya jibu la AI tu
+  if (role === 'ai') {
+    const actions = document.createElement('div');
+    actions.style.cssText = 'display:flex;gap:5px;padding:2px 0 0 2px;opacity:0;transition:opacity .2s';
+    actions.innerHTML = `
+      <button onclick="copyText(this)" title="Nakili" style="background:none;border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:.65rem;color:var(--muted);cursor:pointer;font-family:var(--font);transition:all .15s;display:flex;align-items:center;gap:3px">
+        📋 <span>Nakili</span>
+      </button>
+      <button onclick="savePDF(this)" title="PDF" style="background:none;border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:.65rem;color:var(--muted);cursor:pointer;font-family:var(--font);transition:all .15s;display:flex;align-items:center;gap:3px">
+        📄 <span>PDF</span>
+      </button>
+      <button onclick="saveWord(this)" title="Word" style="background:none;border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:.65rem;color:var(--muted);cursor:pointer;font-family:var(--font);transition:all .15s;display:flex;align-items:center;gap:3px">
+        📝 <span>Word</span>
+      </button>
+      <button onclick="shareWA(this)" title="WhatsApp" style="background:none;border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:.65rem;color:var(--muted);cursor:pointer;font-family:var(--font);transition:all .15s;display:flex;align-items:center;gap:3px">
+        💬 <span>WhatsApp</span>
+      </button>`;
+
+    // Onyesha buttons ukipita juu ya jibu
+    wrap.addEventListener('mouseenter', () => actions.style.opacity = '1');
+    wrap.addEventListener('mouseleave', () => actions.style.opacity = '0');
+
+    bubWrap.appendChild(actions);
+  }
+
+  wrap.appendChild(bubWrap);
   msgs.appendChild(wrap);
   msgs.scrollTop = msgs.scrollHeight;
+}
+
+// Helper — pata text ya jibu husika
+function getMsgText(btn) {
+  return btn.closest('.msg')?.querySelector('.msg-bub')?.innerText || '';
+}
+
+function copyText(btn) {
+  const text = getMsgText(btn);
+  navigator.clipboard.writeText(text).then(() => {
+    btn.querySelector('span').textContent = 'Imenakiliwa!';
+    setTimeout(() => btn.querySelector('span').textContent = 'Nakili', 2000);
+  });
+}
+
+function savePDF(btn) {
+  const text = getMsgText(btn);
+  if (!text) return;
+  try {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.setFontSize(13);
+    doc.text('AJPLUS AI', 14, 16);
+    doc.setFontSize(10);
+    doc.text(doc.splitTextToSize(text, 180), 14, 28);
+    doc.save('AJPLUS-AI.pdf');
+    showToast('✅ PDF imehifadhiwa!', 'success');
+  } catch(e) { showToast('❌ Jaribu tena', 'error'); }
+}
+
+function saveWord(btn) {
+  const text = getMsgText(btn);
+  if (!text) return;
+  const html = `<html><head><meta charset="UTF-8"></head><body><h2>AJPLUS AI</h2><p>${text.replace(/\n/g,'</p><p>')}</p></body></html>`;
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(new Blob([html], { type: 'application/msword' })),
+    download: 'AJPLUS-AI.doc'
+  });
+  a.click();
+  showToast('✅ Word imehifadhiwa!', 'success');
+}
+
+function shareWA(btn) {
+  const text = getMsgText(btn);
+  if (!text) return;
+  window.open('https://wa.me/?text=' + encodeURIComponent('*AJPLUS AI* 🇹🇿\n\n' + text.slice(0, 500)), '_blank');
 }
 
 /* ── LOGO INAYOZUNGUKA — Typing Animation ── */
