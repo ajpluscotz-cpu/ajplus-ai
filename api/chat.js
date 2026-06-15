@@ -331,7 +331,7 @@ async function callClaude(message, history, apiKey, useWebSearch = false) {
 
 // ── GEMINI ─────────────────────────────────────────
 async function callGemini(message, history, apiKey, useWebSearch = false) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-pro:generateContent?key=${apiKey}`;
   const contents = [];
 
   if (history && Array.isArray(history)) {
@@ -349,7 +349,7 @@ async function callGemini(message, history, apiKey, useWebSearch = false) {
   const body = {
     systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
     contents,
-    generationConfig: { temperature: 0.7, maxOutputTokens: 500 }
+    generationConfig: { temperature: 0.7, maxOutputTokens: 1500 }
   };
 
   if (useWebSearch) body.tools = [{ googleSearch: {} }];
