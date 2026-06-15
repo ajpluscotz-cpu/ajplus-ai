@@ -17,16 +17,31 @@ Umeundwa na AJ PLUS COMPANY LIMITED | ajplusai.co.tz | +255670307647
 
 ═══ MUUNDO WA JIBU — FUATA DAIMA ═══
 HATUA 1 — Jibu moja kwa moja (sentensi 1-2 tu)
-HATUA 2 — Ushauri au maelezo (pointi 2-3 FUPI tu)
+HATUA 2 — Ushauri au maelezo (pointi 2-3 FUPI tu — kila moja sentensi 1 tu!)
 HATUA 3 — Swali moja tu mwishoni
 
-JUMLA YA JIBU: Mistari 6-9 tu. KAMWE zaidi ya mistari 12.
+JUMLA YA JIBU: Mistari 5-8 tu. KAMWE zaidi ya mistari 10.
 
 JIBU BAYA (EPUKA):
 ❌ Headers kubwa (## au ###) — MARUFUKU KABISA
-❌ Orodha ya 1. 2. 3. 4. 5. — pointi 3 tu max
-❌ Mistari mingi — sentensi 1 kwa kila pointi
+❌ Orodha ndefu ya pointi 4, 5, 6+ — pointi 3 tu MAX
+❌ Sentensi ndefu zaidi ya maneno 20 — fupishaaaaaa!
+❌ Maelezo ya ziada — nenda moja kwa moja!
 ❌ Kujibu kwa Kiingereza bila sababu
+❌ Kuanza na "Ni muhimu...", "Kwa muhtasari...", "Kwanza kabla..."
+
+JIBU BORA — FUATA MFANO HUU:
+Swali: "bei ya dola leo"
+Jibu SAHIHI ✅:
+"Dola moja (USD) leo Tanzania ni kati ya TZS 2,600-2,650 kulingana na benki.
+
+• NMB na CRDB — bei ya kununua TZS 2,620
+• Mabadilishano ya nje (forex) — TZS 2,650-2,680
+
+Unataka kununua au kuuza dola? 💵"
+
+JIBU BAYA ❌ — EPUKA:
+"Habari ndugu! Swali lako kuhusu bei ya dola ni muhimu sana. Kwanza kabla sijajibu, ningependa kukuambia kwamba bei za fedha zinabadilika kila siku kulingana na..."
 
 ═══ UANDISHI WA HATI — MUHIMU SANA ═══
 
@@ -139,14 +154,30 @@ EPUKA KABISA:
 - Kusema "Ni muhimu kuelewa kwamba..." — nenda moja kwa moja!`;
 
 const WEB_SEARCH_KEYWORDS = [
+  // Bei na fedha
   'bei ya dola','exchange rate','dollar leo','usd leo','forex',
-  'bei ya euro','shilingi leo','bei ya mahindi','bei ya kahawa',
-  'bei ya korosho','bei ya mafuta','bei ya petroli',
+  'bei ya euro','bei ya pound','shilingi leo',
+  'bei ya mahindi','bei ya kahawa','bei ya pamba','bei ya korosho',
+  'bei ya mafuta','bei ya petroli','bei ya diesel',
   'bei ya mazao','soko la leo','bei leo',
+  // Habari za Tanzania
   'habari za leo','habari za sasa','news leo','habari mpya',
-  'habari tanzania','matukio ya leo','simba sc','yanga sc',
-  'premier league','mechi leo','matokeo leo',
-  'hali ya hewa','mvua leo','weather','bei ya gari'
+  'habari tanzania','matukio ya leo','habari za kitaifa',
+  'habari za serikali','habari za kisiasa',
+  // Viongozi na siasa
+  'waziri','rais','spika','mkurugenzi','gavana',
+  'bunge','serikali','chama','uchaguzi','kura',
+  'samia','majaliwa','lissu','tundu',
+  // Michezo
+  'matokeo ya','simba sc','yanga sc','timu ya taifa',
+  'premier league','champions league','mechi leo','matokeo leo',
+  'ligi kuu','azam fc','namungo',
+  // Hali ya hewa
+  'hali ya hewa','mvua leo','weather','joto leo','upepo',
+  // Bei za bidhaa
+  'bei ya simu','bei ya gari','bei ya nyumba','bei ya ardhi',
+  // Wakati wa sasa
+  'sasa hivi','wiki hii','mwezi huu','leo asubuhi','jana usiku'
 ];
 
 function needsWebSearch(message) {
@@ -293,9 +324,12 @@ async function callClaude(message, history, apiKey, useWebSearch = false) {
   }
   messages.push({ role: 'user', content: message });
 
+  // Hati zinahitaji tokens zaidi
+  const isDocument = /barua|invoice|ankara|ripoti|maombi ya kazi|cv|resume|mkataba|contract/i.test(message);
+
   const body = {
     model: 'claude-sonnet-4-6',
-    max_tokens: 1500,
+    max_tokens: isDocument ? 1500 : 600,
     system: SYSTEM_PROMPT,
     messages
   };
@@ -432,19 +466,35 @@ module.exports = async function handler(req, res) {
     let reply  = null;
     let source = null;
 
-    if (CLAUDE_KEY) {
+    // ── SMART ROUTING ──────────────────────────────
+    // Habari za leo/bei → Gemini + Google Search (bure)
+    // Maswali ya kawaida → Claude Sonnet (bora)
+
+    if (useWebSearch && GEMINI_KEY) {
+      // Habari/bei → Gemini na Google Search kwanza
       try {
-        reply  = await callClaude(message, history, CLAUDE_KEY, useWebSearch);
-        source = useWebSearch ? 'claude+web' : 'claude';
+        reply  = await callGemini(message, history, GEMINI_KEY, true);
+        source = 'gemini+web';
+      } catch(err) {
+        console.warn('Gemini web search imeshindwa:', err.message);
+      }
+    }
+
+    // Maswali ya kawaida au Gemini ikishindwa → Claude
+    if (!reply && CLAUDE_KEY) {
+      try {
+        reply  = await callClaude(message, history, CLAUDE_KEY, false);
+        source = 'claude';
       } catch(err) {
         console.warn('Claude imeshindwa:', err.message);
       }
     }
 
+    // Claude ikishindwa → Gemini backup
     if (!reply && GEMINI_KEY) {
       try {
-        reply  = await callGemini(message, history, GEMINI_KEY, useWebSearch);
-        source = useWebSearch ? 'gemini+web' : 'gemini';
+        reply  = await callGemini(message, history, GEMINI_KEY, false);
+        source = 'gemini';
       } catch(err) {
         return res.status(500).json({ error: 'Huduma haipo sasa hivi. Tafadhali jaribu tena.' });
       }
