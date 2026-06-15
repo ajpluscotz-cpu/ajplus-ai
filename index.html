@@ -326,6 +326,26 @@ select.fi{cursor:pointer}
 .wa-float{position:fixed;bottom:20px;left:20px;z-index:800;display:flex;align-items:center;gap:7px;background:var(--wa);border-radius:50px;padding:8px 14px 8px 10px;color:#fff;font-size:.76rem;font-weight:600;box-shadow:0 4px 16px rgba(37,211,102,.35);text-decoration:none;transition:all .18s}
 .wa-float:hover{transform:translateY(-2px)}
 
+/* ── TRIAL OVERLAY ── */
+.trial-overlay{position:absolute;inset:0;z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;backdrop-filter:blur(6px);background:rgba(15,15,13,.75);border-radius:var(--radius);padding:24px}
+.trial-overlay.show{display:flex}
+.trial-bar{display:none;align-items:center;justify-content:space-between;gap:10px;background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(30,181,58,.08));border:1.5px solid rgba(201,168,76,.25);border-radius:10px;padding:9px 16px;margin-bottom:10px;font-size:.8rem}
+.trial-bar.show{display:flex}
+.trial-bar-text{color:var(--gold);font-weight:600}
+.trial-bar-btn{background:linear-gradient(135deg,var(--gold),var(--green));color:#fff;border:none;border-radius:7px;padding:5px 14px;font-size:.76rem;font-weight:700;cursor:pointer;font-family:var(--font);white-space:nowrap}
+.overlay-box{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:32px 28px;width:100%;max-width:400px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.4)}
+.overlay-icon{font-size:2.5rem;margin-bottom:12px;display:block}
+.overlay-title{font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.overlay-sub{font-size:.82rem;color:var(--muted);margin-bottom:20px;line-height:1.6}
+.overlay-input{width:100%;background:var(--bg2);border:2px solid var(--border);border-radius:10px;padding:13px 16px;color:var(--text);font-size:1rem;font-weight:700;letter-spacing:.08em;text-align:center;outline:none;font-family:var(--font);margin-bottom:12px;transition:border-color .2s}
+.overlay-input:focus{border-color:var(--gold)}
+.overlay-input::placeholder{font-weight:400;letter-spacing:0;font-size:.84rem}
+.overlay-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold),var(--green));border:none;border-radius:10px;color:#fff;font-size:.92rem;font-weight:700;cursor:pointer;font-family:var(--font);transition:opacity .2s;margin-bottom:10px}
+.overlay-btn:hover{opacity:.88}
+.overlay-btn:disabled{opacity:.5;cursor:not-allowed}
+.overlay-err{color:var(--red);font-size:.78rem;margin-bottom:8px;min-height:18px}
+.overlay-days{display:inline-block;background:rgba(201,168,76,.15);color:var(--gold);border-radius:6px;padding:2px 8px;font-size:.72rem;font-weight:700;margin-bottom:14px}
+
 /* ── IMAGE STUDIO ── */
 .img-type-btn{padding:7px 15px;border-radius:9px;border:1.5px solid var(--border);background:var(--bg);font-size:.78rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;font-family:var(--font)}
 .img-type-btn:hover{border-color:var(--gold);color:var(--gold)}
@@ -655,8 +675,28 @@ select.fi{cursor:pointer}
       <button class="btn btn-ghost btn-sm" onclick="clearChat()">Futa</button>
     </div>
   </div>
+  <!-- TRIAL BAR — inaonyesha siku zilizobaki -->
+  <div class="trial-bar" id="trial-bar">
+    <span class="trial-bar-text" id="trial-bar-text">⏳ Siku 3 zimebaki za jaribio lako la bure</span>
+    <button class="trial-bar-btn" onclick="showTrialOverlay()">🔑 Nina Code</button>
+  </div>
+
   <div class="cwrap">
-    <div class="cpanel">
+    <div class="cpanel" style="position:relative">
+
+      <!-- TRIAL OVERLAY — inafunika chat -->
+      <div class="trial-overlay" id="trial-overlay">
+        <div class="overlay-box">
+          <span class="overlay-icon" id="overlay-icon">⏰</span>
+          <div class="overlay-title" id="overlay-title">Muda Wako Umeisha!</div>
+          <div class="overlay-sub" id="overlay-sub">Lipa na uweke code yako ili uendelee kutumia AJPLUS AI bila kikomo.</div>
+          <div class="overlay-err" id="overlay-err"></div>
+          <input class="overlay-input" id="activation-code" placeholder="Weka code yako hapa... (mfano: MSN-X7K2-TZ)" maxlength="20" oninput="this.value=this.value.toUpperCase()">
+          <button class="overlay-btn" onclick="activateCode()" id="activate-btn">✅ Activate Akaunti</button>
+          <a href="https://wa.me/255762307647?text=Nahitaji+code+ya+AJPLUS+AI" target="_blank" style="display:block;color:#25D366;font-size:.78rem;font-weight:600;text-decoration:none;margin-bottom:8px">💬 Lipa na Pata Code — WhatsApp</a>
+          <button onclick="hideTrialOverlay()" style="background:none;border:none;color:var(--muted);font-size:.74rem;cursor:pointer;font-family:var(--font)">✕ Funga (siku zimebaki)</button>
+        </div>
+      </div>
       <div class="ctop">
         <div class="cai-info">
           <div class="cai-av"><img src="assets/logo.jpeg" alt="AJPLUS AI"></div>
@@ -1083,6 +1123,108 @@ window.goTo = function(page) {
   setTimeout(updateWaFloat, 50);
 };
 updateWaFloat();
+
+// ══ TRIAL OVERLAY FUNCTIONS ══════════════════════
+
+function showTrialOverlay() {
+  document.getElementById('trial-overlay').classList.add('show');
+  setTimeout(() => document.getElementById('activation-code')?.focus(), 100);
+}
+
+function hideTrialOverlay() {
+  document.getElementById('trial-overlay').classList.remove('show');
+}
+
+// Angalia trial na onyesha overlay/bar
+function checkTrialStatus(trialDaysLeft, plan) {
+  const bar     = document.getElementById('trial-bar');
+  const overlay = document.getElementById('trial-overlay');
+  const barText = document.getElementById('trial-bar-text');
+
+  if (plan === 'trial' && trialDaysLeft !== undefined) {
+    if (trialDaysLeft <= 0) {
+      // Trial imeisha — funika chat
+      document.getElementById('overlay-icon').textContent  = '⏰';
+      document.getElementById('overlay-title').textContent = 'Muda Wako Umeisha!';
+      document.getElementById('overlay-sub').textContent   =
+        'Siku 3 za bure zimeisha. Lipa na uweke code yako ili uendelee kutumia AJPLUS AI.';
+      document.querySelector('#trial-overlay button:last-child').style.display = 'none';
+      overlay.classList.add('show');
+      if (bar) bar.classList.remove('show');
+    } else {
+      // Trial bado inaendelea — onyesha bar
+      if (bar) {
+        bar.classList.add('show');
+        barText.textContent = `⏳ Siku ${trialDaysLeft} zimebaki za jaribio lako la bure`;
+      }
+      overlay.classList.remove('show');
+    }
+  } else if (!['trial','free'].includes(plan)) {
+    // Ana mpango — ficha kila kitu
+    if (bar) bar.classList.remove('show');
+    overlay.classList.remove('show');
+  }
+}
+
+// Activate code
+async function activateCode() {
+  const code  = document.getElementById('activation-code')?.value.trim();
+  const email = localStorage.getItem('ajplus-email') || '';
+  const errEl = document.getElementById('overlay-err');
+  const btn   = document.getElementById('activate-btn');
+
+  if (!code) {
+    errEl.textContent = '⚠️ Weka code yako kwanza';
+    return;
+  }
+
+  btn.disabled    = true;
+  btn.textContent = '⏳ Inaangalia...';
+  errEl.textContent = '';
+
+  try {
+    const res  = await fetch('/api/activate', {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body   : JSON.stringify({ action: 'activate', code, email: email || undefined })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      // Imefanikiwa!
+      document.getElementById('overlay-icon').textContent  = '🎉';
+      document.getElementById('overlay-title').textContent = 'Hongera! Umefanikiwa!';
+      document.getElementById('overlay-sub').textContent   =
+        `Mpango wako: ${data.planName}. Unaweza sasa kutumia AJPLUS AI bila kikomo!`;
+      document.getElementById('activation-code').style.display = 'none';
+      btn.textContent = '✅ Imefunguliwa! Endelea...';
+      document.getElementById('trial-bar')?.classList.remove('show');
+
+      // Funga overlay baada ya sekunde 2
+      setTimeout(() => {
+        hideTrialOverlay();
+        // Reload ili mpango mpya uanze
+        window.location.reload();
+      }, 2000);
+
+    } else {
+      errEl.textContent = '❌ ' + (data.error || 'Code si sahihi');
+      btn.disabled    = false;
+      btn.textContent = '✅ Activate Akaunti';
+    }
+
+  } catch(e) {
+    errEl.textContent = '❌ Tatizo la mtandao. Jaribu tena.';
+    btn.disabled    = false;
+    btn.textContent = '✅ Activate Akaunti';
+  }
+}
+
+// Enter key kwenye code input
+document.getElementById('activation-code')?.addEventListener('keydown', e => {
+  if (e.key === 'Enter') activateCode();
+});
 </script>
 </body>
 </html>
