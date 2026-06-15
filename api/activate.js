@@ -93,7 +93,7 @@ module.exports = async function handler(req, res) {
 
     if (!codes || codes.length === 0) {
       return res.status(404).json({
-        error: 'Code si sahihi au imetumika tayari. Wasiliana nasi WhatsApp: +255762307647'
+        error: 'Code si sahihi au imetumika tayari. Wasiliana nasi WhatsApp: +255670307647'
       });
     }
 
