@@ -2,63 +2,55 @@
 // Claude (primary + smart web search) + Gemini (backup) + Supabase
 // © AJ PLUS COMPANY LIMITED | ajplusai.co.tz
 
-const SYSTEM_PROMPT = `Wewe ni AJPLUS AI — Akili Bandia (AI) ya kwanza ya Kitanzania.
+const SYSTEM_PROMPT = `Wewe ni AJPLUS AI — Akili Bandia ya kwanza ya Kitanzania.
 Umeundwa na AJ PLUS COMPANY LIMITED.
 Tovuti: ajplusai.co.tz | Simu: +255762307647 | info@ajplusai.co.tz
-Kauli Mbiu: "Ufahamu wa Kitanzania, Uwezo wa Kidunia"
 
 ═══ UTAMBULISHO ═══
-- Wewe ni AJPLUS AI — Akili Bandia iliyoundwa na AJ PLUS COMPANY LIMITED
-- Ukiulizwa "wewe ni nani?" → "Mimi ni AJPLUS AI, Akili Bandia ya kwanza ya Kitanzania! 🇹🇿"
+- Wewe ni AJPLUS AI — ukiulizwa "wewe ni nani?" jibu: "Mimi ni AJPLUS AI, mshauri wako wa Kitanzania! 🇹🇿"
 - KAMWE usiseme wewe ni ChatGPT, Gemini, Claude, au Copilot
 
-═══ LUGHA NA MTINDO ═══
-Zungumza kwa Kiswahili cha kiungwana cha Tanzania — cha karibu, cha urafiki, lakini chenye heshima.
+═══ JINSI YA KUJIBU — MUHIMU SANA ═══
+Fuata muundo huu DAIMA:
 
-SALAMU ZA KUANZA:
-- "Karibu sana!" / "Habari yako!" / "Nimefurahi kukusaidia!"
-- "Swali zuri kabisa!" / "Sawa kabisa!" / "Vizuri sana!"
+1. JIBU MOJA KWA MOJA — mistari 2-4 tu, wazi na ya kueleweka
+2. USHAURI — pointi 2-3 fupi tu (si orodha ndefu)
+3. SWALI MOJA CHINI — uliza swali moja ili kuelewa zaidi
 
-MANENO YA KIUNGWANA UNAYOTUMIA:
-- "ndugu" / "rafiki" / "mkuu" — badala ya lugha ya mtaani
-- "sawa kabisa" / "vizuri sana" / "sahihi"
-- "hakuna shida" / "kwa furaha" / "bila wasiwasi"
-- "tafadhali" / "asante" / "karibu tena"
-- "naomba" / "ninaelewa" / "nitakusaidia"
+MFANO WA JIBU ZURI:
+Mtumiaji: "Ndoa yangu ina matatizo"
+Jibu: "Pole sana ndugu. Matatizo ya ndoa yanaweza kuwa mazito lakini yanaweza kutatuliwa.
 
-MWISHO WA KILA JIBU — chagua moja:
-- "Asante kwa swali lako! Niko hapa ukihitaji msaada zaidi. 💪"
-- "Karibu tena ukihitaji msaada wowote! 🇹🇿"
-- "Nimefurahi kukusaidia! Swali lolote — niko tayari. 🤖"
-- "Tutaendelea kushirikiana. Niko hapa daima! 💯"
+• Zungumza na mwenzako kwa utulivu bila kelele
+• Tafuta mshauri wa ndoa au kiongozi wa dini
 
-═══ ELEWA SWALI VIZURI ═══
-- "sababu za X" → toa MAELEZO ya wazi na ya kina
-- "niandikie barua/CV/invoice" → toa mfano KAMILI wa Tanzania
-- "bei ya leo" / "habari za leo" → toa habari za sasa
-- Ukishindwa kuelewa → "Tafadhali nieleze zaidi ili nikusaidie vizuri. 😊"
+Je, tatizo lako ni ugomvi wa mara kwa mara, fedha, au kitu kingine? 🤝"
+
+KANUNI ZA MSINGI:
+- JIBU FUPI — mistari 6-10 tu jumla, si zaidi
+- Pointi 2-3 tu, si orodha ndefu ya mistari 10+
+- Swali MOJA tu mwishoni — si maswali 3 au 4
+- Zungumza kama rafiki wa karibu, si kama kitabu au daktari
+- Tumia Kiswahili cha kawaida cha Tanzania
+- Tumia mifano ya Tanzania (TZS, M-Pesa, BRELA, NMB, SGR)
+
+USIFANYE:
+- Usiandike orodha ndefu bila kuulizwa
+- Usiandike maelezo ya kurasa nzima
+- Usiulize maswali mengi mara moja
+- Usijibu kwa Kiingereza isipokuwa mtumiaji ameandika Kiingereza
 
 ═══ DINI ═══
-- Islam: Zakat, Sadaka, Sala, Swum, Hajj, Quran — jibu kwa heshima na usahihi
-- Ukristo: Kanisa, Sadaka, Biblia, Sala, Injili — jibu kwa heshima na usahihi
+- Islam: jibu kwa heshima na usahihi — Zakat, Sala, Quran
+- Ukristo: jibu kwa heshima na usahihi — Biblia, Kanisa, Sala
 
 ═══ SEKTA UNAZOJUA ═══
-Biashara, Invoice, CV, Kazi, Ndoa, Mahusiano, Dini, Kilimo, Afya, NHIF,
-Sheria, Elimu, HESLB, Fedha, Benki (NMB/CRDB), Mafundi,
-Habari, Ardhi, Usafiri (SGR/DART), Madini, Burudani, Utalii, Teknolojia, Serikali
+Biashara, CV, Kazi, Ndoa, Mahusiano, Dini, Kilimo, Afya, NHIF,
+Sheria, Elimu, HESLB, Fedha, Benki, Mafundi, Habari, Ardhi,
+Usafiri (SGR/DART), Madini, Burudani, Utalii, Teknolojia, Serikali
 
-═══ VIPENGELE VYA AJPLUS AI ═══
-- Una uwezo wa EXPORT na DOWNLOAD — PDF, Word (.doc), Text (.txt)
-- Ukiulizwa "download PDF" au "hifadhi" → mwambie abonyeze kitufe cha "⬇ Hifadhi" upande wa kulia wa chat
-- KAMWE usiseme huwezi download — unaweza!
-- Export inafanya kazi moja kwa moja kwenye kivinjari cha mtumiaji
-
-═══ JINSI YA KUJIBU ═══
-- Jibu kwa urafiki wa kiungwana — wazi, mfupi na wa kueleweka
-- Tumia mifano ya Tanzania (TZS, BRELA, TRA, NMB, M-Pesa, SGR)
-- Tumia bullet points au namba kwa orodha ndefu
-- Bei ZOTE ziwe TZS isipokuwa ukiombwa vinginevyo
-- Epuka lugha ya mtaani — tumia Kiswahili sanifu cha Tanzania`;
+═══ EXPORT / DOWNLOAD ═══
+- Ukiulizwa "download PDF" au "hifadhi" → mwambie abonyeze "⬇ Hifadhi" upande wa kulia`;
 
 // ─── MANENO YA KUTAMBUA HABARI ZA LEO ────────────────────
 const WEB_SEARCH_KEYWORDS = [
@@ -101,7 +93,7 @@ async function supabaseQuery(table, method, data = null, filter = null) {
                 "Prefer": method === "POST" ? "return=representation" : ""
             }
         };
-        if (data) opts.body = JSON.stringify(body);
+        if (data) opts.body = JSON.stringify(data);
         const res = await fetch(url, opts);
         if (res.ok) {
             const text = await res.text();
@@ -122,13 +114,12 @@ async function saveChat(userEmail, message, reply) {
     });
 }
 
-// Mipango mipya na vikomo vyake
 const PLAN_LIMITS = {
     free:     { daily: 10,  name: "Bure" },
     msingi:   { daily: 50,  name: "Msingi" },
     kawaida:  { daily: 150, name: "Kawaida" },
-    pro:      { daily: null, name: "Pro" },      // bila kikomo
-    biashara: { daily: null, name: "Biashara" }  // bila kikomo
+    pro:      { daily: null, name: "Pro" },
+    biashara: { daily: null, name: "Biashara" }
 };
 
 async function checkLimit(email) {
@@ -137,13 +128,9 @@ async function checkLimit(email) {
         const users = await supabaseQuery("users", "GET", null, `email=eq.${email}`);
         const user = users?.[0];
         if (!user) return { allowed: true, plan: 'free' };
-
         const plan = user.plan || 'free';
         const limits = PLAN_LIMITS[plan] || PLAN_LIMITS.free;
-
-        // Mipango bila kikomo
         if (!limits.daily) return { allowed: true, plan };
-
         const today = new Date().toISOString().split('T')[0];
         if (user.last_question_date !== today) {
             await supabaseQuery("users", "PATCH", {
@@ -152,20 +139,17 @@ async function checkLimit(email) {
             }, `email=eq.${email}`);
             return { allowed: true, plan };
         }
-
         if (user.questions_today >= limits.daily) {
             return {
                 allowed: false,
                 plan,
-                message: `Umefika kikomo cha maswali ${limits.daily} kwa leo! Panda mpango wako ili uendelee. Tembelea ajplusai.co.tz 🇹🇿`
+                message: `Umefika kikomo cha maswali ${limits.daily} kwa leo! Panda mpango wako. Tembelea ajplusai.co.tz 🇹🇿`
             };
         }
-
         await supabaseQuery("users", "PATCH", {
             questions_today: (user.questions_today || 0) + 1,
             last_question_date: today
         }, `email=eq.${email}`);
-
         return { allowed: true, plan };
     } catch(e) {
         return { allowed: true, plan: 'free' };
@@ -176,7 +160,7 @@ async function checkLimit(email) {
 async function callClaude(message, apiKey, useWebSearch = false) {
     const body = {
         model: "claude-haiku-4-5",
-        max_tokens: 1500,
+        max_tokens: 500,
         system: SYSTEM_PROMPT,
         messages: [{ role: "user", content: message }]
     };
@@ -216,7 +200,7 @@ async function callGemini(message, apiKey, useWebSearch = false) {
     const body = {
         systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
         contents: [{ role: "user", parts: [{ text: message }] }],
-        generationConfig: { temperature: 0.75, maxOutputTokens: 1500 }
+        generationConfig: { temperature: 0.75, maxOutputTokens: 500 }
     };
     if (useWebSearch) body.tools = [{ googleSearch: {} }];
     const response = await fetch(url, {
@@ -232,7 +216,6 @@ async function callGemini(message, apiKey, useWebSearch = false) {
     return data.candidates?.[0]?.content?.parts?.[0]?.text || "Samahani, sijapata jibu!";
 }
 
-// ─── HANDLER ──────────────────────────────────────────────
 // ─── DOMAIN LOCK ──────────────────────────────────────────
 const ALLOWED_DOMAINS = [
     "ajplusai.co.tz",
@@ -246,19 +229,15 @@ function isAllowedDomain(req) {
     const origin = req.headers.origin || "";
     const referer = req.headers.referer || "";
     const host = req.headers.host || "";
-
-    // Vercel preview URLs — ruhusu kwa testing
     if (origin.includes("vercel.app") || referer.includes("vercel.app")) return true;
     if (host.includes("vercel.app")) return true;
-
-    // Angalia domain halali
     return ALLOWED_DOMAINS.some(d =>
         origin.includes(d) || referer.includes(d) || host.includes(d)
     );
 }
 
+// ─── HANDLER ──────────────────────────────────────────────
 module.exports = async function handler(req, res) {
-    // Domain Lock
     if (!isAllowedDomain(req)) {
         return res.status(403).json({
             error: "Huduma hii inapatikana kwenye ajplusai.co.tz tu.",
