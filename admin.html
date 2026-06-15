@@ -11,16 +11,14 @@
   --bg:#0F0F0D;--bg2:#1A1A16;--card:#1E1E1A;
   --border:#2A2A24;--text:#F0EDE6;--muted:#888;
   --red:#DC2626;--orange:#D97706;--blue:#3B82F6;
-  --font:'Inter',system-ui,sans-serif;
+  --wa:#25D366;--font:'Inter',system-ui,sans-serif;
   --radius:12px;--shadow:0 4px 24px rgba(0,0,0,.3);
 }
 body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.6;min-height:100vh}
-
-/* ── SCROLLBAR ── */
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
 
-/* ── LOGIN ── */
+/* LOGIN */
 #login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:radial-gradient(ellipse at center,#1a1a16 0%,#0f0f0d 70%)}
 .login-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:40px;width:100%;max-width:380px;text-align:center;box-shadow:var(--shadow)}
 .login-logo{width:64px;height:64px;border-radius:50%;border:2px solid var(--gold);margin:0 auto 16px;display:block;object-fit:cover;box-shadow:0 0 20px rgba(201,168,76,.3)}
@@ -28,76 +26,79 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .login-sub{color:var(--muted);font-size:.8rem;margin-bottom:28px}
 .login-input{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text);font-size:.88rem;outline:none;font-family:var(--font);margin-bottom:12px;transition:border-color .2s}
 .login-input:focus{border-color:var(--gold)}
-.login-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold),var(--green));border:none;border-radius:10px;color:#fff;font-size:.9rem;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:var(--font)}
-.login-btn:hover{opacity:.88}
+.login-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold),var(--green));border:none;border-radius:10px;color:#fff;font-size:.9rem;font-weight:700;cursor:pointer;font-family:var(--font)}
 .login-error{color:var(--red);font-size:.78rem;margin-top:8px;min-height:18px}
 
-/* ── DASHBOARD ── */
+/* LAYOUT */
 #dashboard{display:none}
 .layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
 
-/* ── SIDEBAR ── */
+/* SIDEBAR */
 .sidebar{background:var(--card);border-right:1px solid var(--border);padding:16px 10px;display:flex;flex-direction:column;gap:2px;position:sticky;top:0;height:100vh;overflow-y:auto}
-.sb-brand{display:flex;align-items:center;gap:10px;padding:10px;margin-bottom:12px}
+.sb-brand{display:flex;align-items:center;gap:10px;padding:10px;margin-bottom:8px}
 .sb-logo{width:36px;height:36px;border-radius:50%;border:2px solid var(--gold);object-fit:cover}
 .sb-title{font-size:.9rem;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .sb-sub{font-size:.62rem;color:var(--muted)}
-.sb-divider{height:1px;background:var(--border);margin:8px 0;opacity:.5}
+.sb-divider{height:1px;background:var(--border);margin:6px 0;opacity:.5}
 .sb-label{font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 10px 4px;opacity:.6}
 .sb-item{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:9px;font-size:.8rem;color:var(--muted);cursor:pointer;transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:var(--font)}
 .sb-item:hover{color:var(--text);background:var(--bg2)}
 .sb-item.active{color:var(--text);background:var(--bg2);font-weight:600}
-.sb-item.active .sb-icon{background:linear-gradient(135deg,var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.sb-icon{font-size:.88rem;width:18px;text-align:center}
-.sb-badge{margin-left:auto;background:var(--red);color:#fff;border-radius:10px;padding:1px 6px;font-size:.6rem;font-weight:700}
+.sb-badge{margin-left:auto;background:var(--red);color:#fff;border-radius:10px;padding:1px 7px;font-size:.6rem;font-weight:700}
 .sb-bottom{margin-top:auto;padding-top:8px}
-.logout-btn{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:9px;font-size:.8rem;color:var(--red);cursor:pointer;border:none;background:none;width:100%;font-family:var(--font);transition:all .15s}
-.logout-btn:hover{background:rgba(220,38,38,.1)}
 
-/* ── MAIN ── */
+/* LANG TOGGLE */
+.lang-toggle{display:flex;background:var(--bg2);border-radius:8px;padding:3px;margin:8px 10px}
+.lang-btn{flex:1;padding:5px;text-align:center;font-size:.72rem;font-weight:600;color:var(--muted);border-radius:6px;cursor:pointer;border:none;background:none;font-family:var(--font);transition:all .15s}
+.lang-btn.active{background:linear-gradient(135deg,var(--gold),var(--green));color:#fff}
+
+/* MAIN */
 .main{padding:24px;overflow-y:auto;background:var(--bg)}
 .page{display:none}
 .page.active{display:block}
-.page-header{margin-bottom:20px}
+.page-header{margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .page-title{font-size:1.2rem;font-weight:700;letter-spacing:-.02em}
 .page-sub{font-size:.78rem;color:var(--muted);margin-top:2px}
 
-/* ── STATS GRID ── */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:24px}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;position:relative;overflow:hidden}
-.stat-card::before{content:'';position:absolute;top:0;right:0;width:60px;height:60px;border-radius:50%;opacity:.06;transform:translate(20px,-20px)}
-.stat-card.gold::before{background:var(--gold)}
-.stat-card.green::before{background:var(--green)}
-.stat-card.blue::before{background:var(--blue)}
-.stat-card.red::before{background:var(--red)}
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
 .stat-label{font-size:.7rem;color:var(--muted);font-weight:500;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
 .stat-value{font-size:1.8rem;font-weight:800;letter-spacing:-.03em}
 .stat-card.gold .stat-value{color:var(--gold)}
 .stat-card.green .stat-value{color:var(--green)}
 .stat-card.blue .stat-value{color:var(--blue)}
 .stat-card.red .stat-value{color:var(--red)}
+.stat-card.orange .stat-value{color:var(--orange)}
 .stat-sub{font-size:.68rem;color:var(--muted);margin-top:3px}
 
-/* ── CARDS ── */
+/* CARDS */
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px}
-.card-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .card-title{font-size:.88rem;font-weight:600}
 .card-body{padding:16px 18px}
 
-/* ── BUTTONS ── */
+/* ALERT — malipo mapya */
+.alert-new{background:linear-gradient(135deg,rgba(30,181,58,.1),rgba(201,168,76,.08));border:1.5px solid rgba(30,181,58,.3);border-radius:var(--radius);padding:14px 18px;margin-bottom:16px;display:none;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.alert-new.show{display:flex}
+.alert-text{font-size:.84rem;font-weight:600;color:var(--green)}
+.alert-count{background:var(--green);color:#fff;border-radius:20px;padding:2px 10px;font-size:.72rem;font-weight:700}
+
+/* BUTTONS */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:.78rem;font-weight:600;border:none;cursor:pointer;transition:all .18s;font-family:var(--font)}
 .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff}
 .btn-gold:hover{opacity:.88;transform:translateY(-1px)}
 .btn-green{background:linear-gradient(135deg,var(--green),#17a033);color:#fff}
 .btn-green:hover{opacity:.88}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-wa:hover{opacity:.88}
 .btn-red{background:rgba(220,38,38,.15);color:var(--red);border:1px solid rgba(220,38,38,.3)}
-.btn-red:hover{background:rgba(220,38,38,.25)}
 .btn-ghost{background:var(--bg2);color:var(--text);border:1px solid var(--border)}
 .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
 .btn-sm{padding:5px 11px;font-size:.72rem}
 .btn-full{width:100%}
 
-/* ── FORMS ── */
+/* FORMS */
 .form-group{margin-bottom:13px}
 .form-label{display:block;font-size:.72rem;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
 .form-input,.form-select{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 13px;color:var(--text);font-size:.84rem;outline:none;font-family:var(--font);transition:border-color .18s}
@@ -105,7 +106,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .form-select{cursor:pointer}
 .form-input::placeholder{color:var(--muted)}
 
-/* ── TABLE ── */
+/* TABLE */
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:.8rem}
 th{text-align:left;padding:10px 14px;color:var(--muted);font-weight:600;background:var(--bg);font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border)}
@@ -113,43 +114,49 @@ td{padding:11px 14px;border-bottom:1px solid rgba(42,42,36,.5);vertical-align:mi
 tr:hover td{background:rgba(255,255,255,.02)}
 tr:last-child td{border-bottom:none}
 
-/* ── BADGES ── */
-.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.66rem;font-weight:700;letter-spacing:.03em}
+/* BADGES */
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.66rem;font-weight:700}
 .badge-trial{background:rgba(59,130,246,.15);color:var(--blue)}
 .badge-msingi{background:rgba(201,168,76,.15);color:var(--gold)}
 .badge-kawaida{background:rgba(201,168,76,.2);color:#e8b84b}
 .badge-pro{background:rgba(30,181,58,.15);color:var(--green)}
 .badge-biashara{background:rgba(255,255,255,.1);color:#fff}
 .badge-free{background:rgba(136,136,136,.15);color:var(--muted)}
-.badge-ok{background:rgba(30,181,58,.15);color:var(--green)}
-.badge-error{background:rgba(220,38,38,.15);color:var(--red)}
 .badge-used{background:rgba(136,136,136,.15);color:var(--muted)}
 .badge-fresh{background:rgba(30,181,58,.15);color:var(--green)}
+.badge-pending{background:rgba(217,119,6,.15);color:var(--orange)}
+.badge-sent{background:rgba(30,181,58,.15);color:var(--green)}
 
-/* ── CODE DISPLAY ── */
-.code-display{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;margin:14px 0}
+/* CODE DISPLAY */
+.code-display{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:16px;text-align:center;margin:14px 0}
 .code-text{font-size:1.6rem;font-weight:800;letter-spacing:.15em;background:linear-gradient(135deg,var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-family:monospace}
-.code-plan{font-size:.7rem;color:var(--muted);margin-top:4px}
+.code-info{font-size:.7rem;color:var(--muted);margin-top:4px}
 
-/* ── TOAST ── */
-.toast{position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 16px;border-radius:10px;font-size:.8rem;font-weight:500;transform:translateX(130%);transition:transform .22s;box-shadow:var(--shadow);display:flex;align-items:center;gap:8px}
+/* PAYMENT CARD — kwa malipo mapya */
+.payment-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;position:relative}
+.payment-card.new-payment{border-color:var(--green);background:linear-gradient(135deg,rgba(30,181,58,.05),rgba(201,168,76,.03))}
+.payment-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:6px}
+.payment-name{font-size:.88rem;font-weight:700}
+.payment-amount{font-size:.88rem;font-weight:700;color:var(--gold)}
+.payment-details{font-size:.76rem;color:var(--muted);margin-bottom:10px}
+.payment-actions{display:flex;gap:7px;flex-wrap:wrap}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 16px;border-radius:10px;font-size:.8rem;font-weight:500;transform:translateX(130%);transition:transform .22s;box-shadow:var(--shadow);display:flex;align-items:center;gap:8px;max-width:300px}
 .toast.show{transform:translateX(0)}
 .toast.success{border-color:var(--green);color:var(--green)}
 .toast.error{border-color:var(--red);color:var(--red)}
+.toast.warning{border-color:var(--orange);color:var(--orange)}
 
-/* ── LOADING ── */
+/* LOADING */
 .loading{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--muted);gap:10px;font-size:.82rem}
 @keyframes spin{to{transform:rotate(360deg)}}
 .spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;flex-shrink:0}
-
-/* ── EMPTY ── */
 .empty{text-align:center;padding:40px;color:var(--muted);font-size:.84rem}
 .empty-icon{font-size:2.5rem;margin-bottom:10px;display:block}
-
-/* ── GRID ── */
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 
-@media(max-width:900px){
+@media(max-width:768px){
   .layout{grid-template-columns:1fr}
   .sidebar{display:none}
   .grid-2{grid-template-columns:1fr}
@@ -158,19 +165,19 @@ tr:last-child td{border-bottom:none}
 </head>
 <body>
 
-<!-- ══ LOGIN ══ -->
+<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-card">
     <img class="login-logo" src="assets/logo.jpeg" alt="AJPLUS AI">
     <div class="login-title">AJPLUS AI</div>
-    <div class="login-sub">Admin Panel — Ingia kwanza</div>
-    <input class="login-input" type="password" id="admin-pass" placeholder="Weka password yako ya admin..." onkeydown="if(event.key==='Enter')doAdminLogin()">
-    <button class="login-btn" onclick="doAdminLogin()">🔐 Ingia Admin</button>
+    <div class="login-sub" id="login-sub-text">Admin Panel — Ingia kwanza / Login first</div>
+    <input class="login-input" type="password" id="admin-pass" placeholder="Password ya Admin / Admin Password...">
+    <button class="login-btn" onclick="doAdminLogin()">🔐 <span id="login-btn-text">Ingia / Login</span></button>
     <div class="login-error" id="login-err"></div>
   </div>
 </div>
 
-<!-- ══ DASHBOARD ══ -->
+<!-- DASHBOARD -->
 <div id="dashboard">
 <div class="layout">
 
@@ -183,125 +190,178 @@ tr:last-child td{border-bottom:none}
       <div class="sb-sub">Admin Panel</div>
     </div>
   </div>
+
+  <!-- LANGUAGE TOGGLE -->
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-sw" onclick="setLang('sw')">🇹🇿 SW</button>
+    <button class="lang-btn" id="lang-en" onclick="setLang('en')">🇬🇧 EN</button>
+  </div>
+
   <div class="sb-divider"></div>
-  <div class="sb-label">Kuu</div>
+  <div class="sb-label" data-sw="Kuu" data-en="Main">Kuu</div>
   <button class="sb-item active" onclick="showPage('dashboard')" id="nav-dashboard">
-    <span class="sb-icon">📊</span> Dashibodi
+    <span>📊</span> <span data-sw="Dashibodi" data-en="Dashboard">Dashibodi</span>
   </button>
   <div class="sb-divider"></div>
-  <div class="sb-label">Udhibiti</div>
+  <div class="sb-label" data-sw="Udhibiti" data-en="Management">Udhibiti</div>
+  <button class="sb-item" onclick="showPage('payments')" id="nav-payments">
+    <span>💰</span> <span data-sw="Malipo Mapya" data-en="New Payments">Malipo Mapya</span>
+    <span class="sb-badge" id="payments-badge" style="display:none">0</span>
+  </button>
   <button class="sb-item" onclick="showPage('codes')" id="nav-codes">
-    <span class="sb-icon">🔑</span> Tengeneza Code
+    <span>🔑</span> <span data-sw="Tengeneza Code" data-en="Generate Code">Tengeneza Code</span>
   </button>
   <button class="sb-item" onclick="showPage('users')" id="nav-users">
-    <span class="sb-icon">👥</span> Watumiaji
+    <span>👥</span> <span data-sw="Watumiaji" data-en="Users">Watumiaji</span>
   </button>
   <button class="sb-item" onclick="showPage('chats')" id="nav-chats">
-    <span class="sb-icon">💬</span> Mazungumzo
-  </button>
-  <button class="sb-item" onclick="showPage('payments')" id="nav-payments">
-    <span class="sb-icon">💰</span> Malipo
+    <span>💬</span> <span data-sw="Mazungumzo" data-en="Conversations">Mazungumzo</span>
   </button>
   <div class="sb-divider"></div>
-  <div class="sb-label">Mfumo</div>
+  <div class="sb-label" data-sw="Mfumo" data-en="System">Mfumo</div>
   <button class="sb-item" onclick="window.open('https://ajplusai.co.tz','_blank')">
-    <span class="sb-icon">🌐</span> Tembelea Site
+    <span>🌐</span> <span data-sw="Tembelea Site" data-en="Visit Site">Tembelea Site</span>
   </button>
   <div class="sb-bottom">
     <div class="sb-divider"></div>
-    <button class="logout-btn" onclick="doAdminLogout()">↩ Toka Admin</button>
+    <button class="sb-item" style="color:var(--red)" onclick="doAdminLogout()">
+      ↩ <span data-sw="Toka Admin" data-en="Logout">Toka Admin</span>
+    </button>
   </div>
 </aside>
 
 <!-- MAIN -->
 <main class="main">
 
-<!-- ══ PAGE: DASHBOARD ══ -->
+<!-- ══ DASHBOARD ══ -->
 <div class="page active" id="page-dashboard">
   <div class="page-header">
-    <div class="page-title">📊 Dashibodi</div>
-    <div class="page-sub">Muhtasari wa AJPLUS AI</div>
+    <div>
+      <div class="page-title">📊 <span data-sw="Dashibodi" data-en="Dashboard">Dashibodi</span></div>
+      <div class="page-sub" data-sw="Muhtasari wa AJPLUS AI" data-en="AJPLUS AI Overview">Muhtasari wa AJPLUS AI</div>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="loadDashboard()">↻ <span data-sw="Refresh" data-en="Refresh">Refresh</span></button>
   </div>
-  <div class="stats-grid" id="stats-grid">
+
+  <!-- Alert ya malipo mapya -->
+  <div class="alert-new" id="new-payments-alert">
+    <div>
+      <span class="alert-text">🔔 <span data-sw="Malipo Mapya Yamepokelewa!" data-en="New Payments Received!">Malipo Mapya Yamepokelewa!</span></span>
+      <span class="alert-count" id="alert-count">0</span>
+    </div>
+    <button class="btn btn-green btn-sm" onclick="showPage('payments')">
+      <span data-sw="Tuma Codes Sasa →" data-en="Send Codes Now →">Tuma Codes Sasa →</span>
+    </button>
+  </div>
+
+  <div class="stats-grid">
     <div class="stat-card gold">
-      <div class="stat-label">Watumiaji Wote</div>
+      <div class="stat-label" data-sw="Watumiaji Wote" data-en="Total Users">Watumiaji Wote</div>
       <div class="stat-value" id="stat-users">—</div>
-      <div class="stat-sub">Waliojisajili</div>
+      <div class="stat-sub" data-sw="Waliojisajili" data-en="Registered">Waliojisajili</div>
     </div>
     <div class="stat-card green">
-      <div class="stat-label">Watumiaji Wanaolipa</div>
+      <div class="stat-label" data-sw="Wanaolipa" data-en="Paying">Wanaolipa</div>
       <div class="stat-value" id="stat-paying">—</div>
-      <div class="stat-sub">Active subscriptions</div>
+      <div class="stat-sub" data-sw="Active" data-en="Active">Active</div>
     </div>
     <div class="stat-card blue">
-      <div class="stat-label">Trial (Siku 3)</div>
+      <div class="stat-label" data-sw="Trial" data-en="Trial">Trial</div>
       <div class="stat-value" id="stat-trial">—</div>
-      <div class="stat-sub">Wanaojaribu bure</div>
+      <div class="stat-sub" data-sw="Siku 3 bure" data-en="3-day free">Siku 3 bure</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-label" data-sw="Malipo Leo" data-en="Payments Today">Malipo Leo</div>
+      <div class="stat-value" id="stat-today-payments">—</div>
+      <div class="stat-sub" data-sw="Yaliyolipwa" data-en="Received">Yaliyolipwa</div>
     </div>
     <div class="stat-card red">
-      <div class="stat-label">Codes Zilizotolewa</div>
+      <div class="stat-label" data-sw="Codes Zilizotolewa" data-en="Codes Generated">Codes Zilizotolewa</div>
       <div class="stat-value" id="stat-codes">—</div>
-      <div class="stat-sub">Zote zilizoundwa</div>
+      <div class="stat-sub" data-sw="Zote" data-en="Total">Zote</div>
     </div>
   </div>
 
   <div class="grid-2">
     <div class="card">
       <div class="card-header">
-        <div class="card-title">📈 Watumiaji wa Hivi Karibuni</div>
-        <button class="btn btn-ghost btn-sm" onclick="loadRecentUsers()">↻ Refresh</button>
+        <div class="card-title">💰 <span data-sw="Malipo ya Hivi Karibuni" data-en="Recent Payments">Malipo ya Hivi Karibuni</span></div>
       </div>
-      <div class="card-body" id="recent-users">
-        <div class="loading"><div class="spinner"></div>Inapakia...</div>
+      <div class="card-body" id="dash-payments">
+        <div class="loading"><div class="spinner"></div><span data-sw="Inapakia..." data-en="Loading...">Inapakia...</span></div>
       </div>
     </div>
     <div class="card">
       <div class="card-header">
-        <div class="card-title">💳 Malipo ya Hivi Karibuni</div>
-        <button class="btn btn-ghost btn-sm" onclick="loadRecentPayments()">↻ Refresh</button>
+        <div class="card-title">👥 <span data-sw="Watumiaji Wapya" data-en="New Users">Watumiaji Wapya</span></div>
       </div>
-      <div class="card-body" id="recent-payments">
-        <div class="loading"><div class="spinner"></div>Inapakia...</div>
+      <div class="card-body" id="dash-users">
+        <div class="loading"><div class="spinner"></div><span data-sw="Inapakia..." data-en="Loading...">Inapakia...</span></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ PAGE: CODES ══ -->
+<!-- ══ PAYMENTS — Malipo Mapya ══ -->
+<div class="page" id="page-payments">
+  <div class="page-header">
+    <div>
+      <div class="page-title">💰 <span data-sw="Malipo" data-en="Payments">Malipo</span></div>
+      <div class="page-sub" data-sw="Tuma codes kwa waliolipa" data-en="Send codes to those who paid">Tuma codes kwa waliolipa</div>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="loadPayments()">↻ Refresh</button>
+  </div>
+  <div id="payments-list">
+    <div class="loading"><div class="spinner"></div><span data-sw="Inapakia..." data-en="Loading...">Inapakia...</span></div>
+  </div>
+</div>
+
+<!-- ══ CODES ══ -->
 <div class="page" id="page-codes">
   <div class="page-header">
-    <div class="page-title">🔑 Tengeneza Activation Code</div>
-    <div class="page-sub">Tengeneza code kwa mtumiaji aliyolipa</div>
+    <div>
+      <div class="page-title">🔑 <span data-sw="Tengeneza Code" data-en="Generate Code">Tengeneza Code</span></div>
+      <div class="page-sub" data-sw="Code mpya kwa mtumiaji aliyolipa" data-en="New code for paid user">Code mpya kwa mtumiaji aliyolipa</div>
+    </div>
   </div>
 
   <div class="grid-2">
     <div class="card">
-      <div class="card-header"><div class="card-title">✨ Code Mpya</div></div>
+      <div class="card-header">
+        <div class="card-title">✨ <span data-sw="Code Mpya" data-en="New Code">Code Mpya</span></div>
+      </div>
       <div class="card-body">
         <div class="form-group">
-          <label class="form-label">Mpango</label>
+          <label class="form-label" data-sw="Mpango / Plan" data-en="Plan">Mpango / Plan</label>
           <select class="form-select" id="code-plan">
-            <option value="msingi">Msingi — TZS 20,000/mwezi</option>
-            <option value="kawaida">Kawaida — TZS 40,000/mwezi</option>
+            <option value="msingi">Msingi / Basic — TZS 20,000/mwezi</option>
+            <option value="kawaida">Kawaida / Normal — TZS 40,000/mwezi</option>
             <option value="pro">Pro — TZS 60,000/mwezi</option>
-            <option value="biashara">Biashara — TZS 100,000/mwezi</option>
+            <option value="biashara">Biashara / Business — TZS 100,000/mwezi</option>
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Barua Pepe ya Mtumiaji (optional)</label>
-          <input class="form-input" id="code-email" type="email" placeholder="mtumiaji@mfano.com">
+          <label class="form-label" data-sw="Barua Pepe / Email (hiari)" data-en="Email (optional)">Barua Pepe / Email (hiari)</label>
+          <input class="form-input" id="code-email" type="email" placeholder="user@example.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-sw="Namba ya WhatsApp" data-en="WhatsApp Number">Namba ya WhatsApp</label>
+          <input class="form-input" id="code-phone" type="tel" placeholder="255712345678">
         </div>
         <button class="btn btn-gold btn-full" onclick="generateCode()" style="margin-bottom:10px">
-          ✨ Tengeneza Code
+          ✨ <span data-sw="Tengeneza Code" data-en="Generate Code">Tengeneza Code</span>
         </button>
+
         <div id="code-result" style="display:none">
           <div class="code-display">
             <div class="code-text" id="generated-code">—</div>
-            <div class="code-plan" id="generated-plan">—</div>
+            <div class="code-info" id="generated-info">—</div>
           </div>
-          <div style="display:flex;gap:8px">
-            <button class="btn btn-ghost btn-full" onclick="copyCode()">📋 Copy Code</button>
-            <button class="btn btn-green btn-full" onclick="sendWhatsApp()">💬 Tuma WhatsApp</button>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-ghost btn-sm" onclick="copyCode()">📋 Copy</button>
+            <button class="btn btn-wa btn-full" onclick="sendWhatsApp()">
+              💬 <span data-sw="Tuma WhatsApp" data-en="Send WhatsApp">Tuma WhatsApp</span>
+            </button>
           </div>
         </div>
       </div>
@@ -309,63 +369,44 @@ tr:last-child td{border-bottom:none}
 
     <div class="card">
       <div class="card-header">
-        <div class="card-title">📋 Codes Zote</div>
-        <button class="btn btn-ghost btn-sm" onclick="loadCodes()">↻ Refresh</button>
+        <div class="card-title">📋 <span data-sw="Codes Zote" data-en="All Codes">Codes Zote</span></div>
+        <button class="btn btn-ghost btn-sm" onclick="loadCodes()">↻</button>
       </div>
-      <div class="card-body" id="codes-list">
-        <div class="loading"><div class="spinner"></div>Inapakia...</div>
+      <div id="codes-list">
+        <div class="loading"><div class="spinner"></div></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ PAGE: USERS ══ -->
+<!-- ══ USERS ══ -->
 <div class="page" id="page-users">
   <div class="page-header">
-    <div class="page-title">👥 Watumiaji</div>
-    <div class="page-sub">Watumiaji wote wa AJPLUS AI</div>
+    <div>
+      <div class="page-title">👥 <span data-sw="Watumiaji" data-en="Users">Watumiaji</span></div>
+      <div class="page-sub" data-sw="Watumiaji wote wa AJPLUS AI" data-en="All AJPLUS AI users">Watumiaji wote wa AJPLUS AI</div>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="loadUsers()">↻ Refresh</button>
   </div>
   <div class="card">
-    <div class="card-header">
-      <div class="card-title">Orodha ya Watumiaji</div>
-      <button class="btn btn-ghost btn-sm" onclick="loadUsers()">↻ Refresh</button>
-    </div>
     <div class="table-wrap" id="users-table">
-      <div class="loading"><div class="spinner"></div>Inapakia...</div>
+      <div class="loading"><div class="spinner"></div></div>
     </div>
   </div>
 </div>
 
-<!-- ══ PAGE: CHATS ══ -->
+<!-- ══ CHATS ══ -->
 <div class="page" id="page-chats">
   <div class="page-header">
-    <div class="page-title">💬 Mazungumzo</div>
-    <div class="page-sub">Mazungumzo ya watumiaji na AI</div>
+    <div>
+      <div class="page-title">💬 <span data-sw="Mazungumzo" data-en="Conversations">Mazungumzo</span></div>
+      <div class="page-sub" data-sw="Mazungumzo ya watumiaji na AI" data-en="User conversations with AI">Mazungumzo ya watumiaji na AI</div>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="loadChats()">↻ Refresh</button>
   </div>
   <div class="card">
-    <div class="card-header">
-      <div class="card-title">Mazungumzo ya Hivi Karibuni</div>
-      <button class="btn btn-ghost btn-sm" onclick="loadChats()">↻ Refresh</button>
-    </div>
     <div class="table-wrap" id="chats-table">
-      <div class="loading"><div class="spinner"></div>Inapakia...</div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ PAGE: PAYMENTS ══ -->
-<div class="page" id="page-payments">
-  <div class="page-header">
-    <div class="page-title">💰 Malipo</div>
-    <div class="page-sub">Historia ya malipo yote</div>
-  </div>
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">Malipo Yote</div>
-      <button class="btn btn-ghost btn-sm" onclick="loadPayments()">↻ Refresh</button>
-    </div>
-    <div class="table-wrap" id="payments-table">
-      <div class="loading"><div class="spinner"></div>Inapakia...</div>
+      <div class="loading"><div class="spinner"></div></div>
     </div>
   </div>
 </div>
@@ -378,21 +419,43 @@ tr:last-child td{border-bottom:none}
 
 <script>
 // ── CONFIG ──────────────────────────────────────
-const SUPABASE_URL = 'https://aylumdzvlkyelfucscoe.supabase.co'; // Itabadilishwa
-const SUPABASE_ANON = 'sb_publishable_48oQlXXs31E4V-ShspIz9Q_3Dk01-BG'; // Itabadilishwa
+const SUPABASE_URL  = 'https://aylumdzvlkyelfucscoe.supabase.co';
+const SUPABASE_ANON = 'sb_publishable_48oQlXXs31E4V-ShspIz9Q_3Dk01-BG';
 let ADMIN_SECRET = '';
-let _codeEmail = '';
+let _lang = 'sw';
+let _codePhone = '';
 let _codePlan  = '';
+let _generatedCode = '';
 
-// ── LOGIN ────────────────────────────────────────
+// ── LANGUAGE ──────────────────────────────────────
+function setLang(lang) {
+  _lang = lang;
+  localStorage.setItem('ajplus-admin-lang', lang);
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('lang-' + lang)?.classList.add('active');
+  // Badilisha maandishi yote
+  document.querySelectorAll('[data-sw]').forEach(el => {
+    el.textContent = el.getAttribute('data-' + lang) || el.textContent;
+  });
+}
+
+// ── LOGIN ──────────────────────────────────────────
 function doAdminLogin() {
   const pass = document.getElementById('admin-pass').value.trim();
-  if (!pass) { document.getElementById('login-err').textContent = '⚠️ Weka password'; return; }
+  if (!pass) {
+    document.getElementById('login-err').textContent =
+      _lang === 'sw' ? '⚠️ Weka password' : '⚠️ Enter password';
+    return;
+  }
   ADMIN_SECRET = pass;
   sessionStorage.setItem('ajplus-admin-secret', pass);
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('dashboard').style.display = 'block';
+  const savedLang = localStorage.getItem('ajplus-admin-lang') || 'sw';
+  setLang(savedLang);
   loadDashboard();
+  // Auto refresh kila dakika 2
+  setInterval(checkNewPayments, 120000);
 }
 
 function doAdminLogout() {
@@ -403,54 +466,68 @@ function doAdminLogout() {
   document.getElementById('admin-pass').value = '';
 }
 
-// Auto-restore session
 window.addEventListener('DOMContentLoaded', () => {
   const saved = sessionStorage.getItem('ajplus-admin-secret');
   if (saved) {
     ADMIN_SECRET = saved;
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
+    const savedLang = localStorage.getItem('ajplus-admin-lang') || 'sw';
+    setLang(savedLang);
     loadDashboard();
+    setInterval(checkNewPayments, 120000);
   }
   document.getElementById('admin-pass').addEventListener('keydown', e => {
     if (e.key === 'Enter') doAdminLogin();
   });
 });
 
-// ── NAVIGATION ────────────────────────────────────
+// ── NAV ────────────────────────────────────────────
 function showPage(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.sb-item').forEach(s => s.classList.remove('active'));
   document.getElementById('page-' + page)?.classList.add('active');
   document.getElementById('nav-' + page)?.classList.add('active');
-  // Load data
-  if (page === 'users') loadUsers();
-  if (page === 'chats') loadChats();
+  if (page === 'users')    loadUsers();
+  if (page === 'chats')    loadChats();
   if (page === 'payments') loadPayments();
-  if (page === 'codes') loadCodes();
+  if (page === 'codes')    loadCodes();
   if (page === 'dashboard') loadDashboard();
 }
 
-// ── SUPABASE QUERY ────────────────────────────────
-async function sb(table, filter = '') {
+// ── SUPABASE ───────────────────────────────────────
+async function sb(table, filter = '', limit = 100) {
   try {
-    const url = `${SUPABASE_URL}/rest/v1/${table}?${filter}&order=created_at.desc&limit=100`;
+    const url = `${SUPABASE_URL}/rest/v1/${table}?${filter}&order=created_at.desc&limit=${limit}`;
     const res = await fetch(url, {
-      headers: {
-        'apikey': SUPABASE_ANON,
-        'Authorization': `Bearer ${SUPABASE_ANON}`
-      }
+      headers: { 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${SUPABASE_ANON}` }
     });
     if (!res.ok) return [];
     return await res.json();
   } catch(e) { return []; }
 }
 
-// ── DASHBOARD ─────────────────────────────────────
+async function sbPatch(table, filter, data) {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${filter}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON,
+        'Authorization': `Bearer ${SUPABASE_ANON}`
+      },
+      body: JSON.stringify(data)
+    });
+    return res.ok;
+  } catch(e) { return false; }
+}
+
+// ── DASHBOARD ──────────────────────────────────────
 async function loadDashboard() {
-  const [users, codes] = await Promise.all([
+  const [users, codes, payments] = await Promise.all([
     sb('users'),
-    sb('activation_codes')
+    sb('activation_codes'),
+    sb('payments')
   ]);
 
   document.getElementById('stat-users').textContent   = users.length;
@@ -458,143 +535,230 @@ async function loadDashboard() {
   document.getElementById('stat-paying').textContent  = users.filter(u => !['trial','free'].includes(u.plan)).length;
   document.getElementById('stat-codes').textContent   = codes.length;
 
+  const today = new Date().toDateString();
+  const todayPayments = payments.filter(p => new Date(p.created_at).toDateString() === today);
+  document.getElementById('stat-today-payments').textContent = todayPayments.length;
+
+  // Alert ya malipo mapya ambayo code haijatumwa
+  const pending = payments.filter(p => !p.code_sent);
+  if (pending.length > 0) {
+    document.getElementById('new-payments-alert').classList.add('show');
+    document.getElementById('alert-count').textContent = pending.length;
+    const badge = document.getElementById('payments-badge');
+    badge.style.display = 'inline';
+    badge.textContent   = pending.length;
+  } else {
+    document.getElementById('new-payments-alert').classList.remove('show');
+    document.getElementById('payments-badge').style.display = 'none';
+  }
+
+  // Recent payments
+  document.getElementById('dash-payments').innerHTML = payments.length ?
+    `<table><thead><tr><th>${_lang==='sw'?'Jina':'Name'}</th><th>${_lang==='sw'?'Mpango':'Plan'}</th><th>${_lang==='sw'?'Kiasi':'Amount'}</th><th>${_lang==='sw'?'Hali':'Status'}</th></tr></thead>
+    <tbody>${payments.slice(0,5).map(p => `
+      <tr>
+        <td style="font-size:.78rem;font-weight:500">${esc(p.name||'—')}</td>
+        <td><span class="badge badge-${p.plan||'msingi'}">${(p.plan||'').toUpperCase()}</span></td>
+        <td style="color:var(--gold);font-weight:700">TZS ${Number(p.amount||0).toLocaleString()}</td>
+        <td><span class="badge ${p.code_sent?'badge-sent':'badge-pending'}">${p.code_sent?(_lang==='sw'?'Imetumwa':'Sent'):(_lang==='sw'?'Inasubiri':'Pending')}</span></td>
+      </tr>`).join('')}</tbody></table>` :
+    `<div class="empty"><span class="empty-icon">💰</span>${_lang==='sw'?'Hakuna malipo bado':'No payments yet'}</div>`;
+
   // Recent users
-  const recentUsers = users.slice(0, 5);
-  document.getElementById('recent-users').innerHTML = recentUsers.length ? `
-    <table>
-      <thead><tr><th>Email</th><th>Mpango</th><th>Tarehe</th></tr></thead>
-      <tbody>${recentUsers.map(u => `
-        <tr>
-          <td style="font-size:.76rem">${u.email || '—'}</td>
-          <td><span class="badge badge-${u.plan||'free'}">${(u.plan||'free').toUpperCase()}</span></td>
-          <td style="color:var(--muted);font-size:.72rem">${u.created_at ? new Date(u.created_at).toLocaleDateString('sw') : '—'}</td>
-        </tr>`).join('')}
-      </tbody>
-    </table>` : '<div class="empty"><span class="empty-icon">👥</span>Hakuna watumiaji bado</div>';
-
-  loadRecentPayments();
+  document.getElementById('dash-users').innerHTML = users.length ?
+    `<table><thead><tr><th>Email</th><th>${_lang==='sw'?'Mpango':'Plan'}</th><th>${_lang==='sw'?'Tarehe':'Date'}</th></tr></thead>
+    <tbody>${users.slice(0,5).map(u => `
+      <tr>
+        <td style="font-size:.76rem">${u.email||'—'}</td>
+        <td><span class="badge badge-${u.plan||'free'}">${(u.plan||'free').toUpperCase()}</span></td>
+        <td style="color:var(--muted);font-size:.72rem">${u.created_at?new Date(u.created_at).toLocaleDateString():'-'}</td>
+      </tr>`).join('')}</tbody></table>` :
+    `<div class="empty"><span class="empty-icon">👥</span>${_lang==='sw'?'Hakuna watumiaji bado':'No users yet'}</div>`;
 }
 
-async function loadRecentPayments() {
+async function checkNewPayments() {
+  const payments = await sb('payments', 'code_sent=eq.false');
+  const badge = document.getElementById('payments-badge');
+  if (payments.length > 0) {
+    badge.style.display = 'inline';
+    badge.textContent   = payments.length;
+    document.getElementById('new-payments-alert').classList.add('show');
+    document.getElementById('alert-count').textContent = payments.length;
+    showToast(`🔔 ${_lang==='sw'?'Malipo mapya':'New payments'}: ${payments.length}`, 'warning');
+  }
+}
+
+// ── PAYMENTS ───────────────────────────────────────
+async function loadPayments() {
   const payments = await sb('payments');
-  document.getElementById('recent-payments').innerHTML = payments.length ? `
-    <table>
-      <thead><tr><th>Jina</th><th>Mpango</th><th>Kiasi</th></tr></thead>
-      <tbody>${payments.slice(0,5).map(p => `
-        <tr>
-          <td style="font-size:.76rem">${p.name || '—'}</td>
-          <td><span class="badge badge-${p.plan||'msingi'}">${(p.plan||'').toUpperCase()}</span></td>
-          <td style="color:var(--gold);font-weight:600;font-size:.76rem">TZS ${Number(p.amount||0).toLocaleString()}</td>
-        </tr>`).join('')}
-      </tbody>
-    </table>` : '<div class="empty"><span class="empty-icon">💰</span>Hakuna malipo bado</div>';
+  const el = document.getElementById('payments-list');
+
+  if (!payments.length) {
+    el.innerHTML = `<div class="empty"><span class="empty-icon">💰</span>${_lang==='sw'?'Hakuna malipo bado':'No payments yet'}</div>`;
+    return;
+  }
+
+  el.innerHTML = payments.map(p => `
+    <div class="payment-card ${!p.code_sent ? 'new-payment' : ''}">
+      <div class="payment-card-header">
+        <div>
+          <div class="payment-name">${esc(p.name || (_lang==='sw'?'Haijulikani':'Unknown'))}</div>
+          <div style="font-size:.72rem;color:var(--muted)">${p.email||''} ${p.phone?'• '+p.phone:''}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="payment-amount">TZS ${Number(p.amount||0).toLocaleString()}</div>
+          <span class="badge badge-${p.plan||'msingi'}">${(p.plan||'msingi').toUpperCase()}</span>
+        </div>
+      </div>
+      <div class="payment-details">
+        📅 ${p.created_at ? new Date(p.created_at).toLocaleString() : '—'}
+        ${!p.code_sent ? `<span style="color:var(--orange);font-weight:600;margin-left:8px">⏳ ${_lang==='sw'?'Code haijatumwa':'Code not sent'}</span>` : `<span style="color:var(--green);font-weight:600;margin-left:8px">✅ ${_lang==='sw'?'Code imetumwa':'Code sent'}</span>`}
+      </div>
+      <div class="payment-actions">
+        <button class="btn btn-gold btn-sm" onclick="quickGenerateAndSend('${p.id}','${p.plan||'msingi'}','${p.phone||''}','${p.email||''}','${esc(p.name||'')}')">
+          ✨ ${_lang==='sw'?'Tengeneza & Tuma Code':'Generate & Send Code'}
+        </button>
+        ${p.phone ? `<button class="btn btn-wa btn-sm" onclick="openWhatsApp('${p.phone}','','${p.plan||'msingi'}','${esc(p.name||'')}')">💬 WhatsApp</button>` : ''}
+      </div>
+    </div>`).join('');
 }
 
-async function loadRecentUsers() { loadDashboard(); }
+// Tengeneza code na tuma moja kwa moja
+async function quickGenerateAndSend(paymentId, plan, phone, email, name) {
+  try {
+    const res = await fetch('/api/activate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-admin-secret': ADMIN_SECRET },
+      body: JSON.stringify({ action: 'generate', plan, email: email||null })
+    });
+    const data = await res.json();
 
-// ── CODES ─────────────────────────────────────────
+    if (!res.ok || data.error) {
+      if (res.status === 401) { showToast('❌ Password si sahihi!', 'error'); doAdminLogout(); return; }
+      showToast('❌ ' + (data.error||'Imeshindwa'), 'error');
+      return;
+    }
+
+    // Weka code_sent = true kwenye payment
+    await sbPatch('payments', `id=eq.${paymentId}`, { code_sent: true, activation_code: data.code });
+
+    showToast(`✅ Code: ${data.code}`, 'success');
+
+    // Fungua WhatsApp moja kwa moja
+    openWhatsApp(phone, data.code, plan, name);
+
+    // Reload
+    setTimeout(loadPayments, 500);
+
+  } catch(e) {
+    showToast('❌ ' + (_lang==='sw'?'Tatizo la mtandao':'Network error'), 'error');
+  }
+}
+
+function openWhatsApp(phone, code, plan, name) {
+  const planNames = {
+    msingi:   _lang==='sw'?'Msingi (Maswali 50/siku)':'Basic (50 questions/day)',
+    kawaida:  _lang==='sw'?'Kawaida (Maswali 150/siku)':'Normal (150 questions/day)',
+    pro:      _lang==='sw'?'Pro (Bila kikomo)':'Pro (Unlimited)',
+    biashara: _lang==='sw'?'Biashara (API + Team)':'Business (API + Team)'
+  };
+
+  const msg = _lang === 'sw' ?
+    `Habari ${name||''}! 🇹🇿\n\nAsante kwa kulipa AJPLUS AI!\n\n🔑 CODE YAKO: *${code||'(tuma baadaye)'}*\n📦 Mpango: ${planNames[plan]||plan}\n\n📌 Jinsi ya kutumia:\n1. Nenda ajplusai.co.tz\n2. Ingia kwenye akaunti yako\n3. Bonyeza "Nina Code" juu ya chat\n4. Weka code: *${code||'...'}*\n5. Akaunti yako inafunguka! ✅\n\n❓ Msaada: +255762307647` :
+    `Hello ${name||''}! 🇹🇿\n\nThank you for paying for AJPLUS AI!\n\n🔑 YOUR CODE: *${code||'(send later)'}*\n📦 Plan: ${planNames[plan]||plan}\n\n📌 How to use:\n1. Go to ajplusai.co.tz\n2. Login to your account\n3. Click "I Have a Code" above the chat\n4. Enter code: *${code||'...'}*\n5. Your account is activated! ✅\n\n❓ Support: +255762307647`;
+
+  const tel = phone ? phone.replace(/\D/g,'') : '255762307647';
+  window.open(`https://wa.me/${tel}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ── CODES ──────────────────────────────────────────
 async function generateCode() {
   const plan  = document.getElementById('code-plan').value;
   const email = document.getElementById('code-email').value.trim();
+  const phone = document.getElementById('code-phone').value.trim();
 
   try {
     const res = await fetch('/api/activate', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-admin-secret': ADMIN_SECRET
-      },
-      body: JSON.stringify({ action: 'generate', plan, email: email || null })
+      headers: { 'Content-Type': 'application/json', 'x-admin-secret': ADMIN_SECRET },
+      body: JSON.stringify({ action: 'generate', plan, email: email||null })
     });
-
     const data = await res.json();
 
     if (!res.ok || data.error) {
-      if (res.status === 401) {
-        showToast('❌ Password ya admin si sahihi!', 'error');
-        doAdminLogout();
-      } else {
-        showToast('❌ ' + (data.error || 'Imeshindwa'), 'error');
-      }
-      return;
+      if (res.status === 401) { showToast('❌ Password si sahihi! / Wrong password!', 'error'); doAdminLogout(); return; }
+      showToast('❌ ' + (data.error||'Error'), 'error'); return;
     }
 
-    _codeEmail = email;
-    _codePlan  = plan;
+    _generatedCode = data.code;
+    _codePlan      = plan;
+    _codePhone     = phone;
 
     document.getElementById('generated-code').textContent = data.code;
-    document.getElementById('generated-plan').textContent =
-      `${plan.toUpperCase()} ${email ? '• ' + email : ''}`;
+    document.getElementById('generated-info').textContent = `${plan.toUpperCase()} ${email?'• '+email:''} ${phone?'• '+phone:''}`;
     document.getElementById('code-result').style.display = 'block';
-    showToast('✅ Code imetengenezwa: ' + data.code, 'success');
+    showToast('✅ Code: ' + data.code, 'success');
     loadCodes();
 
   } catch(e) {
-    showToast('❌ Tatizo la mtandao', 'error');
+    showToast('❌ ' + (_lang==='sw'?'Tatizo la mtandao':'Network error'), 'error');
   }
 }
 
 function copyCode() {
-  const code = document.getElementById('generated-code').textContent;
-  navigator.clipboard.writeText(code).then(() => showToast('✅ Code imenakiliwa!', 'success'));
+  navigator.clipboard.writeText(_generatedCode).then(() =>
+    showToast('✅ ' + (_lang==='sw'?'Imenakiliwa!':'Copied!'), 'success'));
 }
 
 function sendWhatsApp() {
-  const code  = document.getElementById('generated-code').textContent;
-  const plan  = _codePlan;
-  const email = _codeEmail;
-  const planNames = { msingi:'Msingi (TZS 20,000)', kawaida:'Kawaida (TZS 40,000)', pro:'Pro (TZS 60,000)', biashara:'Biashara (TZS 100,000)' };
-  const msg = `Habari! 🇹🇿\n\nAsante kwa kulipa AJPLUS AI!\n\n` +
-    `🔑 CODE YAKO: *${code}*\n` +
-    `📦 Mpango: ${planNames[plan] || plan}\n\n` +
-    `📌 Jinsi ya kutumia:\n` +
-    `1. Nenda ajplusai.co.tz\n` +
-    `2. Bonyeza "Weka Code"\n` +
-    `3. Weka code: *${code}*\n` +
-    `4. Akaunti yako inafunguka mara moja! ✅\n\n` +
-    `❓ Msaada: +255762307647`;
-  const phone = email ? '' : '255762307647';
-  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+  openWhatsApp(_codePhone, _generatedCode, _codePlan, '');
 }
 
 async function loadCodes() {
   const codes = await sb('activation_codes');
   const el = document.getElementById('codes-list');
   if (!codes.length) {
-    el.innerHTML = '<div class="empty"><span class="empty-icon">🔑</span>Hakuna codes bado</div>';
+    el.innerHTML = `<div class="empty"><span class="empty-icon">🔑</span>${_lang==='sw'?'Hakuna codes bado':'No codes yet'}</div>`;
     return;
   }
   el.innerHTML = `<div class="table-wrap"><table>
-    <thead><tr><th>Code</th><th>Mpango</th><th>Hali</th><th>Email</th></tr></thead>
+    <thead><tr><th>Code</th><th>${_lang==='sw'?'Mpango':'Plan'}</th><th>${_lang==='sw'?'Hali':'Status'}</th><th>Email</th></tr></thead>
     <tbody>${codes.map(c => `
       <tr>
         <td><code style="background:var(--bg);padding:2px 7px;border-radius:5px;font-size:.8rem;color:var(--gold);letter-spacing:.05em">${c.code}</code></td>
         <td><span class="badge badge-${c.plan}">${(c.plan||'').toUpperCase()}</span></td>
-        <td><span class="badge ${c.used ? 'badge-used' : 'badge-fresh'}">${c.used ? 'Imetumika' : 'Mpya'}</span></td>
-        <td style="color:var(--muted);font-size:.72rem">${c.email || '—'}</td>
+        <td><span class="badge ${c.used?'badge-used':'badge-fresh'}">${c.used?(_lang==='sw'?'Imetumika':'Used'):(_lang==='sw'?'Mpya':'Fresh')}</span></td>
+        <td style="color:var(--muted);font-size:.72rem">${c.email||'—'}</td>
       </tr>`).join('')}
     </tbody></table></div>`;
 }
 
-// ── USERS ─────────────────────────────────────────
+// ── USERS ──────────────────────────────────────────
 async function loadUsers() {
   const users = await sb('users');
   const el = document.getElementById('users-table');
   if (!users.length) {
-    el.innerHTML = '<div class="empty"><span class="empty-icon">👥</span>Hakuna watumiaji bado</div>';
+    el.innerHTML = `<div class="empty"><span class="empty-icon">👥</span>${_lang==='sw'?'Hakuna watumiaji bado':'No users yet'}</div>`;
     return;
   }
   el.innerHTML = `<table>
-    <thead><tr><th>Email</th><th>Mpango</th><th>Maswali Leo</th><th>Ameingia</th><th>Hatua</th></tr></thead>
+    <thead><tr>
+      <th>Email</th>
+      <th>${_lang==='sw'?'Mpango':'Plan'}</th>
+      <th>${_lang==='sw'?'Maswali Leo':'Questions Today'}</th>
+      <th>${_lang==='sw'?'Tarehe':'Date'}</th>
+      <th>${_lang==='sw'?'Badilisha':'Change'}</th>
+    </tr></thead>
     <tbody>${users.map(u => `
       <tr>
-        <td style="font-size:.76rem">${u.email || '—'}</td>
+        <td style="font-size:.76rem">${u.email||'—'}</td>
         <td><span class="badge badge-${u.plan||'free'}">${(u.plan||'free').toUpperCase()}</span></td>
-        <td style="text-align:center">${u.questions_today || 0}</td>
-        <td style="color:var(--muted);font-size:.72rem">${u.created_at ? new Date(u.created_at).toLocaleDateString('sw') : '—'}</td>
+        <td style="text-align:center">${u.questions_today||0}</td>
+        <td style="color:var(--muted);font-size:.72rem">${u.created_at?new Date(u.created_at).toLocaleDateString():'-'}</td>
         <td>
-          <select onchange="changePlan('${u.email}', this.value)" style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:3px 7px;color:var(--text);font-size:.72rem;cursor:pointer">
-            <option value="">Badilisha...</option>
+          <select onchange="changePlan('${u.email}',this.value)"
+            style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:3px 7px;color:var(--text);font-size:.72rem;cursor:pointer">
+            <option value="">${_lang==='sw'?'Badilisha...':'Change...'}</option>
             <option value="trial">Trial</option>
             <option value="msingi">Msingi</option>
             <option value="kawaida">Kawaida</option>
@@ -608,77 +772,48 @@ async function loadUsers() {
 
 async function changePlan(email, plan) {
   if (!plan || !email) return;
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/users?email=eq.${email}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPABASE_ANON,
-        'Authorization': `Bearer ${SUPABASE_ANON}`
-      },
-      body: JSON.stringify({ plan })
-    });
-    if (res.ok) {
-      showToast(`✅ ${email} → ${plan.toUpperCase()}`, 'success');
-      setTimeout(loadUsers, 500);
-    }
-  } catch(e) { showToast('❌ Imeshindwa kubadilisha', 'error'); }
+  const ok = await sbPatch('users', `email=eq.${email}`, { plan });
+  if (ok) { showToast(`✅ ${email} → ${plan.toUpperCase()}`, 'success'); setTimeout(loadUsers, 500); }
+  else showToast('❌ ' + (_lang==='sw'?'Imeshindwa':'Failed'), 'error');
 }
 
-// ── CHATS ─────────────────────────────────────────
+// ── CHATS ──────────────────────────────────────────
 async function loadChats() {
-  const chats = await sb('chats');
+  const chats = await sb('chats', '', 50);
   const el = document.getElementById('chats-table');
   if (!chats.length) {
-    el.innerHTML = '<div class="empty"><span class="empty-icon">💬</span>Hakuna mazungumzo bado</div>';
+    el.innerHTML = `<div class="empty"><span class="empty-icon">💬</span>${_lang==='sw'?'Hakuna mazungumzo bado':'No conversations yet'}</div>`;
     return;
   }
   el.innerHTML = `<table>
-    <thead><tr><th>Email</th><th>Swali</th><th>Jibu (snippet)</th><th>Tarehe</th></tr></thead>
-    <tbody>${chats.slice(0,50).map(c => `
+    <thead><tr>
+      <th>Email</th>
+      <th>${_lang==='sw'?'Swali':'Question'}</th>
+      <th>${_lang==='sw'?'Jibu':'Reply'}</th>
+      <th>${_lang==='sw'?'Tarehe':'Date'}</th>
+    </tr></thead>
+    <tbody>${chats.map(c => `
       <tr>
-        <td style="font-size:.72rem;color:var(--muted)">${c.user_email || '—'}</td>
-        <td style="font-size:.76rem;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(c.message?.slice(0,60) || '—')}</td>
-        <td style="font-size:.72rem;color:var(--muted);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(c.reply?.slice(0,60) || '—')}</td>
-        <td style="color:var(--muted);font-size:.7rem;white-space:nowrap">${c.created_at ? new Date(c.created_at).toLocaleString('sw') : '—'}</td>
+        <td style="font-size:.72rem;color:var(--muted)">${c.user_email||'—'}</td>
+        <td style="font-size:.76rem;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(c.message?.slice(0,60)||'—')}</td>
+        <td style="font-size:.72rem;color:var(--muted);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(c.reply?.slice(0,60)||'—')}</td>
+        <td style="color:var(--muted);font-size:.7rem;white-space:nowrap">${c.created_at?new Date(c.created_at).toLocaleString():'-'}</td>
       </tr>`).join('')}
     </tbody></table>`;
 }
 
-// ── PAYMENTS ──────────────────────────────────────
-async function loadPayments() {
-  const payments = await sb('payments');
-  const el = document.getElementById('payments-table');
-  if (!payments.length) {
-    el.innerHTML = '<div class="empty"><span class="empty-icon">💰</span>Hakuna malipo bado</div>';
-    return;
-  }
-  el.innerHTML = `<table>
-    <thead><tr><th>Jina</th><th>Email</th><th>Simu</th><th>Mpango</th><th>Kiasi</th><th>Tarehe</th></tr></thead>
-    <tbody>${payments.map(p => `
-      <tr>
-        <td style="font-size:.78rem;font-weight:500">${esc(p.name || '—')}</td>
-        <td style="font-size:.72rem;color:var(--muted)">${p.email || '—'}</td>
-        <td style="font-size:.72rem">${p.phone || '—'}</td>
-        <td><span class="badge badge-${p.plan||'msingi'}">${(p.plan||'').toUpperCase()}</span></td>
-        <td style="color:var(--gold);font-weight:700;font-size:.78rem">TZS ${Number(p.amount||0).toLocaleString()}</td>
-        <td style="color:var(--muted);font-size:.7rem;white-space:nowrap">${p.created_at ? new Date(p.created_at).toLocaleString('sw') : '—'}</td>
-      </tr>`).join('')}
-    </tbody></table>`;
-}
-
-// ── TOAST ─────────────────────────────────────────
+// ── TOAST ──────────────────────────────────────────
 function showToast(msg, type = '') {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className   = 'toast' + (type ? ' ' + type : '');
   t.classList.add('show');
   clearTimeout(t._t);
-  t._t = setTimeout(() => t.classList.remove('show'), 3500);
+  t._t = setTimeout(() => t.classList.remove('show'), 4000);
 }
 
 function esc(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;').replace(/"/g,'&quot;');
 }
 </script>
 </body>
