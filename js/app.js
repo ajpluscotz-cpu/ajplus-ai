@@ -302,26 +302,199 @@ function savePDF(btn) {
   if (!text) return;
   try {
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    doc.setFontSize(13);
-    doc.text('AJPLUS AI', 14, 16);
-    doc.setFontSize(10);
-    doc.text(doc.splitTextToSize(text, 180), 14, 28);
-    doc.save('AJPLUS-AI.pdf');
-    showToast('✅ PDF imehifadhiwa!', 'success');
-  } catch(e) { showToast('❌ Jaribu tena', 'error'); }
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+    const W = doc.internal.pageSize.getWidth();
+    const H = doc.internal.pageSize.getHeight();
+    const margin = 18;
+    const contentW = W - margin * 2;
+
+    // ── COLORS ──
+    const GOLD   = [201, 168, 76];
+    const GREEN  = [30,  181, 58];
+    const DARK   = [26,  26,  26];
+    const WHITE  = [255, 255, 255];
+    const MUTED  = [136, 136, 136];
+    const BGPAGE = [250, 249, 246];
+
+    // ── BACKGROUND ──
+    doc.setFillColor(...BGPAGE);
+    doc.rect(0, 0, W, H, 'F');
+
+    // ── HEADER — bar ya dhahabu ──
+    doc.setFillColor(...GOLD);
+    doc.rect(0, 0, W, 22, 'F');
+
+    // Green strip chini ya header
+    doc.setFillColor(...GREEN);
+    doc.rect(0, 22, W, 1.5, 'F');
+
+    // Logo circle
+    doc.setFillColor(...DARK);
+    doc.circle(margin + 6, 11, 6, 'F');
+    doc.setFillColor(...GOLD);
+    doc.circle(margin + 6, 11, 5.5, 'S');
+    doc.setTextColor(...WHITE);
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'bold');
+    doc.text('AJ', margin + 6, 13, { align: 'center' });
+
+    // AJPLUS AI title
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(...WHITE);
+    doc.text('AJPLUS AI', margin + 15, 10);
+
+    doc.setFontSize(7.5);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Mshauri wa Kwanza wa Kitanzania', margin + 15, 16);
+
+    // Website kulia
+    doc.setFontSize(7.5);
+    doc.text('ajplusai.co.tz', W - margin, 10, { align: 'right' });
+    doc.text('+255 670 307 647', W - margin, 16, { align: 'right' });
+
+    // ── TITLE ya hati ──
+    let y = 34;
+    doc.setFillColor(...GOLD);
+    doc.roundedRect(margin, y, contentW, 10, 2, 2, 'F');
+    doc.setTextColor(...WHITE);
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.text('JIBU LA AJPLUS AI', W / 2, y + 7, { align: 'center' });
+
+    // Tarehe
+    y += 14;
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('sw-TZ', {
+      day: '2-digit', month: 'long', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...MUTED);
+    doc.text(`Tarehe: ${dateStr}`, margin, y);
+
+    // Gold divider
+    y += 4;
+    doc.setDrawColor(...GOLD);
+    doc.setLineWidth(0.5);
+    doc.line(margin, y, W - margin, y);
+
+    // ── CONTENT ──
+    y += 8;
+    doc.setTextColor(...DARK);
+    doc.setFontSize(10.5);
+    doc.setFont('helvetica', 'normal');
+
+    // Split text kwa mistari
+    const lines = doc.splitTextToSize(text, contentW);
+    const lineH = 6;
+    const pageBottom = H - 22;
+
+    for (let i = 0; i < lines.length; i++) {
+      if (y + lineH > pageBottom) {
+        // Ukurasa mpya
+        doc.addPage();
+
+        // Background
+        doc.setFillColor(...BGPAGE);
+        doc.rect(0, 0, W, H, 'F');
+
+        // Header ndogo
+        doc.setFillColor(...GOLD);
+        doc.rect(0, 0, W, 12, 'F');
+        doc.setFillColor(...GREEN);
+        doc.rect(0, 12, W, 0.8, 'F');
+        doc.setTextColor(...WHITE);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'bold');
+        doc.text('AJPLUS AI', margin, 8);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        doc.text('ajplusai.co.tz', W - margin, 8, { align: 'right' });
+
+        y = 20;
+        doc.setTextColor(...DARK);
+        doc.setFontSize(10.5);
+        doc.setFont('helvetica', 'normal');
+      }
+
+      // Bold lines (zinaanza na **)
+      const line = lines[i];
+      doc.text(line, margin, y);
+      y += lineH;
+    }
+
+    // ── FOOTER ──
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let p = 1; p <= pageCount; p++) {
+      doc.setPage(p);
+      const fH = H;
+
+      // Gold footer bar
+      doc.setFillColor(...GOLD);
+      doc.rect(0, fH - 14, W, 14, 'F');
+
+      doc.setTextColor(...WHITE);
+      doc.setFontSize(7.5);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Ukurasa ${p} / ${pageCount}`, margin, fH - 5);
+      doc.text('© 2025 AJ PLUS COMPANY LIMITED — ajplusai.co.tz', W / 2, fH - 5, { align: 'center' });
+      doc.text(dateStr, W - margin, fH - 5, { align: 'right' });
+    }
+
+    // Save
+    const fname = `AJPLUS-AI-${now.getTime()}.pdf`;
+    doc.save(fname);
+    showToast('✅ PDF nzuri imehifadhiwa!', 'success');
+
+  } catch(e) {
+    console.error(e);
+    showToast('❌ Tatizo: ' + e.message, 'error');
+  }
 }
 
 function saveWord(btn) {
   const text = getMsgText(btn);
   if (!text) return;
-  const html = `<html><head><meta charset="UTF-8"></head><body><h2>AJPLUS AI</h2><p>${text.replace(/\n/g,'</p><p>')}</p></body></html>`;
+  const now = new Date().toLocaleDateString('sw-TZ');
+  const html = `
+<html xmlns:o='urn:schemas-microsoft-com:office:office'
+      xmlns:w='urn:schemas-microsoft-com:office:word'
+      xmlns='http://www.w3.org/TR/REC-html40'>
+<head><meta charset="UTF-8">
+<style>
+  body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; color: #1A1A1A; margin: 2cm; }
+  .header { background: #C9A84C; color: white; padding: 12px 16px; margin-bottom: 0; }
+  .header h1 { margin: 0; font-size: 16pt; }
+  .header p { margin: 3px 0 0; font-size: 9pt; opacity: .85; }
+  .green-bar { background: #1EB53A; height: 4px; margin-bottom: 20px; }
+  .title-bar { background: #C9A84C; color: white; padding: 7px 14px; font-weight: bold; font-size: 11pt; margin-bottom: 14px; }
+  .meta { color: #888; font-size: 9pt; margin-bottom: 10px; border-bottom: 1px solid #C9A84C; padding-bottom: 8px; }
+  .content { line-height: 1.7; font-size: 11pt; }
+  .footer { margin-top: 30px; border-top: 2px solid #C9A84C; padding-top: 8px; color: #888; font-size: 8pt; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>AJPLUS AI</h1>
+  <p>Mshauri wa Kwanza wa Kitanzania | ajplusai.co.tz | +255 670 307 647</p>
+</div>
+<div class="green-bar"></div>
+<div class="title-bar">JIBU LA AJPLUS AI</div>
+<div class="meta">Tarehe: ${now} &nbsp;|&nbsp; ajplusai.co.tz</div>
+<div class="content">${text.replace(/\n/g,'<br>')}</div>
+<div class="footer">
+  © 2025 AJ PLUS COMPANY LIMITED — ajplusai.co.tz | Hati hii imeandaliwa na AJPLUS AI
+</div>
+</body></html>`;
+
   const a = Object.assign(document.createElement('a'), {
-    href: URL.createObjectURL(new Blob([html], { type: 'application/msword' })),
-    download: 'AJPLUS-AI.doc'
+    href: URL.createObjectURL(new Blob(['\ufeff' + html], { type: 'application/msword' })),
+    download: `AJPLUS-AI-${Date.now()}.doc`
   });
   a.click();
-  showToast('✅ Word imehifadhiwa!', 'success');
+  showToast('✅ Word nzuri imehifadhiwa!', 'success');
 }
 
 function shareWA(btn) {
