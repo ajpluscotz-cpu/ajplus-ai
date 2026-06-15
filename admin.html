@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AJPLUS AI — Admin Panel</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A84C;--gold2:#E8B84B;--green:#1EB53A;
+  --bg:#0F0F0D;--bg2:#1A1A16;--card:#1E1E1A;
+  --border:#2A2A24;--text:#F0EDE6;--muted:#888;
+  --red:#DC2626;--orange:#D97706;--blue:#3B82F6;
+  --font:'Inter',system-ui,sans-serif;
+  --radius:12px;--shadow:0 4px 24px rgba(0,0,0,.3);
+}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.6;min-height:100vh}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+/* ── LOGIN ── */
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:radial-gradient(ellipse at center,#1a1a16 0%,#0f0f0d 70%)}
+.login-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:40px;width:100%;max-width:380px;text-align:center;box-shadow:var(--shadow)}
+.login-logo{width:64px;height:64px;border-radius:50%;border:2px solid var(--gold);margin:0 auto 16px;display:block;object-fit:cover;box-shadow:0 0 20px rgba(201,168,76,.3)}
+.login-title{font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+.login-sub{color:var(--muted);font-size:.8rem;margin-bottom:28px}
+.login-input{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text);font-size:.88rem;outline:none;font-family:var(--font);margin-bottom:12px;transition:border-color .2s}
+.login-input:focus{border-color:var(--gold)}
+.login-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold),var(--green));border:none;border-radius:10px;color:#fff;font-size:.9rem;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:var(--font)}
+.login-btn:hover{opacity:.88}
+.login-error{color:var(--red);font-size:.78rem;margin-top:8px;min-height:18px}
+
+/* ── DASHBOARD ── */
+#dashboard{display:none}
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+
+/* ── SIDEBAR ── */
+.sidebar{background:var(--card);border-right:1px solid var(--border);padding:16px 10px;display:flex;flex-direction:column;gap:2px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sb-brand{display:flex;align-items:center;gap:10px;padding:10px;margin-bottom:12px}
+.sb-logo{width:36px;height:36px;border-radius:50%;border:2px solid var(--gold);object-fit:cover}
+.sb-title{font-size:.9rem;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sb-sub{font-size:.62rem;color:var(--muted)}
+.sb-divider{height:1px;background:var(--border);margin:8px 0;opacity:.5}
+.sb-label{font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 10px 4px;opacity:.6}
+.sb-item{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:9px;font-size:.8rem;color:var(--muted);cursor:pointer;transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:var(--font)}
+.sb-item:hover{color:var(--text);background:var(--bg2)}
+.sb-item.active{color:var(--text);background:var(--bg2);font-weight:600}
+.sb-item.active .sb-icon{background:linear-gradient(135deg,var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sb-icon{font-size:.88rem;width:18px;text-align:center}
+.sb-badge{margin-left:auto;background:var(--red);color:#fff;border-radius:10px;padding:1px 6px;font-size:.6rem;font-weight:700}
+.sb-bottom{margin-top:auto;padding-top:8px}
+.logout-btn{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:9px;font-size:.8rem;color:var(--red);cursor:pointer;border:none;background:none;width:100%;font-family:var(--font);transition:all .15s}
+.logout-btn:hover{background:rgba(220,38,38,.1)}
+
+/* ── MAIN ── */
+.main{padding:24px;overflow-y:auto;background:var(--bg)}
+.page{display:none}
+.page.active{display:block}
+.page-header{margin-bottom:20px}
+.page-title{font-size:1.2rem;font-weight:700;letter-spacing:-.02em}
+.page-sub{font-size:.78rem;color:var(--muted);margin-top:2px}
+
+/* ── STATS GRID ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:24px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;right:0;width:60px;height:60px;border-radius:50%;opacity:.06;transform:translate(20px,-20px)}
+.stat-card.gold::before{background:var(--gold)}
+.stat-card.green::before{background:var(--green)}
+.stat-card.blue::before{background:var(--blue)}
+.stat-card.red::before{background:var(--red)}
+.stat-label{font-size:.7rem;color:var(--muted);font-weight:500;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
+.stat-value{font-size:1.8rem;font-weight:800;letter-spacing:-.03em}
+.stat-card.gold .stat-value{color:var(--gold)}
+.stat-card.green .stat-value{color:var(--green)}
+.stat-card.blue .stat-value{color:var(--blue)}
+.stat-card.red .stat-value{color:var(--red)}
+.stat-sub{font-size:.68rem;color:var(--muted);margin-top:3px}
+
+/* ── CARDS ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px}
+.card-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:.88rem;font-weight:600}
+.card-body{padding:16px 18px}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:.78rem;font-weight:600;border:none;cursor:pointer;transition:all .18s;font-family:var(--font)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff}
+.btn-gold:hover{opacity:.88;transform:translateY(-1px)}
+.btn-green{background:linear-gradient(135deg,var(--green),#17a033);color:#fff}
+.btn-green:hover{opacity:.88}
+.btn-red{background:rgba(220,38,38,.15);color:var(--red);border:1px solid rgba(220,38,38,.3)}
+.btn-red:hover{background:rgba(220,38,38,.25)}
+.btn-ghost{background:var(--bg2);color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn-sm{padding:5px 11px;font-size:.72rem}
+.btn-full{width:100%}
+
+/* ── FORMS ── */
+.form-group{margin-bottom:13px}
+.form-label{display:block;font-size:.72rem;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.form-input,.form-select{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 13px;color:var(--text);font-size:.84rem;outline:none;font-family:var(--font);transition:border-color .18s}
+.form-input:focus,.form-select:focus{border-color:var(--gold)}
+.form-select{cursor:pointer}
+.form-input::placeholder{color:var(--muted)}
+
+/* ── TABLE ── */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+th{text-align:left;padding:10px 14px;color:var(--muted);font-weight:600;background:var(--bg);font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border)}
+td{padding:11px 14px;border-bottom:1px solid rgba(42,42,36,.5);vertical-align:middle}
+tr:hover td{background:rgba(255,255,255,.02)}
+tr:last-child td{border-bottom:none}
+
+/* ── BADGES ── */
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.66rem;font-weight:700;letter-spacing:.03em}
+.badge-trial{background:rgba(59,130,246,.15);color:var(--blue)}
+.badge-msingi{background:rgba(201,168,76,.15);color:var(--gold)}
+.badge-kawaida{background:rgba(201,168,76,.2);color:#e8b84b}
+.badge-pro{background:rgba(30,181,58,.15);color:var(--green)}
+.badge-biashara{background:rgba(255,255,255,.1);color:#fff}
+.badge-free{background:rgba(136,136,136,.15);color:var(--muted)}
+.badge-ok{background:rgba(30,181,58,.15);color:var(--green)}
+.badge-error{background:rgba(220,38,38,.15);color:var(--red)}
+.badge-used{background:rgba(136,136,136,.15);color:var(--muted)}
+.badge-fresh{background:rgba(30,181,58,.15);color:var(--green)}
+
+/* ── CODE DISPLAY ── */
+.code-display{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;margin:14px 0}
+.code-text{font-size:1.6rem;font-weight:800;letter-spacing:.15em;background:linear-gradient(135deg,var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-family:monospace}
+.code-plan{font-size:.7rem;color:var(--muted);margin-top:4px}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 16px;border-radius:10px;font-size:.8rem;font-weight:500;transform:translateX(130%);transition:transform .22s;box-shadow:var(--shadow);display:flex;align-items:center;gap:8px}
+.toast.show{transform:translateX(0)}
+.toast.success{border-color:var(--green);color:var(--green)}
+.toast.error{border-color:var(--red);color:var(--red)}
+
+/* ── LOADING ── */
+.loading{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--muted);gap:10px;font-size:.82rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;flex-shrink:0}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:40px;color:var(--muted);font-size:.84rem}
+.empty-icon{font-size:2.5rem;margin-bottom:10px;display:block}
+
+/* ── GRID ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .grid-2{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN ══ -->
+<div id="login-screen">
+  <div class="login-card">
+    <img class="login-logo" src="assets/logo.jpeg" alt="AJPLUS AI">
+    <div class="login-title">AJPLUS AI</div>
+    <div class="login-sub">Admin Panel — Ingia kwanza</div>
+    <input class="login-input" type="password" id="admin-pass" placeholder="Weka password yako ya admin..." onkeydown="if(event.key==='Enter')doAdminLogin()">
+    <button class="login-btn" onclick="doAdminLogin()">🔐 Ingia Admin</button>
+    <div class="login-error" id="login-err"></div>
+  </div>
+</div>
+
+<!-- ══ DASHBOARD ══ -->
+<div id="dashboard">
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-brand">
+    <img class="sb-logo" src="assets/logo.jpeg" alt="AJPLUS AI">
+    <div>
+      <div class="sb-title">AJPLUS AI</div>
+      <div class="sb-sub">Admin Panel</div>
+    </div>
+  </div>
+  <div class="sb-divider"></div>
+  <div class="sb-label">Kuu</div>
+  <button class="sb-item active" onclick="showPage('dashboard')" id="nav-dashboard">
+    <span class="sb-icon">📊</span> Dashibodi
+  </button>
+  <div class="sb-divider"></div>
+  <div class="sb-label">Udhibiti</div>
+  <button class="sb-item" onclick="showPage('codes')" id="nav-codes">
+    <span class="sb-icon">🔑</span> Tengeneza Code
+  </button>
+  <button class="sb-item" onclick="showPage('users')" id="nav-users">
+    <span class="sb-icon">👥</span> Watumiaji
+  </button>
+  <button class="sb-item" onclick="showPage('chats')" id="nav-chats">
+    <span class="sb-icon">💬</span> Mazungumzo
+  </button>
+  <button class="sb-item" onclick="showPage('payments')" id="nav-payments">
+    <span class="sb-icon">💰</span> Malipo
+  </button>
+  <div class="sb-divider"></div>
+  <div class="sb-label">Mfumo</div>
+  <button class="sb-item" onclick="window.open('https://ajplusai.co.tz','_blank')">
+    <span class="sb-icon">🌐</span> Tembelea Site
+  </button>
+  <div class="sb-bottom">
+    <div class="sb-divider"></div>
+    <button class="logout-btn" onclick="doAdminLogout()">↩ Toka Admin</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ══ PAGE: DASHBOARD ══ -->
+<div class="page active" id="page-dashboard">
+  <div class="page-header">
+    <div class="page-title">📊 Dashibodi</div>
+    <div class="page-sub">Muhtasari wa AJPLUS AI</div>
+  </div>
+  <div class="stats-grid" id="stats-grid">
+    <div class="stat-card gold">
+      <div class="stat-label">Watumiaji Wote</div>
+      <div class="stat-value" id="stat-users">—</div>
+      <div class="stat-sub">Waliojisajili</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-label">Watumiaji Wanaolipa</div>
+      <div class="stat-value" id="stat-paying">—</div>
+      <div class="stat-sub">Active subscriptions</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-label">Trial (Siku 3)</div>
+      <div class="stat-value" id="stat-trial">—</div>
+      <div class="stat-sub">Wanaojaribu bure</div>
+    </div>
+    <div class="stat-card red">
+      <div class="stat-label">Codes Zilizotolewa</div>
+      <div class="stat-value" id="stat-codes">—</div>
+      <div class="stat-sub">Zote zilizoundwa</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">📈 Watumiaji wa Hivi Karibuni</div>
+        <button class="btn btn-ghost btn-sm" onclick="loadRecentUsers()">↻ Refresh</button>
+      </div>
+      <div class="card-body" id="recent-users">
+        <div class="loading"><div class="spinner"></div>Inapakia...</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">💳 Malipo ya Hivi Karibuni</div>
+        <button class="btn btn-ghost btn-sm" onclick="loadRecentPayments()">↻ Refresh</button>
+      </div>
+      <div class="card-body" id="recent-payments">
+        <div class="loading"><div class="spinner"></div>Inapakia...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE: CODES ══ -->
+<div class="page" id="page-codes">
+  <div class="page-header">
+    <div class="page-title">🔑 Tengeneza Activation Code</div>
+    <div class="page-sub">Tengeneza code kwa mtumiaji aliyolipa</div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><div class="card-title">✨ Code Mpya</div></div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="form-label">Mpango</label>
+          <select class="form-select" id="code-plan">
+            <option value="msingi">Msingi — TZS 20,000/mwezi</option>
+            <option value="kawaida">Kawaida — TZS 40,000/mwezi</option>
+            <option value="pro">Pro — TZS 60,000/mwezi</option>
+            <option value="biashara">Biashara — TZS 100,000/mwezi</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Barua Pepe ya Mtumiaji (optional)</label>
+          <input class="form-input" id="code-email" type="email" placeholder="mtumiaji@mfano.com">
+        </div>
+        <button class="btn btn-gold btn-full" onclick="generateCode()" style="margin-bottom:10px">
+          ✨ Tengeneza Code
+        </button>
+        <div id="code-result" style="display:none">
+          <div class="code-display">
+            <div class="code-text" id="generated-code">—</div>
+            <div class="code-plan" id="generated-plan">—</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-ghost btn-full" onclick="copyCode()">📋 Copy Code</button>
+            <button class="btn btn-green btn-full" onclick="sendWhatsApp()">💬 Tuma WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">📋 Codes Zote</div>
+        <button class="btn btn-ghost btn-sm" onclick="loadCodes()">↻ Refresh</button>
+      </div>
+      <div class="card-body" id="codes-list">
+        <div class="loading"><div class="spinner"></div>Inapakia...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE: USERS ══ -->
+<div class="page" id="page-users">
+  <div class="page-header">
+    <div class="page-title">👥 Watumiaji</div>
+    <div class="page-sub">Watumiaji wote wa AJPLUS AI</div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Orodha ya Watumiaji</div>
+      <button class="btn btn-ghost btn-sm" onclick="loadUsers()">↻ Refresh</button>
+    </div>
+    <div class="table-wrap" id="users-table">
+      <div class="loading"><div class="spinner"></div>Inapakia...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE: CHATS ══ -->
+<div class="page" id="page-chats">
+  <div class="page-header">
+    <div class="page-title">💬 Mazungumzo</div>
+    <div class="page-sub">Mazungumzo ya watumiaji na AI</div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Mazungumzo ya Hivi Karibuni</div>
+      <button class="btn btn-ghost btn-sm" onclick="loadChats()">↻ Refresh</button>
+    </div>
+    <div class="table-wrap" id="chats-table">
+      <div class="loading"><div class="spinner"></div>Inapakia...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE: PAYMENTS ══ -->
+<div class="page" id="page-payments">
+  <div class="page-header">
+    <div class="page-title">💰 Malipo</div>
+    <div class="page-sub">Historia ya malipo yote</div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Malipo Yote</div>
+      <button class="btn btn-ghost btn-sm" onclick="loadPayments()">↻ Refresh</button>
+    </div>
+    <div class="table-wrap" id="payments-table">
+      <div class="loading"><div class="spinner"></div>Inapakia...</div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────
+const SUPABASE_URL = 'https://aylumdzvlkyelfucscoe.supabase.co'; // Itabadilishwa
+const SUPABASE_ANON = 'sb_publishable_48oQlXXs31E4V-ShspIz9Q_3Dk01-BG'; // Itabadilishwa
+let ADMIN_SECRET = '';
+let _codeEmail = '';
+let _codePlan  = '';
+
+// ── LOGIN ────────────────────────────────────────
+function doAdminLogin() {
+  const pass = document.getElementById('admin-pass').value.trim();
+  if (!pass) { document.getElementById('login-err').textContent = '⚠️ Weka password'; return; }
+  ADMIN_SECRET = pass;
+  sessionStorage.setItem('ajplus-admin-secret', pass);
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  loadDashboard();
+}
+
+function doAdminLogout() {
+  sessionStorage.removeItem('ajplus-admin-secret');
+  ADMIN_SECRET = '';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('admin-pass').value = '';
+}
+
+// Auto-restore session
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = sessionStorage.getItem('ajplus-admin-secret');
+  if (saved) {
+    ADMIN_SECRET = saved;
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    loadDashboard();
+  }
+  document.getElementById('admin-pass').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doAdminLogin();
+  });
+});
+
+// ── NAVIGATION ────────────────────────────────────
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(s => s.classList.remove('active'));
+  document.getElementById('page-' + page)?.classList.add('active');
+  document.getElementById('nav-' + page)?.classList.add('active');
+  // Load data
+  if (page === 'users') loadUsers();
+  if (page === 'chats') loadChats();
+  if (page === 'payments') loadPayments();
+  if (page === 'codes') loadCodes();
+  if (page === 'dashboard') loadDashboard();
+}
+
+// ── SUPABASE QUERY ────────────────────────────────
+async function sb(table, filter = '') {
+  try {
+    const url = `${SUPABASE_URL}/rest/v1/${table}?${filter}&order=created_at.desc&limit=100`;
+    const res = await fetch(url, {
+      headers: {
+        'apikey': SUPABASE_ANON,
+        'Authorization': `Bearer ${SUPABASE_ANON}`
+      }
+    });
+    if (!res.ok) return [];
+    return await res.json();
+  } catch(e) { return []; }
+}
+
+// ── DASHBOARD ─────────────────────────────────────
+async function loadDashboard() {
+  const [users, codes] = await Promise.all([
+    sb('users'),
+    sb('activation_codes')
+  ]);
+
+  document.getElementById('stat-users').textContent   = users.length;
+  document.getElementById('stat-trial').textContent   = users.filter(u => u.plan === 'trial').length;
+  document.getElementById('stat-paying').textContent  = users.filter(u => !['trial','free'].includes(u.plan)).length;
+  document.getElementById('stat-codes').textContent   = codes.length;
+
+  // Recent users
+  const recentUsers = users.slice(0, 5);
+  document.getElementById('recent-users').innerHTML = recentUsers.length ? `
+    <table>
+      <thead><tr><th>Email</th><th>Mpango</th><th>Tarehe</th></tr></thead>
+      <tbody>${recentUsers.map(u => `
+        <tr>
+          <td style="font-size:.76rem">${u.email || '—'}</td>
+          <td><span class="badge badge-${u.plan||'free'}">${(u.plan||'free').toUpperCase()}</span></td>
+          <td style="color:var(--muted);font-size:.72rem">${u.created_at ? new Date(u.created_at).toLocaleDateString('sw') : '—'}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>` : '<div class="empty"><span class="empty-icon">👥</span>Hakuna watumiaji bado</div>';
+
+  loadRecentPayments();
+}
+
+async function loadRecentPayments() {
+  const payments = await sb('payments');
+  document.getElementById('recent-payments').innerHTML = payments.length ? `
+    <table>
+      <thead><tr><th>Jina</th><th>Mpango</th><th>Kiasi</th></tr></thead>
+      <tbody>${payments.slice(0,5).map(p => `
+        <tr>
+          <td style="font-size:.76rem">${p.name || '—'}</td>
+          <td><span class="badge badge-${p.plan||'msingi'}">${(p.plan||'').toUpperCase()}</span></td>
+          <td style="color:var(--gold);font-weight:600;font-size:.76rem">TZS ${Number(p.amount||0).toLocaleString()}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>` : '<div class="empty"><span class="empty-icon">💰</span>Hakuna malipo bado</div>';
+}
+
+async function loadRecentUsers() { loadDashboard(); }
+
+// ── CODES ─────────────────────────────────────────
+async function generateCode() {
+  const plan  = document.getElementById('code-plan').value;
+  const email = document.getElementById('code-email').value.trim();
+
+  try {
+    const res = await fetch('/api/activate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-admin-secret': ADMIN_SECRET
+      },
+      body: JSON.stringify({ action: 'generate', plan, email: email || null })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      if (res.status === 401) {
+        showToast('❌ Password ya admin si sahihi!', 'error');
+        doAdminLogout();
+      } else {
+        showToast('❌ ' + (data.error || 'Imeshindwa'), 'error');
+      }
+      return;
+    }
+
+    _codeEmail = email;
+    _codePlan  = plan;
+
+    document.getElementById('generated-code').textContent = data.code;
+    document.getElementById('generated-plan').textContent =
+      `${plan.toUpperCase()} ${email ? '• ' + email : ''}`;
+    document.getElementById('code-result').style.display = 'block';
+    showToast('✅ Code imetengenezwa: ' + data.code, 'success');
+    loadCodes();
+
+  } catch(e) {
+    showToast('❌ Tatizo la mtandao', 'error');
+  }
+}
+
+function copyCode() {
+  const code = document.getElementById('generated-code').textContent;
+  navigator.clipboard.writeText(code).then(() => showToast('✅ Code imenakiliwa!', 'success'));
+}
+
+function sendWhatsApp() {
+  const code  = document.getElementById('generated-code').textContent;
+  const plan  = _codePlan;
+  const email = _codeEmail;
+  const planNames = { msingi:'Msingi (TZS 20,000)', kawaida:'Kawaida (TZS 40,000)', pro:'Pro (TZS 60,000)', biashara:'Biashara (TZS 100,000)' };
+  const msg = `Habari! 🇹🇿\n\nAsante kwa kulipa AJPLUS AI!\n\n` +
+    `🔑 CODE YAKO: *${code}*\n` +
+    `📦 Mpango: ${planNames[plan] || plan}\n\n` +
+    `📌 Jinsi ya kutumia:\n` +
+    `1. Nenda ajplusai.co.tz\n` +
+    `2. Bonyeza "Weka Code"\n` +
+    `3. Weka code: *${code}*\n` +
+    `4. Akaunti yako inafunguka mara moja! ✅\n\n` +
+    `❓ Msaada: +255762307647`;
+  const phone = email ? '' : '255762307647';
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+async function loadCodes() {
+  const codes = await sb('activation_codes');
+  const el = document.getElementById('codes-list');
+  if (!codes.length) {
+    el.innerHTML = '<div class="empty"><span class="empty-icon">🔑</span>Hakuna codes bado</div>';
+    return;
+  }
+  el.innerHTML = `<div class="table-wrap"><table>
+    <thead><tr><th>Code</th><th>Mpango</th><th>Hali</th><th>Email</th></tr></thead>
+    <tbody>${codes.map(c => `
+      <tr>
+        <td><code style="background:var(--bg);padding:2px 7px;border-radius:5px;font-size:.8rem;color:var(--gold);letter-spacing:.05em">${c.code}</code></td>
+        <td><span class="badge badge-${c.plan}">${(c.plan||'').toUpperCase()}</span></td>
+        <td><span class="badge ${c.used ? 'badge-used' : 'badge-fresh'}">${c.used ? 'Imetumika' : 'Mpya'}</span></td>
+        <td style="color:var(--muted);font-size:.72rem">${c.email || '—'}</td>
+      </tr>`).join('')}
+    </tbody></table></div>`;
+}
+
+// ── USERS ─────────────────────────────────────────
+async function loadUsers() {
+  const users = await sb('users');
+  const el = document.getElementById('users-table');
+  if (!users.length) {
+    el.innerHTML = '<div class="empty"><span class="empty-icon">👥</span>Hakuna watumiaji bado</div>';
+    return;
+  }
+  el.innerHTML = `<table>
+    <thead><tr><th>Email</th><th>Mpango</th><th>Maswali Leo</th><th>Ameingia</th><th>Hatua</th></tr></thead>
+    <tbody>${users.map(u => `
+      <tr>
+        <td style="font-size:.76rem">${u.email || '—'}</td>
+        <td><span class="badge badge-${u.plan||'free'}">${(u.plan||'free').toUpperCase()}</span></td>
+        <td style="text-align:center">${u.questions_today || 0}</td>
+        <td style="color:var(--muted);font-size:.72rem">${u.created_at ? new Date(u.created_at).toLocaleDateString('sw') : '—'}</td>
+        <td>
+          <select onchange="changePlan('${u.email}', this.value)" style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:3px 7px;color:var(--text);font-size:.72rem;cursor:pointer">
+            <option value="">Badilisha...</option>
+            <option value="trial">Trial</option>
+            <option value="msingi">Msingi</option>
+            <option value="kawaida">Kawaida</option>
+            <option value="pro">Pro</option>
+            <option value="biashara">Biashara</option>
+          </select>
+        </td>
+      </tr>`).join('')}
+    </tbody></table>`;
+}
+
+async function changePlan(email, plan) {
+  if (!plan || !email) return;
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/users?email=eq.${email}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON,
+        'Authorization': `Bearer ${SUPABASE_ANON}`
+      },
+      body: JSON.stringify({ plan })
+    });
+    if (res.ok) {
+      showToast(`✅ ${email} → ${plan.toUpperCase()}`, 'success');
+      setTimeout(loadUsers, 500);
+    }
+  } catch(e) { showToast('❌ Imeshindwa kubadilisha', 'error'); }
+}
+
+// ── CHATS ─────────────────────────────────────────
+async function loadChats() {
+  const chats = await sb('chats');
+  const el = document.getElementById('chats-table');
+  if (!chats.length) {
+    el.innerHTML = '<div class="empty"><span class="empty-icon">💬</span>Hakuna mazungumzo bado</div>';
+    return;
+  }
+  el.innerHTML = `<table>
+    <thead><tr><th>Email</th><th>Swali</th><th>Jibu (snippet)</th><th>Tarehe</th></tr></thead>
+    <tbody>${chats.slice(0,50).map(c => `
+      <tr>
+        <td style="font-size:.72rem;color:var(--muted)">${c.user_email || '—'}</td>
+        <td style="font-size:.76rem;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(c.message?.slice(0,60) || '—')}</td>
+        <td style="font-size:.72rem;color:var(--muted);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(c.reply?.slice(0,60) || '—')}</td>
+        <td style="color:var(--muted);font-size:.7rem;white-space:nowrap">${c.created_at ? new Date(c.created_at).toLocaleString('sw') : '—'}</td>
+      </tr>`).join('')}
+    </tbody></table>`;
+}
+
+// ── PAYMENTS ──────────────────────────────────────
+async function loadPayments() {
+  const payments = await sb('payments');
+  const el = document.getElementById('payments-table');
+  if (!payments.length) {
+    el.innerHTML = '<div class="empty"><span class="empty-icon">💰</span>Hakuna malipo bado</div>';
+    return;
+  }
+  el.innerHTML = `<table>
+    <thead><tr><th>Jina</th><th>Email</th><th>Simu</th><th>Mpango</th><th>Kiasi</th><th>Tarehe</th></tr></thead>
+    <tbody>${payments.map(p => `
+      <tr>
+        <td style="font-size:.78rem;font-weight:500">${esc(p.name || '—')}</td>
+        <td style="font-size:.72rem;color:var(--muted)">${p.email || '—'}</td>
+        <td style="font-size:.72rem">${p.phone || '—'}</td>
+        <td><span class="badge badge-${p.plan||'msingi'}">${(p.plan||'').toUpperCase()}</span></td>
+        <td style="color:var(--gold);font-weight:700;font-size:.78rem">TZS ${Number(p.amount||0).toLocaleString()}</td>
+        <td style="color:var(--muted);font-size:.7rem;white-space:nowrap">${p.created_at ? new Date(p.created_at).toLocaleString('sw') : '—'}</td>
+      </tr>`).join('')}
+    </tbody></table>`;
+}
+
+// ── TOAST ─────────────────────────────────────────
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className   = 'toast' + (type ? ' ' + type : '');
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>
