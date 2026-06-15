@@ -331,7 +331,7 @@ async function callClaude(message, history, apiKey, useWebSearch = false) {
 
 // ── GEMINI ─────────────────────────────────────────
 async function callGemini(message, history, apiKey, useWebSearch = false) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-pro:generateContent?key=${apiKey}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
   const contents = [];
 
   if (history && Array.isArray(history)) {
