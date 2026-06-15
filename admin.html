@@ -664,10 +664,10 @@ function openWhatsApp(phone, code, plan, name) {
   };
 
   const msg = _lang === 'sw' ?
-    `Habari ${name||''}! 🇹🇿\n\nAsante kwa kulipa AJPLUS AI!\n\n🔑 CODE YAKO: *${code||'(tuma baadaye)'}*\n📦 Mpango: ${planNames[plan]||plan}\n\n📌 Jinsi ya kutumia:\n1. Nenda ajplusai.co.tz\n2. Ingia kwenye akaunti yako\n3. Bonyeza "Nina Code" juu ya chat\n4. Weka code: *${code||'...'}*\n5. Akaunti yako inafunguka! ✅\n\n❓ Msaada: +255762307647` :
-    `Hello ${name||''}! 🇹🇿\n\nThank you for paying for AJPLUS AI!\n\n🔑 YOUR CODE: *${code||'(send later)'}*\n📦 Plan: ${planNames[plan]||plan}\n\n📌 How to use:\n1. Go to ajplusai.co.tz\n2. Login to your account\n3. Click "I Have a Code" above the chat\n4. Enter code: *${code||'...'}*\n5. Your account is activated! ✅\n\n❓ Support: +255762307647`;
+    `Habari ${name||''}! 🇹🇿\n\nAsante kwa kulipa AJPLUS AI!\n\n🔑 CODE YAKO: *${code||'(tuma baadaye)'}*\n📦 Mpango: ${planNames[plan]||plan}\n\n📌 Jinsi ya kutumia:\n1. Nenda ajplusai.co.tz\n2. Ingia kwenye akaunti yako\n3. Bonyeza "Nina Code" juu ya chat\n4. Weka code: *${code||'...'}*\n5. Akaunti yako inafunguka! ✅\n\n❓ Msaada: +255670307647` :
+    `Hello ${name||''}! 🇹🇿\n\nThank you for paying for AJPLUS AI!\n\n🔑 YOUR CODE: *${code||'(send later)'}*\n📦 Plan: ${planNames[plan]||plan}\n\n📌 How to use:\n1. Go to ajplusai.co.tz\n2. Login to your account\n3. Click "I Have a Code" above the chat\n4. Enter code: *${code||'...'}*\n5. Your account is activated! ✅\n\n❓ Support: +255670307647`;
 
-  const tel = phone ? phone.replace(/\D/g,'') : '255762307647';
+  const tel = phone ? phone.replace(/\D/g,'') : '255670307647';
   window.open(`https://wa.me/${tel}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
