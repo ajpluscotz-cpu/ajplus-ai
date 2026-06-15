@@ -459,7 +459,7 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    const useWebSearch = needsWebSearch(message);
+    const useWebSearch = true; // Web search kwa kila swali!
     const CLAUDE_KEY   = process.env.ANTHROPIC_API_KEY;
     const GEMINI_KEY   = process.env.GEMINI_API_KEY;
 
@@ -467,20 +467,22 @@ module.exports = async function handler(req, res) {
     let source = null;
 
     // ── SMART ROUTING ──────────────────────────────
-    // Habari za leo/bei → Gemini + Google Search (bure)
-    // Maswali ya kawaida → Claude Sonnet (bora)
+    // Gemini + Google Search kwanza (habari za leo, watu, bei)
+    // Claude → maswali magumu ya uandishi wa hati
 
-    if (useWebSearch && GEMINI_KEY) {
-      // Habari/bei → Gemini na Google Search kwanza
+    const isDocument = /barua|invoice|ankara|ripoti|maombi ya kazi|cv|resume|mkataba|contract/i.test(message);
+
+    if (!isDocument && GEMINI_KEY) {
+      // Maswali ya kawaida → Gemini + Google Search
       try {
         reply  = await callGemini(message, history, GEMINI_KEY, true);
         source = 'gemini+web';
       } catch(err) {
-        console.warn('Gemini web search imeshindwa:', err.message);
+        console.warn('Gemini imeshindwa:', err.message);
       }
     }
 
-    // Maswali ya kawaida au Gemini ikishindwa → Claude
+    // Hati au Gemini ikishindwa → Claude
     if (!reply && CLAUDE_KEY) {
       try {
         reply  = await callClaude(message, history, CLAUDE_KEY, false);
@@ -490,7 +492,7 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // Claude ikishindwa → Gemini backup
+    // Claude ikishindwa → Gemini bila web search
     if (!reply && GEMINI_KEY) {
       try {
         reply  = await callGemini(message, history, GEMINI_KEY, false);
