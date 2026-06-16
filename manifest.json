@@ -1,0 +1,35 @@
+{
+  "name": "AJPLUS AI — Mshauri wa Kitanzania",
+  "short_name": "AJPLUS AI",
+  "description": "Mshauri wa Kwanza wa Kitanzania — Fikiri Kimataifa, Zungumza Kitanzania",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF9F6",
+  "theme_color": "#C9A84C",
+  "orientation": "portrait-primary",
+  "lang": "sw",
+  "icons": [
+    {
+      "src": "assets/logo.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/logo.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "education", "business"],
+  "shortcuts": [
+    {
+      "name": "Anza Chat",
+      "short_name": "Chat",
+      "description": "Anza mazungumzo na AJPLUS AI",
+      "url": "/?action=chat",
+      "icons": [{ "src": "assets/logo.jpeg", "sizes": "192x192" }]
+    }
+  ]
+}
