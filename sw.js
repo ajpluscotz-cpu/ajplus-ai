@@ -1,16 +1,15 @@
-// AJPLUS AI — Service Worker
+// AJPLUS AI — Service Worker (v3)
 // © AJ PLUS COMPANY LIMITED | ajplusai.co.tz
 
-const CACHE_NAME = 'ajplus-ai-v1';
+const CACHE_NAME = 'ajplus-ai-v3';
 const ASSETS = [
   '/',
   '/index.html',
-  '/js/app.js',
   '/assets/logo.jpeg',
   '/assets/lipa_mixx.jpeg'
 ];
 
-// Install — cache assets
+// Install — cache assets (bila app.js!)
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
@@ -36,22 +35,21 @@ self.addEventListener('activate', e => {
 // Fetch — tumia cache kwanza, kisha network
 self.addEventListener('fetch', e => {
   // API calls — daima network (si cache)
-  if (e.request.url.includes('/api/')) {
-    return;
-  }
+  if (e.request.url.includes('/api/')) return;
+
+  // JS files — daima network (si cache) ili kupata updates!
+  if (e.request.url.includes('.js')) return;
 
   e.respondWith(
     caches.match(e.request).then(cached => {
       if (cached) return cached;
       return fetch(e.request).then(response => {
-        // Cache responses nzuri tu
         if (response && response.status === 200 && response.type === 'basic') {
           const clone = response.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
         }
         return response;
       }).catch(() => {
-        // Offline — rudisha index.html
         if (e.request.destination === 'document') {
           return caches.match('/index.html');
         }
