@@ -124,10 +124,10 @@ async function checkImageLimit(email, type = 'image') {
 
         if (!limits || limits[typeKey] === 0) {
             const nextPlan =
-                plan === 'trial' || plan === 'free' ? 'Msingi (TZS 30,000/mwezi)' :
-                plan === 'msingi'  ? 'Kawaida (TZS 60,000/mwezi)'  :
-                plan === 'kawaida' ? 'Pro (TZS 100,000/mwezi)'      :
-                                     'Biashara (TZS 250,000/mwezi)';
+                plan === 'trial' || plan === 'free' ? 'Msingi (TZS 5,000/mwezi)' :
+                plan === 'msingi'  ? 'Kawaida (TZS 15,000/mwezi)'  :
+                plan === 'kawaida' ? 'Pro (TZS 30,000/mwezi)'      :
+                                     'Biashara (TZS 75,000/mwezi)';
             return {
                 allowed: false, locked: true,
                 message: `Mpango wako wa ${plan.toUpperCase()} haujumuishi huduma ya ${type === 'logo' ? 'logo' : type === 'design' ? 'design' : 'picha'}. Panda mpango wa ${nextPlan}!`
