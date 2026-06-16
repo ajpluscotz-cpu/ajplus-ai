@@ -9,6 +9,25 @@ Umeundwa na AJ PLUS COMPANY LIMITED | ajplusai.co.tz | +255670307647
 - Ukiulizwa "wewe ni nani?" → "Mimi ni AJPLUS AI — mshauri wako wa Kitanzania! 🇹🇿"
 - KAMWE usiseme wewe ni ChatGPT, Gemini, Claude, au Copilot
 
+═══ UWEZO WA PICHA, GRAPHICS NA MAUDHUI ═══
+
+Wewe una UWEZO KAMILI wa kutengeneza:
+✅ PICHA — Photograph, landscape, portrait, scenery
+✅ LOGO — Brand identity, company logo, organization logo
+✅ POSTER — Church poster, event poster, advertisement
+✅ DESIGN — Flyer, banner, social media graphics
+
+KANUNI:
+- KAMWE usiseme "siwezi kutengeneza picha" — UNAWEZA!
+- KAMWE usiseme "mimi ni msaidizi wa maandishi tu" — UNA UWEZO ZAIDI!
+- Ukipokea ombi la picha → jibu: "Sawa! Ninatengeneza..." kisha tengeneza!
+- "poster ya kanisa/harusi/biashara" → hii ni picha — TENGENEZA MOJA KWA MOJA!
+
+MANENO YA KUTAMBUA (yote haya ni maombi ya picha):
+tengeneza picha, poster, logo, design, graphics, maudhui,
+chora, nionyeshe picha, generate image, create image,
+poster ya kanisa, poster ya harusi, flyer ya matukio
+
 ═══ FALSAFA YAKO ═══
 "Fikiri kimataifa — zungumza Kitanzania"
 - Tumia maarifa ya dunia (WHO, Harvard, McKinsey, IMF, World Bank)
@@ -245,31 +264,23 @@ EPUKA KABISA:
 - Kusema "Ni muhimu kuelewa kwamba..." — nenda moja kwa moja!`;
 
 const WEB_SEARCH_KEYWORDS = [
-  // Bei na fedha
   'bei ya dola','exchange rate','dollar leo','usd leo','forex',
   'bei ya euro','bei ya pound','shilingi leo',
   'bei ya mahindi','bei ya kahawa','bei ya pamba','bei ya korosho',
   'bei ya mafuta','bei ya petroli','bei ya diesel',
   'bei ya mazao','soko la leo','bei leo',
-  // Habari za Tanzania
   'habari za leo','habari za sasa','news leo','habari mpya',
   'habari tanzania','matukio ya leo','habari za kitaifa',
   'habari za serikali','habari za kisiasa',
-  // Viongozi na siasa
   'waziri','rais','spika','mkurugenzi','gavana',
   'bunge','serikali','chama','uchaguzi','kura',
   'samia','majaliwa','lissu','tundu',
-  // Michezo
   'matokeo ya','simba sc','yanga sc','timu ya taifa',
   'premier league','champions league','mechi leo','matokeo leo',
   'ligi kuu','azam fc','namungo',
-  // Hali ya hewa
   'hali ya hewa','mvua leo','weather','joto leo','upepo',
-  // Bei za bidhaa
   'bei ya simu','bei ya gari','bei ya nyumba','bei ya ardhi',
-  // Wakati wa sasa
   'sasa hivi','wiki hii','mwezi huu','leo asubuhi','jana usiku',
-  // Sekta mpya
   'uvuvi','samaki','dagaa','sangara','pweza',
   'mifugo','ng\'ombe','mbuzi','kuku','maziwa',
   'ujenzi','nyumba','ardhi','vibali',
@@ -318,7 +329,6 @@ async function saveChat(email, message, reply) {
   });
 }
 
-// ── PLAN LIMITS ────────────────────────────────────
 const PLAN_LIMITS = {
   trial:    { daily: 20,   name: 'Jaribio (Siku 3)' },
   free:     { daily: 5,    name: 'Bure' },
@@ -328,8 +338,6 @@ const PLAN_LIMITS = {
   biashara: { daily: null, name: 'Biashara' }
 };
 
-// ── IP RATE LIMITING ────────────────────────────────
-// Max: maombi 30 kwa dakika 1 kwa kila IP
 const ipRateMap = new Map();
 
 function checkIpRateLimit(req) {
@@ -339,8 +347,8 @@ function checkIpRateLimit(req) {
     || 'unknown';
 
   const now     = Date.now();
-  const window  = 60 * 1000; // dakika 1
-  const maxReqs = 30;        // maombi 30 kwa dakika
+  const window  = 60 * 1000;
+  const maxReqs = 30;
 
   const record = ipRateMap.get(ip) || { count: 0, start: now };
 
@@ -361,7 +369,6 @@ function checkIpRateLimit(req) {
   return { allowed: true };
 }
 
-// Safisha Map kila saa
 setInterval(() => {
   const now = Date.now();
   for (const [ip, record] of ipRateMap.entries()) {
@@ -369,7 +376,6 @@ setInterval(() => {
   }
 }, 60 * 60 * 1000);
 
-// ── ANGALIA HALI YA MTUMIAJI ──────────────────────
 async function checkUser(email) {
   if (!email) {
     return { allowed: true, plan: 'trial', trialDaysLeft: 3, isGuest: true };
@@ -451,7 +457,6 @@ async function checkUser(email) {
   }
 }
 
-// ── CLAUDE ─────────────────────────────────────────
 async function callClaude(message, history, apiKey, useWebSearch = false) {
   const messages = [];
   if (history && Array.isArray(history)) {
@@ -499,7 +504,6 @@ async function callClaude(message, history, apiKey, useWebSearch = false) {
   return reply || 'Samahani, sijapata jibu. Tafadhali jaribu tena!';
 }
 
-// ── GEMINI ─────────────────────────────────────────
 async function callGemini(message, history, apiKey, useWebSearch = false) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
   const contents = [];
@@ -539,7 +543,6 @@ async function callGemini(message, history, apiKey, useWebSearch = false) {
   return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Samahani, sijapata jibu!';
 }
 
-// ── DOMAIN LOCK ────────────────────────────────────
 const ALLOWED_DOMAINS = [
   'ajplusai.co.tz', 'www.ajplusai.co.tz',
   'localhost:3000', 'localhost', '127.0.0.1'
@@ -556,7 +559,6 @@ function isAllowedDomain(req) {
   );
 }
 
-// ── HANDLER ────────────────────────────────────────
 module.exports = async function handler(req, res) {
   if (!isAllowedDomain(req)) {
     return res.status(403).json({
@@ -571,7 +573,6 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  // ── ANGALIA IP RATE LIMIT ───────────────────────
   const ipCheck = checkIpRateLimit(req);
   if (!ipCheck.allowed) {
     return res.status(429).json({ error: ipCheck.message });
