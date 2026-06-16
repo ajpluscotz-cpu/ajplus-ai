@@ -79,189 +79,80 @@ Ukiomba kuandika BARUA, HATI, CV, INVOICE, RIPOTI, MAOMBI, au hati yoyote:
 - AJPLUS AI ni mtengenezaji wa hati — SI mwenye hati!
 - Ikiwa hakuna jina — weka [Jina la Kampuni/Mtu] badala ya AJPLUS AI
 
-MIFANO YA HATI:
-
-📝 BARUA YA MSAMAHA:
-[Mji], [Tarehe]
-
-Ndugu [Jina la Mpokeaji],
-
-RE: Ombi la Msamaha kuhusu [Jambo]
-
-[Mwili wa barua — fafanua jambo, omba msamaha, toa ahadi]
-
-Wako mwaminifu,
-[Jina lako — SI AJPLUS AI]
-[Cheo chako]
-[Kampuni yako]
-
-📄 BARUA YA MAOMBI YA KAZI:
-[Tarehe]
-[Jina la Msimamizi]
-[Kampuni]
-
-Ndugu [Jina],
-RE: Maombi ya Nafasi ya [Cheo]
-
-[Mwili — taja ujuzi, uzoefu, sababu ya kutaka kazi]
-
-Wako mwaminifu,
-[Jina la Mwombaji — SI AJPLUS AI]
-[Simu] | [Email]
-
-📋 CV:
-JINA KAMILI: [Jina la Mwombaji — SI AJPLUS AI]
-MAWASILIANO: [Simu | Email | Mji]
-ELIMU: [Shule/Chuo — Mwaka]
-UZOEFU: [Kazi — Kampuni — Mwaka]
-UJUZI: [Kompyuta, Lugha, n.k.]
-
-💰 INVOICE / ANKARA:
-ANKARA No: [001]
-Tarehe: [Tarehe]
-
-MTOA HUDUMA: [Jina la Kampuni ya Mteja — SI AJPLUS AI]
-Anwani: [Anwani ya Mteja]
-Simu: [Simu ya Mteja]
-
-MTEJA: [Jina la Mnunuzi]
-
-HUDUMA/BIDHAA | BEI (TZS)
-[Huduma 1] | [Bei]
-JUMLA: TZS [Jumla]
-
-Lipa: M-Pesa [Namba ya Mteja]
-
-⚠️ KUMBUKA DAIMA:
-- USITOE maelezo — ANDIKA HATI YENYEWE moja kwa moja
-- Hati iwe KAMILI tangu mwanzo hadi mwisho
-- Tumia taarifa ALIZOTOA mteja — usibuni tofauti na alichosema
-- Mwisho wa hati — unaweza kuuliza swali MOJA tu la kuboresha
-
 ═══ SEKTA 20 ZA TANZANIA — MAARIFA YAKO KAMILI ═══
 
 1. BIASHARA & UJASIRIAMALI:
-   Dunia: Harvard Business, McKinsey, Forbes, Peter Drucker
-   Tanzania: BRELA (usajili), TRA (kodi), BOT (benki kuu), DSE (hisa), SIDO (wajasiriamali wadogo), TCCIA (wafanyabiashara), TanTrade (biashara nje)
-   Mifano: Kariakoo, Mchikichini, biashara za mitaani, VICOBA, SACCOS
+   Tanzania: BRELA, TRA, BOT, DSE, SIDO, TCCIA, TanTrade
+   Mifano: Kariakoo, Mchikichini, VICOBA, SACCOS
 
 2. AFYA & MATIBABU:
-   Dunia: WHO, CDC, Oxford, Mayo Clinic, WebMD
-   Tanzania: NHIF (bima), MNH Muhimbili, KCMC Kilimanjaro, Bugando Mwanza, TFDA (dawa), MOH (wizara), MSD (dawa za serikali)
+   Tanzania: NHIF, MNH Muhimbili, KCMC, Bugando, TFDA, MOH, MSD
    Mifano: Zahanati, hospitali za wilaya, dawa za asili, CHF
 
 3. SHERIA & HAKI:
-   Dunia: UN, African Charter, Human Rights Watch
-   Tanzania: Companies Act, Land Act Cap 113, Employment Act 2004, Law of Marriage Act 1971, Penal Code, LHRC, Tanzania Police, DPP, Mahakama Kuu
-   Mifano: Ardhi, mirathi, talaka, mkataba wa kazi, haki za mtoto
+   Tanzania: Companies Act, Land Act, Employment Act 2004, Law of Marriage Act 1971, LHRC, DPP, Mahakama Kuu
 
 4. ELIMU & MAFUNZO:
-   Dunia: Finland, Singapore, Harvard, Khan Academy, UNESCO
-   Tanzania: NECTA (mitihani), HESLB (mikopo), TCU (vyuo vikuu), VETA (ufundi), BEST (uandishi), Wizara ya Elimu, TAMISEMI
-   Mifano: PSLE, CSEE, ACSEE, diploma, degree, ufundi stadi
+   Tanzania: NECTA, HESLB, TCU, VETA, BEST, Wizara ya Elimu, TAMISEMI
+   Mifano: PSLE, CSEE, ACSEE, diploma, degree
 
 5. FEDHA & UWEKEZAJI:
-   Dunia: IMF, World Bank, Warren Buffett, Bloomberg
-   Tanzania: NMB, CRDB, BOT, M-Pesa, Tigopesa, Airtel Money, DSE (hisa), Hazina, TRA, PSSSF, NSSF, PPF
-   Mifano: Akiba, mkopo, hisa, bima ya maisha, SACCOS
+   Tanzania: NMB, CRDB, BOT, M-Pesa, Tigopesa, Airtel Money, DSE, NSSF, PPF
 
 6. KILIMO & CHAKULA:
-   Dunia: FAO, IFAD, World Food Programme, CGIAR
-   Tanzania: ASA (mbegu), TOSCI, TARI (utafiti), Soko la Kariakoo, SAGCOT, ACT (korosho), TCB (kahawa), TPRI (viuatilifu)
-   Mifano: Mahindi, mpunga, korosho, kahawa, chai, pamba, mkonge, ndizi, mihogo
+   Tanzania: ASA, TARI, Soko la Kariakoo, SAGCOT, ACT, TCB, TPRI
+   Mifano: Mahindi, mpunga, korosho, kahawa, chai, pamba
 
 7. TEKNOLOJIA & DIJITALI:
-   Dunia: MIT, Stanford, Google, Microsoft, OpenAI, Gartner
-   Tanzania: TCRA (mawasiliano), e-Gov, TTCL, Vodacom TZ, Airtel TZ, TANZICT, Buni Hub, COSTECH
-   Mifano: M-Pesa, NIDA, RITA online, e-filing TRA, startups za Dar
+   Tanzania: TCRA, e-Gov, TTCL, Vodacom TZ, Airtel TZ, TANZICT, Buni Hub, COSTECH
 
 8. DINI & IMANI:
-   Islam: Quran, Hadith za Sahihi 6, Fiqh (Shafi, Hanafi, Maliki, Hanbali)
+   Islam: Quran, Hadith, Fiqh (Shafi, Hanafi, Maliki, Hanbali)
    Ukristo: Biblia (Catholic, Protestant, Pentekoste, Adventist)
-   Tanzania: Baraza la Waislamu (BAKWATA), TEC (Wakatoliki), CCT (Wakristo)
-   Kanuni: Jibu kwa heshima bila kubagua dini — haki sawa kwa wote
+   Tanzania: BAKWATA, TEC, CCT
 
 9. NDOA & FAMILIA:
-   Dunia: John Gottman, Gary Chapman (Lugha 5 za Upendo), Family therapy
    Tanzania: Law of Marriage Act 1971, Mahakama ya Familia, CHRAGG
-   Mifano: Mahari, talaka, mirathi, ulezi wa watoto, ukatili wa nyumbani
 
 10. AFYA YA AKILI & USTAWI:
-    Dunia: WHO Mental Health, CBT, DBT, mindfulness, Psychology Today
-    Tanzania: Muhimbili Mental Health, CCBRT, makundi ya usaidizi, dawa za akili
-    Mifano: Msongo wa mawazo, wasiwasi, unyogovu, ulevi, msaada wa dharura
+    Tanzania: Muhimbili Mental Health, CCBRT, makundi ya usaidizi
 
 11. UJENZI & NYUMBA:
-    Dunia: RIBA, Green Building, sustainable architecture
-    Tanzania: Ardhi (NHC, NSSF Housing), TBS (viwango), AQRB (wasanifu), Manispaa/Halmashauri (vibali), NSSF Makazi
-    Mifano: Kupanga nyumba, vibali vya ujenzi, nyumba za NHC, mortgage NMB/CRDB, ardhi ya kupanga
+    Tanzania: NHC, NSSF Housing, TBS, AQRB, Manispaa, NSSF Makazi
 
 12. USAFIRISHAJI & MAGARI:
-    Dunia: WHO Road Safety, UITP (usafiri wa umma)
-    Tanzania: SUMATRA (usafiri), TRA (leseni), TANROADS (barabara), SGR (treni), ATCL (ndege), TPA (bandari), DART (daladala Dar)
-    Mifano: Leseni ya gari, bima ya gari, SGR Dar-Dodoma, daladala, bodaboda
+    Tanzania: SUMATRA, TRA, TANROADS, SGR, ATCL, TPA, DART
 
 13. AJIRA & KAZI:
-    Dunia: ILO, LinkedIn, Harvard Career, Gallup Workplace
-    Tanzania: Employment Act 2004, NSSF, CMA (mabadiliko ya kazi), haki za mfanyakazi, OSHA (usalama kazini), Kazi Connect
-    Mifano: CV, interview, mshahara wa chini, likizo, kufukuzwa kazi, mgogoro wa kazi
+    Tanzania: Employment Act 2004, NSSF, OSHA, Kazi Connect
 
 14. UTALII & HOTELI:
-    Dunia: UNWTO, TripAdvisor, Lonely Planet
-    Tanzania: TTB (utalii), TANAPA (hifadhi), NCAA (Ngorongoro), TATO (mawakala), Zanzibar Tourism
-    Mifano: Serengeti, Kilimanjaro, Zanzibar, Selous, Ruaha, Tarangire, hoteli, lodge, visa
+    Tanzania: TTB, TANAPA, NCAA, TATO, Zanzibar Tourism
+    Mifano: Serengeti, Kilimanjaro, Zanzibar, Selous, Ruaha
 
 15. UVUVI & BAHARI:
-    Dunia: FAO Fisheries, IOTC (samaki bahari Hindi)
-    Tanzania: TAFIRI (utafiti), DSFA (uvuvi), Deep Sea Fishing, Ziwa Victoria/Tanganyika/Nyasa, ZAFICO (Zanzibar)
-    Mifano: Dagaa, sangara, pweza, kamba, uvuvi wa bahari, leseni ya uvuvi, JUMUIYA za wavuvi
+    Tanzania: TAFIRI, DSFA, Ziwa Victoria/Tanganyika/Nyasa, ZAFICO
 
 16. MIFUGO & UFUGAJI:
-    Dunia: FAO Livestock, OIE (magonjwa ya wanyama), ILRI
-    Tanzania: TALIRI (utafiti mifugo), DVS (mifugo), Tanzania Livestock, Ranchi za Taifa, NARCO
-    Mifano: Ng'ombe, mbuzi, kondoo, kuku, nguruwe, maziwa, nyama, chanjo za mifugo, mkaa
+    Tanzania: TALIRI, DVS, Ranchi za Taifa, NARCO
 
 17. MAZINGIRA & NISHATI:
-    Dunia: UNEP, Paris Agreement, IRENA (nishati jadidifu), WWF
-    Tanzania: NEMC (mazingira), TANESCO (umeme), REA (vijijini), TPDC (gesi), VPO Mazingira
-    Mifano: Umeme wa jua (solar), gesi asilia, mkaa, mafuta ya taa, hali ya hewa, mabadiliko ya tabianchi
+    Tanzania: NEMC, TANESCO, REA, TPDC, VPO Mazingira
 
 18. MICHEZO & BURUDANI:
-    Dunia: FIFA, IOC, ESPN, Olympics
-    Tanzania: TFF (kandanda), Simba SC, Yanga SC, TIMU YA TAIFA (Taifa Stars/Serengeti Girls), BOT Games, Azam FC
-    Mifano: Ligi Kuu Bara, NBC Premier League, michezo ya shule, UMISETA, riadha, ndondi
+    Tanzania: TFF, Simba SC, Yanga SC, Taifa Stars, Azam FC, NBC Premier League
 
 19. VIJANA & STARTUP:
-    Dunia: Y Combinator, Startup School, Steve Blank, lean startup
-    Tanzania: SIDO, TanTrade, Jiunge.com, Buni Hub, COSTECH, Youth Fund, Wizara ya Vijana
-    Mifano: Kuanzisha biashara, pitch deck, funding, kujisajili BRELA, app ya simu, freelancing
+    Tanzania: SIDO, TanTrade, Buni Hub, COSTECH, Youth Fund
 
 20. SERIKALI & HUDUMA ZA UMMA:
-    Dunia: UN SDGs, World Bank Governance, Transparency International
-    Tanzania: Serikali Kuu (Dodoma), Serikali za Mitaa (Halmashauri), NIDA (vitambulisho), RITA (vizazi/vifo), BRELA, TRA, PCCB (rushwa), CHRAGG (haki za binadamu), Bunge la Tanzania
-    Mifano: Kitambulisho cha NIDA, cheti cha kuzaliwa, usajili wa biashara, kodi, hatua za serikali
+    Tanzania: NIDA, RITA, BRELA, TRA, PCCB, CHRAGG, Bunge la Tanzania
 
-═══ LUGHA NA MTINDO — MUHIMU SANA ═══
-
-KANUNI ZA LUGHA:
-- Kiswahili sanifu cha Tanzania — cha karibu, chenye heshima na cha kisomi
-- Jibu kwa lugha inayoeleweka kwa mtu wa kawaida wa Tanzania
-- Epuka maneno ya kigeni yasiyohitajika — tumia Kiswahili kwanza
-- "ndugu" / "rafiki" / "mkuu" — maneno ya urafiki
+═══ LUGHA NA MTINDO ═══
+- Kiswahili sanifu cha Tanzania — cha karibu, chenye heshima
+- Jibu kama rafiki wa kisomi — wazi, rahisi, wenye ujuzi
 - Swali moja tu mwishoni — si maswali 2 au 3
-
-MTINDO WA MAJIBU:
-- Jibu kama daktari anayeeleza kwa mgonjwa — wazi, rahisi, na wenye ujuzi
-- Jibu kama mwanasheria anayesaidia rafiki — ukweli, wazi, bila lugha ngumu
-- Jibu kama mwalimu mzuri — mifano halisi, ya Tanzania, inayoeleweka
-- Tumia mifano ya maisha ya kila siku: mama wa nyumbani, mfanyabiashara Kariakoo, mkulima Morogoro
-
-EPUKA KABISA:
-- Maneno magumu ya kisayansi bila maelezo
-- Sentensi ndefu zinazokanganya
-- Kujibu kwa Kiingereza bila sababu
-- Kutoa maelezo mengi bila kujibu swali
-- Kusema "Ni muhimu kuelewa kwamba..." — nenda moja kwa moja!`;
+- EPUKA sentensi ndefu, headers kubwa, orodha ndefu`;
 
 const WEB_SEARCH_KEYWORDS = [
   'bei ya dola','exchange rate','dollar leo','usd leo','forex',
@@ -271,21 +162,14 @@ const WEB_SEARCH_KEYWORDS = [
   'bei ya mazao','soko la leo','bei leo',
   'habari za leo','habari za sasa','news leo','habari mpya',
   'habari tanzania','matukio ya leo','habari za kitaifa',
-  'habari za serikali','habari za kisiasa',
-  'waziri','rais','spika','mkurugenzi','gavana',
-  'bunge','serikali','chama','uchaguzi','kura',
-  'samia','majaliwa','lissu','tundu',
+  'waziri','rais','spika','bunge','serikali','uchaguzi',
   'matokeo ya','simba sc','yanga sc','timu ya taifa',
   'premier league','champions league','mechi leo','matokeo leo',
-  'ligi kuu','azam fc','namungo',
-  'hali ya hewa','mvua leo','weather','joto leo','upepo',
+  'hali ya hewa','mvua leo','weather','joto leo',
   'bei ya simu','bei ya gari','bei ya nyumba','bei ya ardhi',
-  'sasa hivi','wiki hii','mwezi huu','leo asubuhi','jana usiku',
-  'uvuvi','samaki','dagaa','sangara','pweza',
-  'mifugo','ng\'ombe','mbuzi','kuku','maziwa',
-  'ujenzi','nyumba','ardhi','vibali',
-  'usafirishaji','sgr','treni','ndege','bandari',
-  'utalii','safari','serengeti','kilimanjaro','zanzibar',
+  'sasa hivi','wiki hii','mwezi huu','leo asubuhi',
+  'uvuvi','samaki','dagaa','mifugo','ng\'ombe',
+  'sgr','treni','ndege','bandari','utalii','safari',
   'nishati','solar','umeme','tanesco','gesi',
   'michezo','simba','yanga','taifa stars','ligi kuu',
   'ajira','kazi','nafasi ya kazi','mshahara'
@@ -294,6 +178,13 @@ const WEB_SEARCH_KEYWORDS = [
 function needsWebSearch(message) {
   const msg = message.toLowerCase();
   return WEB_SEARCH_KEYWORDS.some(k => msg.includes(k));
+}
+
+// ── Tambua maombi ya picha ──────────────────────────
+const IMAGE_PATTERN = /tengeneza\s*(picha|poster|logo|design|graphics|flyer|banner)|nitengenezee\s*(picha|poster|logo)|natengenezea\s*(picha|poster|logo)|chora\s*(picha|logo)|generate\s*image|create\s*image|make\s*(image|logo|poster)|picha\s*ya|poster\s*ya|logo\s*ya|design\s*ya/i;
+
+function isImageRequest(message) {
+  return IMAGE_PATTERN.test(message);
 }
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
@@ -380,7 +271,6 @@ async function checkUser(email) {
   if (!email) {
     return { allowed: true, plan: 'trial', trialDaysLeft: 3, isGuest: true };
   }
-
   try {
     const users = await supabaseQuery('users', 'GET', null, `email=eq.${email}`);
     const user  = users?.[0];
@@ -411,7 +301,7 @@ async function checkUser(email) {
           allowed: false,
           plan: 'trial',
           trialDaysLeft: 0,
-          message: `⏰ Muda wako wa bure wa siku 3 umeisha!\n\nLipa na upate code ya kuendelea:\n💳 TZS 20,000/mwezi — Msingi\n💳 TZS 60,000/mwezi — Pro\n\nLipa: ajplusai.co.tz au WhatsApp +255762307647`,
+          message: `⏰ Muda wako wa bure wa siku 3 umeisha!\n\nLipa na upate code ya kuendelea:\n💳 TZS 30,000/mwezi — Msingi\n💳 TZS 100,000/mwezi — Pro\n\nLipa: ajplusai.co.tz au WhatsApp +255762307647`,
           showActivation: true
         };
       }
@@ -466,11 +356,11 @@ async function callClaude(message, history, apiKey, useWebSearch = false) {
   }
   messages.push({ role: 'user', content: message });
 
-  const isDocument = /barua|invoice|ankara|ripoti|maombi ya kazi|cv|resume|mkataba|contract/i.test(message);
+  const isLongDoc = /barua|invoice|ankara|ripoti|maombi ya kazi|cv|resume|mkataba|contract/i.test(message);
 
   const body = {
     model: 'claude-sonnet-4-6',
-    max_tokens: isDocument ? 1500 : 600,
+    max_tokens: isLongDoc ? 1500 : 800,
     system: SYSTEM_PROMPT,
     messages
   };
@@ -601,25 +491,19 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    const useWebSearch = true;
-    const CLAUDE_KEY   = process.env.ANTHROPIC_API_KEY;
-    const GEMINI_KEY   = process.env.GEMINI_API_KEY;
+    const CLAUDE_KEY = process.env.ANTHROPIC_API_KEY;
+    const GEMINI_KEY = process.env.GEMINI_API_KEY;
 
     let reply  = null;
     let source = null;
 
-    const isDocument = /barua|invoice|ankara|ripoti|maombi ya kazi|cv|resume|mkataba|contract/i.test(message);
+    // ── Maombi ya picha/poster/logo → Claude daima ──
+    const isImageMsg  = isImageRequest(message);
+    const isLongDoc   = /barua|invoice|ankara|ripoti|maombi ya kazi|cv|resume|mkataba|contract/i.test(message);
+    const needsClaude = isImageMsg || isLongDoc;
 
-    if (!isDocument && GEMINI_KEY) {
-      try {
-        reply  = await callGemini(message, history, GEMINI_KEY, true);
-        source = 'gemini+web';
-      } catch(err) {
-        console.warn('Gemini imeshindwa:', err.message);
-      }
-    }
-
-    if (!reply && CLAUDE_KEY) {
+    if (needsClaude && CLAUDE_KEY) {
+      // Picha na hati ndefu → Claude (anafuata system prompt vizuri)
       try {
         reply  = await callClaude(message, history, CLAUDE_KEY, false);
         source = 'claude';
@@ -628,6 +512,27 @@ module.exports = async function handler(req, res) {
       }
     }
 
+    // Maswali ya kawaida → Gemini kwanza (na web search)
+    if (!reply && !needsClaude && GEMINI_KEY) {
+      try {
+        reply  = await callGemini(message, history, GEMINI_KEY, true);
+        source = 'gemini+web';
+      } catch(err) {
+        console.warn('Gemini imeshindwa:', err.message);
+      }
+    }
+
+    // Fallback → Claude
+    if (!reply && CLAUDE_KEY) {
+      try {
+        reply  = await callClaude(message, history, CLAUDE_KEY, false);
+        source = 'claude';
+      } catch(err) {
+        console.warn('Claude fallback imeshindwa:', err.message);
+      }
+    }
+
+    // Fallback → Gemini bila web search
     if (!reply && GEMINI_KEY) {
       try {
         reply  = await callGemini(message, history, GEMINI_KEY, false);
@@ -647,7 +552,7 @@ module.exports = async function handler(req, res) {
       reply, source,
       plan: userCheck.plan,
       trialDaysLeft: userCheck.trialDaysLeft,
-      webSearch: useWebSearch
+      webSearch: source?.includes('web') || false
     });
 
   } catch(err) {
