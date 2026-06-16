@@ -269,7 +269,7 @@ setInterval(() => {
 
 async function checkUser(email) {
   if (!email) {
-    return { allowed: true, plan: 'trial', trialDaysLeft: 3, isGuest: true };
+    return { allowed: true, plan: 'trial', trialDaysLeft: 7, isGuest: true };
   }
   try {
     const users = await supabaseQuery('users', 'GET', null, `email=eq.${email}`);
