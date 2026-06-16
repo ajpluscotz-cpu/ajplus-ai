@@ -8,8 +8,6 @@
 <meta name="theme-color" content="#C9A84C">
 <link rel="icon" type="image/jpeg" href="assets/logo.jpeg">
 <link rel="apple-touch-icon" href="assets/logo.jpeg">
-
-<!-- PWA — AJPLUS AI kama App -->
 <link rel="manifest" href="/manifest.json">
 <script>
   if ('serviceWorker' in navigator) {
@@ -20,17 +18,13 @@
     });
   }
 </script>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* Brand Colors - Tanzania */
   --gold:#C9A84C;--gold2:#E8B84B;--gold-light:rgba(201,168,76,.1);
   --green:#1EB53A;--green2:#17a033;--green-light:rgba(30,181,58,.08);
-
-  /* Layout */
   --white:#fff;--bg:#FAF9F6;--bg2:#F0EDE6;
   --text:#1A1A1A;--text2:#4A4A4A;--muted:#8A8A8A;--border:#E4E1DA;
   --red:#DC2626;--orange:#D97706;
@@ -38,29 +32,18 @@
   --font:'Inter',sans-serif;
   --shadow:0 1px 4px rgba(0,0,0,.05);
   --shadow2:0 8px 32px rgba(0,0,0,.08);
-
-  /* Dark mode */
   --dm-bg:#0F0F0D;--dm-bg2:#1A1A16;--dm-card:#1E1E1A;
   --dm-border:#2A2A24;--dm-text:#F0EDE6;--dm-muted:#888;
 }
-
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
-
-/* ── SCROLLBAR — inayojificha ── */
 *{scrollbar-width:thin;scrollbar-color:transparent transparent}
 *:hover{scrollbar-color:var(--border) transparent}
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:transparent;border-radius:4px;transition:background .2s}
 *:hover::-webkit-scrollbar-thumb{background:var(--border)}
-
-/* ── DARK MODE ── */
-body.dark{
-  background:var(--dm-bg);color:var(--dm-text);
-  --white:var(--dm-card);--bg:var(--dm-bg);--bg2:var(--dm-bg2);
-  --border:var(--dm-border);--text:var(--dm-text);--text2:#ccc;--muted:var(--dm-muted);
-}
+body.dark{background:var(--dm-bg);color:var(--dm-text);--white:var(--dm-card);--bg:var(--dm-bg);--bg2:var(--dm-bg2);--border:var(--dm-border);--text:var(--dm-text);--text2:#ccc;--muted:var(--dm-muted)}
 body.dark .nav{background:rgba(15,15,13,.96);border-color:var(--dm-border)}
 body.dark .auth-box,body.dark .cpanel,body.dark .sidebar,body.dark .epanel-inner,body.dark .mobox{background:var(--dm-card);border-color:var(--dm-border)}
 body.dark .fi{background:var(--dm-bg2);border-color:var(--dm-border);color:var(--dm-text)}
@@ -72,20 +55,13 @@ body.dark #chat-input{background:var(--dm-bg2);color:var(--dm-text)}
 body.dark .ctop{background:var(--dm-card);border-color:var(--dm-border)}
 body.dark .ebtn{background:var(--dm-bg2);border-color:var(--dm-border);color:#ccc}
 body.dark footer{background:#000}
-body.dark .plan-card-pro{background:linear-gradient(135deg,#7a6520,#a08030)}
-
 a{color:var(--gold);text-decoration:none}
-
 .screen{display:none;min-height:100vh}
 .screen.active{display:block}
 #screen-auth.active{display:flex}
-
-/* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 20px;border-radius:10px;font-size:.84rem;font-weight:500;border:none;transition:all .18s;cursor:pointer;text-decoration:none;font-family:var(--font);letter-spacing:-.01em}
 .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;box-shadow:0 2px 8px rgba(201,168,76,.3)}
 .btn-gold:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(201,168,76,.4)}
-.btn-green{background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;box-shadow:0 2px 8px rgba(30,181,58,.25)}
-.btn-green:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(30,181,58,.35)}
 .btn-ghost{background:transparent;color:var(--text);border:1.5px solid var(--border)}
 .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
 .btn-dark{background:var(--text);color:#fff}
@@ -94,32 +70,20 @@ a{color:var(--gold);text-decoration:none}
 .btn-sm{padding:6px 13px;font-size:.78rem}
 .btn-lg{padding:12px 28px;font-size:.9rem;border-radius:12px}
 .btn-full{width:100%}
-
-/* ── FORMS ── */
 .fg{margin-bottom:11px}
 .fl{display:block;font-size:.76rem;font-weight:500;color:var(--text2);margin-bottom:4px}
 .fi{width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--text);font-size:.84rem;transition:border-color .18s;outline:none;font-family:var(--font)}
 .fi:focus{border-color:var(--gold)}
 .fi::placeholder{color:var(--muted)}
 select.fi{cursor:pointer}
-
-/* ── ANIMATIONS ── */
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 @keyframes mIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 @keyframes glow{0%,100%{box-shadow:0 0 8px rgba(201,168,76,.3)}50%{box-shadow:0 0 20px rgba(201,168,76,.6)}}
-
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s}
 .reveal.in{opacity:1;transform:translateY(0)}
-
-/* ── DOT ── */
 .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite;flex-shrink:0;display:inline-block}
-
-/* ══════════════════════════════
-   NAVBAR
-══════════════════════════════ */
 .nav{position:fixed;top:0;left:0;right:0;z-index:900;height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 5%;background:rgba(250,249,246,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:background .3s}
 .nav-brand{display:flex;align-items:center;gap:9px;cursor:pointer}
 .nav-logo{width:30px;height:30px;object-fit:cover;border-radius:50%;border:2px solid var(--gold);box-shadow:0 0 0 3px var(--gold-light)}
@@ -133,12 +97,7 @@ select.fi{cursor:pointer}
 .dm-toggle:hover{border-color:var(--gold);color:var(--gold)}
 .ham{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:6px}
 .ham span{width:18px;height:1.5px;background:var(--text);border-radius:2px;transition:all .2s}
-
-/* ══════════════════════════════
-   LANDING
-══════════════════════════════ */
 #screen-landing{padding-top:54px}
-
 .hero{min-height:calc(100vh - 54px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 5% 52px}
 .hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold-light);border:1.5px solid rgba(201,168,76,.2);border-radius:50px;padding:4px 13px;font-size:.7rem;font-weight:600;color:var(--gold);margin-bottom:20px;letter-spacing:.02em}
 .hero-logo{width:72px;height:72px;object-fit:cover;border-radius:50%;border:2.5px solid var(--gold);margin:0 auto 20px;display:block;box-shadow:0 0 0 6px var(--gold-light),0 8px 24px rgba(201,168,76,.2);animation:float 4s ease-in-out infinite}
@@ -149,29 +108,21 @@ select.fi{cursor:pointer}
 .hero-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:44px}
 .hero-tag{background:var(--white);border:1.5px solid var(--border);border-radius:50px;padding:4px 12px;font-size:.72rem;color:var(--text2);font-weight:400;transition:all .18s}
 .hero-tag:hover{border-color:var(--gold);color:var(--gold)}
-
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:12px;overflow:hidden;max-width:400px;margin:0 auto;box-shadow:var(--shadow)}
 .stat{background:var(--white);padding:16px 14px;text-align:center;transition:background .3s}
 .stat-num{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.03em}
 .stat-label{font-size:.66rem;color:var(--muted);margin-top:2px;font-weight:500}
-
-/* ── SECTIONS ── */
 .sec{padding:72px 5%}
 .sec-alt{background:var(--white)}
 .sec-label{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:6px}
 .sec-title{font-size:clamp(1.3rem,3.2vw,2rem);font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-.03em}
 .sec-title span{background:linear-gradient(135deg,var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-
-/* ── NEEDS GRID ── */
 .needs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:8px;max-width:980px;margin:0 auto}
 .need-card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s}
 .need-card:hover{border-color:var(--gold);box-shadow:0 4px 20px rgba(201,168,76,.12);transform:translateY(-3px)}
 .need-icon{font-size:1.6rem;margin-bottom:6px;display:block}
 .need-name{font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:2px}
 .need-desc{font-size:.67rem;color:var(--muted);line-height:1.4}
-
-/* ── PLANS ── */
-.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;max-width:820px;margin:0 auto}
 .plan{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:20px;position:relative;transition:all .2s}
 .plan:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:var(--shadow2)}
 .plan.hot{border-color:var(--gold);box-shadow:0 4px 20px rgba(201,168,76,.15)}
@@ -184,10 +135,6 @@ select.fi{cursor:pointer}
 .plan-feats li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;font-size:.72rem}
 .plan-feats li.no::before{content:'–';color:var(--border)}
 .plan-feats li.no{color:var(--muted)}
-
-/* ══════════════════════════════
-   AUTH
-══════════════════════════════ */
 #screen-auth{min-height:100vh;align-items:center;justify-content:center;background:var(--bg)}
 .auth-box{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:28px;width:100%;max-width:360px;margin:20px;box-shadow:var(--shadow2);position:relative}
 .auth-logo{text-align:center;margin-bottom:16px}
@@ -201,15 +148,8 @@ select.fi{cursor:pointer}
 .aform.active{display:block}
 .auth-back{position:absolute;top:12px;left:14px;background:none;border:none;color:var(--muted);font-size:.78rem;cursor:pointer;font-family:var(--font)}
 .auth-wa{position:fixed;bottom:24px;right:24px;z-index:800;display:flex;align-items:center;gap:6px;background:var(--wa);border-radius:50px;padding:8px 14px 8px 10px;color:#fff;font-size:.76rem;font-weight:500;box-shadow:0 4px 14px rgba(37,211,102,.3);text-decoration:none;transition:all .18s}
-.auth-wa:hover{transform:translateY(-2px)}
-
-/* ══════════════════════════════
-   DASHBOARD
-══════════════════════════════ */
 #screen-dashboard{padding-top:54px}
 .dlayout{display:grid;grid-template-columns:190px 1fr;min-height:calc(100vh - 54px)}
-
-/* ── SIDEBAR ── */
 .sidebar{background:var(--white);border-right:1.5px solid var(--border);padding:12px 8px;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;display:flex;flex-direction:column;gap:2px;transition:background .3s,border-color .3s}
 .slabel2{font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:10px 10px 4px;opacity:.7}
 .sitem{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;font-size:.78rem;color:var(--muted);cursor:pointer;transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:var(--font);font-weight:400}
@@ -218,11 +158,8 @@ select.fi{cursor:pointer}
 .sitem .si{font-size:.84rem;width:18px;text-align:center;flex-shrink:0}
 .sdiv{height:1px;background:var(--border);margin:4px 0;opacity:.6}
 .sbottom{margin-top:auto;padding-top:4px}
-
-/* ── SIDEBAR BEI CARDS ── */
 .bei-cards{padding:6px 2px;display:flex;flex-direction:column;gap:6px}
 .bei-card{border-radius:11px;padding:10px 11px;color:#fff;cursor:pointer;transition:all .22s;position:relative;overflow:hidden}
-.bei-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,0));pointer-events:none}
 .bei-card:hover{transform:translateY(-2px);filter:brightness(1.08)}
 .bei-card-msingi{background:linear-gradient(135deg,#8B6914,#C9A84C)}
 .bei-card-kawaida{background:linear-gradient(135deg,#A07820,#E8B84B)}
@@ -233,16 +170,9 @@ select.fi{cursor:pointer}
 .bei-card-price{font-size:.92rem;font-weight:800;letter-spacing:-.02em;line-height:1.1}
 .bei-card-desc{font-size:.58rem;opacity:.68;margin-top:2px}
 .wa-sidebar{display:flex;align-items:center;gap:7px;padding:8px 10px;border-radius:9px;color:var(--wa);font-size:.74rem;font-weight:600;background:rgba(37,211,102,.06);border:1.5px solid rgba(37,211,102,.15);margin-top:6px;text-decoration:none;transition:all .15s}
-.wa-sidebar:hover{background:rgba(37,211,102,.12)}
-
-/* ── MAIN ── */
 .dmain{padding:16px;overflow-y:auto;background:var(--bg);transition:background .3s}
 .dash-page{display:none}
 .dash-page.active{display:block}
-
-/* ══════════════════════════════
-   CHAT
-══════════════════════════════ */
 .cwrap{display:flex;gap:0;height:calc(100vh - 54px - 36px - 16px);position:relative}
 .cpanel{flex:1;display:flex;flex-direction:column;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;min-width:0;transition:background .3s,border-color .3s}
 .ctop{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1.5px solid var(--border);flex-shrink:0}
@@ -259,8 +189,6 @@ select.fi{cursor:pointer}
 .msg-bub{padding:10px 14px;border-radius:14px;font-size:.83rem;line-height:1.65}
 .msg.ai .msg-bub{background:var(--white);border:1.5px solid var(--border);border-bottom-left-radius:4px;color:var(--text)}
 .msg.user .msg-bub{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;border-bottom-right-radius:4px;box-shadow:0 2px 8px rgba(201,168,76,.25)}
-.msg-bub strong{font-weight:600}
-.msg-bub code{background:rgba(0,0,0,.06);padding:1px 5px;border-radius:4px;font-size:.8em;font-family:monospace}
 .cinput-area{padding:12px 14px 14px;border-top:1.5px solid var(--border);background:var(--white);flex-shrink:0}
 .cinput-wrap{display:flex;align-items:flex-end;gap:0;background:var(--bg);border:1.5px solid var(--border);border-radius:14px;padding:10px 10px 10px 16px;transition:border-color .2s,box-shadow .2s}
 .cinput-wrap:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-light)}
@@ -268,7 +196,7 @@ select.fi{cursor:pointer}
 #chat-input::placeholder{color:var(--muted)}
 .cinput-actions{display:flex;align-items:flex-end;gap:6px;flex-shrink:0}
 .csend{width:34px;height:34px;background:linear-gradient(135deg,var(--gold),var(--green));border:none;border-radius:10px;font-size:.82rem;color:#fff;flex-shrink:0;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(201,168,76,.3)}
-.csend:hover{transform:scale(1.08);box-shadow:0 4px 14px rgba(201,168,76,.4)}
+.csend:hover{transform:scale(1.08)}
 .csend:disabled{opacity:.4;cursor:not-allowed;transform:none}
 .epanel{width:0;overflow:hidden;transition:width .26s ease,opacity .26s ease;opacity:0;flex-shrink:0}
 .epanel.open{width:220px;opacity:1;margin-left:10px}
@@ -285,7 +213,6 @@ select.fi{cursor:pointer}
 .mo.open{display:flex}
 .mobox{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:0;max-width:400px;width:100%;position:relative;animation:mIn .2s ease;box-shadow:0 24px 60px rgba(0,0,0,.14);max-height:90vh;overflow-y:auto}
 .moclose{position:absolute;top:11px;right:11px;background:var(--bg);border:1.5px solid var(--border);color:var(--muted);font-size:.76rem;cursor:pointer;border-radius:7px;padding:3px 8px;z-index:1;font-family:var(--font);transition:all .15s}
-.moclose:hover{color:var(--text)}
 .pay-header{padding:20px 20px 14px;border-bottom:1.5px solid var(--border)}
 .pay-body{padding:14px 20px 20px}
 .pay-step{display:none}
@@ -314,7 +241,6 @@ select.fi{cursor:pointer}
 .toast.error{background:var(--red)}
 .toast.success{background:var(--green)}
 .wa-float{position:fixed;bottom:20px;left:20px;z-index:800;display:flex;align-items:center;gap:7px;background:var(--wa);border-radius:50px;padding:8px 14px 8px 10px;color:#fff;font-size:.76rem;font-weight:600;box-shadow:0 4px 16px rgba(37,211,102,.35);text-decoration:none;transition:all .18s}
-.wa-float:hover{transform:translateY(-2px)}
 .trial-overlay{position:absolute;inset:0;z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;backdrop-filter:blur(6px);background:rgba(15,15,13,.75);border-radius:var(--radius);padding:24px}
 .trial-overlay.show{display:flex}
 .trial-bar{display:none;align-items:center;justify-content:space-between;gap:10px;background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(30,181,58,.08));border:1.5px solid rgba(201,168,76,.25);border-radius:10px;padding:9px 16px;margin-bottom:10px;font-size:.8rem}
@@ -327,38 +253,27 @@ select.fi{cursor:pointer}
 .overlay-sub{font-size:.82rem;color:var(--muted);margin-bottom:20px;line-height:1.6}
 .overlay-input{width:100%;background:var(--bg2);border:2px solid var(--border);border-radius:10px;padding:13px 16px;color:var(--text);font-size:1rem;font-weight:700;letter-spacing:.08em;text-align:center;outline:none;font-family:var(--font);margin-bottom:12px;transition:border-color .2s}
 .overlay-input:focus{border-color:var(--gold)}
-.overlay-input::placeholder{font-weight:400;letter-spacing:0;font-size:.84rem}
 .overlay-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold),var(--green));border:none;border-radius:10px;color:#fff;font-size:.92rem;font-weight:700;cursor:pointer;font-family:var(--font);transition:opacity .2s;margin-bottom:10px}
 .overlay-btn:hover{opacity:.88}
 .overlay-btn:disabled{opacity:.5;cursor:not-allowed}
 .overlay-err{color:var(--red);font-size:.78rem;margin-bottom:8px;min-height:18px}
-.overlay-days{display:inline-block;background:rgba(201,168,76,.15);color:var(--gold);border-radius:6px;padding:2px 8px;font-size:.72rem;font-weight:700;margin-bottom:14px}
 .img-type-btn{padding:7px 15px;border-radius:9px;border:1.5px solid var(--border);background:var(--bg);font-size:.78rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;font-family:var(--font)}
 .img-type-btn:hover{border-color:var(--gold);color:var(--gold)}
 .img-type-btn.active{background:linear-gradient(135deg,var(--gold),var(--green));color:#fff;border-color:transparent}
-
-/* ── RESPONSIVE ── */
 @media(max-width:900px){
-  .nav-links{display:none}
-  .ham{display:flex}
+  .nav-links{display:none}.ham{display:flex}
   .dlayout{grid-template-columns:1fr}
   .sidebar{display:none;position:fixed;top:54px;left:0;bottom:0;width:200px;z-index:800;box-shadow:4px 0 24px rgba(0,0,0,.08)}
-  .sidebar.open{display:flex}
-  .epanel.open{display:none}
-  .wa-float{bottom:16px;left:16px}
+  .sidebar.open{display:flex}.epanel.open{display:none}
 }
 @media(max-width:600px){
-  .hero h1{font-size:1.9rem}
-  .auth-box{padding:22px 16px;margin:14px}
-  .dmain{padding:10px}
-  .plans{grid-template-columns:1fr}
-  .needs-grid{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}
+  .hero h1{font-size:1.9rem}.auth-box{padding:22px 16px;margin:14px}
+  .dmain{padding:10px}.needs-grid{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}
 }
 </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
 <nav class="nav">
   <div class="nav-brand" onclick="goTo('landing')">
     <img class="nav-logo" src="assets/logo.jpeg" alt="AJPLUS AI">
@@ -371,12 +286,12 @@ select.fi{cursor:pointer}
     <li><a onclick="document.getElementById('sec-lipa')?.scrollIntoView({behavior:'smooth'})">Lipa</a></li>
   </ul>
   <div class="nav-right" id="nav-guest">
-    <button class="dm-toggle" onclick="toggleDark()" id="dm-btn">🌙 Giza</button>
+    <button class="dm-toggle" onclick="toggleDark()">🌙 Giza</button>
     <button class="btn btn-ghost btn-sm" onclick="goTo('auth')">Ingia</button>
     <button class="btn btn-gold btn-sm" onclick="goTo('auth');switchAuthTab('signup')">Anza Bure</button>
   </div>
   <div class="nav-right" id="nav-user" style="display:none">
-    <button class="dm-toggle" onclick="toggleDark()" id="dm-btn2">🌙</button>
+    <button class="dm-toggle" onclick="toggleDark()">🌙</button>
     <div style="display:flex;align-items:center;gap:7px;background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:3px 11px 3px 4px;cursor:pointer" onclick="showDash('chat')">
       <div class="nav-av" id="nav-av-letter">A</div>
       <span style="font-size:.76rem;font-weight:600" id="nav-user-name">Mtumiaji</span>
@@ -385,7 +300,7 @@ select.fi{cursor:pointer}
   <div class="ham" onclick="toggleSidebar()"><span></span><span></span><span></span></div>
 </nav>
 
-<!-- ═══ LANDING ═══ -->
+<!-- LANDING -->
 <div class="screen active" id="screen-landing">
 <section class="hero">
   <div class="hero-badge"><span class="dot"></span>Tanzania 🇹🇿 — AI ya Kweli</div>
@@ -448,43 +363,10 @@ select.fi{cursor:pointer}
     <h2 class="sec-title">Chagua <span>Mpango Wako</span></h2>
   </div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px;max-width:900px;margin:0 auto">
-    <div class="plan reveal">
-      <p class="plan-tier">Msingi</p>
-      <div class="plan-price">30,000<span> TZS/mwezi</span></div>
-      <ul class="plan-feats">
-        <li>Maswali 50 kwa siku</li><li>Picha 20/mwezi</li><li>Sekta zote 20</li>
-        <li>Export PDF na TXT</li><li class="no">Export Word</li><li class="no">Habari za leo</li>
-      </ul>
-      <button class="btn btn-ghost btn-full" onclick="showModal('mo-lipa');setPayPlan('msingi',30000)">Lipa TZS 30,000</button>
-    </div>
-    <div class="plan reveal">
-      <p class="plan-tier">Kawaida</p>
-      <div class="plan-price">60,000<span> TZS/mwezi</span></div>
-      <ul class="plan-feats">
-        <li>Maswali 150 kwa siku</li><li>Picha 50/mwezi</li><li>Export PDF, Word, TXT</li>
-        <li>WhatsApp Share</li><li class="no">Habari za leo</li><li class="no">Historia</li>
-      </ul>
-      <button class="btn btn-ghost btn-full" onclick="showModal('mo-lipa');setPayPlan('kawaida',60000)">Lipa TZS 60,000</button>
-    </div>
-    <div class="plan hot reveal">
-      <div class="plan-pop">⭐ Maarufu</div>
-      <p class="plan-tier">Pro</p>
-      <div class="plan-price">100,000<span> TZS/mwezi</span></div>
-      <ul class="plan-feats">
-        <li>Maswali bila kikomo</li><li>Picha 100/mwezi</li><li>Habari za leo (web)</li>
-        <li>Export PDF, Word, TXT</li><li>Historia ya mazungumzo</li><li>WhatsApp Share</li>
-      </ul>
-      <button class="btn btn-gold btn-full" onclick="showModal('mo-lipa');setPayPlan('pro',100000)">Lipa TZS 100,000</button>
-    </div>
-    <div class="plan reveal">
-      <p class="plan-tier">Biashara</p>
-      <div class="plan-price">250,000<span> TZS/mwezi</span></div>
-      <ul class="plan-feats">
-        <li>Kila kitu cha Pro</li><li>Picha 300/mwezi</li><li>API Access</li>
-        <li>Wafanyakazi wengi</li><li>Branding yako</li><li>Support 24h</li>
-      </ul>
-      <button class="btn btn-dark btn-full" onclick="showModal('mo-lipa');setPayPlan('biashara',250000)">Lipa TZS 250,000</button>
-    </div>
+    <div class="plan reveal"><p class="plan-tier">Msingi</p><div class="plan-price">30,000<span> TZS/mwezi</span></div><ul class="plan-feats"><li>Maswali 50 kwa siku</li><li>Picha 20/mwezi</li><li>Sekta zote 20</li><li>Export PDF na TXT</li><li class="no">Export Word</li><li class="no">Habari za leo</li></ul><button class="btn btn-ghost btn-full" onclick="showModal('mo-lipa');setPayPlan('msingi',30000)">Lipa TZS 30,000</button></div>
+    <div class="plan reveal"><p class="plan-tier">Kawaida</p><div class="plan-price">60,000<span> TZS/mwezi</span></div><ul class="plan-feats"><li>Maswali 150 kwa siku</li><li>Picha 50/mwezi</li><li>Export PDF, Word, TXT</li><li>WhatsApp Share</li><li class="no">Habari za leo</li><li class="no">Historia</li></ul><button class="btn btn-ghost btn-full" onclick="showModal('mo-lipa');setPayPlan('kawaida',60000)">Lipa TZS 60,000</button></div>
+    <div class="plan hot reveal"><div class="plan-pop">⭐ Maarufu</div><p class="plan-tier">Pro</p><div class="plan-price">100,000<span> TZS/mwezi</span></div><ul class="plan-feats"><li>Maswali bila kikomo</li><li>Picha 100/mwezi</li><li>Habari za leo (web)</li><li>Export PDF, Word, TXT</li><li>Historia ya mazungumzo</li><li>WhatsApp Share</li></ul><button class="btn btn-gold btn-full" onclick="showModal('mo-lipa');setPayPlan('pro',100000)">Lipa TZS 100,000</button></div>
+    <div class="plan reveal"><p class="plan-tier">Biashara</p><div class="plan-price">250,000<span> TZS/mwezi</span></div><ul class="plan-feats"><li>Kila kitu cha Pro</li><li>Picha 300/mwezi</li><li>API Access</li><li>Wafanyakazi wengi</li><li>Branding yako</li><li>Support 24h</li></ul><button class="btn btn-dark btn-full" onclick="showModal('mo-lipa');setPayPlan('biashara',250000)">Lipa TZS 250,000</button></div>
   </div>
 </section>
 
@@ -552,13 +434,10 @@ select.fi{cursor:pointer}
     <span style="background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(30,181,58,.2));color:var(--gold);font-size:.64rem;font-weight:700;padding:3px 10px;border-radius:6px;border:1px solid rgba(201,168,76,.2)">🇹🇿 Made in Tanzania</span>
   </div>
 </footer>
-
-<a href="https://wa.me/255670307647" target="_blank" class="wa-float" id="wa-float">
-  <span>💬</span> Support
-</a>
+<a href="https://wa.me/255670307647" target="_blank" class="wa-float" id="wa-float"><span>💬</span> Support</a>
 </div>
 
-<!-- ═══ AUTH ═══ -->
+<!-- AUTH -->
 <div class="screen" id="screen-auth">
   <button class="auth-back" onclick="goTo('landing')">← Rudi</button>
   <div class="auth-box">
@@ -600,7 +479,7 @@ select.fi{cursor:pointer}
   <a href="https://wa.me/255670307647" target="_blank" class="auth-wa"><span>💬</span> Support</a>
 </div>
 
-<!-- ═══ DASHBOARD ═══ -->
+<!-- DASHBOARD -->
 <div class="screen" id="screen-dashboard">
 <div class="dlayout">
 <aside class="sidebar" id="sidebar">
@@ -618,36 +497,18 @@ select.fi{cursor:pointer}
     <div class="sdiv"></div>
     <div class="slabel2">Panda Mpango</div>
     <div class="bei-cards">
-      <div class="bei-card bei-card-msingi" onclick="showModal('mo-lipa');setPayPlan('msingi',30000)">
-        <div class="bei-card-label">Msingi</div>
-        <div class="bei-card-price">TZS 30,000</div>
-        <div class="bei-card-desc">/mwezi · Maswali 50/siku</div>
-      </div>
-      <div class="bei-card bei-card-kawaida" onclick="showModal('mo-lipa');setPayPlan('kawaida',60000)">
-        <div class="bei-card-label">Kawaida</div>
-        <div class="bei-card-price">TZS 60,000</div>
-        <div class="bei-card-desc">/mwezi · Maswali 150/siku</div>
-      </div>
-      <div class="bei-card bei-card-pro" onclick="showModal('mo-lipa');setPayPlan('pro',100000)">
-        <div class="bei-card-badge">⭐ HOT</div>
-        <div class="bei-card-label">Pro</div>
-        <div class="bei-card-price">TZS 100,000</div>
-        <div class="bei-card-desc">/mwezi · Bila kikomo</div>
-      </div>
-      <div class="bei-card bei-card-biz" onclick="showModal('mo-lipa');setPayPlan('biashara',250000)">
-        <div class="bei-card-badge">💼 VIP</div>
-        <div class="bei-card-label">Biashara</div>
-        <div class="bei-card-price">TZS 250,000</div>
-        <div class="bei-card-desc">/mwezi · API + Team</div>
-      </div>
+      <div class="bei-card bei-card-msingi" onclick="showModal('mo-lipa');setPayPlan('msingi',30000)"><div class="bei-card-label">Msingi</div><div class="bei-card-price">TZS 30,000</div><div class="bei-card-desc">/mwezi · Maswali 50/siku</div></div>
+      <div class="bei-card bei-card-kawaida" onclick="showModal('mo-lipa');setPayPlan('kawaida',60000)"><div class="bei-card-label">Kawaida</div><div class="bei-card-price">TZS 60,000</div><div class="bei-card-desc">/mwezi · Maswali 150/siku</div></div>
+      <div class="bei-card bei-card-pro" onclick="showModal('mo-lipa');setPayPlan('pro',100000)"><div class="bei-card-badge">⭐ HOT</div><div class="bei-card-label">Pro</div><div class="bei-card-price">TZS 100,000</div><div class="bei-card-desc">/mwezi · Bila kikomo</div></div>
+      <div class="bei-card bei-card-biz" onclick="showModal('mo-lipa');setPayPlan('biashara',250000)"><div class="bei-card-badge">💼 VIP</div><div class="bei-card-label">Biashara</div><div class="bei-card-price">TZS 250,000</div><div class="bei-card-desc">/mwezi · API + Team</div></div>
     </div>
     <div class="sdiv" style="margin-top:8px"></div>
     <a href="https://wa.me/255670307647" target="_blank" class="wa-sidebar"><span>💬</span>WhatsApp Support</a>
     <button class="sitem" style="margin-top:3px;color:var(--red)" onclick="doLogout()"><span class="si">↩</span>Toka</button>
   </div>
 </aside>
-
 <main class="dmain">
+
 <!-- CHAT -->
 <div class="dash-page active" id="dp-chat">
   <div style="margin-bottom:8px">
@@ -742,7 +603,7 @@ select.fi{cursor:pointer}
       <div id="quick-prompts" style="display:flex;flex-wrap:wrap;gap:5px"></div>
     </div>
   </div>
-  <button class="btn btn-gold btn-full" id="gen-btn" onclick="generateImage()" style="margin-bottom:12px">✨ Tengeneza Picha</button>
+  <button class="btn btn-gold btn-full" id="gen-btn" onclick="runGenerateImage()" style="margin-bottom:12px">✨ Tengeneza Picha</button>
   <div id="image-usage" style="background:var(--bg2);border:1.5px solid var(--border);border-radius:9px;padding:9px 13px;margin-bottom:12px;font-size:.74rem;color:var(--muted);display:flex;justify-content:space-between;align-items:center">
     <span id="usage-text">Picha zilizotumika: —</span>
     <span id="usage-bar" style="font-size:.68rem;color:var(--gold)"></span>
@@ -753,7 +614,7 @@ select.fi{cursor:pointer}
       <div style="padding:11px;display:flex;gap:7px;border-top:1.5px solid var(--border)">
         <button class="btn btn-dark btn-sm" onclick="downloadImage()">⬇ Pakua</button>
         <button class="btn btn-ghost btn-sm" onclick="shareImageWA()">💬 WhatsApp</button>
-        <button class="btn btn-ghost btn-sm" onclick="generateImage()">🔄 Tena</button>
+        <button class="btn btn-ghost btn-sm" onclick="runGenerateImage()">🔄 Tena</button>
       </div>
     </div>
   </div>
@@ -792,32 +653,13 @@ select.fi{cursor:pointer}
   <h2 style="margin-bottom:4px;font-size:.92rem;font-weight:700">Malipo</h2>
   <p style="color:var(--muted);font-size:.78rem;margin-bottom:14px">Panda mpango wako</p>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:9px;margin-bottom:14px">
-    <div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;padding:13px">
-      <p style="font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Msingi</p>
-      <p style="font-size:1.1rem;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-top:3px">TZS 30,000<span style="font-size:.7rem;color:var(--muted);font-weight:400">/mwezi</span></p>
-      <p style="font-size:.68rem;color:var(--muted);margin-bottom:9px">Maswali 50/siku · Picha 20</p>
-      <button class="btn btn-ghost btn-full" style="font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('msingi',30000)">Lipa Sasa</button>
-    </div>
-    <div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;padding:13px">
-      <p style="font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Kawaida</p>
-      <p style="font-size:1.1rem;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-top:3px">TZS 60,000<span style="font-size:.7rem;color:var(--muted);font-weight:400">/mwezi</span></p>
-      <p style="font-size:.68rem;color:var(--muted);margin-bottom:9px">Maswali 150/siku · Picha 50</p>
-      <button class="btn btn-ghost btn-full" style="font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('kawaida',60000)">Lipa Sasa</button>
-    </div>
-    <div style="background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:12px;padding:13px;color:#fff">
-      <p style="font-size:.6rem;font-weight:700;opacity:.75;text-transform:uppercase;letter-spacing:.06em">Pro ⭐</p>
-      <p style="font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-top:3px">TZS 100,000<span style="font-size:.7rem;opacity:.65;font-weight:400">/mwezi</span></p>
-      <p style="font-size:.68rem;opacity:.8;margin-bottom:9px">Bila kikomo · Picha 100</p>
-      <button class="btn btn-full" style="background:rgba(255,255,255,.22);color:#fff;border:1.5px solid rgba(255,255,255,.35);font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('pro',100000)">Lipa Sasa</button>
-    </div>
-    <div style="background:var(--text);border-radius:12px;padding:13px;color:#fff">
-      <p style="font-size:.6rem;font-weight:700;opacity:.5;text-transform:uppercase;letter-spacing:.06em">Biashara 💼</p>
-      <p style="font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-top:3px">TZS 250,000<span style="font-size:.7rem;opacity:.45;font-weight:400">/mwezi</span></p>
-      <p style="font-size:.68rem;opacity:.6;margin-bottom:9px">API + Wafanyakazi · Picha 300</p>
-      <button class="btn btn-full" style="background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.2);font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('biashara',250000)">Lipa Sasa</button>
-    </div>
+    <div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;padding:13px"><p style="font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Msingi</p><p style="font-size:1.1rem;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-top:3px">TZS 30,000<span style="font-size:.7rem;color:var(--muted);font-weight:400">/mwezi</span></p><p style="font-size:.68rem;color:var(--muted);margin-bottom:9px">Maswali 50/siku · Picha 20</p><button class="btn btn-ghost btn-full" style="font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('msingi',30000)">Lipa Sasa</button></div>
+    <div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;padding:13px"><p style="font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Kawaida</p><p style="font-size:1.1rem;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-top:3px">TZS 60,000<span style="font-size:.7rem;color:var(--muted);font-weight:400">/mwezi</span></p><p style="font-size:.68rem;color:var(--muted);margin-bottom:9px">Maswali 150/siku · Picha 50</p><button class="btn btn-ghost btn-full" style="font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('kawaida',60000)">Lipa Sasa</button></div>
+    <div style="background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:12px;padding:13px;color:#fff"><p style="font-size:.6rem;font-weight:700;opacity:.75;text-transform:uppercase;letter-spacing:.06em">Pro ⭐</p><p style="font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-top:3px">TZS 100,000<span style="font-size:.7rem;opacity:.65;font-weight:400">/mwezi</span></p><p style="font-size:.68rem;opacity:.8;margin-bottom:9px">Bila kikomo · Picha 100</p><button class="btn btn-full" style="background:rgba(255,255,255,.22);color:#fff;border:1.5px solid rgba(255,255,255,.35);font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('pro',100000)">Lipa Sasa</button></div>
+    <div style="background:var(--text);border-radius:12px;padding:13px;color:#fff"><p style="font-size:.6rem;font-weight:700;opacity:.5;text-transform:uppercase;letter-spacing:.06em">Biashara 💼</p><p style="font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-top:3px">TZS 250,000<span style="font-size:.7rem;opacity:.45;font-weight:400">/mwezi</span></p><p style="font-size:.68rem;opacity:.6;margin-bottom:9px">API + Wafanyakazi · Picha 300</p><button class="btn btn-full" style="background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.2);font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('biashara',250000)">Lipa Sasa</button></div>
   </div>
 </div>
+
 </main>
 </div>
 </div>
@@ -828,7 +670,7 @@ select.fi{cursor:pointer}
     <button class="moclose" onclick="closeModal('mo-lipa');resetPayForm()">✕</button>
     <div class="pay-step active" id="pay-step-1">
       <div class="pay-header">
-        <div class="step-indicator"><div class="step-dot done"></div><div class="step-dot" id="sd2"></div><div class="step-dot" id="sd3"></div></div>
+        <div class="step-indicator"><div class="step-dot done"></div><div class="step-dot"></div><div class="step-dot"></div></div>
         <p style="font-size:.67rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Hatua 1 ya 3</p>
         <h3 style="font-size:.96rem;font-weight:700;letter-spacing:-.02em">Chagua Mpango</h3>
       </div>
@@ -913,12 +755,20 @@ select.fi{cursor:pointer}
 
 <div class="toast" id="toast"></div>
 
+<!-- app.js KWANZA — ndiyo inayodhibiti kila kitu -->
 <script src="js/app.js"></script>
+
 <script>
+/* ══════════════════════════════════════════════════
+   index.html scripts — Zinatumia functions za app.js
+   HAKUNA function inayofunika app.js hapa!
+══════════════════════════════════════════════════ */
+
 // DARK MODE
 function toggleDark() {
   document.body.classList.toggle('dark');
   const isDark = document.body.classList.contains('dark');
+  Session.set('theme', isDark ? 'dark' : 'light');
   localStorage.setItem('ajplus-dark', isDark);
   document.querySelectorAll('.dm-toggle').forEach(b => {
     b.innerHTML = isDark ? '☀️ Mwanga' : '🌙 Giza';
@@ -932,7 +782,7 @@ if (localStorage.getItem('ajplus-dark') === 'true') {
 // EXPORT TOGGLE
 function toggleExport() {
   const panel = document.getElementById('epanel');
-  const btn = document.getElementById('export-toggle-btn');
+  const btn   = document.getElementById('export-toggle-btn');
   const isOpen = panel.classList.contains('open');
   panel.classList.toggle('open');
   btn.classList.toggle('active');
@@ -941,19 +791,27 @@ function toggleExport() {
 
 // WA FLOAT
 function updateWaFloat() {
-  const waf = document.getElementById('wa-float');
+  const waf   = document.getElementById('wa-float');
   if (!waf) return;
   const isDash = document.getElementById('screen-dashboard')?.classList.contains('active');
   const isAuth = document.getElementById('screen-auth')?.classList.contains('active');
   waf.style.display = (isDash || isAuth) ? 'none' : 'flex';
 }
 
+// Override goTo ili ku-update wa-float
+const _origGoTo = window.goTo;
+window.goTo = function(page) {
+  if (typeof _origGoTo === 'function') _origGoTo(page);
+  setTimeout(updateWaFloat, 50);
+};
+updateWaFloat();
+
 // PAYMENT
 let _payPlan = 'pro', _payAmount = 100000;
 
 function setPayPlan(plan, amount) {
   _payPlan = plan; _payAmount = amount;
-  const names = {msingi:'Msingi',kawaida:'Kawaida',pro:'Pro ⭐',biashara:'Biashara'};
+  const names = { msingi:'Msingi', kawaida:'Kawaida', pro:'Pro ⭐', biashara:'Biashara' };
   const el = document.getElementById('pay-plan-label2');
   if (el) el.textContent = `${names[plan]||plan} · TZS ${amount.toLocaleString()}`;
 }
@@ -969,7 +827,7 @@ function goPayStep1() {
 }
 
 function goPayStep2() {
-  const name = document.getElementById('pay-name')?.value.trim();
+  const name  = document.getElementById('pay-name')?.value.trim();
   const email = document.getElementById('pay-email')?.value.trim();
   if (!name || !email) { showToast('⚠️ Weka jina na barua pepe', 'warning'); return; }
   document.querySelectorAll('.pay-step').forEach(s => s.classList.remove('active'));
@@ -977,7 +835,7 @@ function goPayStep2() {
 }
 
 async function goPayStep3() {
-  const name = document.getElementById('pay-name')?.value.trim();
+  const name  = document.getElementById('pay-name')?.value.trim();
   const email = document.getElementById('pay-email')?.value.trim();
   const phone = document.getElementById('pay-phone')?.value.trim();
   try {
@@ -986,9 +844,9 @@ async function goPayStep3() {
       body: JSON.stringify({ name, email, phone, plan: _payPlan, amount: _payAmount })
     });
   } catch(e) {}
-  document.getElementById('conf-name').textContent = name;
+  document.getElementById('conf-name').textContent  = name;
   document.getElementById('conf-email').textContent = email;
-  document.getElementById('conf-plan').textContent = `${_payPlan.toUpperCase()} — TZS ${_payAmount.toLocaleString()}`;
+  document.getElementById('conf-plan').textContent  = `${_payPlan.toUpperCase()} — TZS ${_payAmount.toLocaleString()}`;
   const waMsg = `Habari AJPLUS AI! 🇹🇿\n\nNimetuma malipo:\n👤 ${name}\n📧 ${email}\n📱 ${phone||'-'}\n💰 TZS ${_payAmount.toLocaleString()}\n📦 ${_payPlan.toUpperCase()}\n\nRisiti 👇`;
   const waBtn = document.getElementById('pay-wa-btn');
   if (waBtn) waBtn.href = `https://wa.me/255670307647?text=${encodeURIComponent(waMsg)}`;
@@ -1002,12 +860,13 @@ function resetPayForm() {
   switchPlanTab('msingi'); setPayPlan('msingi', 30000);
 }
 
-// IMAGE STUDIO
+// IMAGE STUDIO — runGenerateImage inatumia generateImage ya app.js
 let _imageType = 'image', _lastImageBase64 = null;
+
 const QUICK_PROMPTS = {
-  image:["Picha ya familia furaha Tanzania","Mwanamke akipiga picha pwani Zanzibar","Biashara ya duka la Tanzania","Msichana akisherehekea harusi"],
-  design:["Poster ya biashara ya chakula Tanzania","Tangazo la harusi la kisasa","Flyer ya matukio ya burudani","Banner ya kampuni ya Tanzania"],
-  logo:["Logo ya kampuni ya teknolojia Tanzania","Logo ya mkahawa wa kisasa","Logo ya biashara ya nguo","Logo ya shule ya msingi"]
+  image:  ["Picha ya familia furaha Tanzania","Mwanamke akipiga picha pwani Zanzibar","Biashara ya duka la Tanzania","Msichana akisherehekea harusi"],
+  design: ["Poster ya biashara ya chakula Tanzania","Tangazo la harusi la kisasa","Flyer ya matukio ya burudani","Banner ya kampuni ya Tanzania"],
+  logo:   ["Logo ya kampuni ya teknolojia Tanzania","Logo ya mkahawa wa kisasa","Logo ya biashara ya nguo","Logo ya shule ya msingi"]
 };
 
 function setImageType(type) {
@@ -1015,11 +874,12 @@ function setImageType(type) {
   document.querySelectorAll('.img-type-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('itype-' + type)?.classList.add('active');
   const placeholders = {
-    image:'Mfano: Picha ya familia furaha Dar es Salaam...',
-    design:'Mfano: Poster ya biashara ya chakula, rangi za msisitizo...',
-    logo:'Mfano: Logo ya mkahawa wa kisasa, rangi ya dhahabu...'
+    image:  'Mfano: Picha ya familia furaha Dar es Salaam...',
+    design: 'Mfano: Poster ya biashara ya chakula, rangi za msisitizo...',
+    logo:   'Mfano: Logo ya mkahawa wa kisasa, rangi ya dhahabu...'
   };
-  document.getElementById('image-prompt').placeholder = placeholders[type] || '';
+  const promptEl = document.getElementById('image-prompt');
+  if (promptEl) promptEl.placeholder = placeholders[type] || '';
   const container = document.getElementById('quick-prompts');
   if (container) {
     container.innerHTML = '';
@@ -1027,64 +887,64 @@ function setImageType(type) {
       const btn = document.createElement('button');
       btn.style.cssText = 'padding:3px 10px;border-radius:50px;border:1.5px solid var(--border);background:var(--bg);font-size:.67rem;color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s';
       btn.textContent = p;
-      btn.onmouseover = () => { btn.style.borderColor = 'var(--gold)'; btn.style.color = 'var(--gold)'; };
-      btn.onmouseout  = () => { btn.style.borderColor = 'var(--border)'; btn.style.color = 'var(--text2)'; };
+      btn.onmouseover = () => { btn.style.borderColor='var(--gold)'; btn.style.color='var(--gold)'; };
+      btn.onmouseout  = () => { btn.style.borderColor='var(--border)'; btn.style.color='var(--text2)'; };
       btn.onclick = () => { document.getElementById('image-prompt').value = p; };
       container.appendChild(btn);
     });
   }
 }
 
-async function generateImage() {
+// ✅ runGenerateImage — inatumia generateImage() ya app.js
+async function runGenerateImage() {
   const prompt = document.getElementById('image-prompt')?.value.trim();
   if (!prompt) { showToast('Tafadhali andika maelezo ya picha', 'warning'); return; }
-  const email = localStorage.getItem('ajplus-email') || '';
-  document.getElementById('image-result').style.display = 'none';
-  document.getElementById('image-locked').style.display = 'none';
+
+  document.getElementById('image-result').style.display  = 'none';
+  document.getElementById('image-locked').style.display  = 'none';
   document.getElementById('image-loading').style.display = 'block';
-  const loadingMsgs = ['Inatengeneza picha yako...','AI inafikiria...','Karibu inamaliza...'];
-  let msgIdx = 0;
-  const loadInterval = setInterval(() => {
-    msgIdx = (msgIdx + 1) % loadingMsgs.length;
+
+  const msgs = ['Inatengeneza picha yako...','AI inafikiria...','Karibu inamaliza...'];
+  let idx = 0;
+  const interval = setInterval(() => {
     const el = document.getElementById('loading-text');
-    if (el) el.textContent = loadingMsgs[msgIdx];
+    if (el) el.textContent = msgs[++idx % msgs.length];
   }, 2000);
+
   try {
-    const res = await fetch('/api/image', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ prompt, type: _imageType, email })
-    });
-    clearInterval(loadInterval);
-    const data = await res.json();
+    // ✅ Inatumia generateImage() ya app.js — inayoitana /api/image
+    const data = await generateImage(prompt, _imageType);
+    clearInterval(interval);
     document.getElementById('image-loading').style.display = 'none';
+
     if (data.success && data.image) {
       _lastImageBase64 = data.image;
       document.getElementById('result-img').src = data.image;
       document.getElementById('image-result').style.display = 'block';
-      const usageText = document.getElementById('usage-text');
-      const usageBar  = document.getElementById('usage-bar');
-      if (usageText) usageText.textContent = `Zilizotumika: ${data.used}/${data.limit}`;
-      if (usageBar)  usageBar.textContent  = `Zimebaki: ${data.remaining}`;
+      const ut = document.getElementById('usage-text');
+      const ub = document.getElementById('usage-bar');
+      if (ut) ut.textContent = `Zilizotumika: ${data.used}/${data.limit}`;
+      if (ub) ub.textContent = `Zimebaki: ${data.remaining}`;
       showToast('✅ Picha imetengenezwa!', 'success');
     } else if (data.locked) {
       document.getElementById('image-locked').style.display = 'block';
       document.getElementById('locked-title').textContent = data.overLimit ? 'Kikomo Kimefikiwa!' : 'Huduma Haipo';
-      document.getElementById('locked-msg').textContent = data.error || data.message;
+      document.getElementById('locked-msg').textContent   = data.error || data.message || '';
       if (data.whatsapp) document.getElementById('locked-wa').href = data.whatsapp;
     } else {
       showToast('❌ ' + (data.error || 'Kosa limetokea'), 'error');
     }
   } catch(e) {
-    clearInterval(loadInterval);
+    clearInterval(interval);
     document.getElementById('image-loading').style.display = 'none';
-    showToast('❌ Tatizo la mtandao. Jaribu tena.', 'error');
+    showToast('❌ ' + (e.message || 'Tatizo la mtandao'), 'error');
   }
 }
 
 function downloadImage() {
   if (!_lastImageBase64) return;
   const a = document.createElement('a');
-  a.href = _lastImageBase64;
+  a.href     = _lastImageBase64;
   a.download = `ajplus-ai-${_imageType}-${Date.now()}.jpg`;
   a.click();
 }
@@ -1094,21 +954,11 @@ function shareImageWA() {
   downloadImage();
 }
 
-setTimeout(() => setImageType('image'), 100);
-
-const _origGoTo = window.goTo;
-window.goTo = function(page) {
-  if (typeof _origGoTo === 'function') _origGoTo(page);
-  setTimeout(updateWaFloat, 50);
-};
-updateWaFloat();
-
 // TRIAL OVERLAY
 function showTrialOverlay() {
   document.getElementById('trial-overlay').classList.add('show');
   setTimeout(() => document.getElementById('activation-code')?.focus(), 100);
 }
-
 function hideTrialOverlay() {
   document.getElementById('trial-overlay').classList.remove('show');
 }
@@ -1117,57 +967,46 @@ function checkTrialStatus(trialDaysLeft, plan) {
   const bar     = document.getElementById('trial-bar');
   const overlay = document.getElementById('trial-overlay');
   const barText = document.getElementById('trial-bar-text');
-  const ninaCodeBtn = document.getElementById('nina-code-btn');
-
+  const ninaBtn = document.getElementById('nina-code-btn');
   if (plan === 'trial' && trialDaysLeft !== undefined) {
     if (trialDaysLeft <= 0) {
       document.getElementById('overlay-icon').textContent  = '⏰';
       document.getElementById('overlay-title').textContent = 'Muda Wako Umeisha!';
-      document.getElementById('overlay-sub').textContent   =
-        'Siku 3 za bure zimeisha. Lipa na uweke code yako ili uendelee kutumia AJPLUS AI.';
-      document.querySelector('#trial-overlay button:last-child').style.display = 'none';
+      document.getElementById('overlay-sub').textContent   = 'Siku 3 za bure zimeisha. Lipa na uweke code yako ili uendelee.';
       overlay.classList.add('show');
       if (bar) bar.classList.remove('show');
-      if (ninaCodeBtn) ninaCodeBtn.style.display = 'inline-flex';
+      if (ninaBtn) ninaBtn.style.display = 'inline-flex';
     } else {
-      if (bar) {
-        bar.classList.add('show');
-        barText.textContent = `⏳ Siku ${trialDaysLeft} zimebaki za jaribio lako la bure`;
-      }
-      if (ninaCodeBtn) ninaCodeBtn.style.display = 'inline-flex';
+      if (bar) { bar.classList.add('show'); barText.textContent = `⏳ Siku ${trialDaysLeft} zimebaki za jaribio lako la bure`; }
+      if (ninaBtn) ninaBtn.style.display = 'inline-flex';
       overlay.classList.remove('show');
     }
   } else if (!['trial','free'].includes(plan)) {
     if (bar) bar.classList.remove('show');
-    if (ninaCodeBtn) ninaCodeBtn.style.display = 'none';
+    if (ninaBtn) ninaBtn.style.display = 'none';
     overlay.classList.remove('show');
   }
 }
 
 async function activateCode() {
   const code  = document.getElementById('activation-code')?.value.trim();
-  const email = localStorage.getItem('ajplus-email') || '';
+  const email = Session.get('email') || '';
   const errEl = document.getElementById('overlay-err');
   const btn   = document.getElementById('activate-btn');
-
   if (!code) { errEl.textContent = '⚠️ Weka code yako kwanza'; return; }
-
   btn.disabled = true;
   btn.textContent = '⏳ Inaangalia...';
   errEl.textContent = '';
-
   try {
-    const res = await fetch('/api/activate', {
+    const res  = await fetch('/api/activate', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ action:'activate', code, email: email || undefined })
     });
     const data = await res.json();
-
     if (data.success) {
       document.getElementById('overlay-icon').textContent  = '🎉';
       document.getElementById('overlay-title').textContent = 'Hongera! Umefanikiwa!';
-      document.getElementById('overlay-sub').textContent   =
-        `Mpango wako: ${data.planName}. Unaweza sasa kutumia AJPLUS AI bila kikomo!`;
+      document.getElementById('overlay-sub').textContent   = `Mpango wako: ${data.planName}. Unaweza sasa kutumia AJPLUS AI bila kikomo!`;
       document.getElementById('activation-code').style.display = 'none';
       btn.textContent = '✅ Imefunguliwa! Endelea...';
       document.getElementById('trial-bar')?.classList.remove('show');
@@ -1187,6 +1026,8 @@ async function activateCode() {
 document.getElementById('activation-code')?.addEventListener('keydown', e => {
   if (e.key === 'Enter') activateCode();
 });
+
+setTimeout(() => setImageType('image'), 100);
 </script>
 </body>
 </html>
