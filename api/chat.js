@@ -1,5 +1,5 @@
 // AJPLUS AI — api/chat.js
-// Claude + Gemini + Trial ya Siku 3 + Code Activation
+// Claude + Gemini + Trial ya Siku 7 + Code Activation
 // © AJ PLUS COMPANY LIMITED | ajplusai.co.tz
 
 const SYSTEM_PROMPT = `Wewe ni AJPLUS AI — Mshauri wa Kwanza wa Kitanzania wenye Uwezo wa Kimataifa.
@@ -221,7 +221,7 @@ async function saveChat(email, message, reply) {
 }
 
 const PLAN_LIMITS = {
-  trial:    { daily: 20,   name: 'Jaribio (Siku 3)' },
+  trial:    { daily: 20,   name: 'Jaribio (Siku 7)' },
   free:     { daily: 5,    name: 'Bure' },
   msingi:   { daily: 50,   name: 'Msingi' },
   kawaida:  { daily: 150,  name: 'Kawaida' },
@@ -294,14 +294,14 @@ async function checkUser(email) {
       const trialStart = new Date(user.trial_start || today);
       const now        = new Date();
       const daysPassed = Math.floor((now - trialStart) / (1000 * 60 * 60 * 24));
-      const daysLeft   = Math.max(0, 3 - daysPassed);
+      const daysLeft   = Math.max(0, 7 - daysPassed);
 
       if (daysLeft === 0) {
         return {
           allowed: false,
           plan: 'trial',
           trialDaysLeft: 0,
-          message: `⏰ Muda wako wa bure wa siku 3 umeisha!\n\nLipa na upate code ya kuendelea:\n💳 TZS 30,000/mwezi — Msingi\n💳 TZS 100,000/mwezi — Pro\n\nLipa: ajplusai.co.tz au WhatsApp +255762307647`,
+          message: `⏰ Muda wako wa bure wa siku 7 umeisha!\n\nLipa na upate code ya kuendelea:\n💳 TZS 5,000/mwezi — Msingi\n💳 TZS 30,000/mwezi — Pro\n\nLipa: ajplusai.co.tz au WhatsApp +255762307647`,
           showActivation: true
         };
       }
