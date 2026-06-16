@@ -8,6 +8,19 @@
 <meta name="theme-color" content="#C9A84C">
 <link rel="icon" type="image/jpeg" href="assets/logo.jpeg">
 <link rel="apple-touch-icon" href="assets/logo.jpeg">
+
+<!-- PWA — AJPLUS AI kama App -->
+<link rel="manifest" href="/manifest.json">
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(() => console.log('AJPLUS AI PWA: Imesajiliwa!'))
+        .catch(e => console.log('SW Error:', e));
+    });
+  }
+</script>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
@@ -206,28 +219,19 @@ select.fi{cursor:pointer}
 .sdiv{height:1px;background:var(--border);margin:4px 0;opacity:.6}
 .sbottom{margin-top:auto;padding-top:4px}
 
-/* ── SIDEBAR BEI CARDS — Premium ── */
+/* ── SIDEBAR BEI CARDS ── */
 .bei-cards{padding:6px 2px;display:flex;flex-direction:column;gap:6px}
-
 .bei-card{border-radius:11px;padding:10px 11px;color:#fff;cursor:pointer;transition:all .22s;position:relative;overflow:hidden}
 .bei-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,0));pointer-events:none}
 .bei-card:hover{transform:translateY(-2px);filter:brightness(1.08)}
-
-/* Msingi - Dhahabu laini */
 .bei-card-msingi{background:linear-gradient(135deg,#8B6914,#C9A84C)}
-/* Kawaida - Dhahabu kamili */
 .bei-card-kawaida{background:linear-gradient(135deg,#A07820,#E8B84B)}
-/* Pro - Kijani na dhahabu */
 .bei-card-pro{background:linear-gradient(135deg,#1EB53A,#C9A84C);animation:glow 3s ease-in-out infinite}
-/* Biashara - Nyeusi premium */
 .bei-card-biz{background:linear-gradient(135deg,#1A1A1A,#3A3A2A)}
-
 .bei-card-badge{position:absolute;top:6px;right:7px;background:rgba(255,255,255,.22);border-radius:4px;font-size:.48rem;font-weight:700;letter-spacing:.05em;padding:1px 5px;color:#fff;text-transform:uppercase}
 .bei-card-label{font-size:.56rem;font-weight:700;opacity:.75;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
 .bei-card-price{font-size:.92rem;font-weight:800;letter-spacing:-.02em;line-height:1.1}
 .bei-card-desc{font-size:.58rem;opacity:.68;margin-top:2px}
-
-/* WA SIDEBAR */
 .wa-sidebar{display:flex;align-items:center;gap:7px;padding:8px 10px;border-radius:9px;color:var(--wa);font-size:.74rem;font-weight:600;background:rgba(37,211,102,.06);border:1.5px solid rgba(37,211,102,.15);margin-top:6px;text-decoration:none;transition:all .15s}
 .wa-sidebar:hover{background:rgba(37,211,102,.12)}
 
@@ -247,8 +251,6 @@ select.fi{cursor:pointer}
 .cai-av img{width:100%;height:100%;object-fit:cover}
 .export-toggle{display:flex;align-items:center;gap:4px;padding:5px 10px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);font-size:.74rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;font-family:var(--font)}
 .export-toggle:hover,.export-toggle.active{border-color:var(--gold);color:var(--gold)}
-
-/* ── MESSAGES ── */
 .cmsgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;background:var(--bg);min-height:0}
 .msg{display:flex;gap:8px;max-width:80%}
 .msg.ai{align-self:flex-start}
@@ -259,8 +261,6 @@ select.fi{cursor:pointer}
 .msg.user .msg-bub{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;border-bottom-right-radius:4px;box-shadow:0 2px 8px rgba(201,168,76,.25)}
 .msg-bub strong{font-weight:600}
 .msg-bub code{background:rgba(0,0,0,.06);padding:1px 5px;border-radius:4px;font-size:.8em;font-family:monospace}
-
-/* ══ INPUT — Kama Claude ══ */
 .cinput-area{padding:12px 14px 14px;border-top:1.5px solid var(--border);background:var(--white);flex-shrink:0}
 .cinput-wrap{display:flex;align-items:flex-end;gap:0;background:var(--bg);border:1.5px solid var(--border);border-radius:14px;padding:10px 10px 10px 16px;transition:border-color .2s,box-shadow .2s}
 .cinput-wrap:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-light)}
@@ -270,8 +270,6 @@ select.fi{cursor:pointer}
 .csend{width:34px;height:34px;background:linear-gradient(135deg,var(--gold),var(--green));border:none;border-radius:10px;font-size:.82rem;color:#fff;flex-shrink:0;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(201,168,76,.3)}
 .csend:hover{transform:scale(1.08);box-shadow:0 4px 14px rgba(201,168,76,.4)}
 .csend:disabled{opacity:.4;cursor:not-allowed;transform:none}
-
-/* ── EXPORT PANEL ── */
 .epanel{width:0;overflow:hidden;transition:width .26s ease,opacity .26s ease;opacity:0;flex-shrink:0}
 .epanel.open{width:220px;opacity:1;margin-left:10px}
 .epanel-inner{width:220px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);display:flex;flex-direction:column;height:100%;overflow:hidden}
@@ -283,15 +281,11 @@ select.fi{cursor:pointer}
 .ei{font-size:.86rem;width:18px;text-align:center;flex-shrink:0}
 .el{flex:1;text-align:left;line-height:1.2}
 .etag{background:rgba(30,181,58,.1);color:var(--green);border-radius:4px;padding:1px 5px;font-size:.6rem;font-weight:600;flex-shrink:0}
-
-/* ── MODALS ── */
 .mo{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:1000;display:none;align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(8px)}
 .mo.open{display:flex}
 .mobox{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:0;max-width:400px;width:100%;position:relative;animation:mIn .2s ease;box-shadow:0 24px 60px rgba(0,0,0,.14);max-height:90vh;overflow-y:auto}
 .moclose{position:absolute;top:11px;right:11px;background:var(--bg);border:1.5px solid var(--border);color:var(--muted);font-size:.76rem;cursor:pointer;border-radius:7px;padding:3px 8px;z-index:1;font-family:var(--font);transition:all .15s}
 .moclose:hover{color:var(--text)}
-
-/* ── PAYMENT MODAL ── */
 .pay-header{padding:20px 20px 14px;border-bottom:1.5px solid var(--border)}
 .pay-body{padding:14px 20px 20px}
 .pay-step{display:none}
@@ -314,19 +308,13 @@ select.fi{cursor:pointer}
 .step-dot{flex:1;height:3px;border-radius:3px;background:var(--border);transition:background .2s}
 .step-dot.done{background:linear-gradient(90deg,var(--gold),var(--green))}
 .success-icon{width:48px;height:48px;background:rgba(30,181,58,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.4rem}
-
-/* ── TOAST ── */
 .toast{position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--text);color:#fff;padding:9px 16px;border-radius:10px;font-size:.78rem;font-weight:500;display:flex;align-items:center;gap:7px;transform:translateX(130%);transition:transform .22s;max-width:260px;box-shadow:var(--shadow2)}
 .toast.show{transform:translateX(0)}
 .toast.warning{background:var(--orange)}
 .toast.error{background:var(--red)}
 .toast.success{background:var(--green)}
-
-/* ── WA FLOAT ── */
 .wa-float{position:fixed;bottom:20px;left:20px;z-index:800;display:flex;align-items:center;gap:7px;background:var(--wa);border-radius:50px;padding:8px 14px 8px 10px;color:#fff;font-size:.76rem;font-weight:600;box-shadow:0 4px 16px rgba(37,211,102,.35);text-decoration:none;transition:all .18s}
 .wa-float:hover{transform:translateY(-2px)}
-
-/* ── TRIAL OVERLAY ── */
 .trial-overlay{position:absolute;inset:0;z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;backdrop-filter:blur(6px);background:rgba(15,15,13,.75);border-radius:var(--radius);padding:24px}
 .trial-overlay.show{display:flex}
 .trial-bar{display:none;align-items:center;justify-content:space-between;gap:10px;background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(30,181,58,.08));border:1.5px solid rgba(201,168,76,.25);border-radius:10px;padding:9px 16px;margin-bottom:10px;font-size:.8rem}
@@ -345,8 +333,6 @@ select.fi{cursor:pointer}
 .overlay-btn:disabled{opacity:.5;cursor:not-allowed}
 .overlay-err{color:var(--red);font-size:.78rem;margin-bottom:8px;min-height:18px}
 .overlay-days{display:inline-block;background:rgba(201,168,76,.15);color:var(--gold);border-radius:6px;padding:2px 8px;font-size:.72rem;font-weight:700;margin-bottom:14px}
-
-/* ── IMAGE STUDIO ── */
 .img-type-btn{padding:7px 15px;border-radius:9px;border:1.5px solid var(--border);background:var(--bg);font-size:.78rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;font-family:var(--font)}
 .img-type-btn:hover{border-color:var(--gold);color:var(--gold)}
 .img-type-btn.active{background:linear-gradient(135deg,var(--gold),var(--green));color:#fff;border-color:transparent}
@@ -464,40 +450,40 @@ select.fi{cursor:pointer}
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px;max-width:900px;margin:0 auto">
     <div class="plan reveal">
       <p class="plan-tier">Msingi</p>
-      <div class="plan-price">20,000<span> TZS/mwezi</span></div>
+      <div class="plan-price">30,000<span> TZS/mwezi</span></div>
       <ul class="plan-feats">
-        <li>Maswali 50 kwa siku</li><li>Sekta zote 20</li><li>AI ya kweli</li>
+        <li>Maswali 50 kwa siku</li><li>Picha 20/mwezi</li><li>Sekta zote 20</li>
         <li>Export PDF na TXT</li><li class="no">Export Word</li><li class="no">Habari za leo</li>
       </ul>
-      <button class="btn btn-ghost btn-full" onclick="showModal('mo-lipa');setPayPlan('msingi',20000)">Lipa TZS 20,000</button>
+      <button class="btn btn-ghost btn-full" onclick="showModal('mo-lipa');setPayPlan('msingi',30000)">Lipa TZS 30,000</button>
     </div>
     <div class="plan reveal">
       <p class="plan-tier">Kawaida</p>
-      <div class="plan-price">40,000<span> TZS/mwezi</span></div>
+      <div class="plan-price">60,000<span> TZS/mwezi</span></div>
       <ul class="plan-feats">
-        <li>Maswali 150 kwa siku</li><li>Sekta zote 20</li><li>Export PDF, Word, TXT</li>
+        <li>Maswali 150 kwa siku</li><li>Picha 50/mwezi</li><li>Export PDF, Word, TXT</li>
         <li>WhatsApp Share</li><li class="no">Habari za leo</li><li class="no">Historia</li>
       </ul>
-      <button class="btn btn-ghost btn-full" onclick="showModal('mo-lipa');setPayPlan('kawaida',40000)">Lipa TZS 40,000</button>
+      <button class="btn btn-ghost btn-full" onclick="showModal('mo-lipa');setPayPlan('kawaida',60000)">Lipa TZS 60,000</button>
     </div>
     <div class="plan hot reveal">
       <div class="plan-pop">⭐ Maarufu</div>
       <p class="plan-tier">Pro</p>
-      <div class="plan-price">60,000<span> TZS/mwezi</span></div>
+      <div class="plan-price">100,000<span> TZS/mwezi</span></div>
       <ul class="plan-feats">
-        <li>Maswali bila kikomo</li><li>Sekta zote 20</li><li>Habari za leo (web)</li>
+        <li>Maswali bila kikomo</li><li>Picha 100/mwezi</li><li>Habari za leo (web)</li>
         <li>Export PDF, Word, TXT</li><li>Historia ya mazungumzo</li><li>WhatsApp Share</li>
       </ul>
-      <button class="btn btn-gold btn-full" onclick="showModal('mo-lipa');setPayPlan('pro',60000)">Lipa TZS 60,000</button>
+      <button class="btn btn-gold btn-full" onclick="showModal('mo-lipa');setPayPlan('pro',100000)">Lipa TZS 100,000</button>
     </div>
     <div class="plan reveal">
       <p class="plan-tier">Biashara</p>
-      <div class="plan-price">100,000<span> TZS/mwezi</span></div>
+      <div class="plan-price">250,000<span> TZS/mwezi</span></div>
       <ul class="plan-feats">
-        <li>Kila kitu cha Pro</li><li>API Access</li><li>Wafanyakazi wengi</li>
-        <li>Branding yako</li><li>Ripoti za kina</li><li>Support 24h</li>
+        <li>Kila kitu cha Pro</li><li>Picha 300/mwezi</li><li>API Access</li>
+        <li>Wafanyakazi wengi</li><li>Branding yako</li><li>Support 24h</li>
       </ul>
-      <button class="btn btn-dark btn-full" onclick="showModal('mo-lipa');setPayPlan('biashara',100000)">Lipa TZS 100,000</button>
+      <button class="btn btn-dark btn-full" onclick="showModal('mo-lipa');setPayPlan('biashara',250000)">Lipa TZS 250,000</button>
     </div>
   </div>
 </section>
@@ -521,7 +507,7 @@ select.fi{cursor:pointer}
       <p style="font-size:.65rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">📱 Yas/Tigo Moja kwa Moja</p>
       <p style="font-size:.88rem;font-weight:700;color:var(--text)">+255 718 620 496</p>
     </div>
-    <button class="btn btn-gold btn-full" style="margin-bottom:8px" onclick="showModal('mo-lipa');setPayPlan('pro',60000)">Lipa Sasa — Kuanzia TZS 20,000</button>
+    <button class="btn btn-gold btn-full" style="margin-bottom:8px" onclick="showModal('mo-lipa');setPayPlan('pro',100000)">Lipa Sasa — Kuanzia TZS 30,000</button>
     <a href="https://wa.me/255670307647?text=Nimetuma+malipo+ya+AJPLUS+AI." target="_blank" class="btn btn-wa btn-full">💬 Tuma Risiti WhatsApp</a>
     <p style="font-size:.7rem;color:var(--muted);margin-top:8px">⏱️ Access ndani ya dakika 30</p>
   </div>
@@ -628,31 +614,30 @@ select.fi{cursor:pointer}
   <div class="sdiv"></div>
   <div class="slabel2">Akaunti</div>
   <button class="sitem" onclick="goTo('landing')"><span class="si">←</span>Nyumbani</button>
-
   <div class="sbottom">
     <div class="sdiv"></div>
     <div class="slabel2">Panda Mpango</div>
     <div class="bei-cards">
-      <div class="bei-card bei-card-msingi" onclick="showModal('mo-lipa');setPayPlan('msingi',20000)">
+      <div class="bei-card bei-card-msingi" onclick="showModal('mo-lipa');setPayPlan('msingi',30000)">
         <div class="bei-card-label">Msingi</div>
-        <div class="bei-card-price">TZS 20,000</div>
+        <div class="bei-card-price">TZS 30,000</div>
         <div class="bei-card-desc">/mwezi · Maswali 50/siku</div>
       </div>
-      <div class="bei-card bei-card-kawaida" onclick="showModal('mo-lipa');setPayPlan('kawaida',40000)">
+      <div class="bei-card bei-card-kawaida" onclick="showModal('mo-lipa');setPayPlan('kawaida',60000)">
         <div class="bei-card-label">Kawaida</div>
-        <div class="bei-card-price">TZS 40,000</div>
+        <div class="bei-card-price">TZS 60,000</div>
         <div class="bei-card-desc">/mwezi · Maswali 150/siku</div>
       </div>
-      <div class="bei-card bei-card-pro" onclick="showModal('mo-lipa');setPayPlan('pro',60000)">
+      <div class="bei-card bei-card-pro" onclick="showModal('mo-lipa');setPayPlan('pro',100000)">
         <div class="bei-card-badge">⭐ HOT</div>
         <div class="bei-card-label">Pro</div>
-        <div class="bei-card-price">TZS 60,000</div>
+        <div class="bei-card-price">TZS 100,000</div>
         <div class="bei-card-desc">/mwezi · Bila kikomo</div>
       </div>
-      <div class="bei-card bei-card-biz" onclick="showModal('mo-lipa');setPayPlan('biashara',100000)">
+      <div class="bei-card bei-card-biz" onclick="showModal('mo-lipa');setPayPlan('biashara',250000)">
         <div class="bei-card-badge">💼 VIP</div>
         <div class="bei-card-label">Biashara</div>
-        <div class="bei-card-price">TZS 100,000</div>
+        <div class="bei-card-price">TZS 250,000</div>
         <div class="bei-card-desc">/mwezi · API + Team</div>
       </div>
     </div>
@@ -677,16 +662,12 @@ select.fi{cursor:pointer}
         <button class="btn btn-ghost btn-sm" onclick="clearChat()">Futa</button>
       </div>
     </div>
-    <!-- TRIAL BAR — inaonyesha siku zilizobaki -->
     <div class="trial-bar" id="trial-bar">
       <span class="trial-bar-text" id="trial-bar-text">⏳ Siku 3 zimebaki za jaribio lako la bure</span>
     </div>
   </div>
-
   <div class="cwrap">
     <div class="cpanel" style="position:relative">
-
-      <!-- TRIAL OVERLAY — inafunika chat -->
       <div class="trial-overlay" id="trial-overlay">
         <div class="overlay-box">
           <span class="overlay-icon" id="overlay-icon">⏰</span>
@@ -713,7 +694,6 @@ select.fi{cursor:pointer}
         </div>
       </div>
       <div class="cmsgs" id="chat-msgs"></div>
-      <!-- INPUT — Kama Claude -->
       <div class="cinput-area">
         <div class="cinput-wrap">
           <textarea id="chat-input" rows="1" placeholder="Andika swali lako hapa..." onkeydown="handleKey(event)" oninput="autoGrow(this)"></textarea>
@@ -814,27 +794,27 @@ select.fi{cursor:pointer}
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:9px;margin-bottom:14px">
     <div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;padding:13px">
       <p style="font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Msingi</p>
-      <p style="font-size:1.1rem;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-top:3px">TZS 20,000<span style="font-size:.7rem;color:var(--muted);font-weight:400">/mwezi</span></p>
-      <p style="font-size:.68rem;color:var(--muted);margin-bottom:9px">Maswali 50/siku</p>
-      <button class="btn btn-ghost btn-full" style="font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('msingi',20000)">Lipa Sasa</button>
+      <p style="font-size:1.1rem;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-top:3px">TZS 30,000<span style="font-size:.7rem;color:var(--muted);font-weight:400">/mwezi</span></p>
+      <p style="font-size:.68rem;color:var(--muted);margin-bottom:9px">Maswali 50/siku · Picha 20</p>
+      <button class="btn btn-ghost btn-full" style="font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('msingi',30000)">Lipa Sasa</button>
     </div>
     <div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;padding:13px">
       <p style="font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Kawaida</p>
-      <p style="font-size:1.1rem;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-top:3px">TZS 40,000<span style="font-size:.7rem;color:var(--muted);font-weight:400">/mwezi</span></p>
-      <p style="font-size:.68rem;color:var(--muted);margin-bottom:9px">Maswali 150/siku</p>
-      <button class="btn btn-ghost btn-full" style="font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('kawaida',40000)">Lipa Sasa</button>
+      <p style="font-size:1.1rem;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-top:3px">TZS 60,000<span style="font-size:.7rem;color:var(--muted);font-weight:400">/mwezi</span></p>
+      <p style="font-size:.68rem;color:var(--muted);margin-bottom:9px">Maswali 150/siku · Picha 50</p>
+      <button class="btn btn-ghost btn-full" style="font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('kawaida',60000)">Lipa Sasa</button>
     </div>
     <div style="background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:12px;padding:13px;color:#fff">
       <p style="font-size:.6rem;font-weight:700;opacity:.75;text-transform:uppercase;letter-spacing:.06em">Pro ⭐</p>
-      <p style="font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-top:3px">TZS 60,000<span style="font-size:.7rem;opacity:.65;font-weight:400">/mwezi</span></p>
-      <p style="font-size:.68rem;opacity:.8;margin-bottom:9px">Maswali bila kikomo</p>
-      <button class="btn btn-full" style="background:rgba(255,255,255,.22);color:#fff;border:1.5px solid rgba(255,255,255,.35);font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('pro',60000)">Lipa Sasa</button>
+      <p style="font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-top:3px">TZS 100,000<span style="font-size:.7rem;opacity:.65;font-weight:400">/mwezi</span></p>
+      <p style="font-size:.68rem;opacity:.8;margin-bottom:9px">Bila kikomo · Picha 100</p>
+      <button class="btn btn-full" style="background:rgba(255,255,255,.22);color:#fff;border:1.5px solid rgba(255,255,255,.35);font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('pro',100000)">Lipa Sasa</button>
     </div>
     <div style="background:var(--text);border-radius:12px;padding:13px;color:#fff">
       <p style="font-size:.6rem;font-weight:700;opacity:.5;text-transform:uppercase;letter-spacing:.06em">Biashara 💼</p>
-      <p style="font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-top:3px">TZS 100,000<span style="font-size:.7rem;opacity:.45;font-weight:400">/mwezi</span></p>
-      <p style="font-size:.68rem;opacity:.6;margin-bottom:9px">API + Wafanyakazi</p>
-      <button class="btn btn-full" style="background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.2);font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('biashara',100000)">Lipa Sasa</button>
+      <p style="font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-top:3px">TZS 250,000<span style="font-size:.7rem;opacity:.45;font-weight:400">/mwezi</span></p>
+      <p style="font-size:.68rem;opacity:.6;margin-bottom:9px">API + Wafanyakazi · Picha 300</p>
+      <button class="btn btn-full" style="background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.2);font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('biashara',250000)">Lipa Sasa</button>
     </div>
   </div>
 </div>
@@ -854,10 +834,10 @@ select.fi{cursor:pointer}
       </div>
       <div class="pay-body">
         <div class="plan-tabs" style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-          <div class="plan-tab active" id="ptab-msingi" onclick="setPayPlan('msingi',20000);switchPlanTab('msingi')"><div class="plan-tab-name">Msingi</div><div class="plan-tab-price">20,000 TZS</div></div>
-          <div class="plan-tab" id="ptab-kawaida" onclick="setPayPlan('kawaida',40000);switchPlanTab('kawaida')"><div class="plan-tab-name">Kawaida</div><div class="plan-tab-price">40,000 TZS</div></div>
-          <div class="plan-tab" id="ptab-pro" onclick="setPayPlan('pro',60000);switchPlanTab('pro')"><div class="plan-tab-name">Pro ⭐</div><div class="plan-tab-price">60,000 TZS</div></div>
-          <div class="plan-tab" id="ptab-biashara" onclick="setPayPlan('biashara',100000);switchPlanTab('biashara')"><div class="plan-tab-name">Biashara</div><div class="plan-tab-price">100,000 TZS</div></div>
+          <div class="plan-tab active" id="ptab-msingi" onclick="setPayPlan('msingi',30000);switchPlanTab('msingi')"><div class="plan-tab-name">Msingi</div><div class="plan-tab-price">30,000 TZS</div></div>
+          <div class="plan-tab" id="ptab-kawaida" onclick="setPayPlan('kawaida',60000);switchPlanTab('kawaida')"><div class="plan-tab-name">Kawaida</div><div class="plan-tab-price">60,000 TZS</div></div>
+          <div class="plan-tab" id="ptab-pro" onclick="setPayPlan('pro',100000);switchPlanTab('pro')"><div class="plan-tab-name">Pro ⭐</div><div class="plan-tab-price">100,000 TZS</div></div>
+          <div class="plan-tab" id="ptab-biashara" onclick="setPayPlan('biashara',250000);switchPlanTab('biashara')"><div class="plan-tab-name">Biashara</div><div class="plan-tab-price">250,000 TZS</div></div>
         </div>
         <div class="fg"><label class="fl">Jina Lako *</label><input class="fi" id="pay-name" placeholder="Jina lako kamili"></div>
         <div class="fg"><label class="fl">Barua Pepe *</label><input class="fi" id="pay-email" type="email" placeholder="wewe@mfano.com"></div>
@@ -869,7 +849,7 @@ select.fi{cursor:pointer}
       <div class="pay-header">
         <div class="step-indicator"><div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot"></div></div>
         <p style="font-size:.67rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Hatua 2 ya 3</p>
-        <h3 style="font-size:.96rem;font-weight:700;letter-spacing:-.02em">Lipa — <span id="pay-plan-label2" style="color:var(--gold)">Pro · TZS 60,000</span></h3>
+        <h3 style="font-size:.96rem;font-weight:700;letter-spacing:-.02em">Lipa — <span id="pay-plan-label2" style="color:var(--gold)">Pro · TZS 100,000</span></h3>
       </div>
       <div class="pay-body">
         <div class="qr-section">
@@ -920,7 +900,7 @@ select.fi{cursor:pointer}
     <button class="moclose" onclick="closeModal('mo-enterprise')">✕</button>
     <div class="pay-header">
       <h3 style="font-size:.96rem;font-weight:700">Enterprise / B2B</h3>
-      <p style="font-size:.76rem;color:var(--muted);margin-top:3px">TZS 100,000/mwezi</p>
+      <p style="font-size:.76rem;color:var(--muted);margin-top:3px">TZS 250,000/mwezi</p>
     </div>
     <div class="pay-body">
       <div class="fg"><label class="fl">Jina la Kampuni</label><input class="fi" placeholder="Kampuni yako"></div>
@@ -969,7 +949,7 @@ function updateWaFloat() {
 }
 
 // PAYMENT
-let _payPlan = 'pro', _payAmount = 60000;
+let _payPlan = 'pro', _payAmount = 100000;
 
 function setPayPlan(plan, amount) {
   _payPlan = plan; _payAmount = amount;
@@ -1019,7 +999,7 @@ async function goPayStep3() {
 function resetPayForm() {
   document.querySelectorAll('.pay-step').forEach(s => s.classList.remove('active'));
   document.getElementById('pay-step-1')?.classList.add('active');
-  switchPlanTab('msingi'); setPayPlan('msingi', 20000);
+  switchPlanTab('msingi'); setPayPlan('msingi', 30000);
 }
 
 // IMAGE STUDIO
@@ -1116,9 +1096,6 @@ function shareImageWA() {
 
 setTimeout(() => setImageType('image'), 100);
 
-// REVEAL — handled by app.js (_ro defined there)
-
-// WA FLOAT
 const _origGoTo = window.goTo;
 window.goTo = function(page) {
   if (typeof _origGoTo === 'function') _origGoTo(page);
@@ -1126,8 +1103,7 @@ window.goTo = function(page) {
 };
 updateWaFloat();
 
-// ══ TRIAL OVERLAY FUNCTIONS ══════════════════════
-
+// TRIAL OVERLAY
 function showTrialOverlay() {
   document.getElementById('trial-overlay').classList.add('show');
   setTimeout(() => document.getElementById('activation-code')?.focus(), 100);
@@ -1137,12 +1113,10 @@ function hideTrialOverlay() {
   document.getElementById('trial-overlay').classList.remove('show');
 }
 
-// Angalia trial na onyesha overlay/bar
 function checkTrialStatus(trialDaysLeft, plan) {
   const bar     = document.getElementById('trial-bar');
   const overlay = document.getElementById('trial-overlay');
   const barText = document.getElementById('trial-bar-text');
-
   const ninaCodeBtn = document.getElementById('nina-code-btn');
 
   if (plan === 'trial' && trialDaysLeft !== undefined) {
@@ -1170,33 +1144,26 @@ function checkTrialStatus(trialDaysLeft, plan) {
   }
 }
 
-// Activate code
 async function activateCode() {
   const code  = document.getElementById('activation-code')?.value.trim();
   const email = localStorage.getItem('ajplus-email') || '';
   const errEl = document.getElementById('overlay-err');
   const btn   = document.getElementById('activate-btn');
 
-  if (!code) {
-    errEl.textContent = '⚠️ Weka code yako kwanza';
-    return;
-  }
+  if (!code) { errEl.textContent = '⚠️ Weka code yako kwanza'; return; }
 
-  btn.disabled    = true;
+  btn.disabled = true;
   btn.textContent = '⏳ Inaangalia...';
   errEl.textContent = '';
 
   try {
-    const res  = await fetch('/api/activate', {
-      method : 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body   : JSON.stringify({ action: 'activate', code, email: email || undefined })
+    const res = await fetch('/api/activate', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ action:'activate', code, email: email || undefined })
     });
-
     const data = await res.json();
 
     if (data.success) {
-      // Imefanikiwa!
       document.getElementById('overlay-icon').textContent  = '🎉';
       document.getElementById('overlay-title').textContent = 'Hongera! Umefanikiwa!';
       document.getElementById('overlay-sub').textContent   =
@@ -1204,28 +1171,19 @@ async function activateCode() {
       document.getElementById('activation-code').style.display = 'none';
       btn.textContent = '✅ Imefunguliwa! Endelea...';
       document.getElementById('trial-bar')?.classList.remove('show');
-
-      // Funga overlay baada ya sekunde 2
-      setTimeout(() => {
-        hideTrialOverlay();
-        // Reload ili mpango mpya uanze
-        window.location.reload();
-      }, 2000);
-
+      setTimeout(() => { hideTrialOverlay(); window.location.reload(); }, 2000);
     } else {
       errEl.textContent = '❌ ' + (data.error || 'Code si sahihi');
-      btn.disabled    = false;
+      btn.disabled = false;
       btn.textContent = '✅ Activate Akaunti';
     }
-
   } catch(e) {
     errEl.textContent = '❌ Tatizo la mtandao. Jaribu tena.';
-    btn.disabled    = false;
+    btn.disabled = false;
     btn.textContent = '✅ Activate Akaunti';
   }
 }
 
-// Enter key kwenye code input
 document.getElementById('activation-code')?.addEventListener('keydown', e => {
   if (e.key === 'Enter') activateCode();
 });
