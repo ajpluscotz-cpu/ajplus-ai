@@ -1,9 +1,9 @@
-// AJPLUS AI — api/image.js (v3 — Stability AI + Pollinations AI Backup)
+// AJPLUS AI — api/image.js (v4 — Gemini Imagen + Pollinations Backup)
 // © AJ PLUS COMPANY LIMITED | ajplusai.co.tz
 
-const SUPABASE_URL      = process.env.SUPABASE_URL;
+const SUPABASE_URL         = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
-const STABILITY_KEY     = process.env.STABILITY_API_KEY;
+const GEMINI_KEY           = process.env.GEMINI_API_KEY;
 
 // ─── MIPANGO NA VIKOMO ────────────────────────────────────
 const IMAGE_PLANS = {
@@ -24,49 +24,83 @@ function translatePrompt(prompt) {
         .replace(/rafiki/gi, '')
         .replace(/naomba/gi, '')
         .replace(/tafadhali/gi, '')
-        .replace(/nitengenezee\s*(picha|poster|logo|design)?/gi, '')
-        .replace(/tengeneza\s*(picha|poster|logo|design)?/gi, '')
-        .replace(/natengenezea\s*(picha|poster|logo|design)?/gi, '')
+        .replace(/nitengenezee\s*(picha|poster|logo|design|tangazo|flyer|banner)?/gi, '')
+        .replace(/tengeneza\s*(picha|poster|logo|design|tangazo|flyer|banner)?/gi, '')
+        .replace(/natengenezea\s*(picha|poster|logo|design|tangazo|flyer|banner)?/gi, '')
         .replace(/generate\s*image/gi, '')
         .replace(/create\s*image/gi, '')
         .trim();
 
     const translations = [
+        // Matukio
+        [/tangazo\s*la\s*harusi/gi,    'elegant wedding announcement poster'],
+        [/poster\s*ya\s*harusi/gi,     'beautiful wedding celebration poster'],
+        [/tangazo\s*la\s*kanisa/gi,    'church event announcement poster'],
+        [/tangazo\s*la\s*biashara/gi,  'professional business advertisement'],
+        [/tangazo\s*la\s*sherehe/gi,   'celebration event poster'],
+        [/tangazo/gi,                   'announcement poster'],
+        [/flyer\s*ya/gi,               'promotional flyer for'],
+        [/banner\s*ya/gi,              'banner for'],
+
+        // Dini
         [/kanisa/gi,           'church'],
         [/msikiti/gi,          'mosque'],
-        [/harusi/gi,           'wedding'],
-        [/sherehe/gi,          'celebration'],
         [/ibada/gi,            'worship service'],
-        [/maombi/gi,           'prayers'],
+        [/maombi\s*na\s*maombezi/gi, 'prayer and intercession event'],
+        [/maombi/gi,           'prayer'],
         [/uponyaji/gi,         'healing'],
-        [/faraja/gi,           'comfort'],
-        [/nguvu/gi,            'strength'],
-        [/amani/gi,            'peace'],
+        [/faraja/gi,           'comfort and peace'],
+        [/injili/gi,           'gospel'],
+        [/msalaba/gi,          'christian cross'],
+        [/sala/gi,             'prayer'],
+
+        // Matukio ya harusi
+        [/harusi/gi,           'wedding ceremony'],
+        [/arusi/gi,            'wedding'],
+        [/sherehe/gi,          'celebration event'],
+
+        // Mazingira ya Tanzania
         [/dar es salaam/gi,    'Dar es Salaam Tanzania'],
+        [/salasala/gi,         'Salasala Dar es Salaam'],
+        [/skansa/gi,           'Skansa Dar es Salaam'],
+        [/tegeta/gi,           'Tegeta Dar es Salaam'],
         [/zanzibar/gi,         'Zanzibar Tanzania'],
         [/serengeti/gi,        'Serengeti Tanzania'],
         [/kilimanjaro/gi,      'Mount Kilimanjaro Tanzania'],
+        [/jerusalem/gi,        'Jerusalem'],
         [/tanzania/gi,         'Tanzania East Africa'],
         [/afrika/gi,           'Africa'],
+
+        // Watu
         [/mtanzania/gi,        'Tanzanian person'],
         [/mwanamke/gi,         'African woman'],
         [/mwanaume/gi,         'African man'],
         [/mtoto/gi,            'African child'],
         [/familia/gi,          'African family'],
+
+        // Biashara
         [/biashara/gi,         'business'],
         [/duka/gi,             'shop store'],
+        [/kampuni/gi,          'company'],
         [/chakula/gi,          'food'],
+
+        // Asili
         [/mazingira/gi,        'landscape scenery'],
         [/wanyama/gi,          'wildlife animals'],
-        [/msalaba/gi,          'cross Christian'],
-        [/sala/gi,             'prayer'],
-        [/injili/gi,           'gospel'],
-        [/salasala/gi,         'Salasala Tanzania'],
-        [/skansa/gi,           'Skansa Dar es Salaam'],
-        [/jerusalem/gi,        'Jerusalem'],
-        [/logo/gi,             'logo design'],
+        [/nguvu/gi,            'strength power'],
+        [/amani/gi,            'peace serenity'],
+
+        // Siku
+        [/siku\s*ya\s*pili/gi, 'Sunday'],
+        [/jumamosi/gi,         'Saturday'],
+        [/jumapili/gi,         'Sunday'],
+
+        // Picha/Design
+        [/logo/gi,             'professional logo'],
         [/poster/gi,           'poster design'],
         [/picha/gi,            'photo image'],
+        [/kisasa/gi,           'modern elegant'],
+        [/ya\s*kisasa/gi,      'modern stylish'],
     ];
 
     translations.forEach(([sw, en]) => {
@@ -172,52 +206,52 @@ async function incrementImageUsage(email, type) {
     }
 }
 
-// ─── STABILITY AI ─────────────────────────────────────────
-async function generateWithStability(prompt, type) {
-    if (!STABILITY_KEY) throw new Error('STABILITY_API_KEY haipo');
+// ─── GEMINI IMAGEN (PRIMARY — BURE) ───────────────────────
+async function generateWithGemini(prompt, type) {
+    if (!GEMINI_KEY) throw new Error('GEMINI_API_KEY haipo');
 
     const translated = translatePrompt(prompt);
-    let enhancedPrompt, negativePrompt;
 
-    negativePrompt = 'blurry, low quality, distorted, ugly, bad anatomy, watermark, text errors, nsfw';
-
+    let enhancedPrompt;
     if (type === 'logo') {
-        enhancedPrompt = `professional logo design, ${translated}, vector style, clean minimal branding, white background, high quality corporate identity, Tanzania Africa`;
-        negativePrompt += ', photorealistic, complex background, noise, photo';
+        enhancedPrompt = `Professional logo design: ${translated}. Clean minimal vector style, white background, high quality corporate branding, Tanzania Africa. No people, just logo symbol and text.`;
     } else if (type === 'design') {
-        enhancedPrompt = `professional poster design, ${translated}, modern layout, vibrant colors, high resolution, African style, advertising design, Tanzania`;
-        negativePrompt += ', amateur, clipart, low resolution';
+        enhancedPrompt = `Professional poster design: ${translated}. Modern layout with vibrant colors, clear readable text areas, high resolution advertising design, African style, Tanzania. Include decorative elements and borders.`;
     } else {
-        enhancedPrompt = `${translated}, high quality photography, sharp detailed, natural lighting, professional camera, 8k quality, Tanzania Africa`;
+        enhancedPrompt = `${translated}. High quality photography, sharp detailed, natural lighting, professional camera, 8k quality, Tanzania Africa.`;
     }
 
-    const form = new FormData();
-    form.append('prompt', enhancedPrompt);
-    form.append('negative_prompt', negativePrompt);
-    form.append('model', 'sd3-medium');
-    form.append('output_format', 'jpeg');
-    form.append('aspect_ratio', type === 'logo' ? '1:1' : type === 'design' ? '9:16' : '16:9');
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${GEMINI_KEY}`;
 
-    const response = await fetch('https://api.stability.ai/v2beta/stable-image/generate/sd3', {
+    const body = {
+        instances: [{ prompt: enhancedPrompt }],
+        parameters: {
+            sampleCount: 1,
+            aspectRatio: type === 'logo' ? '1:1' : type === 'design' ? '9:16' : '16:9',
+            safetySetting: 'block_only_high',
+            personGeneration: 'allow_adult'
+        }
+    };
+
+    const response = await fetch(url, {
         method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${STABILITY_KEY}`,
-            'Accept': 'application/json'
-        },
-        body: form
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
     });
 
     if (!response.ok) {
         const errText = await response.text();
-        let errMsg = 'Stability AI ilikataa';
-        try { errMsg = JSON.parse(errText)?.message || errMsg; } catch(_) {}
-        throw new Error(`Stability (${response.status}): ${errMsg}`);
+        let errMsg = 'Gemini Imagen ilikataa';
+        try { errMsg = JSON.parse(errText)?.error?.message || errMsg; } catch(_) {}
+        throw new Error(`Gemini Imagen (${response.status}): ${errMsg}`);
     }
 
     const data = await response.json();
-    if (!data.image) throw new Error('Picha haikupatikana kutoka Stability AI');
+    const imageData = data.predictions?.[0]?.bytesBase64Encoded;
 
-    return { image: `data:image/jpeg;base64,${data.image}`, source: 'stability' };
+    if (!imageData) throw new Error('Picha haikupatikana kutoka Gemini Imagen');
+
+    return { image: `data:image/jpeg;base64,${imageData}`, source: 'gemini-imagen' };
 }
 
 // ─── POLLINATIONS AI (BACKUP — BURE) ─────────────────────
@@ -226,20 +260,19 @@ async function generateWithPollinations(prompt, type) {
 
     let enhancedPrompt;
     if (type === 'logo') {
-        enhancedPrompt = `professional logo design, ${translated}, vector style, clean minimal, white background, Tanzania Africa, high quality branding`;
+        enhancedPrompt = `professional logo design, ${translated}, vector style, clean minimal, white background, Tanzania Africa, high quality branding, no text errors`;
     } else if (type === 'design') {
-        enhancedPrompt = `professional poster design, ${translated}, modern layout, vibrant colors, Tanzania Africa, high resolution advertising`;
+        enhancedPrompt = `professional poster design, ${translated}, modern layout, vibrant colors, Tanzania Africa, high resolution, clean typography, no text errors`;
     } else {
-        enhancedPrompt = `${translated}, high quality photography, sharp detailed, Tanzania Africa, professional camera, cinematic lighting`;
+        enhancedPrompt = `${translated}, high quality photography, sharp detailed, Tanzania Africa, professional camera, cinematic lighting, 8k`;
     }
 
     const width  = type === 'logo' ? 512  : type === 'design' ? 576  : 1024;
     const height = type === 'logo' ? 512  : type === 'design' ? 1024 : 576;
     const seed   = Math.floor(Math.random() * 999999);
 
-    const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?width=${width}&height=${height}&nologo=true&seed=${seed}&enhance=true`;
+    const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?width=${width}&height=${height}&nologo=true&seed=${seed}&enhance=true&model=flux`;
 
-    // Pollinations inarudisha picha moja kwa moja — fetch na ubadilishe kuwa base64
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -253,19 +286,19 @@ async function generateWithPollinations(prompt, type) {
     return { image: `data:${contentType};base64,${base64}`, source: 'pollinations' };
 }
 
-// ─── TENGENEZA PICHA — STABILITY KWANZA, POLLINATIONS BACKUP ──
+// ─── TENGENEZA PICHA — GEMINI KWANZA, POLLINATIONS BACKUP ──
 async function generateImage(prompt, type = 'image') {
     const safePrompt = prompt.replace(/[<>]/g, '').substring(0, 500).trim();
 
-    // Jaribu Stability AI kwanza
-    if (STABILITY_KEY) {
+    // Jaribu Gemini Imagen kwanza (bure + ubora mzuri)
+    if (GEMINI_KEY) {
         try {
-            console.log('Trying Stability AI...');
-            const result = await generateWithStability(safePrompt, type);
-            console.log('Stability AI: SUCCESS');
+            console.log('Trying Gemini Imagen...');
+            const result = await generateWithGemini(safePrompt, type);
+            console.log('Gemini Imagen: SUCCESS');
             return result;
         } catch(err) {
-            console.warn('Stability AI imeshindwa:', err.message, '— Trying Pollinations...');
+            console.warn('Gemini Imagen imeshindwa:', err.message, '— Trying Pollinations...');
         }
     }
 
@@ -302,10 +335,9 @@ module.exports = async function handler(req, res) {
         const safePrompt = typeof prompt === 'string' ? prompt.substring(0, 500).trim() : '';
 
         if (!safePrompt) {
-            return res.status(400).json({ error: 'Maelezo ya picha yanahitajika — niambie unataka picha ya nini!' });
+            return res.status(400).json({ error: 'Maelezo ya picha yanahitajika!' });
         }
 
-        // Angalia kikomo
         const limitCheck = await checkImageLimit(safeEmail, safeType);
 
         if (!limitCheck.allowed) {
@@ -321,11 +353,9 @@ module.exports = async function handler(req, res) {
             });
         }
 
-        // Tengeneza picha
         console.log(`Generating ${safeType} for ${safeEmail || 'guest'}: "${safePrompt.substring(0, 60)}..."`);
         const result = await generateImage(safePrompt, safeType);
 
-        // Update matumizi
         if (safeEmail) await incrementImageUsage(safeEmail, safeType);
 
         const remaining = Math.max(0, (limitCheck.remaining || 1) - 1);
