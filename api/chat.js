@@ -430,7 +430,14 @@ async function callGemini(message, history, apiKey, useWebSearch = false) {
   }
 
   const data = await response.json();
-  return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Samahani, sijapata jibu!';
+  const parts = data.candidates?.[0]?.content?.parts || [];
+  const text  = parts.map(p => p.text || '').join('').trim();
+  const finishReason = data.candidates?.[0]?.finishReason || '';
+
+  if (!text) {
+    throw new Error(`Gemini jibu tupu (finishReason: ${finishReason || 'haijulikani'})`);
+  }
+  return text;
 }
 
 const ALLOWED_DOMAINS = [
