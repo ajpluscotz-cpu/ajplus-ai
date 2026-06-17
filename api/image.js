@@ -1,4 +1,4 @@
-// AJPLUS AI — api/image.js (v4 — Gemini Imagen + Pollinations Backup)
+// AJPLUS AI — api/image.js (v5 — Nano Banana / Gemini 2.5 Flash Image + Pollinations Backup)
 // © AJ PLUS COMPANY LIMITED | ajplusai.co.tz
 
 const SUPABASE_URL         = process.env.SUPABASE_URL;
@@ -206,31 +206,26 @@ async function incrementImageUsage(email, type) {
     }
 }
 
-// ─── GEMINI IMAGEN (PRIMARY — BURE) ───────────────────────
-async function generateWithGemini(prompt, type) {
+// ─── NANO BANANA (Gemini 2.5 Flash Image) — PRIMARY (BURE) ──
+async function generateWithNanoBanana(prompt, type) {
     if (!GEMINI_KEY) throw new Error('GEMINI_API_KEY haipo');
 
     const translated = translatePrompt(prompt);
 
     let enhancedPrompt;
     if (type === 'logo') {
-        enhancedPrompt = `Professional logo design: ${translated}. Clean minimal vector style, white background, high quality corporate branding, Tanzania Africa. No people, just logo symbol and text.`;
+        enhancedPrompt = `A clean, modern, minimalist logo design: ${translated}. Bold simple vector style, white background, professional corporate branding feel, Tanzania Africa context. No people, only the logo symbol and clean readable text. Square image.`;
     } else if (type === 'design') {
-        enhancedPrompt = `Professional poster design: ${translated}. Modern layout with vibrant colors, clear readable text areas, high resolution advertising design, African style, Tanzania. Include decorative elements and borders.`;
+        enhancedPrompt = `A professional poster/flyer design: ${translated}. Modern vibrant layout with clear, legible, well-spaced text areas, high resolution advertising design, African Tanzanian visual style, decorative borders. Portrait orientation.`;
     } else {
-        enhancedPrompt = `${translated}. High quality photography, sharp detailed, natural lighting, professional camera, 8k quality, Tanzania Africa.`;
+        enhancedPrompt = `A photo: ${translated}. High quality photography, sharp detail, natural lighting, professional camera, realistic, Tanzania Africa context.`;
     }
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${GEMINI_KEY}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${GEMINI_KEY}`;
 
     const body = {
-        instances: [{ prompt: enhancedPrompt }],
-        parameters: {
-            sampleCount: 1,
-            aspectRatio: type === 'logo' ? '1:1' : type === 'design' ? '9:16' : '16:9',
-            safetySetting: 'block_only_high',
-            personGeneration: 'allow_adult'
-        }
+        contents: [{ parts: [{ text: enhancedPrompt }] }],
+        generationConfig: { responseModalities: ['IMAGE'] }
     };
 
     const response = await fetch(url, {
@@ -241,17 +236,20 @@ async function generateWithGemini(prompt, type) {
 
     if (!response.ok) {
         const errText = await response.text();
-        let errMsg = 'Gemini Imagen ilikataa';
+        let errMsg = 'Nano Banana ilikataa';
         try { errMsg = JSON.parse(errText)?.error?.message || errMsg; } catch(_) {}
-        throw new Error(`Gemini Imagen (${response.status}): ${errMsg}`);
+        throw new Error(`Nano Banana (${response.status}): ${errMsg}`);
     }
 
-    const data = await response.json();
-    const imageData = data.predictions?.[0]?.bytesBase64Encoded;
+    const data  = await response.json();
+    const parts = data?.candidates?.[0]?.content?.parts || [];
+    const imgPart = parts.find(p => p.inlineData || p.inline_data);
+    const inline  = imgPart?.inlineData || imgPart?.inline_data;
 
-    if (!imageData) throw new Error('Picha haikupatikana kutoka Gemini Imagen');
+    if (!inline?.data) throw new Error('Picha haikupatikana kutoka Nano Banana');
 
-    return { image: `data:image/jpeg;base64,${imageData}`, source: 'gemini-imagen' };
+    const mime = inline.mimeType || inline.mime_type || 'image/png';
+    return { image: `data:${mime};base64,${inline.data}`, source: 'nano-banana' };
 }
 
 // ─── POLLINATIONS AI (BACKUP — BURE) ─────────────────────
@@ -279,26 +277,26 @@ async function generateWithPollinations(prompt, type) {
         throw new Error(`Pollinations AI ilikataa (${response.status})`);
     }
 
-    const buffer     = await response.arrayBuffer();
-    const base64     = Buffer.from(buffer).toString('base64');
+    const buffer      = await response.arrayBuffer();
+    const base64      = Buffer.from(buffer).toString('base64');
     const contentType = response.headers.get('content-type') || 'image/jpeg';
 
     return { image: `data:${contentType};base64,${base64}`, source: 'pollinations' };
 }
 
-// ─── TENGENEZA PICHA — GEMINI KWANZA, POLLINATIONS BACKUP ──
+// ─── TENGENEZA PICHA — NANO BANANA KWANZA, POLLINATIONS BACKUP ──
 async function generateImage(prompt, type = 'image') {
     const safePrompt = prompt.replace(/[<>]/g, '').substring(0, 500).trim();
 
-    // Jaribu Gemini Imagen kwanza (bure + ubora mzuri)
+    // Jaribu Nano Banana kwanza (bure + ubora mzuri + maandishi bora)
     if (GEMINI_KEY) {
         try {
-            console.log('Trying Gemini Imagen...');
-            const result = await generateWithGemini(safePrompt, type);
-            console.log('Gemini Imagen: SUCCESS');
+            console.log('Trying Nano Banana (Gemini 2.5 Flash Image)...');
+            const result = await generateWithNanoBanana(safePrompt, type);
+            console.log('Nano Banana: SUCCESS');
             return result;
         } catch(err) {
-            console.warn('Gemini Imagen imeshindwa:', err.message, '— Trying Pollinations...');
+            console.warn('Nano Banana imeshindwa:', err.message, '— Trying Pollinations...');
         }
     }
 
