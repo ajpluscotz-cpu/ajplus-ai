@@ -895,7 +895,8 @@ function setImageType(type) {
   }
 }
 
-// ✅ runGenerateImage — inatumia generateImage() ya app.js
+// ✅ runGenerateImage — Poster/Design hutumia /api/poster (maandishi sahihi),
+//    Picha na Logo hutumia generateImage() ya app.js (/api/image)
 async function runGenerateImage() {
   const prompt = document.getElementById('image-prompt')?.value.trim();
   if (!prompt) { showToast('Tafadhali andika maelezo ya picha', 'warning'); return; }
@@ -904,7 +905,9 @@ async function runGenerateImage() {
   document.getElementById('image-locked').style.display  = 'none';
   document.getElementById('image-loading').style.display = 'block';
 
-  const msgs = ['Inatengeneza picha yako...','AI inafikiria...','Karibu inamaliza...'];
+  const msgs = _imageType === 'design'
+    ? ['Inatengeneza poster yako...','Inaandika maelezo sahihi...','Karibu inamaliza...']
+    : ['Inatengeneza picha yako...','AI inafikiria...','Karibu inamaliza...'];
   let idx = 0;
   const interval = setInterval(() => {
     const el = document.getElementById('loading-text');
@@ -912,8 +915,14 @@ async function runGenerateImage() {
   }, 2000);
 
   try {
-    // ✅ Inatumia generateImage() ya app.js — inayoitana /api/image
-    const data = await generateImage(prompt, _imageType);
+    let data;
+    if (_imageType === 'design') {
+      // ✅ Poster/Design → /api/poster (SVG, maandishi sahihi 100%)
+      data = await generatePoster(prompt);
+    } else {
+      // ✅ Picha/Logo → /api/image ya app.js (Gemini Imagen + Pollinations)
+      data = await generateImage(prompt, _imageType);
+    }
     clearInterval(interval);
     document.getElementById('image-loading').style.display = 'none';
 
@@ -923,9 +932,14 @@ async function runGenerateImage() {
       document.getElementById('image-result').style.display = 'block';
       const ut = document.getElementById('usage-text');
       const ub = document.getElementById('usage-bar');
-      if (ut) ut.textContent = `Zilizotumika: ${data.used}/${data.limit}`;
-      if (ub) ub.textContent = `Zimebaki: ${data.remaining}`;
-      showToast('✅ Picha imetengenezwa!', 'success');
+      if (_imageType === 'design') {
+        if (ut) ut.textContent = 'Poster imekamilika — maandishi sahihi 100%!';
+        if (ub) ub.textContent = '';
+      } else {
+        if (ut) ut.textContent = `Zilizotumika: ${data.used}/${data.limit}`;
+        if (ub) ub.textContent = `Zimebaki: ${data.remaining}`;
+      }
+      showToast(_imageType === 'design' ? '📢 Poster imetengenezwa!' : '✅ Picha imetengenezwa!', 'success');
     } else if (data.locked) {
       document.getElementById('image-locked').style.display = 'block';
       document.getElementById('locked-title').textContent = data.overLimit ? 'Kikomo Kimefikiwa!' : 'Huduma Haipo';
