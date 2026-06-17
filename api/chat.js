@@ -283,7 +283,7 @@ async function checkUser(email) {
         questions_today: 1,
         last_question_date: new Date().toISOString().split('T')[0]
       });
-      return { allowed: true, plan: 'trial', trialDaysLeft: 3 };
+      return { allowed: true, plan: 'trial', trialDaysLeft: 7 };
     }
 
     const plan   = user.plan || 'trial';
@@ -343,7 +343,7 @@ async function checkUser(email) {
     return { allowed: true, plan };
 
   } catch(e) {
-    return { allowed: true, plan: 'trial', trialDaysLeft: 3 };
+    return { allowed: true, plan: 'trial', trialDaysLeft: 7 };
   }
 }
 
@@ -501,6 +501,7 @@ module.exports = async function handler(req, res) {
     const isImageMsg  = isImageRequest(message);
     const isLongDoc   = /barua|invoice|ankara|ripoti|maombi ya kazi|cv|resume|mkataba|contract/i.test(message);
     const needsClaude = isImageMsg || isLongDoc;
+    const needsSearch = needsWebSearch(message);
 
     if (needsClaude && CLAUDE_KEY) {
       // Picha na hati ndefu → Claude (anafuata system prompt vizuri)
@@ -508,21 +509,32 @@ module.exports = async function handler(req, res) {
         reply  = await callClaude(message, history, CLAUDE_KEY, false);
         source = 'claude';
       } catch(err) {
-        console.warn('Claude imeshindwa:', err.message);
+        console.warn('Claude imeshindwa (labda credits zimeisha):', err.message);
       }
     }
 
-    // Maswali ya kawaida → Gemini kwanza (na web search)
+    // Maswali ya kawaida → Gemini kwanza (na web search ikiwa swali linahitaji)
     if (!reply && !needsClaude && GEMINI_KEY) {
       try {
-        reply  = await callGemini(message, history, GEMINI_KEY, true);
-        source = 'gemini+web';
+        reply  = await callGemini(message, history, GEMINI_KEY, needsSearch);
+        source = needsSearch ? 'gemini+web' : 'gemini';
       } catch(err) {
         console.warn('Gemini imeshindwa:', err.message);
       }
     }
 
-    // Fallback → Claude
+    // ── MUHIMU: Claude akishindwa (credits zimeisha) kwa picha/hati,
+    //    GEMINI inajaribu kuokoa badala ya kukwama ──
+    if (!reply && needsClaude && GEMINI_KEY) {
+      try {
+        reply  = await callGemini(message, history, GEMINI_KEY, false);
+        source = 'gemini-fallback';
+      } catch(err) {
+        console.warn('Gemini fallback (kwa hati/picha) imeshindwa:', err.message);
+      }
+    }
+
+    // Fallback → Claude (kama Gemini ndiye aliyeshindwa hapo juu)
     if (!reply && CLAUDE_KEY) {
       try {
         reply  = await callClaude(message, history, CLAUDE_KEY, false);
@@ -532,7 +544,7 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // Fallback → Gemini bila web search
+    // Fallback ya mwisho → Gemini bila web search
     if (!reply && GEMINI_KEY) {
       try {
         reply  = await callGemini(message, history, GEMINI_KEY, false);
