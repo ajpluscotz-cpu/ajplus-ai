@@ -154,30 +154,28 @@ Ukiomba kuandika BARUA, HATI, CV, INVOICE, RIPOTI, MAOMBI, au hati yoyote:
 - Swali moja tu mwishoni — si maswali 2 au 3
 - EPUKA sentensi ndefu, headers kubwa, orodha ndefu`;
 
-const WEB_SEARCH_KEYWORDS = [
-  'bei ya dola','exchange rate','dollar leo','usd leo','forex',
-  'bei ya euro','bei ya pound','shilingi leo',
-  'bei ya mahindi','bei ya kahawa','bei ya pamba','bei ya korosho',
-  'bei ya mafuta','bei ya petroli','bei ya diesel',
-  'bei ya mazao','soko la leo','bei leo',
-  'habari za leo','habari za sasa','news leo','habari mpya',
-  'habari tanzania','matukio ya leo','habari za kitaifa',
-  'waziri','rais','spika','bunge','serikali','uchaguzi',
-  'matokeo ya','simba sc','yanga sc','timu ya taifa',
-  'premier league','champions league','mechi leo','matokeo leo',
-  'hali ya hewa','mvua leo','weather','joto leo',
-  'bei ya simu','bei ya gari','bei ya nyumba','bei ya ardhi',
-  'sasa hivi','wiki hii','mwezi huu','leo asubuhi',
-  'uvuvi','samaki','dagaa','mifugo','ng\'ombe',
-  'sgr','treni','ndege','bandari','utalii','safari',
-  'nishati','solar','umeme','tanesco','gesi',
-  'michezo','simba','yanga','taifa stars','ligi kuu',
-  'ajira','kazi','nafasi ya kazi','mshahara'
+// Maswali/maneno ambayo HAYAHITAJI web search kamwe — salamu, shukrani, mazungumzo
+// ya kawaida, au maswali ya maarifa ya jumla yasiyobadilika kwa wakati.
+const NO_SEARCH_PATTERNS = [
+  /^(habari|mambo|hujambo|shikamoo|salamu|hi|hello|hey)[\s!.,?]*$/i,
+  /^(asante|shukrani|sawa|ok|okay|poa|vizuri|hongera)[\s!.,?]*$/i,
+  /wewe ni nani|jina lako|unaitwa nani|unafanya nini/i,
+  /unaweza kunisaidia|unaweza nini|huduma zako/i,
+  /nini maana ya|fafanua|eleza|elewesha|maana ya neno/i,
+  /jinsi ya kuandika|jinsi gani ya kufanya|hatua za/i,
+  /tengeneza\s*(picha|poster|logo|design|tangazo|flyer|banner)/i
 ];
 
 function needsWebSearch(message) {
-  const msg = message.toLowerCase();
-  return WEB_SEARCH_KEYWORDS.some(k => msg.includes(k));
+  const msg = message.toLowerCase().trim();
+  // Maswali mafupi sana (chini ya maneno 2) mara nyingi ni salamu — usitafute
+  if (msg.split(/\s+/).length <= 1) return false;
+  // Ukipata pattern ya "hauhitaji search" wazi, usitafute
+  if (NO_SEARCH_PATTERNS.some(p => p.test(msg))) return false;
+  // Default: TAFUTA — salama zaidi kuliko kuorodhesha maneno yasiyokwisha
+  // (matukio, bei, habari, michezo, hali ya hewa, n.k. yote yanahitaji
+  // taarifa za sasa ambazo Claude/Gemini hawawezi kuzijua kutoka training data)
+  return true;
 }
 
 // ── Tambua maombi ya picha ──────────────────────────
@@ -410,8 +408,15 @@ async function callGemini(message, history, apiKey, useWebSearch = false) {
   }
   contents.push({ role: 'user', parts: [{ text: message }] });
 
+  const todayStr = new Date().toLocaleDateString('sw-TZ', {
+    year: 'numeric', month: 'long', day: 'numeric'
+  });
+  const dateNote = useWebSearch
+    ? `\n\n═══ TAREHE YA LEO ═══\nLeo ni: ${todayStr}. Tumia search ili kupata taarifa za SASA HIVI — usitumie maarifa ya zamani kuhusu matukio yajayo au yanayoendelea. Kama tukio (mfano: Kombe la Dunia, uchaguzi, mechi) linaweza kuwa limefanyika au linaendelea SASA, thibitisha kwa search badala ya kudhani.`
+    : '';
+
   const body = {
-    systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+    systemInstruction: { parts: [{ text: SYSTEM_PROMPT + dateNote }] },
     contents,
     generationConfig: { temperature: 0.7, maxOutputTokens: 1500 }
   };
