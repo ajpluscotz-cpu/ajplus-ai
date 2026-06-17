@@ -406,14 +406,22 @@ async function callGemini(message, history, apiKey, useWebSearch = false) {
       }
     });
   }
-  contents.push({ role: 'user', parts: [{ text: message }] });
-
   const todayStr = new Date().toLocaleDateString('sw-TZ', {
     year: 'numeric', month: 'long', day: 'numeric'
   });
-  const dateNote = useWebSearch
-    ? `\n\n═══ TAREHE YA LEO ═══\nLeo ni: ${todayStr}. Tumia search ili kupata taarifa za SASA HIVI — usitumie maarifa ya zamani kuhusu matukio yajayo au yanayoendelea. Kama tukio (mfano: Kombe la Dunia, uchaguzi, mechi) linaweza kuwa limefanyika au linaendelea SASA, thibitisha kwa search badala ya kudhani.`
-    : '';
+
+  let userMessage = message;
+  let dateNote = '';
+
+  if (useWebSearch) {
+    dateNote = `\n\n═══ MAELEKEZO YA LAZIMA — TAREHE NA SEARCH ═══\nLEO ni: ${todayStr}.\nLAZIMA utumie Google Search tool kwa swali hili — KILA WAKATI, bila kujali una uhakika gani na jibu. Maarifa yako ya ndani (training data) yana mwisho wa muda ambao haujui — matukio kama Kombe la Dunia, michuano, uchaguzi, bei za soko, na habari ZINAWEZA kuwa zimebadilika au kuanza/kuisha tangu wakati huo. KAMWE usijibu kwa kudhani "bado halijafanyika" au "litakuja baadaye" bila kuthibitisha kwa search ya kweli kwanza. Tumia search, kisha jibu kulingana na matokeo halisi ya search.`;
+
+    // Reinforce instruction directly in the user turn too, since system
+    // instructions are sometimes weighted less than the immediate request.
+    userMessage = `[Tafuta taarifa za sasa hivi (${todayStr}) kabla ya kujibu] ${message}`;
+  }
+
+  contents.push({ role: 'user', parts: [{ text: userMessage }] });
 
   const body = {
     systemInstruction: { parts: [{ text: SYSTEM_PROMPT + dateNote }] },
@@ -421,7 +429,10 @@ async function callGemini(message, history, apiKey, useWebSearch = false) {
     generationConfig: { temperature: 0.7, maxOutputTokens: 1500 }
   };
 
-  if (useWebSearch) body.tools = [{ googleSearch: {} }];
+  if (useWebSearch) {
+    body.tools = [{ googleSearch: {} }];
+    body.toolConfig = { functionCallingConfig: { mode: 'AUTO' } };
+  }
 
   const response = await fetch(url, {
     method: 'POST',
