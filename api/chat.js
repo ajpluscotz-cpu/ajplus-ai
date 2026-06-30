@@ -1,5 +1,5 @@
 // AJPLUS AI — api/chat.js
-// Claude + Gemini + Trial ya Siku 7 + Code Activation
+// Claude + Gemini + Trial ya Siku 7 + Code Activation + TOOL USE (create_invoice)
 // © AJ PLUS COMPANY LIMITED | ajplusai.co.tz
 
 const SYSTEM_PROMPT = `Wewe ni AJPLUS AI — Mshauri wa Kwanza wa Kitanzania wenye Uwezo wa Kimataifa.
@@ -78,6 +78,9 @@ Ukiomba kuandika BARUA, HATI, CV, INVOICE, RIPOTI, MAOMBI, au hati yoyote:
 - Ukisema "CV yangu" → CV ya mtumiaji — si ya AJPLUS AI
 - AJPLUS AI ni mtengenezaji wa hati — SI mwenye hati!
 - Ikiwa hakuna jina — weka [Jina la Kampuni/Mtu] badala ya AJPLUS AI
+
+═══ TOOL USE — INVOICE HALISI ═══
+Ukipokea ombi la kutengeneza INVOICE HALISI itakayohifadhiwa kwenye mfumo (si mfano wa kuandikia tu), tumia tool ya create_invoice. Mfano wa maneno: "tengeneza invoice kwa [mteja]", "niandalie ankara ya [mteja]", "nitengenezee invoice ya [huduma] kwa [mteja]". Tumia tool badala ya kuandika maandishi ya invoice wewe mwenyewe.
 
 ═══ SEKTA 20 ZA TANZANIA — MAARIFA YAKO KAMILI ═══
 
@@ -175,13 +178,8 @@ const NO_SEARCH_PATTERNS = [
 
 function needsWebSearch(message) {
   const msg = message.toLowerCase().trim();
-  // Maswali mafupi sana (chini ya maneno 2) mara nyingi ni salamu — usitafute
   if (msg.split(/\s+/).length <= 1) return false;
-  // Ukipata pattern ya "hauhitaji search" wazi, usitafute
   if (NO_SEARCH_PATTERNS.some(p => p.test(msg))) return false;
-  // Default: TAFUTA — salama zaidi kuliko kuorodhesha maneno yasiyokwisha
-  // (matukio, bei, habari, michezo, hali ya hewa, n.k. yote yanahitaji
-  // taarifa za sasa ambazo Claude/Gemini hawawezi kuzijua kutoka training data)
   return true;
 }
 
@@ -190,6 +188,13 @@ const IMAGE_PATTERN = /tengeneza\s*(picha|poster|logo|design|graphics|flyer|bann
 
 function isImageRequest(message) {
   return IMAGE_PATTERN.test(message);
+}
+
+// ── Tambua maombi ya INVOICE HALISI (tool use) ──────
+const INVOICE_TOOL_PATTERN = /tengeneza\s*invoice|tengeneza\s*ankara|niandalie\s*invoice|niandalie\s*ankara|nitengenezee\s*invoice|create\s*invoice|fanya\s*invoice/i;
+
+function isInvoiceToolRequest(message) {
+  return INVOICE_TOOL_PATTERN.test(message);
 }
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
@@ -223,6 +228,228 @@ async function saveChat(email, message, reply) {
   await supabaseQuery('chats', 'POST', {
     user_email: email || 'anonymous', message, reply
   });
+}
+
+// ════════════════════════════════════════════════════
+// TOOL USE: create_invoice
+// ════════════════════════════════════════════════════
+
+const CREATE_INVOICE_TOOL = {
+  name: "create_invoice",
+  description: "Tengeneza invoice halisi kwenye database kwa ajili ya mteja. Tumia tool hii pale mtumiaji anapoomba kutengeneza/kuandaa invoice HALISI itakayohifadhiwa (si mfano wa maandishi tu). Kama huna uhakika wa client_id au service_line_id, tumia majina ya maandishi (client_name, service_name) na mfumo utatafuta IDs husika kiotomatiki kutoka database.",
+  input_schema: {
+    type: "object",
+    properties: {
+      client_name: {
+        type: "string",
+        description: "Jina la mteja kama lilivyoandikwa na mtumiaji (mfano: 'Tanganyika Plywood', 'Baltic Business Group'). Mfumo utatafuta client_id kutoka jedwali la clients."
+      },
+      service_name: {
+        type: "string",
+        description: "Aina ya huduma inayotolewa (mfano: 'Security Services', 'Deep Cleaning'). Mfumo utatafuta service_line_id."
+      },
+      issue_date: {
+        type: "string",
+        description: "Tarehe ya kutolewa invoice, format YYYY-MM-DD. Kama haijatajwa, tumia tarehe ya leo."
+      },
+      due_date: {
+        type: "string",
+        description: "Tarehe ya mwisho ya malipo, format YYYY-MM-DD."
+      },
+      items: {
+        type: "array",
+        description: "Orodha ya bidhaa/huduma zinazotozwa kwenye invoice.",
+        items: {
+          type: "object",
+          properties: {
+            description: { type: "string", description: "Maelezo ya huduma/bidhaa" },
+            quantity: { type: "number", description: "Idadi" },
+            unit_price: { type: "number", description: "Bei kwa kila kimoja (TZS)" }
+          },
+          required: ["description", "quantity", "unit_price"]
+        }
+      },
+      tax_amount: {
+        type: "number",
+        description: "Kiasi cha kodi (VAT). Kama haijatajwa, tumia 0."
+      }
+    },
+    required: ["client_name", "service_name", "due_date", "items"]
+  }
+};
+
+async function handleCreateInvoice(input, userEmail) {
+  const { client_name, service_name, issue_date, due_date, items, tax_amount } = input;
+
+  try {
+    // 1. Tafuta client_id
+    const clients = await supabaseQuery(
+      'clients', 'GET', null,
+      `name=ilike.*${encodeURIComponent(client_name)}*&select=id,name&limit=1`
+    );
+    if (!clients || clients.length === 0) {
+      return { success: false, message: `Sikumpata mteja "${client_name}" kwenye database. Hakikisha jina ni sahihi.` };
+    }
+    const client_id = clients[0].id;
+
+    // 2. Tafuta service_line_id
+    // KUMBUKA: thibitisha jina sahihi la jedwali — hapa tunatumia "service_lines"
+    const services = await supabaseQuery(
+      'service_lines', 'GET', null,
+      `name=ilike.*${encodeURIComponent(service_name)}*&select=id,name&limit=1`
+    );
+    if (!services || services.length === 0) {
+      return { success: false, message: `Sikuipata huduma "${service_name}" kwenye database. Hakikisha jina ni sahihi.` };
+    }
+    const service_line_id = services[0].id;
+
+    // 3. Hesabu jumla
+    const subtotal = items.reduce((sum, item) => sum + (item.quantity * item.unit_price), 0);
+    const tax = tax_amount || 0;
+    const total_amount = subtotal + tax;
+
+    // 4. Invoice number
+    const today = new Date();
+    const dateStr = today.toISOString().slice(0, 10).replace(/-/g, '');
+    const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+    const invoice_number = `INV-${dateStr}-${randomSuffix}`;
+
+    // 5. Ingiza invoice
+    const invoiceResult = await supabaseQuery('invoices', 'POST', {
+      invoice_number,
+      client_id,
+      service_line_id,
+      issue_date: issue_date || today.toISOString().slice(0, 10),
+      due_date,
+      status: 'unpaid',
+      subtotal,
+      tax_amount: tax,
+      total_amount,
+      amount_paid: 0,
+      created_by: userEmail || null
+    });
+
+    if (!invoiceResult || !invoiceResult[0]) {
+      return { success: false, message: 'Imeshindwa kuhifadhi invoice kwenye database.' };
+    }
+    const invoiceId = invoiceResult[0].id;
+
+    // 6. Ingiza invoice_items
+    const itemsToInsert = items.map(item => ({
+      invoice_id: invoiceId,
+      description: item.description,
+      quantity: item.quantity,
+      unit_price: item.unit_price,
+      line_total: item.quantity * item.unit_price
+    }));
+    await supabaseQuery('invoice_items', 'POST', itemsToInsert);
+
+    return {
+      success: true,
+      invoice_number,
+      client: clients[0].name,
+      service: services[0].name,
+      subtotal,
+      tax_amount: tax,
+      total_amount,
+      due_date,
+      message: `Invoice ${invoice_number} imetengenezwa na kuhifadhiwa kwa mafanikio kwa ${clients[0].name}. Jumla: TZS ${total_amount.toLocaleString()}`
+    };
+
+  } catch (err) {
+    return { success: false, message: `Kosa la kiufundi: ${err.message}` };
+  }
+}
+
+// Claude na tool use (loop) — hutumika kwa maombi ya invoice halisi
+async function callClaudeWithTools(message, history, apiKey, userEmail) {
+  const messages = [];
+  if (history && Array.isArray(history)) {
+    history.slice(-6).forEach(h => {
+      if (h.role && h.content) messages.push({ role: h.role, content: h.content });
+    });
+  }
+  messages.push({ role: 'user', content: message });
+
+  const body = {
+    model: 'claude-sonnet-4-6',
+    max_tokens: 1200,
+    system: SYSTEM_PROMPT,
+    tools: [CREATE_INVOICE_TOOL],
+    messages
+  };
+
+  let response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01'
+    },
+    body: JSON.stringify(body)
+  });
+
+  if (!response.ok) {
+    const err = await response.json();
+    throw new Error(err?.error?.message || 'Claude API ilikataa');
+  }
+
+  let data = await response.json();
+
+  // Loop kama Claude ametaka kutumia tool
+  let safetyCounter = 0;
+  while (data.stop_reason === 'tool_use' && safetyCounter < 3) {
+    safetyCounter++;
+    const toolBlock = data.content.find(b => b.type === 'tool_use');
+    if (!toolBlock) break;
+
+    let toolResult;
+    if (toolBlock.name === 'create_invoice') {
+      toolResult = await handleCreateInvoice(toolBlock.input, userEmail);
+    } else {
+      toolResult = { success: false, message: 'Tool isiyojulikana.' };
+    }
+
+    messages.push({ role: 'assistant', content: data.content });
+    messages.push({
+      role: 'user',
+      content: [{
+        type: 'tool_result',
+        tool_use_id: toolBlock.id,
+        content: JSON.stringify(toolResult)
+      }]
+    });
+
+    response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1200,
+        system: SYSTEM_PROMPT,
+        tools: [CREATE_INVOICE_TOOL],
+        messages
+      })
+    });
+
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err?.error?.message || 'Claude API ilikataa (tool loop)');
+    }
+    data = await response.json();
+  }
+
+  let reply = '';
+  if (data.content && Array.isArray(data.content)) {
+    for (const block of data.content) {
+      if (block.type === 'text') reply += block.text;
+    }
+  }
+  return reply || 'Samahani, sijapata jibu. Tafadhali jaribu tena!';
 }
 
 const PLAN_LIMITS = {
@@ -519,14 +746,25 @@ module.exports = async function handler(req, res) {
     let reply  = null;
     let source = null;
 
+    // ── TOOL USE: Maombi ya invoice halisi → Claude + tools (kabla ya kila kitu) ──
+    const isInvoiceTool = isInvoiceToolRequest(message);
+
+    if (isInvoiceTool && CLAUDE_KEY) {
+      try {
+        reply  = await callClaudeWithTools(message, history, CLAUDE_KEY, userEmail);
+        source = 'claude-tool-invoice';
+      } catch(err) {
+        console.warn('Claude tool use imeshindwa:', err.message);
+      }
+    }
+
     // ── Maombi ya picha/poster/logo → Claude daima ──
     const isImageMsg  = isImageRequest(message);
     const isLongDoc   = /barua|invoice|ankara|ripoti|maombi ya kazi|cv|resume|mkataba|contract/i.test(message);
     const needsClaude = isImageMsg || isLongDoc;
     const needsSearch = needsWebSearch(message);
 
-    if (needsClaude && CLAUDE_KEY) {
-      // Picha na hati ndefu → Claude (anafuata system prompt vizuri)
+    if (!reply && needsClaude && CLAUDE_KEY) {
       try {
         reply  = await callClaude(message, history, CLAUDE_KEY, false);
         source = 'claude';
