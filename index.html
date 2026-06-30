@@ -4,18 +4,16 @@
 <meta name="facebook-domain-verification" content="lu6xm82z3m2n2q7r2zrqboobd4to7r" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AJPLUS AI — Mshauri wako wa Kitanzania</title>
+<title>AJPLUS AI — Uliza chochote</title>
 <meta name="description" content="AJPLUS AI — Mshauri wa kwanza wa Kitanzania. Uliza chochote — nikusaidie.">
-<meta name="theme-color" content="#0E5C3F">
+<meta name="theme-color" content="#0F0F0F">
 <link rel="icon" type="image/jpeg" href="assets/logo.jpeg">
 <link rel="apple-touch-icon" href="assets/logo.jpeg">
 <link rel="manifest" href="/manifest.json">
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then(() => console.log('AJPLUS AI PWA: Imesajiliwa!'))
-        .catch(e => console.log('SW Error:', e));
+      navigator.serviceWorker.register('/sw.js').catch(e => {});
     });
   }
 </script>
@@ -24,15 +22,13 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --gold:#C9A84C;--gold2:#E8B84B;--gold-light:rgba(201,168,76,.1);
-  --green:#1EB53A;--green2:#17a033;--green-light:rgba(30,181,58,.08);
+  --gold:#C9A84C;--gold2:#E8B84B;--gold-light:rgba(201,168,76,.12);
+  --green:#1EB53A;--green2:#17a033;
   --white:#fff;--bg:#FAF9F6;--bg2:#F0EDE6;
   --text:#1A1A1A;--text2:#4A4A4A;--muted:#8A8A8A;--border:#E4E1DA;
-  --red:#DC2626;--orange:#D97706;
-  --wa:#25D366;--radius:14px;
-  --font:'Inter',sans-serif;
-  --shadow:0 1px 4px rgba(0,0,0,.05);
-  --shadow2:0 8px 32px rgba(0,0,0,.08);
+  --red:#DC2626;--orange:#D97706;--wa:#25D366;
+  --radius:14px;--font:'Inter',sans-serif;
+  --shadow:0 1px 4px rgba(0,0,0,.05);--shadow2:0 8px 32px rgba(0,0,0,.08);
   --dm-bg:#0F0F0D;--dm-bg2:#1A1A16;--dm-card:#1E1E1A;
   --dm-border:#2A2A24;--dm-text:#F0EDE6;--dm-muted:#888;
 }
@@ -41,11 +37,15 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15
 *{scrollbar-width:thin;scrollbar-color:transparent transparent}
 *:hover{scrollbar-color:var(--border) transparent}
 ::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:transparent;border-radius:4px;transition:background .2s}
+::-webkit-scrollbar-thumb{background:transparent;border-radius:4px}
 *:hover::-webkit-scrollbar-thumb{background:var(--border)}
+
+/* DARK MODE */
 body.dark{background:var(--dm-bg);color:var(--dm-text);--white:var(--dm-card);--bg:var(--dm-bg);--bg2:var(--dm-bg2);--border:var(--dm-border);--text:var(--dm-text);--text2:#ccc;--muted:var(--dm-muted)}
 body.dark .nav{background:rgba(15,15,13,.96);border-color:var(--dm-border)}
+body.dark .chat-input-wrap{background:var(--dm-card);border-color:var(--dm-border)}
+body.dark #main-input{color:var(--dm-text)}
+
 body.dark .auth-box,body.dark .cpanel,body.dark .sidebar,body.dark .epanel-inner,body.dark .mobox{background:var(--dm-card);border-color:var(--dm-border)}
 body.dark .fi{background:var(--dm-bg2);border-color:var(--dm-border);color:var(--dm-text)}
 body.dark .need-card,body.dark .plan,body.dark .stat{background:var(--dm-card);border-color:var(--dm-border)}
@@ -56,8 +56,9 @@ body.dark #chat-input{background:var(--dm-bg2);color:var(--dm-text)}
 body.dark .ctop{background:var(--dm-card);border-color:var(--dm-border)}
 body.dark .ebtn{background:var(--dm-bg2);border-color:var(--dm-border);color:#ccc}
 body.dark footer{background:#000}
-body.dark .hero-input-wrap{background:var(--dm-card);border-color:var(--dm-border)}
-body.dark #hero-input{background:transparent;color:var(--dm-text)}
+body.dark .bei-card-biz{background:linear-gradient(135deg,#2a2a2a,#3A3A2A)}
+
+/* UTILS */
 a{color:var(--gold);text-decoration:none}
 .screen{display:none;min-height:100vh}
 .screen.active{display:block}
@@ -82,72 +83,127 @@ select.fi{cursor:pointer}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 @keyframes mIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 @keyframes glow{0%,100%{box-shadow:0 0 8px rgba(201,168,76,.3)}50%{box-shadow:0 0 20px rgba(201,168,76,.6)}}
-.reveal{opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s}
-.reveal.in{opacity:1;transform:translateY(0)}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite;flex-shrink:0;display:inline-block}
 
-/* NAV — Simplified per PRD */
-.nav{position:fixed;top:0;left:0;right:0;z-index:900;height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 5%;background:rgba(250,249,246,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:background .3s}
-.nav-brand{display:flex;align-items:center;gap:9px;cursor:pointer}
-.nav-logo{width:30px;height:30px;object-fit:cover;border-radius:50%;border:2px solid var(--gold);box-shadow:0 0 0 3px var(--gold-light)}
-.nav-title{font-size:.92rem;font-weight:700;color:var(--text);letter-spacing:-.02em}
-.nav-right{display:flex;gap:7px;align-items:center}
+/* ══════════════════════════════════
+   NAV — ultra minimal
+══════════════════════════════════ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:900;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:transparent;transition:background .3s}
+.nav.scrolled{background:rgba(250,249,246,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+body.dark .nav.scrolled{background:rgba(15,15,13,.96);border-color:var(--dm-border)}
+.nav-brand{display:flex;align-items:center;gap:8px;cursor:pointer;text-decoration:none}
+.nav-brand-icon{width:28px;height:28px;background:linear-gradient(135deg,var(--gold),var(--green));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;color:#fff;letter-spacing:-.02em;flex-shrink:0}
+.nav-title{font-size:.88rem;font-weight:700;color:var(--text);letter-spacing:-.02em}
+.nav-right{display:flex;gap:6px;align-items:center}
 .nav-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--green));display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff}
-.dm-toggle{background:var(--bg2);border:1.5px solid var(--border);border-radius:20px;padding:4px 9px;cursor:pointer;font-size:.76rem;display:flex;align-items:center;gap:4px;color:var(--muted);transition:all .2s;font-family:var(--font)}
-.dm-toggle:hover{border-color:var(--gold);color:var(--gold)}
-.ham{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:6px}
-.ham span{width:18px;height:1.5px;background:var(--text);border-radius:2px;transition:all .2s}
+.dm-toggle{background:none;border:none;cursor:pointer;font-size:.82rem;color:var(--muted);padding:5px;transition:color .15s;font-family:var(--font)}
+.dm-toggle:hover{color:var(--text)}
 
-/* HERO — ChatGPT style per PRD */
-#screen-landing{padding-top:54px}
-.hero{min-height:calc(100vh - 54px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 5% 52px}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold-light);border:1.5px solid rgba(201,168,76,.2);border-radius:50px;padding:4px 13px;font-size:.7rem;font-weight:600;color:var(--gold);margin-bottom:20px;letter-spacing:.02em}
-.hero-logo{width:72px;height:72px;object-fit:cover;border-radius:50%;border:2.5px solid var(--gold);margin:0 auto 20px;display:block;box-shadow:0 0 0 6px var(--gold-light),0 8px 24px rgba(201,168,76,.2);animation:float 4s ease-in-out infinite}
-.hero h1{font-size:clamp(2rem,5.5vw,3.8rem);font-weight:800;color:var(--text);line-height:1.06;margin-bottom:10px;letter-spacing:-.04em}
-.hero h1 .tz{background:linear-gradient(135deg,var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:clamp(.84rem,1.8vw,.96rem);color:var(--muted);margin-bottom:28px;max-width:420px;margin-left:auto;margin-right:auto;font-weight:400;line-height:1.7}
+/* ══════════════════════════════════
+   LANDING — ChatGPT style
+══════════════════════════════════ */
+#screen-landing{padding-top:0}
 
-/* Hero Input Box — ChatGPT style */
-.hero-input-box{width:100%;max-width:580px;margin:0 auto 24px}
-.hero-input-wrap{display:flex;align-items:flex-end;gap:0;background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:12px 12px 12px 18px;transition:border-color .2s,box-shadow .2s;box-shadow:var(--shadow2)}
-.hero-input-wrap:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-light)}
-#hero-input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:.92rem;resize:none;max-height:120px;font-family:var(--font);line-height:1.55;padding:0}
-#hero-input::placeholder{color:var(--muted)}
-.hero-send{width:38px;height:38px;background:linear-gradient(135deg,var(--gold),var(--green));border:none;border-radius:10px;font-size:.88rem;color:#fff;flex-shrink:0;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(201,168,76,.3)}
-.hero-send:hover{transform:scale(1.06)}
-.hero-hint{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
-.hero-hint-item{font-size:.72rem;color:var(--muted);cursor:pointer;padding:4px 10px;border-radius:6px;transition:color .15s}
-.hero-hint-item:hover{color:var(--gold)}
+.home-wrap{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:80px 20px 40px;
+}
 
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:12px;overflow:hidden;max-width:400px;margin:0 auto;box-shadow:var(--shadow)}
-.stat{background:var(--white);padding:16px 14px;text-align:center;transition:background .3s}
-.stat-num{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.03em}
-.stat-label{font-size:.66rem;color:var(--muted);margin-top:2px;font-weight:500}
-.sec{padding:72px 5%}
-.sec-alt{background:var(--white)}
-.sec-label{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:6px}
-.sec-title{font-size:clamp(1.3rem,3.2vw,2rem);font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-.03em}
-.sec-title span{background:linear-gradient(135deg,var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.needs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:8px;max-width:980px;margin:0 auto}
-.need-card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s}
-.need-card:hover{border-color:var(--gold);box-shadow:0 4px 20px rgba(201,168,76,.12);transform:translateY(-3px)}
-.need-icon{font-size:1.6rem;margin-bottom:6px;display:block}
-.need-name{font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:2px}
-.need-desc{font-size:.67rem;color:var(--muted);line-height:1.4}
-.plan{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:20px;position:relative;transition:all .2s}
-.plan:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:var(--shadow2)}
-.plan.hot{border-color:var(--gold);box-shadow:0 4px 20px rgba(201,168,76,.15)}
-.plan-pop{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--gold),var(--green));color:#fff;font-size:.6rem;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;letter-spacing:.03em}
-.plan-tier{font-size:.64rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
-.plan-price{font-size:1.7rem;font-weight:800;color:var(--text);line-height:1;margin-bottom:3px;letter-spacing:-.03em}
-.plan-price span{font-size:.74rem;font-weight:400;color:var(--muted)}
-.plan-feats{list-style:none;margin:12px 0 16px;display:flex;flex-direction:column;gap:6px}
-.plan-feats li{font-size:.75rem;color:var(--text2);display:flex;align-items:center;gap:6px}
-.plan-feats li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;font-size:.72rem}
-.plan-feats li.no::before{content:'–';color:var(--border)}
-.plan-feats li.no{color:var(--muted)}
+/* Greeting */
+.home-greeting{
+  font-size:clamp(1.8rem,5vw,2.8rem);
+  font-weight:700;
+  color:var(--text);
+  text-align:center;
+  letter-spacing:-.03em;
+  margin-bottom:8px;
+  line-height:1.15;
+}
+.home-greeting .grad{
+  background:linear-gradient(135deg,var(--gold),var(--green));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.home-sub{
+  font-size:.9rem;
+  color:var(--muted);
+  text-align:center;
+  margin-bottom:32px;
+  font-weight:400;
+}
+
+/* Main input — ChatGPT style */
+.chat-input-box{
+  width:100%;
+  max-width:640px;
+  margin-bottom:16px;
+}
+.chat-input-wrap{
+  display:flex;
+  align-items:flex-end;
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:18px;
+  padding:14px 14px 14px 20px;
+  box-shadow:0 2px 16px rgba(0,0,0,.06);
+  transition:border-color .2s,box-shadow .2s;
+}
+.chat-input-wrap:focus-within{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px var(--gold-light),0 2px 16px rgba(0,0,0,.06);
+}
+#main-input{
+  flex:1;
+  background:transparent;
+  border:none;
+  outline:none;
+  color:var(--text);
+  font-size:.94rem;
+  resize:none;
+  max-height:160px;
+  font-family:var(--font);
+  line-height:1.6;
+  padding:0;
+}
+#main-input::placeholder{color:var(--muted)}
+.input-actions{display:flex;align-items:flex-end;gap:6px;flex-shrink:0;margin-left:8px}
+.send-btn{
+  width:36px;height:36px;
+  background:var(--text);
+  border:none;border-radius:10px;
+  color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;transition:all .18s;flex-shrink:0;
+}
+.send-btn:hover{background:var(--gold);transform:scale(1.05)}
+.send-btn:disabled{opacity:.3;cursor:not-allowed;transform:none}
+
+/* Hint chips */
+
+
+
+/* Footer minimal */
+.home-footer{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  padding:10px 24px;
+  text-align:center;
+  font-size:.68rem;
+  color:var(--muted);
+  background:var(--bg);
+  border-top:1px solid var(--border);
+}
+body.dark .home-footer{background:var(--dm-bg);border-color:var(--dm-border)}
+
+/* ══════════════════════════════════
+   AUTH
+══════════════════════════════════ */
 #screen-auth{min-height:100vh;align-items:center;justify-content:center;background:var(--bg)}
 .auth-box{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:28px;width:100%;max-width:360px;margin:20px;box-shadow:var(--shadow2);position:relative}
 .auth-logo{text-align:center;margin-bottom:16px}
@@ -161,6 +217,10 @@ select.fi{cursor:pointer}
 .aform.active{display:block}
 .auth-back{position:absolute;top:12px;left:14px;background:none;border:none;color:var(--muted);font-size:.78rem;cursor:pointer;font-family:var(--font)}
 .auth-wa{position:fixed;bottom:24px;right:24px;z-index:800;display:flex;align-items:center;gap:6px;background:var(--wa);border-radius:50px;padding:8px 14px 8px 10px;color:#fff;font-size:.76rem;font-weight:500;box-shadow:0 4px 14px rgba(37,211,102,.3);text-decoration:none;transition:all .18s}
+
+/* ══════════════════════════════════
+   DASHBOARD
+══════════════════════════════════ */
 #screen-dashboard{padding-top:54px}
 .dlayout{display:grid;grid-template-columns:190px 1fr;min-height:calc(100vh - 54px)}
 .sidebar{background:var(--white);border-right:1.5px solid var(--border);padding:12px 8px;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;display:flex;flex-direction:column;gap:2px;transition:background .3s,border-color .3s}
@@ -222,10 +282,12 @@ select.fi{cursor:pointer}
 .ei{font-size:.86rem;width:18px;text-align:center;flex-shrink:0}
 .el{flex:1;text-align:left;line-height:1.2}
 .etag{background:rgba(30,181,58,.1);color:var(--green);border-radius:4px;padding:1px 5px;font-size:.6rem;font-weight:600;flex-shrink:0}
+
+/* MODALS */
 .mo{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:1000;display:none;align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(8px)}
 .mo.open{display:flex}
 .mobox{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:0;max-width:400px;width:100%;position:relative;animation:mIn .2s ease;box-shadow:0 24px 60px rgba(0,0,0,.14);max-height:90vh;overflow-y:auto}
-.moclose{position:absolute;top:11px;right:11px;background:var(--bg);border:1.5px solid var(--border);color:var(--muted);font-size:.76rem;cursor:pointer;border-radius:7px;padding:3px 8px;z-index:1;font-family:var(--font);transition:all .15s}
+.moclose{position:absolute;top:11px;right:11px;background:var(--bg);border:1.5px solid var(--border);color:var(--muted);font-size:.76rem;cursor:pointer;border-radius:7px;padding:3px 8px;z-index:1;font-family:var(--font)}
 .pay-header{padding:20px 20px 14px;border-bottom:1.5px solid var(--border)}
 .pay-body{padding:14px 20px 20px}
 .pay-step{display:none}
@@ -248,12 +310,8 @@ select.fi{cursor:pointer}
 .step-dot{flex:1;height:3px;border-radius:3px;background:var(--border);transition:background .2s}
 .step-dot.done{background:linear-gradient(90deg,var(--gold),var(--green))}
 .success-icon{width:48px;height:48px;background:rgba(30,181,58,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.4rem}
-.toast{position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--text);color:#fff;padding:9px 16px;border-radius:10px;font-size:.78rem;font-weight:500;display:flex;align-items:center;gap:7px;transform:translateX(130%);transition:transform .22s;max-width:260px;box-shadow:var(--shadow2)}
-.toast.show{transform:translateX(0)}
-.toast.warning{background:var(--orange)}
-.toast.error{background:var(--red)}
-.toast.success{background:var(--green)}
-.wa-float{position:fixed;bottom:20px;left:20px;z-index:800;display:flex;align-items:center;gap:7px;background:var(--wa);border-radius:50px;padding:8px 14px 8px 10px;color:#fff;font-size:.76rem;font-weight:600;box-shadow:0 4px 16px rgba(37,211,102,.35);text-decoration:none;transition:all .18s}
+
+/* TRIAL */
 .trial-overlay{position:absolute;inset:0;z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;backdrop-filter:blur(6px);background:rgba(15,15,13,.75);border-radius:var(--radius);padding:24px}
 .trial-overlay.show{display:flex}
 .trial-bar{display:none;align-items:center;justify-content:space-between;gap:10px;background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(30,181,58,.08));border:1.5px solid rgba(201,168,76,.25);border-radius:10px;padding:9px 16px;margin-bottom:10px;font-size:.8rem}
@@ -270,191 +328,100 @@ select.fi{cursor:pointer}
 .overlay-btn:hover{opacity:.88}
 .overlay-btn:disabled{opacity:.5;cursor:not-allowed}
 .overlay-err{color:var(--red);font-size:.78rem;margin-bottom:8px;min-height:18px}
+
+/* IMAGE */
 .img-type-btn{padding:7px 15px;border-radius:9px;border:1.5px solid var(--border);background:var(--bg);font-size:.78rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;font-family:var(--font)}
 .img-type-btn:hover{border-color:var(--gold);color:var(--gold)}
 .img-type-btn.active{background:linear-gradient(135deg,var(--gold),var(--green));color:#fff;border-color:transparent}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--text);color:#fff;padding:9px 16px;border-radius:10px;font-size:.78rem;font-weight:500;display:flex;align-items:center;gap:7px;transform:translateX(130%);transition:transform .22s;max-width:260px;box-shadow:var(--shadow2)}
+.toast.show{transform:translateX(0)}
+.toast.warning{background:var(--orange)}
+.toast.error{background:var(--red)}
+.toast.success{background:var(--green)}
+
+/* RESPONSIVE */
 @media(max-width:900px){
-  .ham{display:flex}
   .dlayout{grid-template-columns:1fr}
   .sidebar{display:none;position:fixed;top:54px;left:0;bottom:0;width:200px;z-index:800;box-shadow:4px 0 24px rgba(0,0,0,.08)}
-  .sidebar.open{display:flex}.epanel.open{display:none}
+  .sidebar.open{display:flex}
+  .epanel.open{display:none}
 }
 @media(max-width:600px){
-  .hero h1{font-size:1.9rem}.auth-box{padding:22px 16px;margin:14px}
-  .dmain{padding:10px}.needs-grid{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}
-  .hero-input-box{padding:0 4px}
+  .home-wrap{padding:70px 16px 80px}
+  .home-greeting{font-size:1.7rem}
+
+  .auth-box{padding:22px 16px;margin:14px}
+  .dmain{padding:10px}
 }
 </style>
 </head>
 <body>
 
-<nav class="nav">
+<!-- NAV -->
+<nav class="nav" id="main-nav">
   <div class="nav-brand" onclick="goTo('landing')">
-    <img class="nav-logo" src="assets/logo.jpeg" alt="AJPLUS AI">
+    <div class="nav-brand-icon">AJ</div>
     <span class="nav-title">AJPLUS AI</span>
   </div>
-  <!-- NAV SIMPLIFIED: Bei na Lipa zimeondolewa per PRD -->
   <div class="nav-right" id="nav-guest">
-    <button class="dm-toggle" onclick="toggleDark()">🌙 Giza</button>
+    <button class="dm-toggle" onclick="toggleDark()" id="dm-btn">🌙</button>
     <button class="btn btn-ghost btn-sm" onclick="goTo('auth')">Ingia</button>
-    <button class="btn btn-gold btn-sm" onclick="goTo('auth');switchAuthTab('signup')">Anza Bure</button>
+    <button class="btn btn-dark btn-sm" onclick="goTo('auth');switchAuthTab('signup')">Anza Bure</button>
   </div>
   <div class="nav-right" id="nav-user" style="display:none">
-    <button class="dm-toggle" onclick="toggleDark()">🌙</button>
+    <button class="dm-toggle" onclick="toggleDark()" id="dm-btn2">🌙</button>
     <div style="display:flex;align-items:center;gap:7px;background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:3px 11px 3px 4px;cursor:pointer" onclick="showDash('chat')">
       <div class="nav-av" id="nav-av-letter">A</div>
       <span style="font-size:.76rem;font-weight:600" id="nav-user-name">Mtumiaji</span>
     </div>
   </div>
-  <div class="ham" onclick="toggleSidebar()"><span></span><span></span><span></span></div>
 </nav>
 
-<!-- LANDING -->
+<!-- ══════════════════════════════════
+     LANDING — Ultra minimal ChatGPT style
+══════════════════════════════════ -->
 <div class="screen active" id="screen-landing">
-<section class="hero">
-  <div class="hero-badge"><span class="dot"></span>Tanzania 🇹🇿 — AI ya Kweli</div>
-  <img class="hero-logo" src="assets/logo.jpeg" alt="AJPLUS AI">
-  <h1>Mshauri wako wa<br><span class="tz">Kitanzania</span></h1>
-  <p class="hero-sub">Uliza chochote — nikusaidie. Kiswahili cha kweli, kwa sekta 20 za Tanzania.</p>
+  <div class="home-wrap">
 
-  <!-- HERO INPUT BOX — ChatGPT style per PRD -->
-  <div class="hero-input-box">
-    <div class="hero-input-wrap">
-      <textarea id="hero-input" rows="1" placeholder="Uliza chochote... 🇹🇿" oninput="autoGrowHero(this)" onkeydown="handleHeroKey(event)"></textarea>
-      <button class="hero-send" onclick="startChatFromHero()" title="Uliza">↑</button>
-    </div>
-  </div>
+    <!-- Greeting -->
+    <h1 class="home-greeting">
+      Karibu, <span class="grad">AJPLUS AI 🇹🇿</span>
+    </h1>
+    <p class="home-sub">Uliza chochote — nikusaidie</p>
 
-  <!-- HERO HINTS — maswali mfano (si category cards) -->
-  <div class="hero-hint">
-    <span class="hero-hint-item" onclick="setHeroInput(this.textContent)">💼 Nisaidie kuandika CV</span>
-    <span class="hero-hint-item" onclick="setHeroInput(this.textContent)">⚖️ Sheria za BRELA ni zipi?</span>
-    <span class="hero-hint-item" onclick="setHeroInput(this.textContent)">🌾 Bei ya mahindi leo</span>
-    <span class="hero-hint-item" onclick="setHeroInput(this.textContent)">🕌 Maswali ya dini</span>
-    <span class="hero-hint-item" onclick="setHeroInput(this.textContent)">🏥 NHIF inafanya kazi vipi?</span>
-  </div>
-
-  <div class="stats">
-    <div class="stat"><div class="stat-num">20</div><div class="stat-label">Sekta za TZ</div></div>
-    <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Inapatikana</div></div>
-    <div class="stat"><div class="stat-num">2 AI</div><div class="stat-label">Claude+Gemini</div></div>
-  </div>
-</section>
-
-<!-- SEC ZANA: Sekta 20 — imebaki lakini sio hero -->
-<section class="sec" id="sec-zana">
-  <div style="text-align:center;margin-bottom:30px">
-    <div class="sec-label">Sekta 20 za Tanzania</div>
-    <h2 class="sec-title">Leo Unahitaji <span>Nini?</span></h2>
-  </div>
-  <div class="needs-grid">
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">💑</span><div class="need-name">Ndoa & Mahusiano</div><div class="need-desc">Ushauri wa ndoa</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🕌</span><div class="need-name">Dini</div><div class="need-desc">Islam & Ukristo</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🚀</span><div class="need-name">Biashara</div><div class="need-desc">Invoice, Mpango</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">📋</span><div class="need-name">CV & Kazi</div><div class="need-desc">CV, Cover Letter</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🔧</span><div class="need-name">Mafundi AI</div><div class="need-desc">Gari, umeme</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🌾</span><div class="need-name">Kilimo</div><div class="need-desc">Bei ya mazao</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🏥</span><div class="need-name">Afya & NHIF</div><div class="need-desc">NHIF, hospitali</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">⚖️</span><div class="need-name">Sheria & Haki</div><div class="need-desc">BRELA, TRA</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🎓</span><div class="need-name">Elimu & HESLB</div><div class="need-desc">Mkopo, NECTA</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🏦</span><div class="need-name">Fedha & Benki</div><div class="need-desc">NMB, CRDB</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🏗️</span><div class="need-name">Ardhi & Nyumba</div><div class="need-desc">Hati za ardhi</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">⛽</span><div class="need-name">Usafiri & SGR</div><div class="need-desc">SGR, DART</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">💎</span><div class="need-name">Madini & Gesi</div><div class="need-desc">Tanzanite</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🎵</span><div class="need-name">Burudani</div><div class="need-desc">Bongo Flava</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🌊</span><div class="need-name">Utalii</div><div class="need-desc">Serengeti, Zanzibar</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">📱</span><div class="need-name">Teknolojia</div><div class="need-desc">TCRA, mobile</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">📰</span><div class="need-name">Habari & Media</div><div class="need-desc">Habari za leo</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🌍</span><div class="need-name">Biashara ya Nje</div><div class="need-desc">EAC, export</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🏛️</span><div class="need-name">Serikali</div><div class="need-desc">Vitambulisho</div></div>
-    <div class="need-card reveal" onclick="goTo('auth')"><span class="need-icon">🧠</span><div class="need-name">Stadi za Maisha</div><div class="need-desc">Afya ya akili</div></div>
-  </div>
-  <div style="text-align:center;margin-top:24px">
-    <button class="btn btn-dark btn-lg" onclick="goTo('auth')">Anza Kuzungumza →</button>
-  </div>
-</section>
-
-<section class="sec sec-alt" id="sec-bei">
-  <div style="text-align:center;margin-bottom:30px">
-    <div class="sec-label">Bei</div>
-    <h2 class="sec-title">Chagua <span>Mpango Wako</span></h2>
-  </div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px;max-width:900px;margin:0 auto">
-    <div class="plan reveal"><p class="plan-tier">Msingi</p><div class="plan-price">30,000<span> TZS/mwezi</span></div><ul class="plan-feats"><li>Maswali 50 kwa siku</li><li>Picha 20/mwezi</li><li>Sekta zote 20</li><li>Export PDF na TXT</li><li class="no">Export Word</li><li class="no">Habari za leo</li></ul><button class="btn btn-ghost btn-full" onclick="showModal('mo-lipa');setPayPlan('msingi',30000)">Lipa TZS 30,000</button></div>
-    <div class="plan reveal"><p class="plan-tier">Kawaida</p><div class="plan-price">60,000<span> TZS/mwezi</span></div><ul class="plan-feats"><li>Maswali 150 kwa siku</li><li>Picha 50/mwezi</li><li>Export PDF, Word, TXT</li><li>WhatsApp Share</li><li class="no">Habari za leo</li><li class="no">Historia</li></ul><button class="btn btn-ghost btn-full" onclick="showModal('mo-lipa');setPayPlan('kawaida',60000)">Lipa TZS 60,000</button></div>
-    <div class="plan hot reveal"><div class="plan-pop">⭐ Maarufu</div><p class="plan-tier">Pro</p><div class="plan-price">100,000<span> TZS/mwezi</span></div><ul class="plan-feats"><li>Maswali bila kikomo</li><li>Picha 100/mwezi</li><li>Habari za leo (web)</li><li>Export PDF, Word, TXT</li><li>Historia ya mazungumzo</li><li>WhatsApp Share</li></ul><button class="btn btn-gold btn-full" onclick="showModal('mo-lipa');setPayPlan('pro',100000)">Lipa TZS 100,000</button></div>
-    <div class="plan reveal"><p class="plan-tier">Biashara</p><div class="plan-price">250,000<span> TZS/mwezi</span></div><ul class="plan-feats"><li>Kila kitu cha Pro</li><li>Picha 300/mwezi</li><li>API Access</li><li>Wafanyakazi wengi</li><li>Branding yako</li><li>Support 24h</li></ul><button class="btn btn-dark btn-full" onclick="showModal('mo-lipa');setPayPlan('biashara',250000)">Lipa TZS 250,000</button></div>
-  </div>
-</section>
-
-<section class="sec" id="sec-lipa">
-  <div style="text-align:center;margin-bottom:30px">
-    <div class="sec-label">Malipo</div>
-    <h2 class="sec-title">Lipa kwa <span>Njia Yoyote</span></h2>
-  </div>
-  <div style="background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:24px;max-width:440px;margin:0 auto;text-align:center">
-    <div style="background:linear-gradient(135deg,#003087,#0055B3);border-radius:12px;padding:16px;margin-bottom:14px">
-      <p style="color:rgba(255,255,255,.65);font-size:.67rem;margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:600">Scan QR au Tumia Namba</p>
-      <img src="assets/lipa_mixx.jpeg" style="width:124px;height:124px;object-fit:contain;border-radius:8px;background:#fff;padding:5px;margin:0 auto 10px;display:block" alt="QR Code">
-      <div style="background:rgba(255,255,255,.14);border-radius:8px;padding:8px">
-        <p style="color:#fff;font-size:1.3rem;font-weight:800;letter-spacing:.1em">44934738</p>
-        <p style="color:rgba(255,255,255,.65);font-size:.68rem;margin-top:2px">AJ PLUS COMPANY LIMITED</p>
-      </div>
-      <p style="color:rgba(255,255,255,.5);font-size:.64rem;margin-top:8px">M-Pesa · Airtel · Yas/Tigo · NMB · CRDB</p>
-    </div>
-    <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px;margin-bottom:12px;text-align:left">
-      <p style="font-size:.65rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">📱 Yas/Tigo Moja kwa Moja</p>
-      <p style="font-size:.88rem;font-weight:700;color:var(--text)">+255 718 620 496</p>
-    </div>
-    <button class="btn btn-gold btn-full" style="margin-bottom:8px" onclick="showModal('mo-lipa');setPayPlan('pro',100000)">Lipa Sasa — Kuanzia TZS 30,000</button>
-    <a href="https://wa.me/255670307647?text=Nimetuma+malipo+ya+AJPLUS+AI." target="_blank" class="btn btn-wa btn-full">💬 Tuma Risiti WhatsApp</a>
-    <p style="font-size:.7rem;color:var(--muted);margin-top:8px">⏱️ Access ndani ya dakika 30</p>
-  </div>
-</section>
-
-<section class="sec sec-alt" style="text-align:center">
-  <h2 style="font-size:clamp(1.4rem,3vw,2.1rem);font-weight:800;color:var(--text);margin-bottom:8px;letter-spacing:-.03em">Jiunge Leo — <span style="background:linear-gradient(135deg,var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Bila Malipo</span></h2>
-  <p style="color:var(--muted);max-width:340px;margin:0 auto 20px;font-size:.86rem">Mshauri wa kwanza wa Kitanzania. Bure kabisa.</p>
-  <button class="btn btn-dark btn-lg" onclick="goTo('auth');switchAuthTab('signup')">Unda Akaunti Bure →</button>
-</section>
-
-<footer style="background:var(--text);color:rgba(255,255,255,.5);padding:28px 5% 18px;transition:background .3s">
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:20px;margin-bottom:18px">
-    <div>
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
-        <img src="assets/logo.jpeg" style="width:28px;height:28px;border-radius:50%;border:2px solid var(--gold);object-fit:cover" alt="AJPLUS AI">
-        <span style="font-size:.88rem;font-weight:700;color:#fff">AJPLUS AI</span>
-      </div>
-      <p style="font-size:.74rem;line-height:1.6">Mshauri wa kwanza wa Kitanzania.</p>
-      <p style="font-size:.7rem;margin-top:3px">🌐 ajplusai.co.tz</p>
-    </div>
-    <div>
-      <h4 style="font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px">Viungo</h4>
-      <div style="display:flex;flex-direction:column;gap:5px">
-        <a onclick="goTo('auth')" style="font-size:.76rem;color:rgba(255,255,255,.45);cursor:pointer">AI Chat</a>
-        <a onclick="document.getElementById('sec-bei')?.scrollIntoView({behavior:'smooth'})" style="font-size:.76rem;color:rgba(255,255,255,.45);cursor:pointer">Bei</a>
-        <a onclick="showModal('mo-enterprise')" style="font-size:.76rem;color:rgba(255,255,255,.45);cursor:pointer">Enterprise</a>
+    <!-- Main Input -->
+    <div class="chat-input-box">
+      <div class="chat-input-wrap">
+        <textarea
+          id="main-input"
+          rows="1"
+          placeholder="Uliza swali lako hapa..."
+          oninput="growInput(this)"
+          onkeydown="handleMainKey(event)"
+        ></textarea>
+        <div class="input-actions">
+          <button class="send-btn" onclick="startFromHome()" id="home-send-btn" title="Tuma">↑</button>
+        </div>
       </div>
     </div>
-    <div>
-      <h4 style="font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px">Wasiliana</h4>
-      <div style="display:flex;flex-direction:column;gap:5px">
-        <a href="mailto:info@ajplusai.co.tz" style="font-size:.76rem;color:rgba(255,255,255,.45)">📧 info@ajplusai.co.tz</a>
-        <a href="https://wa.me/255670307647" target="_blank" style="font-size:.76rem;color:#25D366;font-weight:600">💬 +255670307647</a>
-        <span style="font-size:.76rem">📍 Dar es Salaam</span>
-      </div>
-    </div>
+
+
+
   </div>
-  <div style="height:1px;background:rgba(255,255,255,.07);margin-bottom:12px"></div>
-  <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;align-items:center">
-    <p style="font-size:.7rem">© 2025 AJ PLUS COMPANY LIMITED.</p>
-    <span style="background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(30,181,58,.2));color:var(--gold);font-size:.64rem;font-weight:700;padding:3px 10px;border-radius:6px;border:1px solid rgba(201,168,76,.2)">🇹🇿 Made in Tanzania</span>
+
+  <!-- Footer minimal -->
+  <div class="home-footer">
+    AJPLUS AI · ajplusai.co.tz · <a href="https://wa.me/255670307647" target="_blank" style="color:var(--wa)">💬 +255670307647</a>
+    &nbsp;·&nbsp;
+    <span onclick="document.getElementById('sec-bei-modal')&&showModal('mo-bei')" style="cursor:pointer;color:var(--gold)">Bei →</span>
   </div>
-</footer>
-<a href="https://wa.me/255670307647" target="_blank" class="wa-float" id="wa-float"><span>💬</span> Support</a>
 </div>
 
-<!-- AUTH — haijabadilika -->
+<!-- ══════════════════════════════════
+     AUTH
+══════════════════════════════════ -->
 <div class="screen" id="screen-auth">
   <button class="auth-back" onclick="goTo('landing')">← Rudi</button>
   <div class="auth-box">
@@ -496,7 +463,9 @@ select.fi{cursor:pointer}
   <a href="https://wa.me/255670307647" target="_blank" class="auth-wa"><span>💬</span> Support</a>
 </div>
 
-<!-- DASHBOARD — haijabadilika -->
+<!-- ══════════════════════════════════
+     DASHBOARD
+══════════════════════════════════ -->
 <div class="screen" id="screen-dashboard">
 <div class="dlayout">
 <aside class="sidebar" id="sidebar">
@@ -525,6 +494,8 @@ select.fi{cursor:pointer}
   </div>
 </aside>
 <main class="dmain">
+
+<!-- CHAT -->
 <div class="dash-page active" id="dp-chat">
   <div style="margin-bottom:8px">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px">
@@ -539,7 +510,7 @@ select.fi{cursor:pointer}
       </div>
     </div>
     <div class="trial-bar" id="trial-bar">
-      <span class="trial-bar-text" id="trial-bar-text">⏳ Siku 3 zimebaki za jaribio lako la bure</span>
+      <span class="trial-bar-text" id="trial-bar-text">⏳ Siku 7 zimebaki za jaribio lako la bure</span>
     </div>
   </div>
   <div class="cwrap">
@@ -550,10 +521,10 @@ select.fi{cursor:pointer}
           <div class="overlay-title" id="overlay-title">Muda Wako Umeisha!</div>
           <div class="overlay-sub" id="overlay-sub">Lipa na uweke code yako ili uendelee kutumia AJPLUS AI bila kikomo.</div>
           <div class="overlay-err" id="overlay-err"></div>
-          <input class="overlay-input" id="activation-code" placeholder="Weka code yako hapa... (mfano: MSN-X7K2-TZ)" maxlength="20" oninput="this.value=this.value.toUpperCase()">
+          <input class="overlay-input" id="activation-code" placeholder="Weka code yako... (mfano: MSN-X7K2-TZ)" maxlength="20" oninput="this.value=this.value.toUpperCase()">
           <button class="overlay-btn" onclick="activateCode()" id="activate-btn">✅ Activate Akaunti</button>
           <a href="https://wa.me/255670307647?text=Nahitaji+code+ya+AJPLUS+AI" target="_blank" style="display:block;color:#25D366;font-size:.78rem;font-weight:600;text-decoration:none;margin-bottom:8px">💬 Lipa na Pata Code — WhatsApp</a>
-          <button onclick="hideTrialOverlay()" style="background:none;border:none;color:var(--muted);font-size:.74rem;cursor:pointer;font-family:var(--font)">✕ Funga (siku zimebaki)</button>
+          <button onclick="hideTrialOverlay()" style="background:none;border:none;color:var(--muted);font-size:.74rem;cursor:pointer;font-family:var(--font)">✕ Funga</button>
         </div>
       </div>
       <div class="ctop">
@@ -566,7 +537,7 @@ select.fi{cursor:pointer}
         </div>
         <div style="display:flex;gap:5px;align-items:center">
           <span style="background:var(--gold-light);color:var(--gold);border:1.5px solid rgba(201,168,76,.2);border-radius:6px;padding:2px 8px;font-size:.62rem;font-weight:600">AI ya Kweli</span>
-          <button class="dm-toggle" onclick="toggleDark()" style="font-size:.68rem;padding:3px 7px">🌙</button>
+          <button class="dm-toggle" onclick="toggleDark()" style="font-size:.68rem">🌙</button>
         </div>
       </div>
       <div class="cmsgs" id="chat-msgs"></div>
@@ -590,8 +561,8 @@ select.fi{cursor:pointer}
           <button class="ebtn" onclick="exportPDF()"><span class="ei">📄</span><span class="el"><b>PDF</b><br><small style="color:var(--muted)">Ripoti, CV</small></span><span class="etag">Bure</span></button>
           <button class="ebtn" onclick="exportWord()"><span class="ei">📝</span><span class="el"><b>Word</b><br><small style="color:var(--muted)">Kuhariri</small></span><span class="etag">Bure</span></button>
           <button class="ebtn" onclick="exportTXT()"><span class="ei">📋</span><span class="el"><b>Text</b><br><small style="color:var(--muted)">Nakala</small></span><span class="etag">Bure</span></button>
-          <button class="ebtn" onclick="copyLastReply()"><span class="ei">⎘</span><span class="el"><b>Nakili</b><br><small style="color:var(--muted)">Clipboard</small></span><span class="etag">Bure</span></button>
-          <button class="ebtn" onclick="shareWhatsApp()"><span class="ei">💬</span><span class="el"><b>WhatsApp</b><br><small style="color:var(--muted)">Shiriki</small></span><span class="etag">Bure</span></button>
+          <button class="ebtn" onclick="copyLastReply()"><span class="ei">⎘</span><span class="el"><b>Nakili</b></span><span class="etag">Bure</span></button>
+          <button class="ebtn" onclick="shareWhatsApp()"><span class="ei">💬</span><span class="el"><b>WhatsApp</b></span><span class="etag">Bure</span></button>
         </div>
         <div class="epanel-footer">
           <p style="font-size:.64rem;color:var(--muted);text-align:center">🎤 Voice AI — Inakuja</p>
@@ -600,6 +571,8 @@ select.fi{cursor:pointer}
     </div>
   </div>
 </div>
+
+<!-- AI PICHA -->
 <div class="dash-page" id="dp-image">
   <h2 style="margin-bottom:4px;font-size:.92rem;font-weight:700">🎨 AI Picha Studio</h2>
   <p style="color:var(--muted);font-size:.76rem;margin-bottom:14px">Tengeneza picha, poster na logo kwa AI</p>
@@ -617,7 +590,7 @@ select.fi{cursor:pointer}
     </div>
   </div>
   <button class="btn btn-gold btn-full" id="gen-btn" onclick="runGenerateImage()" style="margin-bottom:12px">✨ Tengeneza Picha</button>
-  <div id="image-usage" style="background:var(--bg2);border:1.5px solid var(--border);border-radius:9px;padding:9px 13px;margin-bottom:12px;font-size:.74rem;color:var(--muted);display:flex;justify-content:space-between;align-items:center">
+  <div id="image-usage" style="background:var(--bg2);border:1.5px solid var(--border);border-radius:9px;padding:9px 13px;margin-bottom:12px;font-size:.74rem;color:var(--muted);display:flex;justify-content:space-between">
     <span id="usage-text">Picha zilizotumika: —</span>
     <span id="usage-bar" style="font-size:.68rem;color:var(--gold)"></span>
   </div>
@@ -645,6 +618,8 @@ select.fi{cursor:pointer}
     </div>
   </div>
 </div>
+
+<!-- HOME -->
 <div class="dash-page" id="dp-home">
   <h2 style="margin-bottom:14px;font-size:.92rem;font-weight:700">Dashibodi</h2>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:16px">
@@ -658,21 +633,24 @@ select.fi{cursor:pointer}
     <button class="btn btn-gold btn-sm" onclick="showDash('pay')">⭐ Panda Pro</button>
   </div>
 </div>
+
+<!-- MALIPO -->
 <div class="dash-page" id="dp-pay">
   <h2 style="margin-bottom:4px;font-size:.92rem;font-weight:700">Malipo</h2>
   <p style="color:var(--muted);font-size:.78rem;margin-bottom:14px">Panda mpango wako</p>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:9px;margin-bottom:14px">
-    <div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;padding:13px"><p style="font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Msingi</p><p style="font-size:1.1rem;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-top:3px">TZS 30,000<span style="font-size:.7rem;color:var(--muted);font-weight:400">/mwezi</span></p><p style="font-size:.68rem;color:var(--muted);margin-bottom:9px">Maswali 50/siku · Picha 20</p><button class="btn btn-ghost btn-full" style="font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('msingi',30000)">Lipa Sasa</button></div>
-    <div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;padding:13px"><p style="font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Kawaida</p><p style="font-size:1.1rem;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-top:3px">TZS 60,000<span style="font-size:.7rem;color:var(--muted);font-weight:400">/mwezi</span></p><p style="font-size:.68rem;color:var(--muted);margin-bottom:9px">Maswali 150/siku · Picha 50</p><button class="btn btn-ghost btn-full" style="font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('kawaida',60000)">Lipa Sasa</button></div>
-    <div style="background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:12px;padding:13px;color:#fff"><p style="font-size:.6rem;font-weight:700;opacity:.75;text-transform:uppercase;letter-spacing:.06em">Pro ⭐</p><p style="font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-top:3px">TZS 100,000<span style="font-size:.7rem;opacity:.65;font-weight:400">/mwezi</span></p><p style="font-size:.68rem;opacity:.8;margin-bottom:9px">Bila kikomo · Picha 100</p><button class="btn btn-full" style="background:rgba(255,255,255,.22);color:#fff;border:1.5px solid rgba(255,255,255,.35);font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('pro',100000)">Lipa Sasa</button></div>
-    <div style="background:var(--text);border-radius:12px;padding:13px;color:#fff"><p style="font-size:.6rem;font-weight:700;opacity:.5;text-transform:uppercase;letter-spacing:.06em">Biashara 💼</p><p style="font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-top:3px">TZS 250,000<span style="font-size:.7rem;opacity:.45;font-weight:400">/mwezi</span></p><p style="font-size:.68rem;opacity:.6;margin-bottom:9px">API + Wafanyakazi · Picha 300</p><button class="btn btn-full" style="background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.2);font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('biashara',250000)">Lipa Sasa</button></div>
+    <div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;padding:13px"><p style="font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Msingi</p><p style="font-size:1.1rem;font-weight:800;color:var(--text);margin-top:3px">TZS 30,000<span style="font-size:.7rem;color:var(--muted);font-weight:400">/mwezi</span></p><p style="font-size:.68rem;color:var(--muted);margin-bottom:9px">Maswali 50/siku</p><button class="btn btn-ghost btn-full" style="font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('msingi',30000)">Lipa Sasa</button></div>
+    <div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;padding:13px"><p style="font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Kawaida</p><p style="font-size:1.1rem;font-weight:800;color:var(--text);margin-top:3px">TZS 60,000<span style="font-size:.7rem;color:var(--muted);font-weight:400">/mwezi</span></p><p style="font-size:.68rem;color:var(--muted);margin-bottom:9px">Maswali 150/siku</p><button class="btn btn-ghost btn-full" style="font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('kawaida',60000)">Lipa Sasa</button></div>
+    <div style="background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:12px;padding:13px;color:#fff"><p style="font-size:.6rem;font-weight:700;opacity:.75;text-transform:uppercase;letter-spacing:.06em">Pro ⭐</p><p style="font-size:1.1rem;font-weight:800;margin-top:3px">TZS 100,000<span style="font-size:.7rem;opacity:.65;font-weight:400">/mwezi</span></p><p style="font-size:.68rem;opacity:.8;margin-bottom:9px">Bila kikomo</p><button class="btn btn-full" style="background:rgba(255,255,255,.22);color:#fff;border:1.5px solid rgba(255,255,255,.35);font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('pro',100000)">Lipa Sasa</button></div>
+    <div style="background:var(--text);border-radius:12px;padding:13px;color:#fff"><p style="font-size:.6rem;font-weight:700;opacity:.5;text-transform:uppercase;letter-spacing:.06em">Biashara 💼</p><p style="font-size:1.1rem;font-weight:800;margin-top:3px">TZS 250,000<span style="font-size:.7rem;opacity:.45;font-weight:400">/mwezi</span></p><p style="font-size:.68rem;opacity:.6;margin-bottom:9px">API + Team</p><button class="btn btn-full" style="background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.2);font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('biashara',250000)">Lipa Sasa</button></div>
   </div>
 </div>
+
 </main>
 </div>
 </div>
 
-<!-- MODALS — hazijabadilika -->
+<!-- MODAL LIPA -->
 <div class="mo" id="mo-lipa">
   <div class="mobox">
     <button class="moclose" onclick="closeModal('mo-lipa');resetPayForm()">✕</button>
@@ -680,7 +658,7 @@ select.fi{cursor:pointer}
       <div class="pay-header">
         <div class="step-indicator"><div class="step-dot done"></div><div class="step-dot"></div><div class="step-dot"></div></div>
         <p style="font-size:.67rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Hatua 1 ya 3</p>
-        <h3 style="font-size:.96rem;font-weight:700;letter-spacing:-.02em">Chagua Mpango</h3>
+        <h3 style="font-size:.96rem;font-weight:700">Chagua Mpango</h3>
       </div>
       <div class="pay-body">
         <div class="plan-tabs" style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
@@ -699,7 +677,7 @@ select.fi{cursor:pointer}
       <div class="pay-header">
         <div class="step-indicator"><div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot"></div></div>
         <p style="font-size:.67rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Hatua 2 ya 3</p>
-        <h3 style="font-size:.96rem;font-weight:700;letter-spacing:-.02em">Lipa — <span id="pay-plan-label2" style="color:var(--gold)">Pro · TZS 100,000</span></h3>
+        <h3 style="font-size:.96rem;font-weight:700">Lipa — <span id="pay-plan-label2" style="color:var(--gold)">Pro · TZS 100,000</span></h3>
       </div>
       <div class="pay-body">
         <div class="qr-section">
@@ -725,7 +703,7 @@ select.fi{cursor:pointer}
       <div class="pay-header">
         <div class="step-indicator"><div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot done"></div></div>
         <p style="font-size:.67rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Hatua 3 ya 3</p>
-        <h3 style="font-size:.96rem;font-weight:700;letter-spacing:-.02em">Tuma Risiti</h3>
+        <h3 style="font-size:.96rem;font-weight:700">Tuma Risiti</h3>
       </div>
       <div class="pay-body">
         <div style="text-align:center;padding:6px 0 14px">
@@ -743,13 +721,11 @@ select.fi{cursor:pointer}
     </div>
   </div>
 </div>
+
 <div class="mo" id="mo-enterprise">
   <div class="mobox">
     <button class="moclose" onclick="closeModal('mo-enterprise')">✕</button>
-    <div class="pay-header">
-      <h3 style="font-size:.96rem;font-weight:700">Enterprise / B2B</h3>
-      <p style="font-size:.76rem;color:var(--muted);margin-top:3px">TZS 250,000/mwezi</p>
-    </div>
+    <div class="pay-header"><h3 style="font-size:.96rem;font-weight:700">Enterprise / B2B</h3><p style="font-size:.76rem;color:var(--muted);margin-top:3px">TZS 250,000/mwezi</p></div>
     <div class="pay-body">
       <div class="fg"><label class="fl">Jina la Kampuni</label><input class="fi" placeholder="Kampuni yako"></div>
       <div class="fg"><label class="fl">Barua Pepe au Simu</label><input class="fi" placeholder="wewe@kampuni.com"></div>
@@ -760,263 +736,206 @@ select.fi{cursor:pointer}
 </div>
 
 <div class="toast" id="toast"></div>
+
 <script src="js/app.js"></script>
 <script>
-// ══════════════════════════════════════════════════
-// HERO INPUT — ChatGPT style functions
-// ══════════════════════════════════════════════════
-function autoGrowHero(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
-}
-
-function setHeroInput(text) {
-  const el = document.getElementById('hero-input');
-  if (el) { el.value = text; el.focus(); autoGrowHero(el); }
-}
-
-function handleHeroKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); startChatFromHero(); }
-}
-
-function startChatFromHero() {
-  const input = document.getElementById('hero-input');
-  const msg = input?.value.trim();
-  // Nenda auth/dashboard, kisha weka swali kwenye chat input
-  goTo('auth');
-  if (msg) {
-    // Hifadhi swali ili lichukuliwe baada ya login/demo
-    sessionStorage.setItem('ajplus-pending-msg', msg);
-  }
-}
-
-// DARK MODE
+// ══════════ DARK MODE ══════════
 function toggleDark() {
   document.body.classList.toggle('dark');
-  const isDark = document.body.classList.contains('dark');
-  localStorage.setItem('ajplus-dark', isDark);
-  document.querySelectorAll('.dm-toggle').forEach(b => {
-    b.innerHTML = isDark ? '☀️ Mwanga' : '🌙 Giza';
-  });
+  const d = document.body.classList.contains('dark');
+  localStorage.setItem('ajplus-dark', d);
+  const icon = d ? '☀️' : '🌙';
+  document.querySelectorAll('.dm-toggle').forEach(b => b.textContent = icon);
 }
 if (localStorage.getItem('ajplus-dark') === 'true') {
   document.body.classList.add('dark');
-  document.querySelectorAll('.dm-toggle').forEach(b => b.innerHTML = '☀️ Mwanga');
+  document.querySelectorAll('.dm-toggle').forEach(b => b.textContent = '☀️');
 }
 
-// EXPORT TOGGLE
-function toggleExport() {
-  const panel = document.getElementById('epanel');
-  const btn   = document.getElementById('export-toggle-btn');
-  const isOpen = panel.classList.contains('open');
-  panel.classList.toggle('open');
-  btn.classList.toggle('active');
-  btn.textContent = isOpen ? '⬇ Hifadhi' : '✕ Funga';
+// ══════════ NAV SCROLL ══════════
+window.addEventListener('scroll', () => {
+  document.getElementById('main-nav')?.classList.toggle('scrolled', window.scrollY > 10);
+});
+
+// ══════════ HOME INPUT ══════════
+function growInput(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 160) + 'px';
+}
+function handleMainKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); startFromHome(); }
+}
+function useHint(el) {
+  const txt = el.textContent.replace(/^[^\s]+\s/, ''); // Ondoa emoji
+  const inp = document.getElementById('main-input');
+  if (inp) { inp.value = el.textContent; inp.focus(); growInput(inp); }
+}
+function startFromHome() {
+  const msg = document.getElementById('main-input')?.value.trim();
+  if (msg) sessionStorage.setItem('ajplus-pending-msg', msg);
+  goTo('auth');
 }
 
-// WA FLOAT
-function updateWaFloat() {
-  const waf = document.getElementById('wa-float');
-  if (!waf) return;
-  const isDash = document.getElementById('screen-dashboard')?.classList.contains('active');
-  const isAuth = document.getElementById('screen-auth')?.classList.contains('active');
-  waf.style.display = (isDash || isAuth) ? 'none' : 'flex';
-}
+// ══════════ WA FLOAT HIDE ══════════
 const _origGoTo = window.goTo;
 window.goTo = function(page) {
   if (typeof _origGoTo === 'function') _origGoTo(page);
-  setTimeout(updateWaFloat, 50);
 };
-updateWaFloat();
 
-// PAYMENT
-let _payPlan = 'pro', _payAmount = 100000;
-function setPayPlan(plan, amount) {
-  _payPlan = plan; _payAmount = amount;
-  const names = { msingi:'Msingi', kawaida:'Kawaida', pro:'Pro ⭐', biashara:'Biashara' };
-  const el = document.getElementById('pay-plan-label2');
-  if (el) el.textContent = `${names[plan]||plan} · TZS ${amount.toLocaleString()}`;
+// ══════════ EXPORT TOGGLE ══════════
+function toggleExport() {
+  const p = document.getElementById('epanel');
+  const b = document.getElementById('export-toggle-btn');
+  const o = p.classList.contains('open');
+  p.classList.toggle('open');
+  b.classList.toggle('active');
+  b.textContent = o ? '⬇ Hifadhi' : '✕ Funga';
 }
-function switchPlanTab(plan) {
-  document.querySelectorAll('.plan-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('ptab-' + plan)?.classList.add('active');
+
+// ══════════ PAYMENT ══════════
+let _payPlan='pro', _payAmount=100000;
+function setPayPlan(plan,amount){
+  _payPlan=plan;_payAmount=amount;
+  const n={msingi:'Msingi',kawaida:'Kawaida',pro:'Pro ⭐',biashara:'Biashara'};
+  const el=document.getElementById('pay-plan-label2');
+  if(el)el.textContent=`${n[plan]||plan} · TZS ${amount.toLocaleString()}`;
 }
-function goPayStep1() {
-  document.querySelectorAll('.pay-step').forEach(s => s.classList.remove('active'));
-  document.getElementById('pay-step-1').classList.add('active');
+function switchPlanTab(plan){
+  document.querySelectorAll('.plan-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('ptab-'+plan)?.classList.add('active');
 }
-function goPayStep2() {
-  const name  = document.getElementById('pay-name')?.value.trim();
-  const email = document.getElementById('pay-email')?.value.trim();
-  if (!name || !email) { showToast('⚠️ Weka jina na barua pepe', 'warning'); return; }
-  document.querySelectorAll('.pay-step').forEach(s => s.classList.remove('active'));
+function goPayStep1(){document.querySelectorAll('.pay-step').forEach(s=>s.classList.remove('active'));document.getElementById('pay-step-1').classList.add('active')}
+function goPayStep2(){
+  const name=document.getElementById('pay-name')?.value.trim();
+  const email=document.getElementById('pay-email')?.value.trim();
+  if(!name||!email){showToast('⚠️ Weka jina na barua pepe','warning');return}
+  document.querySelectorAll('.pay-step').forEach(s=>s.classList.remove('active'));
   document.getElementById('pay-step-2').classList.add('active');
 }
-async function goPayStep3() {
-  const name  = document.getElementById('pay-name')?.value.trim();
-  const email = document.getElementById('pay-email')?.value.trim();
-  const phone = document.getElementById('pay-phone')?.value.trim();
-  try {
-    await fetch('/api/payment', { method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ name, email, phone, plan: _payPlan, amount: _payAmount }) });
-  } catch(e) {}
-  document.getElementById('conf-name').textContent  = name;
-  document.getElementById('conf-email').textContent = email;
-  document.getElementById('conf-plan').textContent  = `${_payPlan.toUpperCase()} — TZS ${_payAmount.toLocaleString()}`;
-  const waMsg = `Habari AJPLUS AI! 🇹🇿\n\nNimetuma malipo:\n👤 ${name}\n📧 ${email}\n📱 ${phone||'-'}\n💰 TZS ${_payAmount.toLocaleString()}\n📦 ${_payPlan.toUpperCase()}\n\nRisiti 👇`;
-  const waBtn = document.getElementById('pay-wa-btn');
-  if (waBtn) waBtn.href = `https://wa.me/255670307647?text=${encodeURIComponent(waMsg)}`;
-  document.querySelectorAll('.pay-step').forEach(s => s.classList.remove('active'));
+async function goPayStep3(){
+  const name=document.getElementById('pay-name')?.value.trim();
+  const email=document.getElementById('pay-email')?.value.trim();
+  const phone=document.getElementById('pay-phone')?.value.trim();
+  try{await fetch('/api/payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,phone,plan:_payPlan,amount:_payAmount})})}catch(e){}
+  document.getElementById('conf-name').textContent=name;
+  document.getElementById('conf-email').textContent=email;
+  document.getElementById('conf-plan').textContent=`${_payPlan.toUpperCase()} — TZS ${_payAmount.toLocaleString()}`;
+  const waMsg=`Habari AJPLUS AI! 🇹🇿\n\nNimetuma malipo:\n👤 ${name}\n📧 ${email}\n📱 ${phone||'-'}\n💰 TZS ${_payAmount.toLocaleString()}\n📦 ${_payPlan.toUpperCase()}\n\nRisiti 👇`;
+  const wb=document.getElementById('pay-wa-btn');
+  if(wb)wb.href=`https://wa.me/255670307647?text=${encodeURIComponent(waMsg)}`;
+  document.querySelectorAll('.pay-step').forEach(s=>s.classList.remove('active'));
   document.getElementById('pay-step-3').classList.add('active');
 }
-function resetPayForm() {
-  document.querySelectorAll('.pay-step').forEach(s => s.classList.remove('active'));
+function resetPayForm(){
+  document.querySelectorAll('.pay-step').forEach(s=>s.classList.remove('active'));
   document.getElementById('pay-step-1')?.classList.add('active');
-  switchPlanTab('msingi'); setPayPlan('msingi', 30000);
+  switchPlanTab('msingi');setPayPlan('msingi',30000);
 }
 
-// IMAGE STUDIO
-let _imageType = 'image', _lastImageBase64 = null;
-const QUICK_PROMPTS = {
-  image:  ["Picha ya familia furaha Tanzania","Mwanamke akipiga picha pwani Zanzibar","Biashara ya duka la Tanzania","Msichana akisherehekea harusi"],
-  design: ["Poster ya biashara ya chakula Tanzania","Tangazo la harusi la kisasa","Flyer ya matukio ya burudani","Banner ya kampuni ya Tanzania"],
-  logo:   ["Logo ya kampuni ya teknolojia Tanzania","Logo ya mkahawa wa kisasa","Logo ya biashara ya nguo","Logo ya shule ya msingi"]
+// ══════════ IMAGE STUDIO ══════════
+let _imageType='image',_lastImageBase64=null;
+const QUICK_PROMPTS={
+  image:["Picha ya familia furaha Tanzania","Mwanamke akipiga picha pwani Zanzibar","Biashara ya duka","Msichana akisherehekea harusi"],
+  design:["Poster ya biashara ya chakula","Tangazo la harusi la kisasa","Flyer ya matukio","Banner ya kampuni"],
+  logo:["Logo ya kampuni ya teknolojia","Logo ya mkahawa wa kisasa","Logo ya biashara ya nguo","Logo ya shule"]
 };
-function setImageType(type) {
-  _imageType = type;
-  document.querySelectorAll('.img-type-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('itype-' + type)?.classList.add('active');
-  const placeholders = { image:'Mfano: Picha ya familia furaha Dar es Salaam...', design:'Mfano: Poster ya biashara ya chakula, rangi za msisitizo...', logo:'Mfano: Logo ya mkahawa wa kisasa, rangi ya dhahabu...' };
-  const promptEl = document.getElementById('image-prompt');
-  if (promptEl) promptEl.placeholder = placeholders[type] || '';
-  const container = document.getElementById('quick-prompts');
-  if (container) {
-    container.innerHTML = '';
-    (QUICK_PROMPTS[type]||[]).forEach(p => {
-      const btn = document.createElement('button');
-      btn.style.cssText = 'padding:3px 10px;border-radius:50px;border:1.5px solid var(--border);background:var(--bg);font-size:.67rem;color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s';
-      btn.textContent = p;
-      btn.onmouseover = () => { btn.style.borderColor='var(--gold)'; btn.style.color='var(--gold)'; };
-      btn.onmouseout  = () => { btn.style.borderColor='var(--border)'; btn.style.color='var(--text2)'; };
-      btn.onclick = () => { document.getElementById('image-prompt').value = p; };
+function setImageType(type){
+  _imageType=type;
+  document.querySelectorAll('.img-type-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('itype-'+type)?.classList.add('active');
+  const placeholders={image:'Mfano: Picha ya familia furaha...',design:'Mfano: Poster ya biashara...',logo:'Mfano: Logo ya mkahawa wa kisasa...'};
+  const promptEl=document.getElementById('image-prompt');
+  if(promptEl)promptEl.placeholder=placeholders[type]||'';
+  const container=document.getElementById('quick-prompts');
+  if(container){
+    container.innerHTML='';
+    (QUICK_PROMPTS[type]||[]).forEach(p=>{
+      const btn=document.createElement('button');
+      btn.style.cssText='padding:3px 10px;border-radius:50px;border:1.5px solid var(--border);background:var(--bg);font-size:.67rem;color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s';
+      btn.textContent=p;
+      btn.onmouseover=()=>{btn.style.borderColor='var(--gold)';btn.style.color='var(--gold)'};
+      btn.onmouseout=()=>{btn.style.borderColor='var(--border)';btn.style.color='var(--text2)'};
+      btn.onclick=()=>{document.getElementById('image-prompt').value=p};
       container.appendChild(btn);
     });
   }
 }
-async function runGenerateImage() {
-  const prompt = document.getElementById('image-prompt')?.value.trim();
-  if (!prompt) { showToast('Tafadhali andika maelezo ya picha', 'warning'); return; }
-  document.getElementById('image-result').style.display  = 'none';
-  document.getElementById('image-locked').style.display  = 'none';
-  document.getElementById('image-loading').style.display = 'block';
-  const msgs = ['Inatengeneza picha yako...','AI inafikiria...','Karibu inamaliza...'];
-  let idx = 0;
-  const interval = setInterval(() => {
-    const el = document.getElementById('loading-text');
-    if (el) el.textContent = msgs[++idx % msgs.length];
-  }, 2000);
-  try {
-    const data = await generateImage(prompt, _imageType);
-    clearInterval(interval);
-    document.getElementById('image-loading').style.display = 'none';
-    if (data.success && data.image) {
-      _lastImageBase64 = data.image;
-      document.getElementById('result-img').src = data.image;
-      document.getElementById('image-result').style.display = 'block';
-      const ut = document.getElementById('usage-text');
-      const ub = document.getElementById('usage-bar');
-      if (ut) ut.textContent = `Zilizotumika: ${data.used}/${data.limit}`;
-      if (ub) ub.textContent = `Zimebaki: ${data.remaining}`;
-      showToast('✅ Picha imetengenezwa!', 'success');
-    } else if (data.locked) {
-      document.getElementById('image-locked').style.display = 'block';
-      document.getElementById('locked-title').textContent = data.overLimit ? 'Kikomo Kimefikiwa!' : 'Huduma Haipo';
-      document.getElementById('locked-msg').textContent   = data.error || data.message || '';
-      if (data.whatsapp) document.getElementById('locked-wa').href = data.whatsapp;
-    } else {
-      showToast('❌ ' + (data.error || 'Kosa limetokea'), 'error');
-    }
-  } catch(e) {
-    clearInterval(interval);
-    document.getElementById('image-loading').style.display = 'none';
-    showToast('❌ ' + (e.message || 'Tatizo la mtandao'), 'error');
-  }
+async function runGenerateImage(){
+  const prompt=document.getElementById('image-prompt')?.value.trim();
+  if(!prompt){showToast('Tafadhali andika maelezo ya picha','warning');return}
+  document.getElementById('image-result').style.display='none';
+  document.getElementById('image-locked').style.display='none';
+  document.getElementById('image-loading').style.display='block';
+  const msgs=['Inatengeneza picha yako...','AI inafikiria...','Karibu inamaliza...'];
+  let idx=0;
+  const iv=setInterval(()=>{const el=document.getElementById('loading-text');if(el)el.textContent=msgs[++idx%msgs.length]},2000);
+  try{
+    const data=await generateImage(prompt,_imageType);
+    clearInterval(iv);
+    document.getElementById('image-loading').style.display='none';
+    if(data.success&&data.image){
+      _lastImageBase64=data.image;
+      document.getElementById('result-img').src=data.image;
+      document.getElementById('image-result').style.display='block';
+      const ut=document.getElementById('usage-text');const ub=document.getElementById('usage-bar');
+      if(ut)ut.textContent=`Zilizotumika: ${data.used}/${data.limit}`;
+      if(ub)ub.textContent=`Zimebaki: ${data.remaining}`;
+      showToast('✅ Picha imetengenezwa!','success');
+    }else if(data.locked){
+      document.getElementById('image-locked').style.display='block';
+      document.getElementById('locked-title').textContent=data.overLimit?'Kikomo Kimefikiwa!':'Huduma Haipo';
+      document.getElementById('locked-msg').textContent=data.error||data.message||'';
+      if(data.whatsapp)document.getElementById('locked-wa').href=data.whatsapp;
+    }else{showToast('❌ '+(data.error||'Kosa limetokea'),'error')}
+  }catch(e){clearInterval(iv);document.getElementById('image-loading').style.display='none';showToast('❌ '+(e.message||'Tatizo la mtandao'),'error')}
 }
-function downloadImage() {
-  if (!_lastImageBase64) return;
-  const a = document.createElement('a');
-  a.href = _lastImageBase64; a.download = `ajplus-ai-${_imageType}-${Date.now()}.jpg`; a.click();
-}
-function shareImageWA() { showToast('💬 Pakua picha kwanza kisha itume WhatsApp!', 'warning'); downloadImage(); }
+function downloadImage(){if(!_lastImageBase64)return;const a=document.createElement('a');a.href=_lastImageBase64;a.download=`ajplus-ai-${_imageType}-${Date.now()}.jpg`;a.click()}
+function shareImageWA(){showToast('💬 Pakua picha kwanza kisha itume WhatsApp!','warning');downloadImage()}
 
-// TRIAL OVERLAY
-function showTrialOverlay() {
-  document.getElementById('trial-overlay').classList.add('show');
-  setTimeout(() => document.getElementById('activation-code')?.focus(), 100);
-}
-function hideTrialOverlay() { document.getElementById('trial-overlay').classList.remove('show'); }
-function checkTrialStatus(trialDaysLeft, plan) {
-  const bar = document.getElementById('trial-bar');
-  const overlay = document.getElementById('trial-overlay');
-  const barText = document.getElementById('trial-bar-text');
-  const ninaBtn = document.getElementById('nina-code-btn');
-  if (plan === 'trial' && trialDaysLeft !== undefined) {
-    if (trialDaysLeft <= 0) {
-      document.getElementById('overlay-icon').textContent  = '⏰';
-      document.getElementById('overlay-title').textContent = 'Muda Wako Umeisha!';
-      document.getElementById('overlay-sub').textContent   = 'Siku 3 za bure zimeisha. Lipa na uweke code yako ili uendelee.';
-      overlay.classList.add('show');
-      if (bar) bar.classList.remove('show');
-      if (ninaBtn) ninaBtn.style.display = 'inline-flex';
-    } else {
-      if (bar) { bar.classList.add('show'); barText.textContent = `⏳ Siku ${trialDaysLeft} zimebaki za jaribio lako la bure`; }
-      if (ninaBtn) ninaBtn.style.display = 'inline-flex';
-      overlay.classList.remove('show');
+// ══════════ TRIAL ══════════
+function showTrialOverlay(){document.getElementById('trial-overlay').classList.add('show');setTimeout(()=>document.getElementById('activation-code')?.focus(),100)}
+function hideTrialOverlay(){document.getElementById('trial-overlay').classList.remove('show')}
+function checkTrialStatus(trialDaysLeft,plan){
+  const bar=document.getElementById('trial-bar');
+  const overlay=document.getElementById('trial-overlay');
+  const barText=document.getElementById('trial-bar-text');
+  const ninaBtn=document.getElementById('nina-code-btn');
+  if(plan==='trial'&&trialDaysLeft!==undefined){
+    if(trialDaysLeft<=0){
+      document.getElementById('overlay-icon').textContent='⏰';
+      document.getElementById('overlay-title').textContent='Muda Wako Umeisha!';
+      document.getElementById('overlay-sub').textContent='Siku 7 za bure zimeisha. Lipa na uweke code yako ili uendelee.';
+      overlay.classList.add('show');if(bar)bar.classList.remove('show');if(ninaBtn)ninaBtn.style.display='inline-flex';
+    }else{
+      if(bar){bar.classList.add('show');barText.textContent=`⏳ Siku ${trialDaysLeft} zimebaki za jaribio lako la bure`}
+      if(ninaBtn)ninaBtn.style.display='inline-flex';overlay.classList.remove('show');
     }
-  } else if (!['trial','free'].includes(plan)) {
-    if (bar) bar.classList.remove('show');
-    if (ninaBtn) ninaBtn.style.display = 'none';
-    overlay.classList.remove('show');
+  }else if(!['trial','free'].includes(plan)){
+    if(bar)bar.classList.remove('show');if(ninaBtn)ninaBtn.style.display='none';overlay.classList.remove('show');
   }
 }
-async function activateCode() {
-  const code  = document.getElementById('activation-code')?.value.trim();
-  const email = (typeof Session !== 'undefined' ? Session.get('email') : '') || '';
-  const errEl = document.getElementById('overlay-err');
-  const btn   = document.getElementById('activate-btn');
-  if (!code) { errEl.textContent = '⚠️ Weka code yako kwanza'; return; }
-  btn.disabled = true; btn.textContent = '⏳ Inaangalia...'; errEl.textContent = '';
-  try {
-    const res  = await fetch('/api/activate', { method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ action:'activate', code, email: email || undefined }) });
-    const data = await res.json();
-    if (data.success) {
-      document.getElementById('overlay-icon').textContent  = '🎉';
-      document.getElementById('overlay-title').textContent = 'Hongera! Umefanikiwa!';
-      document.getElementById('overlay-sub').textContent   = `Mpango wako: ${data.planName}. Unaweza sasa kutumia AJPLUS AI bila kikomo!`;
-      document.getElementById('activation-code').style.display = 'none';
-      btn.textContent = '✅ Imefunguliwa! Endelea...';
+async function activateCode(){
+  const code=document.getElementById('activation-code')?.value.trim();
+  const email=(typeof Session!=='undefined'?Session.get('email'):'')||'';
+  const errEl=document.getElementById('overlay-err');const btn=document.getElementById('activate-btn');
+  if(!code){errEl.textContent='⚠️ Weka code yako kwanza';return}
+  btn.disabled=true;btn.textContent='⏳ Inaangalia...';errEl.textContent='';
+  try{
+    const res=await fetch('/api/activate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'activate',code,email:email||undefined})});
+    const data=await res.json();
+    if(data.success){
+      document.getElementById('overlay-icon').textContent='🎉';
+      document.getElementById('overlay-title').textContent='Hongera! Umefanikiwa!';
+      document.getElementById('overlay-sub').textContent=`Mpango wako: ${data.planName}. Unaweza sasa kutumia AJPLUS AI bila kikomo!`;
+      document.getElementById('activation-code').style.display='none';
+      btn.textContent='✅ Imefunguliwa! Endelea...';
       document.getElementById('trial-bar')?.classList.remove('show');
-      setTimeout(() => { hideTrialOverlay(); window.location.reload(); }, 2000);
-    } else {
-      errEl.textContent = '❌ ' + (data.error || 'Code si sahihi');
-      btn.disabled = false; btn.textContent = '✅ Activate Akaunti';
-    }
-  } catch(e) {
-    errEl.textContent = '❌ Tatizo la mtandao. Jaribu tena.';
-    btn.disabled = false; btn.textContent = '✅ Activate Akaunti';
-  }
+      setTimeout(()=>{hideTrialOverlay();window.location.reload()},2000);
+    }else{errEl.textContent='❌ '+(data.error||'Code si sahihi');btn.disabled=false;btn.textContent='✅ Activate Akaunti'}
+  }catch(e){errEl.textContent='❌ Tatizo la mtandao. Jaribu tena.';btn.disabled=false;btn.textContent='✅ Activate Akaunti'}
 }
-document.getElementById('activation-code')?.addEventListener('keydown', e => { if (e.key === 'Enter') activateCode(); });
-
-// REVEAL on scroll
-const revealEls = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
-}, { threshold: 0.1 });
-revealEls.forEach(el => observer.observe(el));
-
-setTimeout(() => setImageType('image'), 100);
+document.getElementById('activation-code')?.addEventListener('keydown',e=>{if(e.key==='Enter')activateCode()});
+setTimeout(()=>setImageType('image'),100);
 </script>
 </body>
 </html>
