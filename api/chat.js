@@ -64,7 +64,7 @@ JIBU BAYA ❌ — EPUKA:
 
 ═══ UANDISHI WA HATI — MUHIMU SANA ═══
 
-Ukiomba kuandika BARUA, HATI, CV, INVOICE, RIPOTI, MAOMBI, au hati yoyote:
+Ukiomba kuandika BARUA, HATI, CV, RIPOTI, MAOMBI, au hati yoyote:
 
 ✅ ANDIKA HATI KAMILI MOJA KWA MOJA — isiwe maelezo, iwe hati yenyewe!
 ✅ Tumia muundo sahihi wa hati hiyo (tarehe, anwani, mada, mwili, saini)
@@ -73,14 +73,16 @@ Ukiomba kuandika BARUA, HATI, CV, INVOICE, RIPOTI, MAOMBI, au hati yoyote:
 
 ⚠️ KANUNI KUU — HATI ZA MTEJA:
 - Ukiandika hati kwa mtu/kampuni — TUMIA JINA LAKE, si "AJPLUS AI"
-- Ukisema "invoice ya AJPLUS SECURITY" → Hati iwe ya AJPLUS SECURITY — si AJPLUS AI
 - Ukisema "barua ya Hamisi Traders" → Hati iwe ya Hamisi Traders — si AJPLUS AI
 - Ukisema "CV yangu" → CV ya mtumiaji — si ya AJPLUS AI
 - AJPLUS AI ni mtengenezaji wa hati — SI mwenye hati!
 - Ikiwa hakuna jina — weka [Jina la Kampuni/Mtu] badala ya AJPLUS AI
 
 ═══ TOOL USE — INVOICE HALISI ═══
-Ukipokea ombi la kutengeneza INVOICE HALISI itakayohifadhiwa kwenye mfumo (si mfano wa kuandikia tu), tumia tool ya create_invoice. Mfano wa maneno: "tengeneza invoice kwa [mteja]", "niandalie ankara ya [mteja]", "nitengenezee invoice ya [huduma] kwa [mteja]". Tumia tool badala ya kuandika maandishi ya invoice wewe mwenyewe.
+Ukipokea ombi la kutengeneza invoice au ankara itakayohifadhiwa kwenye mfumo:
+- LAZIMA utumie tool ya create_invoice — usitoe maandishi wala JSON
+- Usijaribu kuandika invoice kama hati ya maandishi — TUMIA TOOL
+- Ukisha kutumia tool, mfumo utakuambia matokeo, kisha toa jibu fupi la uthibitisho tu
 
 ═══ SEKTA 20 ZA TANZANIA — MAARIFA YAKO KAMILI ═══
 
@@ -159,13 +161,15 @@ Ukipokea ombi la kutengeneza INVOICE HALISI itakayohifadhiwa kwenye mfumo (si mf
 
 ═══ KANUNI YA SEARCH — MUHIMU SANA ═══
 Ukitumia search tool (Google Search au web_search):
-- KAMWE usimwoneshe mtumiaji "mawazo yako ya ndani" — kama "Asante, lakini nilijibu bila kuthibitisha kwanza" au "samahani nirekebishe"
+- KAMWE usimwoneshe mtumiaji "mawazo yako ya ndani"
 - Fanya search KWANZA kimya kabisa, kisha andika JIBU MOJA TU la mwisho, safi, lenye taarifa sahihi
 - Mtumiaji haitaji kuona mchakato wako wa kuthibitisha — anataka jibu sahihi moja tu
 - Usianze jibu mpaka uwe na uhakika wa taarifa — kisha jibu moja kwa moja kwa ujasiri`;
 
-// Maswali/maneno ambayo HAYAHITAJI web search kamwe — salamu, shukrani, mazungumzo
-// ya kawaida, au maswali ya maarifa ya jumla yasiyobadilika kwa wakati.
+// ─────────────────────────────────────────────────────
+// PATTERNS
+// ─────────────────────────────────────────────────────
+
 const NO_SEARCH_PATTERNS = [
   /^(habari|mambo|hujambo|shikamoo|salamu|hi|hello|hey)[\s!.,?]*$/i,
   /^(asante|shukrani|sawa|ok|okay|poa|vizuri|hongera)[\s!.,?]*$/i,
@@ -183,19 +187,22 @@ function needsWebSearch(message) {
   return true;
 }
 
-// ── Tambua maombi ya picha ──────────────────────────
 const IMAGE_PATTERN = /tengeneza\s*(picha|poster|logo|design|graphics|flyer|banner)|nitengenezee\s*(picha|poster|logo)|natengenezea\s*(picha|poster|logo)|chora\s*(picha|logo)|generate\s*image|create\s*image|make\s*(image|logo|poster)|picha\s*ya|poster\s*ya|logo\s*ya|design\s*ya/i;
 
 function isImageRequest(message) {
   return IMAGE_PATTERN.test(message);
 }
 
-// ── Tambua maombi ya INVOICE HALISI (tool use) ──────
-const INVOICE_TOOL_PATTERN = /tengeneza\s*invoice|tengeneza\s*ankara|niandalie\s*invoice|niandalie\s*ankara|nitengenezee\s*invoice|create\s*invoice|fanya\s*invoice/i;
+// Tambua maombi ya INVOICE HALISI (tool use) — lazima iwe wazi na ya kuhifadhi
+const INVOICE_TOOL_PATTERN = /tengeneza\s*invoice|tengeneza\s*ankara|niandalie\s*invoice|niandalie\s*ankara|nitengenezee\s*invoice|create\s*invoice|fanya\s*invoice|hifadhi\s*invoice/i;
 
 function isInvoiceToolRequest(message) {
   return INVOICE_TOOL_PATTERN.test(message);
 }
+
+// ─────────────────────────────────────────────────────
+// SUPABASE
+// ─────────────────────────────────────────────────────
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
@@ -230,23 +237,23 @@ async function saveChat(email, message, reply) {
   });
 }
 
-// ════════════════════════════════════════════════════
+// ─────────────────────────────────────────────────────
 // TOOL USE: create_invoice
-// ════════════════════════════════════════════════════
+// ─────────────────────────────────────────────────────
 
 const CREATE_INVOICE_TOOL = {
   name: "create_invoice",
-  description: "Tengeneza invoice halisi kwenye database kwa ajili ya mteja. Tumia tool hii pale mtumiaji anapoomba kutengeneza/kuandaa invoice HALISI itakayohifadhiwa (si mfano wa maandishi tu). Kama huna uhakika wa client_id au service_line_id, tumia majina ya maandishi (client_name, service_name) na mfumo utatafuta IDs husika kiotomatiki kutoka database.",
+  description: "Tengeneza na uhifadhi invoice halisi kwenye database ya AJ PLUS kwa ajili ya mteja. Tumia tool hii DAIMA ukipokea ombi la invoice/ankara itakayohifadhiwa. Toa client_name na service_name kama maandishi — mfumo utatafuta IDs sahihi kiotomatiki.",
   input_schema: {
     type: "object",
     properties: {
       client_name: {
         type: "string",
-        description: "Jina la mteja kama lilivyoandikwa na mtumiaji (mfano: 'Tanganyika Plywood', 'Baltic Business Group'). Mfumo utatafuta client_id kutoka jedwali la clients."
+        description: "Jina kamili la mteja kama alivyosema mtumiaji, mfano: 'Baltic Business Group', 'Tanganyika Plywood', 'Nakuroi Investment'"
       },
       service_name: {
         type: "string",
-        description: "Aina ya huduma inayotolewa (mfano: 'Security Services', 'Deep Cleaning'). Mfumo utatafuta service_line_id."
+        description: "Aina ya huduma: 'Security', 'Cleaning', 'Visual Lab', au 'Technology'"
       },
       issue_date: {
         type: "string",
@@ -258,11 +265,11 @@ const CREATE_INVOICE_TOOL = {
       },
       items: {
         type: "array",
-        description: "Orodha ya bidhaa/huduma zinazotozwa kwenye invoice.",
+        description: "Orodha ya bidhaa/huduma zinazotozwa.",
         items: {
           type: "object",
           properties: {
-            description: { type: "string", description: "Maelezo ya huduma/bidhaa" },
+            description: { type: "string", description: "Maelezo ya huduma, mfano: 'Security Services - Mwezi wa Julai 2026 - Mafinga'" },
             quantity: { type: "number", description: "Idadi" },
             unit_price: { type: "number", description: "Bei kwa kila kimoja (TZS)" }
           },
@@ -271,50 +278,66 @@ const CREATE_INVOICE_TOOL = {
       },
       tax_amount: {
         type: "number",
-        description: "Kiasi cha kodi (VAT). Kama haijatajwa, tumia 0."
+        description: "Kiasi cha VAT/kodi. Kama haijatajwa, tumia 0."
       }
     },
     required: ["client_name", "service_name", "due_date", "items"]
   }
 };
 
+// Fuzzy match: inaoanisha "Security Services" na "AJPLUS Security", "Cleaning" na "Deep Cleaner", n.k.
+function matchServiceName(inputName, dbName) {
+  const input = inputName.toLowerCase();
+  const db = dbName.toLowerCase();
+  // Angalia neno lolote la input linaloonekana kwenye db name
+  const inputWords = input.split(/\s+/);
+  return inputWords.some(word => word.length > 3 && db.includes(word));
+}
+
 async function handleCreateInvoice(input, userEmail) {
   const { client_name, service_name, issue_date, due_date, items, tax_amount } = input;
 
   try {
-    // 1. Tafuta client_id
-    const clients = await supabaseQuery(
-      'clients', 'GET', null,
-      `name=ilike.*${encodeURIComponent(client_name)}*&select=id,name&limit=1`
-    );
-    if (!clients || clients.length === 0) {
-      return { success: false, message: `Sikumpata mteja "${client_name}" kwenye database. Hakikisha jina ni sahihi.` };
+    // 1. Tafuta client_id — fuzzy match kwa jina
+    const allClients = await supabaseQuery('clients', 'GET', null, 'select=id,name');
+    if (!allClients || allClients.length === 0) {
+      return { success: false, message: 'Imeshindwa kupata orodha ya wateja kutoka database.' };
     }
-    const client_id = clients[0].id;
+    const clientMatch = allClients.find(c =>
+      c.name.toLowerCase().includes(client_name.toLowerCase()) ||
+      client_name.toLowerCase().includes(c.name.toLowerCase().split(' ')[0])
+    );
+    if (!clientMatch) {
+      const names = allClients.map(c => c.name).join(', ');
+      return { success: false, message: `Sikumpata mteja "${client_name}". Wateja waliopo: ${names}` };
+    }
+    const client_id = clientMatch.id;
 
-    // 2. Tafuta service_line_id
-    // KUMBUKA: thibitisha jina sahihi la jedwali — hapa tunatumia "service_lines"
-    const services = await supabaseQuery(
-      'service_lines', 'GET', null,
-      `name=ilike.*${encodeURIComponent(service_name)}*&select=id,name&limit=1`
-    );
-    if (!services || services.length === 0) {
-      return { success: false, message: `Sikuipata huduma "${service_name}" kwenye database. Hakikisha jina ni sahihi.` };
+    // 2. Tafuta service_line_id — fuzzy match
+    const allServices = await supabaseQuery('service_lines', 'GET', null, 'select=id,name');
+    if (!allServices || allServices.length === 0) {
+      return { success: false, message: 'Imeshindwa kupata orodha ya huduma kutoka database.' };
     }
-    const service_line_id = services[0].id;
+    const serviceMatch = allServices.find(s => matchServiceName(service_name, s.name)) ||
+                         allServices.find(s => matchServiceName(s.name, service_name));
+    if (!serviceMatch) {
+      const names = allServices.map(s => s.name).join(', ');
+      return { success: false, message: `Sikuipata huduma "${service_name}". Huduma zilizopo: ${names}` };
+    }
+    const service_line_id = serviceMatch.id;
 
     // 3. Hesabu jumla
     const subtotal = items.reduce((sum, item) => sum + (item.quantity * item.unit_price), 0);
     const tax = tax_amount || 0;
     const total_amount = subtotal + tax;
 
-    // 4. Invoice number
+    // 4. Invoice number — format halisi uliopo: INV-YYYYMMDD-XXXX
     const today = new Date();
     const dateStr = today.toISOString().slice(0, 10).replace(/-/g, '');
     const randomSuffix = Math.floor(1000 + Math.random() * 9000);
     const invoice_number = `INV-${dateStr}-${randomSuffix}`;
 
-    // 5. Ingiza invoice
+    // 5. Hifadhi invoice
     const invoiceResult = await supabaseQuery('invoices', 'POST', {
       invoice_number,
       client_id,
@@ -330,11 +353,11 @@ async function handleCreateInvoice(input, userEmail) {
     });
 
     if (!invoiceResult || !invoiceResult[0]) {
-      return { success: false, message: 'Imeshindwa kuhifadhi invoice kwenye database.' };
+      return { success: false, message: 'Imeshindwa kuhifadhi invoice kwenye database. Jaribu tena.' };
     }
     const invoiceId = invoiceResult[0].id;
 
-    // 6. Ingiza invoice_items
+    // 6. Hifadhi invoice_items
     const itemsToInsert = items.map(item => ({
       invoice_id: invoiceId,
       description: item.description,
@@ -347,13 +370,13 @@ async function handleCreateInvoice(input, userEmail) {
     return {
       success: true,
       invoice_number,
-      client: clients[0].name,
-      service: services[0].name,
+      client: clientMatch.name,
+      service: serviceMatch.name,
       subtotal,
       tax_amount: tax,
       total_amount,
       due_date,
-      message: `Invoice ${invoice_number} imetengenezwa na kuhifadhiwa kwa mafanikio kwa ${clients[0].name}. Jumla: TZS ${total_amount.toLocaleString()}`
+      message: `✅ Invoice ${invoice_number} imehifadhiwa kwa ${clientMatch.name}. Jumla: TZS ${total_amount.toLocaleString()}. Due date: ${due_date}.`
     };
 
   } catch (err) {
@@ -361,7 +384,7 @@ async function handleCreateInvoice(input, userEmail) {
   }
 }
 
-// Claude na tool use (loop) — hutumika kwa maombi ya invoice halisi
+// Claude + tool use loop — hutumika kwa invoice pekee
 async function callClaudeWithTools(message, history, apiKey, userEmail) {
   const messages = [];
   if (history && Array.isArray(history)) {
@@ -371,7 +394,7 @@ async function callClaudeWithTools(message, history, apiKey, userEmail) {
   }
   messages.push({ role: 'user', content: message });
 
-  const body = {
+  const requestBody = {
     model: 'claude-sonnet-4-6',
     max_tokens: 1200,
     system: SYSTEM_PROMPT,
@@ -386,17 +409,17 @@ async function callClaudeWithTools(message, history, apiKey, userEmail) {
       'x-api-key': apiKey,
       'anthropic-version': '2023-06-01'
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(requestBody)
   });
 
   if (!response.ok) {
     const err = await response.json();
-    throw new Error(err?.error?.message || 'Claude API ilikataa');
+    throw new Error(err?.error?.message || 'Claude API ilikataa (tool call)');
   }
 
   let data = await response.json();
 
-  // Loop kama Claude ametaka kutumia tool
+  // Loop: Claude anatumia tool → tuitekeleze → tumrudishie matokeo
   let safetyCounter = 0;
   while (data.stop_reason === 'tool_use' && safetyCounter < 3) {
     safetyCounter++;
@@ -407,9 +430,10 @@ async function callClaudeWithTools(message, history, apiKey, userEmail) {
     if (toolBlock.name === 'create_invoice') {
       toolResult = await handleCreateInvoice(toolBlock.input, userEmail);
     } else {
-      toolResult = { success: false, message: 'Tool isiyojulikana.' };
+      toolResult = { success: false, message: 'Tool hii haijulikani.' };
     }
 
+    // Ongeza jibu la Claude na matokeo ya tool kwenye history
     messages.push({ role: 'assistant', content: data.content });
     messages.push({
       role: 'user',
@@ -420,6 +444,7 @@ async function callClaudeWithTools(message, history, apiKey, userEmail) {
       }]
     });
 
+    // Omba Claude tena aandike jibu la mwisho kwa mtumiaji
     response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -443,6 +468,7 @@ async function callClaudeWithTools(message, history, apiKey, userEmail) {
     data = await response.json();
   }
 
+  // Chukua maandishi ya jibu la mwisho
   let reply = '';
   if (data.content && Array.isArray(data.content)) {
     for (const block of data.content) {
@@ -451,6 +477,10 @@ async function callClaudeWithTools(message, history, apiKey, userEmail) {
   }
   return reply || 'Samahani, sijapata jibu. Tafadhali jaribu tena!';
 }
+
+// ─────────────────────────────────────────────────────
+// PLAN LIMITS
+// ─────────────────────────────────────────────────────
 
 const PLAN_LIMITS = {
   trial:    { daily: 20,   name: 'Jaribio (Siku 7)' },
@@ -579,6 +609,10 @@ async function checkUser(email) {
   }
 }
 
+// ─────────────────────────────────────────────────────
+// AI CALLS: Claude na Gemini (bila tools — kwa mazungumzo ya kawaida)
+// ─────────────────────────────────────────────────────
+
 async function callClaude(message, history, apiKey, useWebSearch = false) {
   const messages = [];
   if (history && Array.isArray(history)) {
@@ -588,7 +622,7 @@ async function callClaude(message, history, apiKey, useWebSearch = false) {
   }
   messages.push({ role: 'user', content: message });
 
-  const isLongDoc = /barua|invoice|ankara|ripoti|maombi ya kazi|cv|resume|mkataba|contract/i.test(message);
+  const isLongDoc = /barua|ripoti|maombi ya kazi|cv|resume|mkataba|contract/i.test(message);
 
   const body = {
     model: 'claude-sonnet-4-6',
@@ -640,12 +674,13 @@ async function callGemini(message, history, apiKey, useWebSearch = false) {
       }
     });
   }
+
   const todayStr = new Date().toLocaleDateString('sw-TZ', {
     year: 'numeric', month: 'long', day: 'numeric'
   });
 
   const dateNote = useWebSearch
-    ? `\n\n═══ TAREHE YA LEO ═══\nLeo ni: ${todayStr}. Kwa swali hili, tumia Google Search ili kupata taarifa za sasa hivi kabla ya kujibu — usitumie maarifa ya zamani kuhusu matukio, bei, au habari ambazo zinaweza kuwa zimebadilika.`
+    ? `\n\n═══ TAREHE YA LEO ═══\nLeo ni: ${todayStr}. Kwa swali hili, tumia Google Search ili kupata taarifa za sasa hivi kabla ya kujibu.`
     : '';
 
   contents.push({ role: 'user', parts: [{ text: message }] });
@@ -682,6 +717,10 @@ async function callGemini(message, history, apiKey, useWebSearch = false) {
   return text;
 }
 
+// ─────────────────────────────────────────────────────
+// DOMAIN CHECK
+// ─────────────────────────────────────────────────────
+
 const ALLOWED_DOMAINS = [
   'ajplusai.co.tz', 'www.ajplusai.co.tz',
   'localhost:3000', 'localhost', '127.0.0.1'
@@ -697,6 +736,10 @@ function isAllowedDomain(req) {
     origin.includes(d) || referer.includes(d) || host.includes(d)
   );
 }
+
+// ─────────────────────────────────────────────────────
+// MAIN HANDLER
+// ─────────────────────────────────────────────────────
 
 module.exports = async function handler(req, res) {
   if (!isAllowedDomain(req)) {
@@ -731,7 +774,6 @@ module.exports = async function handler(req, res) {
     if (!message) return res.status(400).json({ error: 'Swali linahitajika' });
 
     const userCheck = await checkUser(userEmail);
-
     if (!userCheck.allowed) {
       return res.status(429).json({
         error: userCheck.message,
@@ -746,84 +788,93 @@ module.exports = async function handler(req, res) {
     let reply  = null;
     let source = null;
 
-    // ── TOOL USE: Maombi ya invoice halisi → Claude + tools (kabla ya kila kitu) ──
-    const isInvoiceTool = isInvoiceToolRequest(message);
-
-    if (isInvoiceTool && CLAUDE_KEY) {
+    // ══════════════════════════════════════════════
+    // HATUA 1: Invoice tool request — Claude + tools
+    // Ikifanikiwa, SIMAMA hapa — usiendelee chini
+    // ══════════════════════════════════════════════
+    if (isInvoiceToolRequest(message) && CLAUDE_KEY) {
       try {
         reply  = await callClaudeWithTools(message, history, CLAUDE_KEY, userEmail);
         source = 'claude-tool-invoice';
       } catch(err) {
-        console.warn('Claude tool use imeshindwa:', err.message);
+        console.error('Claude tool use imeshindwa:', err.message);
+        // Tool imeshindwa kabisa — rudisha ujumbe wa hitilafu, usiendelee
+        await saveChat(userEmail, message, 'Kosa la tool use');
+        return res.status(500).json({
+          error: 'Imeshindwa kutengeneza invoice. Tafadhali jaribu tena au wasiliana na msaada.'
+        });
       }
     }
 
-    // ── Maombi ya picha/poster/logo → Claude daima ──
-    const isImageMsg  = isImageRequest(message);
-    const isLongDoc   = /barua|invoice|ankara|ripoti|maombi ya kazi|cv|resume|mkataba|contract/i.test(message);
-    const needsClaude = isImageMsg || isLongDoc;
-    const needsSearch = needsWebSearch(message);
+    // ══════════════════════════════════════════════
+    // HATUA 2: Maombi ya picha/hati ndefu → Claude
+    // ══════════════════════════════════════════════
+    if (!reply) {
+      const isImageMsg = isImageRequest(message);
+      const isLongDoc  = /barua|ripoti|maombi ya kazi|cv|resume|mkataba|contract/i.test(message);
 
-    if (!reply && needsClaude && CLAUDE_KEY) {
-      try {
-        reply  = await callClaude(message, history, CLAUDE_KEY, false);
-        source = 'claude';
-      } catch(err) {
-        console.warn('Claude imeshindwa (labda credits zimeisha):', err.message);
+      if ((isImageMsg || isLongDoc) && CLAUDE_KEY) {
+        try {
+          reply  = await callClaude(message, history, CLAUDE_KEY, false);
+          source = 'claude';
+        } catch(err) {
+          console.warn('Claude imeshindwa (picha/hati):', err.message);
+        }
+        // Fallback kwa Gemini kama Claude imeshindwa
+        if (!reply && GEMINI_KEY) {
+          try {
+            reply  = await callGemini(message, history, GEMINI_KEY, false);
+            source = 'gemini-fallback';
+          } catch(err) {
+            console.warn('Gemini fallback imeshindwa:', err.message);
+          }
+        }
       }
     }
 
-    // Maswali ya kawaida → Gemini kwanza (na web search ikiwa swali linahitaji)
-    if (!reply && !needsClaude && GEMINI_KEY) {
-      try {
-        reply  = await callGemini(message, history, GEMINI_KEY, needsSearch);
-        source = needsSearch ? 'gemini+web' : 'gemini';
-      } catch(err) {
-        console.warn('Gemini imeshindwa:', err.message);
+    // ══════════════════════════════════════════════
+    // HATUA 3: Maswali ya kawaida → Gemini kwanza
+    // ══════════════════════════════════════════════
+    if (!reply) {
+      const needsSearch = needsWebSearch(message);
+      // Gemini kwanza
+      if (GEMINI_KEY) {
+        try {
+          reply  = await callGemini(message, history, GEMINI_KEY, needsSearch);
+          source = needsSearch ? 'gemini+web' : 'gemini';
+        } catch(err) {
+          console.warn('Gemini imeshindwa:', err.message);
+        }
       }
-    }
-
-    // ── MUHIMU: Claude akishindwa (credits zimeisha) kwa picha/hati,
-    //    GEMINI inajaribu kuokoa badala ya kukwama ──
-    if (!reply && needsClaude && GEMINI_KEY) {
-      try {
-        reply  = await callGemini(message, history, GEMINI_KEY, false);
-        source = 'gemini-fallback';
-      } catch(err) {
-        console.warn('Gemini fallback (kwa hati/picha) imeshindwa:', err.message);
+      // Claude kama fallback
+      if (!reply && CLAUDE_KEY) {
+        try {
+          reply  = await callClaude(message, history, CLAUDE_KEY, needsSearch);
+          source = needsSearch ? 'claude+web' : 'claude';
+        } catch(err) {
+          console.warn('Claude fallback imeshindwa:', err.message);
+        }
       }
-    }
-
-    // Fallback → Claude (kama Gemini ndiye aliyeshindwa hapo juu kwa swali
-    // la kawaida). Kama swali linahitaji taarifa za sasa, Claude apewe
-    // web_search yake pia — la sivyo angerudisha "sina uwezo wa mtandao"!
-    if (!reply && CLAUDE_KEY) {
-      try {
-        reply  = await callClaude(message, history, CLAUDE_KEY, needsSearch);
-        source = needsSearch ? 'claude+web' : 'claude';
-      } catch(err) {
-        console.warn('Claude fallback imeshindwa:', err.message);
-      }
-    }
-
-    // Fallback ya mwisho → Gemini bila web search
-    if (!reply && GEMINI_KEY) {
-      try {
-        reply  = await callGemini(message, history, GEMINI_KEY, false);
-        source = 'gemini';
-      } catch(err) {
-        return res.status(500).json({ error: 'Huduma haipo sasa hivi. Tafadhali jaribu tena.' });
+      // Gemini tena bila search kama mwisho kabisa
+      if (!reply && GEMINI_KEY) {
+        try {
+          reply  = await callGemini(message, history, GEMINI_KEY, false);
+          source = 'gemini';
+        } catch(err) {
+          return res.status(500).json({ error: 'Huduma haipo sasa hivi. Tafadhali jaribu tena.' });
+        }
       }
     }
 
     if (!reply) {
-      return res.status(500).json({ error: 'Hakuna API Key — weka kwenye Vercel Settings' });
+      return res.status(500).json({ error: 'Hakuna API Key inayofanya kazi — angalia Vercel Settings' });
     }
 
     await saveChat(userEmail, message, reply);
 
     return res.status(200).json({
-      reply, source,
+      reply,
+      source,
       plan: userCheck.plan,
       trialDaysLeft: userCheck.trialDaysLeft,
       webSearch: source?.includes('web') || false
