@@ -378,7 +378,7 @@ body.dark .home-footer{background:var(--dm-bg);border-color:var(--dm-border)}
   <div class="nav-right" id="nav-guest">
     <button class="dm-toggle" onclick="toggleDark()" id="dm-btn">🌙</button>
     <button class="btn btn-ghost btn-sm" onclick="goTo('auth')">Ingia</button>
-    <button class="btn btn-dark btn-sm" onclick="goTo('auth');switchAuthTab('signup')">Anza Bure</button>
+    <button class="btn btn-dark btn-sm" onclick="startTrialDirect()">Anza Bure</button>
   </div>
   <div class="nav-right" id="nav-user" style="display:none">
     <button class="dm-toggle" onclick="toggleDark()" id="dm-btn2">🌙</button>
@@ -424,8 +424,6 @@ body.dark .home-footer{background:var(--dm-bg);border-color:var(--dm-border)}
   <!-- Footer minimal -->
   <div class="home-footer">
     AJPLUS AI · ajplusai.co.tz · <a href="https://wa.me/255670307647" target="_blank" style="color:var(--wa)">💬 +255670307647</a>
-    &nbsp;·&nbsp;
-    <span onclick="document.getElementById('sec-bei-modal')&&showModal('mo-bei')" style="cursor:pointer;color:var(--gold)">Bei →</span>
   </div>
 </div>
 
@@ -492,13 +490,8 @@ body.dark .home-footer{background:var(--dm-bg);border-color:var(--dm-border)}
   <div class="sbottom">
     <div class="sdiv"></div>
     <div class="slabel2">Panda Mpango</div>
-    <div class="bei-cards">
-      <div class="bei-card bei-card-msingi" onclick="showModal('mo-lipa');setPayPlan('msingi',30000)"><div class="bei-card-label">Msingi</div><div class="bei-card-price">TZS 30,000</div><div class="bei-card-desc">/mwezi · Maswali 50/siku</div></div>
-      <div class="bei-card bei-card-kawaida" onclick="showModal('mo-lipa');setPayPlan('kawaida',60000)"><div class="bei-card-label">Kawaida</div><div class="bei-card-price">TZS 60,000</div><div class="bei-card-desc">/mwezi · Maswali 150/siku</div></div>
-      <div class="bei-card bei-card-pro" onclick="showModal('mo-lipa');setPayPlan('pro',100000)"><div class="bei-card-badge">⭐ HOT</div><div class="bei-card-label">Pro</div><div class="bei-card-price">TZS 100,000</div><div class="bei-card-desc">/mwezi · Bila kikomo</div></div>
-      <div class="bei-card bei-card-biz" onclick="showModal('mo-lipa');setPayPlan('biashara',250000)"><div class="bei-card-badge">💼 VIP</div><div class="bei-card-label">Biashara</div><div class="bei-card-price">TZS 250,000</div><div class="bei-card-desc">/mwezi · API + Team</div></div>
-    </div>
-    <div class="sdiv" style="margin-top:8px"></div>
+    <a href="https://wa.me/255670307647?text=Habari%2C+ninataka+kujua+kuhusu+mipango+ya+AJPLUS+AI" target="_blank" class="btn btn-gold btn-full btn-sm" style="margin:0 2px 4px">⭐ Panda Mpango</a>
+    <div class="sdiv" style="margin-top:4px"></div>
     <a href="https://wa.me/255670307647" target="_blank" class="wa-sidebar"><span>💬</span>WhatsApp Support</a>
     <button class="sitem" style="margin-top:3px;color:var(--red)" onclick="doLogout()"><span class="si">↩</span>Toka</button>
   </div>
@@ -640,19 +633,19 @@ body.dark .home-footer{background:var(--dm-bg);border-color:var(--dm-border)}
   </div>
   <div style="display:flex;gap:7px;flex-wrap:wrap">
     <button class="btn btn-dark btn-sm" onclick="showDash('chat')">💬 Anza Chat</button>
-    <button class="btn btn-gold btn-sm" onclick="showDash('pay')">⭐ Panda Pro</button>
+    <button class="btn btn-gold btn-sm" onclick="showDash('pay')">⭐ Panda Mpango</button>
   </div>
 </div>
 
 <!-- MALIPO -->
 <div class="dash-page" id="dp-pay">
-  <h2 style="margin-bottom:4px;font-size:.92rem;font-weight:700">Malipo</h2>
-  <p style="color:var(--muted);font-size:.78rem;margin-bottom:14px">Panda mpango wako</p>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:9px;margin-bottom:14px">
-    <div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;padding:13px"><p style="font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Msingi</p><p style="font-size:1.1rem;font-weight:800;color:var(--text);margin-top:3px">TZS 30,000<span style="font-size:.7rem;color:var(--muted);font-weight:400">/mwezi</span></p><p style="font-size:.68rem;color:var(--muted);margin-bottom:9px">Maswali 50/siku</p><button class="btn btn-ghost btn-full" style="font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('msingi',30000)">Lipa Sasa</button></div>
-    <div style="background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;padding:13px"><p style="font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Kawaida</p><p style="font-size:1.1rem;font-weight:800;color:var(--text);margin-top:3px">TZS 60,000<span style="font-size:.7rem;color:var(--muted);font-weight:400">/mwezi</span></p><p style="font-size:.68rem;color:var(--muted);margin-bottom:9px">Maswali 150/siku</p><button class="btn btn-ghost btn-full" style="font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('kawaida',60000)">Lipa Sasa</button></div>
-    <div style="background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:12px;padding:13px;color:#fff"><p style="font-size:.6rem;font-weight:700;opacity:.75;text-transform:uppercase;letter-spacing:.06em">Pro ⭐</p><p style="font-size:1.1rem;font-weight:800;margin-top:3px">TZS 100,000<span style="font-size:.7rem;opacity:.65;font-weight:400">/mwezi</span></p><p style="font-size:.68rem;opacity:.8;margin-bottom:9px">Bila kikomo</p><button class="btn btn-full" style="background:rgba(255,255,255,.22);color:#fff;border:1.5px solid rgba(255,255,255,.35);font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('pro',100000)">Lipa Sasa</button></div>
-    <div style="background:var(--text);border-radius:12px;padding:13px;color:#fff"><p style="font-size:.6rem;font-weight:700;opacity:.5;text-transform:uppercase;letter-spacing:.06em">Biashara 💼</p><p style="font-size:1.1rem;font-weight:800;margin-top:3px">TZS 250,000<span style="font-size:.7rem;opacity:.45;font-weight:400">/mwezi</span></p><p style="font-size:.68rem;opacity:.6;margin-bottom:9px">API + Team</p><button class="btn btn-full" style="background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.2);font-size:.74rem" onclick="showModal('mo-lipa');setPayPlan('biashara',250000)">Lipa Sasa</button></div>
+  <h2 style="margin-bottom:4px;font-size:.92rem;font-weight:700">Panda Mpango</h2>
+  <p style="color:var(--muted);font-size:.78rem;margin-bottom:20px">Tuambie mahitaji yako, tutakupangia mpango unaokufaa</p>
+  <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;max-width:420px">
+    <div style="font-size:2rem;margin-bottom:10px">⭐</div>
+    <h3 style="font-size:.94rem;font-weight:700;margin-bottom:6px">Uko Tayari Kupanda Mpango?</h3>
+    <p style="font-size:.8rem;color:var(--muted);margin-bottom:18px;line-height:1.6">Wasiliana nasi WhatsApp — tutakueleza mipango iliyopo na kukusaidia kuchagua inayokufaa zaidi.</p>
+    <a href="https://wa.me/255670307647?text=Habari%2C+ninataka+kujua+kuhusu+mipango+ya+AJPLUS+AI" target="_blank" class="btn btn-wa btn-full">💬 Ongea Nasi WhatsApp</a>
   </div>
 </div>
 
@@ -778,8 +771,27 @@ function handleMainKey(e) {
 function startFromHome() {
   const msg = document.getElementById('main-input')?.value.trim();
   if (msg) sessionStorage.setItem('ajplus-pending-msg', msg);
+  startTrialDirect();
+}
+function startTrialDirect() {
+  // Trial period: hakuna email/password inayohitajika — mtumiaji anaanza moja kwa moja
+  if (typeof doDemo === 'function') { doDemo(); return; }
   goTo('auth');
 }
+
+// Baada ya initChat kuanza, tuma ujumbe uliobakia kutoka homepage (kama upo)
+const _origInitChat = window.initChat;
+window.initChat = function() {
+  if (typeof _origInitChat === 'function') _origInitChat();
+  const pending = sessionStorage.getItem('ajplus-pending-msg');
+  if (pending) {
+    sessionStorage.removeItem('ajplus-pending-msg');
+    setTimeout(() => {
+      const input = document.getElementById('chat-input');
+      if (input) { input.value = pending; if (typeof sendMessage === 'function') sendMessage(); }
+    }, 400);
+  }
+};
 
 // ══════════ ROTATING PLACEHOLDER — Homepage Input (TZ flavor, subtle, not kero) ══════════
 const HOME_PLACEHOLDERS = [
