@@ -446,7 +446,7 @@ async function sendMessage() {
     typing.remove();
     if (!res.ok || data.error) {
       if (data.showActivation) {
-        if (typeof checkTrialStatus === 'function') checkTrialStatus(0, 'trial');
+        if (typeof checkTrialStatus === 'function') checkTrialStatus(30, 30, 'trial');
         return;
       }
       throw new Error(data.error || 'Hitilafu ya seva');
@@ -458,7 +458,7 @@ async function sendMessage() {
     chatHistory.push({ role: 'assistant', content: reply });
     saveLog(msg, 'ok');
     if (typeof checkTrialStatus === 'function') {
-      checkTrialStatus(data.trialDaysLeft, data.plan);
+      checkTrialStatus(data.questionsUsed, data.questionsLimit, data.plan);
     }
   } catch(err) {
     typing.remove();
