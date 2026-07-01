@@ -504,7 +504,7 @@ body.dark .home-footer{background:var(--dm-bg);border-color:var(--dm-border)}
       <button class="export-toggle" id="export-toggle-btn" onclick="toggleExport()">⬇ Hifadhi</button>
     </div>
     <div class="trial-bar" id="trial-bar">
-      <span class="trial-bar-text" id="trial-bar-text">⏳ Siku 7 zimebaki za jaribio lako la bure</span>
+      <span class="trial-bar-text" id="trial-bar-text">⏳ Maswali 30 ya bure kwa jumla</span>
     </div>
   </div>
   <div class="cwrap">
@@ -512,8 +512,8 @@ body.dark .home-footer{background:var(--dm-bg);border-color:var(--dm-border)}
       <div class="trial-overlay" id="trial-overlay">
         <div class="overlay-box">
           <span class="overlay-icon" id="overlay-icon">⏰</span>
-          <div class="overlay-title" id="overlay-title">Muda Wako Umeisha!</div>
-          <div class="overlay-sub" id="overlay-sub">Lipa na uweke code yako ili uendelee kutumia AJPLUS AI bila kikomo.</div>
+          <div class="overlay-title" id="overlay-title">Maswali Yako ya Bure Yamekwisha!</div>
+          <div class="overlay-sub" id="overlay-sub">Umetumia maswali 30 ya bure. Lipa na uweke code yako ili uendelee kutumia AJPLUS AI bila kikomo.</div>
           <div class="overlay-err" id="overlay-err"></div>
           <input class="overlay-input" id="activation-code" placeholder="Weka code yako... (mfano: MSN-X7K2-TZ)" maxlength="20" oninput="this.value=this.value.toUpperCase()">
           <button class="overlay-btn" onclick="activateCode()" id="activate-btn">✅ Activate Akaunti</button>
@@ -918,25 +918,36 @@ function shareImageWA(){showToast('💬 Pakua picha kwanza kisha itume WhatsApp!
 // ══════════ TRIAL ══════════
 function showTrialOverlay(){document.getElementById('trial-overlay').classList.add('show');setTimeout(()=>document.getElementById('activation-code')?.focus(),100)}
 function hideTrialOverlay(){document.getElementById('trial-overlay').classList.remove('show')}
-function checkTrialStatus(trialDaysLeft,plan){
+function checkTrialStatus(questionsUsed, questionsLimit, plan){
   const bar=document.getElementById('trial-bar');
   const overlay=document.getElementById('trial-overlay');
   const barText=document.getElementById('trial-bar-text');
   const ninaBtn=document.getElementById('nina-code-btn');
-  if(plan==='trial'&&trialDaysLeft!==undefined){
-    if(trialDaysLeft<=0){
+  const limit = questionsLimit || 30;
+  const used = questionsUsed || 0;
+  const remaining = limit - used;
+  if(plan==='trial'&&questionsUsed!==undefined){
+    if(remaining<=0){
       document.getElementById('overlay-icon').textContent='⏰';
-      document.getElementById('overlay-title').textContent='Muda Wako Umeisha!';
-      document.getElementById('overlay-sub').textContent='Siku 7 za bure zimeisha. Lipa na uweke code yako ili uendelee.';
+      document.getElementById('overlay-title').textContent='Maswali Yako ya Bure Yamekwisha!';
+      document.getElementById('overlay-sub').textContent=`Umetumia maswali ${limit} ya bure. Lipa na uweke code yako ili uendelee kutumia AJPLUS AI bila kikomo.`;
       overlay.classList.add('show');if(bar)bar.classList.remove('show');if(ninaBtn)ninaBtn.style.display='inline-flex';
     }else{
       if(ninaBtn)ninaBtn.style.display='inline-flex';
       overlay.classList.remove('show');
       // Onyesha bar kwa muda mfupi tu (mara moja kwa session), kisha ipotee yenyewe — si daima juu ya chat
       if(bar&&barText&&!sessionStorage.getItem('ajp_trial_bar_shown')){
-        barText.textContent=`⏳ Siku ${trialDaysLeft} zimebaki za jaribio lako la bure`;
+        barText.textContent=`⏳ Umetumia maswali ${used}/${limit} ya bure`;
         bar.classList.add('show');
         sessionStorage.setItem('ajp_trial_bar_shown','1');
+        clearTimeout(window._trialBarTimeout);
+        window._trialBarTimeout=setTimeout(()=>{bar.classList.remove('show')},6000);
+      }
+      // Onyo la ziada linapobaki maswali machache tu (5 au chini) — mara moja tu
+      if(bar&&barText&&remaining<=5&&!sessionStorage.getItem('ajp_trial_low_shown')){
+        barText.textContent=`⚠️ Umebakiwa maswali ${remaining} tu ya bure`;
+        bar.classList.add('show');
+        sessionStorage.setItem('ajp_trial_low_shown','1');
         clearTimeout(window._trialBarTimeout);
         window._trialBarTimeout=setTimeout(()=>{bar.classList.remove('show')},6000);
       }
