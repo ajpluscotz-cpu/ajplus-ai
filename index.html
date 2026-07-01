@@ -84,6 +84,7 @@ select.fi{cursor:pointer}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 @keyframes mIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes glow{0%,100%{box-shadow:0 0 8px rgba(201,168,76,.3)}50%{box-shadow:0 0 20px rgba(201,168,76,.6)}}
+@keyframes phFade{0%{opacity:0;transform:translateY(3px)}12%{opacity:1;transform:none}88%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-3px)}}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite;flex-shrink:0;display:inline-block}
 
 /* ══════════════════════════════════
@@ -101,7 +102,7 @@ body.dark .nav.scrolled{background:rgba(15,15,13,.96);border-color:var(--dm-bord
 .dm-toggle:hover{color:var(--text)}
 
 /* ══════════════════════════════════
-   LANDING — ChatGPT style
+   LANDING — ChatGPT style + TZ flavor
 ══════════════════════════════════ */
 #screen-landing{padding-top:0}
 
@@ -112,7 +113,21 @@ body.dark .nav.scrolled{background:rgba(15,15,13,.96);border-color:var(--dm-bord
   align-items:center;
   justify-content:center;
   padding:80px 20px 40px;
+  position:relative;
 }
+
+/* Subtle TZ flag-tone glow in background — not a banner, just ambience */
+.home-wrap::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(30,181,58,.05), transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(201,168,76,.06), transparent 40%);
+  pointer-events:none;
+  z-index:0;
+}
+.home-wrap > *{position:relative;z-index:1}
 
 /* Greeting */
 .home-greeting{
@@ -125,10 +140,8 @@ body.dark .nav.scrolled{background:rgba(15,15,13,.96);border-color:var(--dm-bord
   line-height:1.15;
 }
 .home-greeting .grad{
-  background:linear-gradient(135deg,var(--gold),var(--green));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
+  color:var(--text);
+  font-weight:800;
 }
 .home-sub{
   font-size:.9rem;
@@ -153,6 +166,7 @@ body.dark .nav.scrolled{background:rgba(15,15,13,.96);border-color:var(--dm-bord
   padding:14px 14px 14px 20px;
   box-shadow:0 2px 16px rgba(0,0,0,.06);
   transition:border-color .2s,box-shadow .2s;
+  position:relative;
 }
 .chat-input-wrap:focus-within{
   border-color:var(--gold);
@@ -171,7 +185,7 @@ body.dark .nav.scrolled{background:rgba(15,15,13,.96);border-color:var(--dm-bord
   line-height:1.6;
   padding:0;
 }
-#main-input::placeholder{color:var(--muted)}
+#main-input::placeholder{color:var(--muted);transition:opacity .25s}
 .input-actions{display:flex;align-items:flex-end;gap:6px;flex-shrink:0;margin-left:8px}
 .send-btn{
   width:36px;height:36px;
@@ -183,10 +197,6 @@ body.dark .nav.scrolled{background:rgba(15,15,13,.96);border-color:var(--dm-bord
 }
 .send-btn:hover{background:var(--gold);transform:scale(1.05)}
 .send-btn:disabled{opacity:.3;cursor:not-allowed;transform:none}
-
-/* Hint chips */
-
-
 
 /* Footer minimal */
 .home-footer{
@@ -400,14 +410,14 @@ body.dark .home-footer{background:var(--dm-bg);border-color:var(--dm-border)}
           placeholder="Uliza swali lako hapa..."
           oninput="growInput(this)"
           onkeydown="handleMainKey(event)"
+          onfocus="pauseHomePlaceholder()"
+          onblur="resumeHomePlaceholder()"
         ></textarea>
         <div class="input-actions">
           <button class="send-btn" onclick="startFromHome()" id="home-send-btn" title="Tuma">↑</button>
         </div>
       </div>
     </div>
-
-
 
   </div>
 
@@ -623,7 +633,7 @@ body.dark .home-footer{background:var(--dm-bg);border-color:var(--dm-border)}
 <div class="dash-page" id="dp-home">
   <h2 style="margin-bottom:14px;font-size:.92rem;font-weight:700">Dashibodi</h2>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:16px">
-    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:13px"><div style="font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent">20</div><div style="font-size:.68rem;color:var(--muted);margin-top:2px">Sekta za Tanzania</div></div>
+    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:13px"><div style="font-size:1.5rem;font-weight:800;color:var(--text)">20</div><div style="font-size:.68rem;color:var(--muted);margin-top:2px">Sekta za Tanzania</div></div>
     <div style="background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:13px"><div style="font-size:1.5rem;font-weight:800;color:var(--green)">2 AI</div><div style="font-size:.68rem;color:var(--muted);margin-top:2px">Claude + Gemini</div></div>
     <div style="background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:13px"><div style="font-size:1.5rem;font-weight:800">24/7</div><div style="font-size:.68rem;color:var(--muted);margin-top:2px">Inapatikana</div></div>
     <div style="background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:13px"><div style="font-size:1rem;font-weight:800;color:var(--green)">Free</div><div style="font-size:.68rem;color:var(--muted);margin-top:2px">Mpango wako</div></div>
@@ -765,16 +775,42 @@ function growInput(el) {
 function handleMainKey(e) {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); startFromHome(); }
 }
-function useHint(el) {
-  const txt = el.textContent.replace(/^[^\s]+\s/, ''); // Ondoa emoji
-  const inp = document.getElementById('main-input');
-  if (inp) { inp.value = el.textContent; inp.focus(); growInput(inp); }
-}
 function startFromHome() {
   const msg = document.getElementById('main-input')?.value.trim();
   if (msg) sessionStorage.setItem('ajplus-pending-msg', msg);
   goTo('auth');
 }
+
+// ══════════ ROTATING PLACEHOLDER — Homepage Input (TZ flavor, subtle, not kero) ══════════
+const HOME_PLACEHOLDERS = [
+  "Uliza swali lako hapa...",
+  "Uliza kuhusu biashara yako...",
+  "Andika CV au barua rasmi...",
+  "Tengeneza invoice au quotation...",
+  "Tafsiri au fupisha document...",
+  "Uliza kuhusu ndoa, dini au maisha...",
+  "Uliza chochote — nikusaidie 🇹🇿"
+];
+let _phIndex = 0, _phInterval = null, _phPaused = false;
+function startHomePlaceholder() {
+  const input = document.getElementById('main-input');
+  if (!input) return;
+  input.placeholder = HOME_PLACEHOLDERS[0];
+  clearInterval(_phInterval);
+  _phInterval = setInterval(() => {
+    if (_phPaused || document.activeElement === input || input.value.trim()) return;
+    _phIndex = (_phIndex + 1) % HOME_PLACEHOLDERS.length;
+    input.style.transition = 'opacity .2s';
+    input.style.opacity = '0.4';
+    setTimeout(() => {
+      input.placeholder = HOME_PLACEHOLDERS[_phIndex];
+      input.style.opacity = '1';
+    }, 200);
+  }, 3200);
+}
+function pauseHomePlaceholder() { _phPaused = true; }
+function resumeHomePlaceholder() { _phPaused = false; }
+startHomePlaceholder();
 
 // ══════════ WA FLOAT HIDE ══════════
 const _origGoTo = window.goTo;
