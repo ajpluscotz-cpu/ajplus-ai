@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════
-   AJPLUS AI — app.js (v9 — design.js Endpoint Fix)
+   AJPLUS AI — app.js (v10 — Simple Welcome + design.js Endpoint Fix)
    js/app.js
 ═══════════════════════════════════════════════════ */
 /* ══════════════════════════════════════════════════
@@ -341,7 +341,7 @@ function initChat() {
   const user = Session.get('user') || {};
   const name = Sanitizer.name(user.name || 'rafiki');
   appendMsg('ai',
-    `Habari ${name}! 👋 Mimi ni **AJPLUS AI** — mshauri wako wa Kitanzania.\n\nNaweza kukusaidia na:\n• Biashara, sheria, afya, elimu, dini na sekta 20 za Tanzania\n• Kuandika barua, CV, invoice na hati za biashara\n• **Kutengeneza picha, logo na design** 🎨\n• **Kutengeneza poster na matangazo** 📢\n\nUnahitaji nini leo? 🇹🇿`
+    `Karibu, **AJPLUS AI** 🇹🇿\n\nUliza chochote — nikusaidie ${name}.`
   );
 }
 async function sendMessage() {
