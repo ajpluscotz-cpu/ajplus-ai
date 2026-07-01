@@ -1,5 +1,5 @@
 // AJPLUS AI — api/chat.js
-// Claude + Gemini Routing | Trial ya Siku 7 | Code Activation
+// Claude + Gemini Routing | Trial ya Maswali 30 (bila kikomo cha siku) | Code Activation
 // © AJ PLUS COMPANY LIMITED | ajplusai.co.tz
 // NOTE: Mfumo huu ni wa AJPLUS AI (platform ya umma) pekee.
 // Hauhusiani na ajplus-company-management database.
@@ -180,8 +180,10 @@ async function saveChat(email, message, reply) {
 // PLAN LIMITS
 // ─────────────────────────────────────────────────────
 
+const TRIAL_QUESTIONS_LIMIT = 30; // Jumla ya maswali ya bure — HAKUNA kikomo cha siku
+
 const PLAN_LIMITS = {
-  trial:    { daily: 20,   name: 'Jaribio (Siku 7)' },
+  trial:    { daily: null, name: 'Jaribio (Maswali 30)' },
   free:     { daily: 5,    name: 'Bure' },
   msingi:   { daily: 50,   name: 'Msingi' },
   kawaida:  { daily: 150,  name: 'Kawaida' },
@@ -221,47 +223,48 @@ setInterval(() => {
 
 async function checkUser(email) {
   if (!email) {
-    return { allowed: true, plan: 'trial', trialDaysLeft: 7, isGuest: true };
+    return { allowed: true, plan: 'trial', questionsUsed: 0, questionsLimit: TRIAL_QUESTIONS_LIMIT, isGuest: true };
   }
   try {
     const users = await supabaseQuery('users', 'GET', null, `email=eq.${email}`);
     const user  = users?.[0];
 
+    // Mtumiaji mpya kabisa — tengeneza rekodi, hii ni swali lake la kwanza
     if (!user) {
       await supabaseQuery('users', 'POST', {
         email,
         plan: 'trial',
-        trial_start: new Date().toISOString().split('T')[0],
+        questions_total: 1,
         questions_today: 1,
         last_question_date: new Date().toISOString().split('T')[0]
       });
-      return { allowed: true, plan: 'trial', trialDaysLeft: 7 };
+      return { allowed: true, plan: 'trial', questionsUsed: 1, questionsLimit: TRIAL_QUESTIONS_LIMIT };
     }
 
     const plan   = user.plan || 'trial';
     const limits = PLAN_LIMITS[plan] || PLAN_LIMITS.free;
     const today  = new Date().toISOString().split('T')[0];
 
+    // ── TRIAL — kikomo cha MASWALI 30 JUMLA, hakuna kikomo cha siku ──
     if (plan === 'trial') {
-      const trialStart = new Date(user.trial_start || today);
-      const now        = new Date();
-      const daysPassed = Math.floor((now - trialStart) / (1000 * 60 * 60 * 24));
-      const daysLeft   = Math.max(0, 7 - daysPassed);
-      if (daysLeft === 0) {
+      const questionsTotal = user.questions_total || 0;
+
+      if (questionsTotal >= TRIAL_QUESTIONS_LIMIT) {
         return {
-          allowed: false, plan: 'trial', trialDaysLeft: 0,
-          message: `⏰ Muda wako wa bure wa siku 7 umeisha!\n\nLipa na upate code ya kuendelea:\n💳 TZS 5,000/mwezi — Msingi\n💳 TZS 30,000/mwezi — Pro\n\nLipa: ajplusai.co.tz au WhatsApp +255762307647`,
+          allowed: false, plan: 'trial',
+          questionsUsed: questionsTotal, questionsLimit: TRIAL_QUESTIONS_LIMIT,
+          message: `⏰ Umetumia maswali ${TRIAL_QUESTIONS_LIMIT} ya bure!\n\nLipa na upate code ya kuendelea:\n💳 TZS 30,000/mwezi — Msingi\n💳 TZS 60,000/mwezi — Kawaida\n💳 TZS 100,000/mwezi — Pro\n\nWasiliana: ajplusai.co.tz au WhatsApp +255670307647`,
           showActivation: true
         };
       }
-      if (user.last_question_date !== today) {
-        await supabaseQuery('users', 'PATCH', { questions_today: 1, last_question_date: today }, `email=eq.${email}`);
-      } else {
-        await supabaseQuery('users', 'PATCH', { questions_today: (user.questions_today || 0) + 1 }, `email=eq.${email}`);
-      }
-      return { allowed: true, plan: 'trial', trialDaysLeft: daysLeft };
+
+      const newTotal = questionsTotal + 1;
+      await supabaseQuery('users', 'PATCH', { questions_total: newTotal }, `email=eq.${email}`);
+
+      return { allowed: true, plan: 'trial', questionsUsed: newTotal, questionsLimit: TRIAL_QUESTIONS_LIMIT };
     }
 
+    // ── MIPANGO MINGINE (msingi/kawaida/pro/biashara/free) — kikomo cha kila siku, kama zamani ──
     if (!limits.daily) return { allowed: true, plan };
 
     if (user.last_question_date !== today) {
@@ -281,7 +284,7 @@ async function checkUser(email) {
     return { allowed: true, plan };
 
   } catch(e) {
-    return { allowed: true, plan: 'trial', trialDaysLeft: 7 };
+    return { allowed: true, plan: 'trial', questionsUsed: 0, questionsLimit: TRIAL_QUESTIONS_LIMIT };
   }
 }
 
@@ -450,6 +453,8 @@ module.exports = async function handler(req, res) {
       return res.status(429).json({
         error: userCheck.message,
         showActivation: userCheck.showActivation || false,
+        questionsUsed: userCheck.questionsUsed,
+        questionsLimit: userCheck.questionsLimit,
         upgrade: true
       });
     }
@@ -524,7 +529,8 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({
       reply, source,
       plan: userCheck.plan,
-      trialDaysLeft: userCheck.trialDaysLeft,
+      questionsUsed: userCheck.questionsUsed,
+      questionsLimit: userCheck.questionsLimit,
       webSearch: source?.includes('web') || false
     });
 
