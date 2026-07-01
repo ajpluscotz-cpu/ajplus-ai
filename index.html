@@ -324,8 +324,8 @@ body.dark .home-footer{background:var(--dm-bg);border-color:var(--dm-border)}
 /* TRIAL */
 .trial-overlay{position:absolute;inset:0;z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;backdrop-filter:blur(6px);background:rgba(15,15,13,.75);border-radius:var(--radius);padding:24px}
 .trial-overlay.show{display:flex}
-.trial-bar{display:none;align-items:center;justify-content:space-between;gap:10px;background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(30,181,58,.08));border:1.5px solid rgba(201,168,76,.25);border-radius:10px;padding:9px 16px;margin-bottom:10px;font-size:.8rem}
-.trial-bar.show{display:flex}
+.trial-bar{display:none;align-items:center;justify-content:space-between;gap:10px;background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(30,181,58,.08));border:1.5px solid rgba(201,168,76,.25);border-radius:10px;padding:9px 16px;margin-bottom:10px;font-size:.8rem;opacity:0;transform:translateY(-6px);transition:opacity .3s ease,transform .3s ease}
+.trial-bar.show{display:flex;opacity:1;transform:none}
 .trial-bar-text{color:var(--gold);font-weight:600}
 .trial-bar-btn{background:linear-gradient(135deg,var(--gold),var(--green));color:#fff;border:none;border-radius:7px;padding:5px 14px;font-size:.76rem;font-weight:700;cursor:pointer;font-family:var(--font);white-space:nowrap}
 .overlay-box{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:32px 28px;width:100%;max-width:400px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.4)}
@@ -943,8 +943,16 @@ function checkTrialStatus(trialDaysLeft,plan){
       document.getElementById('overlay-sub').textContent='Siku 7 za bure zimeisha. Lipa na uweke code yako ili uendelee.';
       overlay.classList.add('show');if(bar)bar.classList.remove('show');if(ninaBtn)ninaBtn.style.display='inline-flex';
     }else{
-      if(bar){bar.classList.add('show');barText.textContent=`⏳ Siku ${trialDaysLeft} zimebaki za jaribio lako la bure`}
-      if(ninaBtn)ninaBtn.style.display='inline-flex';overlay.classList.remove('show');
+      if(ninaBtn)ninaBtn.style.display='inline-flex';
+      overlay.classList.remove('show');
+      // Onyesha bar kwa muda mfupi tu (mara moja kwa session), kisha ipotee yenyewe — si daima juu ya chat
+      if(bar&&barText&&!sessionStorage.getItem('ajp_trial_bar_shown')){
+        barText.textContent=`⏳ Siku ${trialDaysLeft} zimebaki za jaribio lako la bure`;
+        bar.classList.add('show');
+        sessionStorage.setItem('ajp_trial_bar_shown','1');
+        clearTimeout(window._trialBarTimeout);
+        window._trialBarTimeout=setTimeout(()=>{bar.classList.remove('show')},6000);
+      }
     }
   }else if(!['trial','free'].includes(plan)){
     if(bar)bar.classList.remove('show');if(ninaBtn)ninaBtn.style.display='none';overlay.classList.remove('show');
