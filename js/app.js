@@ -135,9 +135,31 @@ function doSignup() {
   showDash('chat');
   setTimeout(initChat, 300);
 }
+/* ══════════════════════════════════════════════════
+   DEVICE ID — Kitambulisho cha kipekee cha kifaa
+   (Kinatumika badala ya email ya pamoja kwa trial,
+   ili kila mtumiaji apate siku 7 zake mwenyewe)
+══════════════════════════════════════════════════ */
+function getDeviceId() {
+  try {
+    let id = localStorage.getItem('ajp_device_id');
+    if (!id) {
+      id = (typeof crypto !== 'undefined' && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : 'dev-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+      localStorage.setItem('ajp_device_id', id);
+    }
+    return id;
+  } catch(e) {
+    // Kama localStorage haipatikani, tumia ID ya muda tu ya session hii
+    return 'dev-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+  }
+}
 function doDemo() {
-  Session.set('user',  { name: 'Mgeni', email: 'demo@ajplusai.co.tz' });
-  Session.set('email', 'demo@ajplusai.co.tz');
+  const deviceId = getDeviceId();
+  const guestEmail = `guest-${deviceId}@ajplusai.co.tz`;
+  Session.set('user',  { name: 'Mgeni', email: guestEmail });
+  Session.set('email', guestEmail);
   updateNavUser('Mgeni');
   goTo('dashboard');
   showDash('chat');
