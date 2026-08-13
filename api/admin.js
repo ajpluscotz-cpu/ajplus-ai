@@ -10,7 +10,10 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   // ── AUTH ──────────────────────────────────────────
-  const ADMIN_SECRET = process.env.ADMIN_SECRET || 'ajplus-secret-2024';
+  const ADMIN_SECRET = process.env.ADMIN_SECRET;
+  if (!ADMIN_SECRET) {
+    return res.status(500).json({ error: 'Server haijasetiwa vizuri (ADMIN_SECRET haipo).' });
+  }
   const token = (req.headers['x-admin-secret'] || '').trim();
   if (token !== ADMIN_SECRET) {
     return res.status(401).json({ error: 'Hauruhusiwi. Token si sahihi.' });

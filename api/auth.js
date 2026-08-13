@@ -209,7 +209,10 @@ module.exports = async function handler(req, res) {
         // ── ADMIN CHANGE PASSWORD ──
         if (action === "admin_change_password") {
             const { admin_token, new_password } = body;
-            const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "@Ajplusai2026";
+            const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+            if (!ADMIN_PASSWORD) {
+                return res.status(500).json({ error: "Server haijasetiwa vizuri (ADMIN_PASSWORD haipo)." });
+            }
             const expected = Buffer.from(ADMIN_PASSWORD).toString("base64");
             if (admin_token !== expected) return res.status(401).json({ error: "Hujaidhinishwa!" });
             if (!new_password || new_password.length < 8) return res.status(400).json({ error: "Nywila mpya iwe herufi 8+" });
