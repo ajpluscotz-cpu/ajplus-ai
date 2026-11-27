@@ -2,6 +2,9 @@
 // Thibitisha code na fungua akaunti
 // © AJ PLUS COMPANY LIMITED | ajplusai.co.tz
 
+const crypto = require('crypto');
+const { ALLOWED_PLANS, isAdmin, isValidEmail } = require('./_lib/security');
+
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
@@ -36,12 +39,29 @@ async function supabaseQuery(table, method, data = null, filter = null) {
 function generateCode(plan) {
   const prefix = { msingi: 'MSN', kawaida: 'KWD', pro: 'PRO', biashara: 'BIZ' };
   const p = prefix[plan] || 'AJP';
-  const rand = Math.random().toString(36).substring(2, 8).toUpperCase();
+  // Herufi 8 za nasibu salama (crypto), bila herufi zinazochanganya (0/O, 1/I)
+  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const bytes = crypto.randomBytes(8);
+  let rand = '';
+  for (let i = 0; i < 8; i++) rand += alphabet[bytes[i] % alphabet.length];
   return `${p}-${rand}-TZ`;
 }
 
+// Zuia kubahatisha codes (kwa kila instance ya seva)
+const attemptMap = new Map();
+function tooManyAttempts(ip) {
+  const r = attemptMap.get(ip);
+  return r && r.count >= 10 && Date.now() - r.start < 15 * 60 * 1000;
+}
+function recordAttempt(ip) {
+  const now = Date.now();
+  const r = attemptMap.get(ip);
+  if (!r || now - r.start > 15 * 60 * 1000) attemptMap.set(ip, { count: 1, start: now });
+  else r.count++;
+}
+
 module.exports = async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'https://ajplusai.co.tz');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
@@ -51,12 +71,14 @@ module.exports = async function handler(req, res) {
     try { body = JSON.parse(body); } catch(e) { body = {}; }
   }
 
-  const { action, code, email, plan } = body || {};
+  const { action } = body || {};
+  const code  = typeof (body || {}).code  === 'string' ? body.code.toUpperCase().trim().slice(0, 40) : '';
+  const email = typeof (body || {}).email === 'string' ? body.email.toLowerCase().trim().slice(0, 254) : '';
+  const plan  = typeof (body || {}).plan  === 'string' && ALLOWED_PLANS.includes(body.plan) ? body.plan : 'msingi';
 
   // ── GENERATE CODE (wewe unaitumia) ────────────────
   if (action === 'generate') {
-    const secret = req.headers['x-admin-secret'];
-    if (secret !== process.env.ADMIN_SECRET) {
+    if (!isAdmin(req.headers['x-admin-secret'])) {
       return res.status(401).json({ error: 'Hauruhusiwi' });
     }
 
@@ -84,14 +106,22 @@ module.exports = async function handler(req, res) {
     if (!code || !email) {
       return res.status(400).json({ error: 'Weka code na barua pepe' });
     }
+    if (!isValidEmail(email) || !/^[A-Z0-9-]{4,40}$/.test(code)) {
+      return res.status(400).json({ error: 'Code au barua pepe si sahihi' });
+    }
+    const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
+    if (tooManyAttempts(ip)) {
+      return res.status(429).json({ error: 'Majaribio mengi mno. Subiri dakika 15 kisha jaribu tena.' });
+    }
 
     // Angalia code
     const codes = await supabaseQuery(
       'activation_codes', 'GET', null,
-      `code=eq.${code.toUpperCase().trim()}&used=eq.false`
+      `code=eq.${encodeURIComponent(code)}&used=eq.false`
     );
 
     if (!codes || codes.length === 0) {
+      recordAttempt(ip);
       return res.status(404).json({
         error: 'Code si sahihi au imetumika tayari. Wasiliana nasi WhatsApp: +255670307647'
       });
@@ -107,7 +137,7 @@ module.exports = async function handler(req, res) {
     }
 
     // Weka au sasisha user
-    const users = await supabaseQuery('users', 'GET', null, `email=eq.${email}`);
+    const users = await supabaseQuery('users', 'GET', null, `email=eq.${encodeURIComponent(email)}`);
 
     if (users && users.length > 0) {
       // Sasisha plan ya mtumiaji
@@ -115,7 +145,7 @@ module.exports = async function handler(req, res) {
         plan: codeData.plan,
         questions_today: 0,
         activated_at: new Date().toISOString()
-      }, `email=eq.${email}`);
+      }, `email=eq.${encodeURIComponent(email)}`);
     } else {
       // Unda mtumiaji mpya
       await supabaseQuery('users', 'POST', {
@@ -131,7 +161,7 @@ module.exports = async function handler(req, res) {
       used: true,
       used_at: new Date().toISOString(),
       email
-    }, `code=eq.${code.toUpperCase().trim()}`);
+    }, `code=eq.${encodeURIComponent(code)}`);
 
     const planNames = {
       msingi: 'Msingi (Maswali 50/siku)',

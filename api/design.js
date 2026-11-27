@@ -988,10 +988,12 @@ Rudisha JSON hii (fields zote ni za Kiswahili, ondoa field kama haitumiki badala
 // SEHEMU D: HANDLER KUU
 // ════════════════════════════════════════════════════════════
 
+const { resolveIdentity } = require('./_lib/security');
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://ajplusai.co.tz');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST')   return res.status(405).json({ error: 'Method not allowed' });
 
@@ -1003,6 +1005,13 @@ module.exports = async function handler(req, res) {
     if (!body) body = {};
 
     const { prompt, type } = body;
+
+    // Zuia matumizi ya bure ya API ya AI na watu wasiojulikana
+    const identity = await resolveIdentity(req, body.email);
+    if (identity.error) {
+      return res.status(identity.status).json({ error: identity.error, relogin: !!identity.relogin });
+    }
+
     if (!prompt) {
       return res.status(400).json({ error: 'Maelezo yanahitajika!' });
     }
@@ -1084,7 +1093,7 @@ module.exports = async function handler(req, res) {
 
   } catch (err) {
     console.error('Design error:', err.message);
-    return res.status(500).json({ error: 'Kosa: ' + err.message });
+    return res.status(500).json({ error: 'Imeshindwa kutengeneza. Tafadhali jaribu tena.' });
   }
 };
 

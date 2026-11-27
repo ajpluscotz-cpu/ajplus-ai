@@ -139,6 +139,8 @@ async function supabaseQuery(table, method, data = null, filter = null) {
 }
 
 // ─── ANGALIA KIKOMO ───────────────────────────────────────
+const { resolveIdentity } = require('./_lib/security');
+
 async function checkImageLimit(email, type = 'image') {
     if (!email || email === 'demo@ajplusai.co.tz') {
         return { allowed: true, plan: 'trial', used: 0, limit: 5, remaining: 5, isDemo: true };
@@ -315,7 +317,7 @@ async function generateImage(prompt, type = 'image') {
 module.exports = async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', 'https://ajplusai.co.tz');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     if (req.method === 'OPTIONS') return res.status(200).end();
     if (req.method !== 'POST')   return res.status(405).json({ error: 'Method not allowed' });
 
@@ -329,7 +331,11 @@ module.exports = async function handler(req, res) {
         const { prompt, type, email } = body;
 
         const safeType   = ['image','design','logo'].includes(type) ? type : 'image';
-        const safeEmail  = typeof email === 'string' ? email.toLowerCase().trim().substring(0, 254) : '';
+        const identity = await resolveIdentity(req, email);
+        if (identity.error) {
+            return res.status(identity.status).json({ error: identity.error, relogin: !!identity.relogin });
+        }
+        const safeEmail  = identity.email;
         const safePrompt = typeof prompt === 'string' ? prompt.substring(0, 500).trim() : '';
 
         if (!safePrompt) {
@@ -372,6 +378,6 @@ module.exports = async function handler(req, res) {
 
     } catch(err) {
         console.error('Image generation error:', err.message);
-        return res.status(500).json({ error: 'Kosa katika kizazi cha picha: ' + err.message });
+        return res.status(500).json({ error: 'Picha haikutengenezwa. Tafadhali jaribu tena.' });
     }
 };
