@@ -143,6 +143,8 @@ function isImageRequest(message) {
 // SUPABASE — AJPLUS AI database yake (aylumdzvlkyelfucscoe)
 // ─────────────────────────────────────────────────────
 
+const { resolveIdentity } = require('./_lib/security');
+
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
@@ -226,7 +228,7 @@ async function checkUser(email) {
     return { allowed: true, plan: 'trial', questionsUsed: 0, questionsLimit: TRIAL_QUESTIONS_LIMIT, isGuest: true };
   }
   try {
-    const users = await supabaseQuery('users', 'GET', null, `email=eq.${email}`);
+    const users = await supabaseQuery('users', 'GET', null, `email=eq.${encodeURIComponent(email)}`);
     const user  = users?.[0];
 
     // Mtumiaji mpya kabisa — tengeneza rekodi, hii ni swali lake la kwanza
@@ -259,7 +261,7 @@ async function checkUser(email) {
       }
 
       const newTotal = questionsTotal + 1;
-      await supabaseQuery('users', 'PATCH', { questions_total: newTotal }, `email=eq.${email}`);
+      await supabaseQuery('users', 'PATCH', { questions_total: newTotal }, `email=eq.${encodeURIComponent(email)}`);
 
       return { allowed: true, plan: 'trial', questionsUsed: newTotal, questionsLimit: TRIAL_QUESTIONS_LIMIT };
     }
@@ -268,7 +270,7 @@ async function checkUser(email) {
     if (!limits.daily) return { allowed: true, plan };
 
     if (user.last_question_date !== today) {
-      await supabaseQuery('users', 'PATCH', { questions_today: 1, last_question_date: today }, `email=eq.${email}`);
+      await supabaseQuery('users', 'PATCH', { questions_today: 1, last_question_date: today }, `email=eq.${encodeURIComponent(email)}`);
       return { allowed: true, plan };
     }
 
@@ -279,7 +281,7 @@ async function checkUser(email) {
     await supabaseQuery('users', 'PATCH', {
       questions_today: (user.questions_today || 0) + 1,
       last_question_date: today
-    }, `email=eq.${email}`);
+    }, `email=eq.${encodeURIComponent(email)}`);
 
     return { allowed: true, plan };
 
@@ -428,7 +430,7 @@ module.exports = async function handler(req, res) {
 
   res.setHeader('Access-Control-Allow-Origin', 'https://ajplusai.co.tz');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -442,11 +444,19 @@ module.exports = async function handler(req, res) {
     }
     if (!body) body = {};
 
-    const message   = body.message;
-    const history   = body.history || [];
-    const userEmail = body.email   || null;
+    const message   = typeof body.message === 'string' ? body.message.slice(0, 4000) : '';
+    const history   = (Array.isArray(body.history) ? body.history : []).slice(-10)
+      .filter(h => h && typeof h.content === 'string')
+      .map(h => ({ role: h.role === 'user' ? 'user' : 'assistant', content: h.content.slice(0, 2000) }));
 
     if (!message) return res.status(400).json({ error: 'Swali linahitajika' });
+
+    // Utambulisho unathibitishwa na seva (token ya Supabase), si email inayotumwa na kivinjari
+    const identity = await resolveIdentity(req, body.email);
+    if (identity.error) {
+      return res.status(identity.status).json({ error: identity.error, relogin: !!identity.relogin });
+    }
+    const userEmail = identity.email;
 
     const userCheck = await checkUser(userEmail);
     if (!userCheck.allowed) {
@@ -535,7 +545,7 @@ module.exports = async function handler(req, res) {
     });
 
   } catch(err) {
-    console.error('AJPLUS AI Error:', err);
-    return res.status(500).json({ error: 'Kosa la seva: ' + err.message });
+    console.error('AJPLUS AI Error:', err && err.message);
+    return res.status(500).json({ error: 'Kosa la seva. Tafadhali jaribu tena.' });
   }
 };

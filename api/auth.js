@@ -2,6 +2,8 @@
 // Supabase Auth — Usajili, Kuingia, Kubadilisha Nywila
 // © AJ PLUS COMPANY LIMITED | ajplusai.co.tz
 
+const { verifySupabaseToken, bearerToken, isValidEmail, safeEqual } = require('./_lib/security');
+
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
@@ -54,7 +56,7 @@ async function dbQuery(table, method, data = null, filter = null) {
 
 // ─── HANDLER ──────────────────────────────────────────────
 module.exports = async function handler(req, res) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Origin", "https://ajplusai.co.tz");
     res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
     if (req.method === "OPTIONS") return res.status(200).end();
@@ -69,15 +71,19 @@ module.exports = async function handler(req, res) {
     try {
         // ── SIGNUP ──
         if (action === "signup") {
-            const { name, email, password, role } = body;
+            const name = typeof body.name === "string" ? body.name.trim().slice(0, 60) : "";
+            const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+            const { password, role } = body;
             if (!name || !email || !password) return res.status(400).json({ error: "Jaza sehemu zote!" });
+            if (!isValidEmail(email)) return res.status(400).json({ error: "Barua pepe si sahihi!" });
+            if (typeof password !== "string" || password.length > 128) return res.status(400).json({ error: "Nywila si sahihi!" });
             if (password.length < 8) return res.status(400).json({ error: "Nywila iwe herufi 8 au zaidi!" });
 
             // Unda akaunti Supabase Auth
             const authData = await supabaseAuth("signup", {
                 email,
                 password,
-                data: { name, role: role || "Nyingine" }
+                data: { name, role: typeof role === "string" ? role.slice(0, 40) : "Nyingine" }
             });
 
             // Hifadhi kwenye users table
@@ -91,7 +97,10 @@ module.exports = async function handler(req, res) {
 
             return res.status(200).json({
                 success: true,
-                message: "Akaunti imeundwa! Karibu AJPLUS AI 🇹🇿",
+                needs_confirmation: !authData.access_token,
+                message: authData.access_token
+                    ? "Akaunti imeundwa! Karibu AJPLUS AI 🇹🇿"
+                    : "Akaunti imeundwa! Fungua barua pepe yako kuthibitisha, kisha ingia. 📧",
                 user: { email, name },
                 token: authData.access_token,
                 refresh_token: authData.refresh_token
@@ -100,7 +109,8 @@ module.exports = async function handler(req, res) {
 
         // ── LOGIN ──
         if (action === "login") {
-            const { email, password } = body;
+            const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+            const { password } = body;
             if (!email || !password) return res.status(400).json({ error: "Weka barua pepe na nywila!" });
 
             const authData = await supabaseAuth("token?grant_type=password", { email, password });
@@ -151,8 +161,12 @@ module.exports = async function handler(req, res) {
 
         // ── UPDATE PROFILE ──
         if (action === "update_profile") {
-            const { token, email, name, phone } = body;
-            if (!token || !email) return res.status(400).json({ error: "Token na email zinahitajika!" });
+            const token = bearerToken(req) || body.token;
+            const me = await verifySupabaseToken(token);
+            if (!me) return res.status(401).json({ error: "Tafadhali ingia tena." });
+            const email = me.email; // email inatoka kwenye token, si kwenye body
+            const name  = typeof body.name  === "string" ? body.name.trim().slice(0, 60) : undefined;
+            const phone = typeof body.phone === "string" ? body.phone.replace(/[^\d+]/g, "").slice(0, 16) : undefined;
 
             await dbQuery("users", "PATCH", { name, phone }, `email=eq.${encodeURIComponent(email)}`);
 
@@ -173,10 +187,10 @@ module.exports = async function handler(req, res) {
 
         // ── GET PROFILE ──
         if (action === "get_profile") {
-            const { email } = body;
-            if (!email) return res.status(400).json({ error: "Email inahitajika!" });
+            const me = await verifySupabaseToken(bearerToken(req) || body.token);
+            if (!me) return res.status(401).json({ error: "Tafadhali ingia tena." });
 
-            const users = await dbQuery("users", "GET", null, `email=eq.${encodeURIComponent(email)}`);
+            const users = await dbQuery("users", "GET", null, `email=eq.${encodeURIComponent(me.email)}`);
             const user = users?.[0];
             if (!user) return res.status(404).json({ error: "Mtumiaji hapatikani!" });
 
@@ -196,10 +210,11 @@ module.exports = async function handler(req, res) {
 
         // ── RESET PASSWORD REQUEST ──
         if (action === "reset_password") {
-            const { email } = body;
-            if (!email) return res.status(400).json({ error: "Weka barua pepe yako!" });
+            const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+            if (!isValidEmail(email)) return res.status(400).json({ error: "Weka barua pepe yako!" });
 
-            await supabaseAuth("recover", { email });
+            // Usifichue kama email ipo au haipo (zuia kuorodhesha watumiaji)
+            try { await supabaseAuth("recover", { email }); } catch (e) { console.warn("recover:", e.message); }
             return res.status(200).json({
                 success: true,
                 message: "Barua pepe ya kubadilisha nywila imetumwa! Angalia inbox yako. 📧"
@@ -214,13 +229,13 @@ module.exports = async function handler(req, res) {
                 return res.status(500).json({ error: "Server haijasetiwa vizuri (ADMIN_PASSWORD haipo)." });
             }
             const expected = Buffer.from(ADMIN_PASSWORD).toString("base64");
-            if (admin_token !== expected) return res.status(401).json({ error: "Hujaidhinishwa!" });
+            if (!safeEqual(admin_token, expected)) return res.status(401).json({ error: "Hujaidhinishwa!" });
             if (!new_password || new_password.length < 8) return res.status(400).json({ error: "Nywila mpya iwe herufi 8+" });
 
-            // Hifadhi nywila mpya kwenye env variable (kwa Vercel inahitaji API call)
+            // Nywila haibadilishwi hapa wala kurudishwa kwenye jibu (isije ikaonekana kwenye logs/historia).
             return res.status(200).json({
                 success: true,
-                message: "Nywila mpya: " + new_password + "\n\nTafadhali weka kwenye Vercel → ADMIN_PASSWORD",
+                message: "Weka nywila mpya mwenyewe kwenye Vercel → Settings → Environment Variables → ADMIN_PASSWORD, kisha Redeploy.",
                 instruction: "Nenda Vercel → Settings → Environment Variables → ADMIN_PASSWORD → Update"
             });
         }
@@ -229,6 +244,8 @@ module.exports = async function handler(req, res) {
 
     } catch(e) {
         console.error("Auth error:", e.message);
-        return res.status(500).json({ error: e.message });
+        // Ujumbe wa Supabase Auth (k.m. "Invalid login credentials") ni salama kuonyesha; mengine yafichwe
+        const safe = /invalid|already|confirm|password|email|rate limit/i.test(e.message || "") ? e.message : "Kosa la seva. Jaribu tena.";
+        return res.status(400).json({ error: safe });
     }
 };

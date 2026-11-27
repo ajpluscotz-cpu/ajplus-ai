@@ -99,7 +99,45 @@ function switchAuthTab(tab) {
 /* ══════════════════════════════════════════════════
    AUTH
 ══════════════════════════════════════════════════ */
-function doLogin() {
+async function authRequest(payload) {
+  const res = await fetch('/api/auth', {
+    method : 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body   : JSON.stringify(payload)
+  });
+  let data = {};
+  try { data = await res.json(); } catch(e) {}
+  if (!res.ok || !data.success) throw new Error(data.error || 'Imeshindwa. Jaribu tena.');
+  return data;
+}
+function startSession(user, token) {
+  const email = String(user.email || '').toLowerCase();
+  const name  = Sanitizer.name(user.name || email.split('@')[0]);
+  Session.set('user',  { email, name });
+  Session.set('email', email);
+  if (token) Session.set('token', token);
+  updateNavUser(name);
+  goTo('dashboard');
+  showDash('chat');
+  setTimeout(initChat, 300);
+}
+/* Vichwa vya ombi: token ya kuingia (kama ipo) inathibitishwa na seva */
+function authHeaders() {
+  const h = { 'Content-Type': 'application/json' };
+  const token = Session.get('token');
+  if (token) h['Authorization'] = 'Bearer ' + token;
+  return h;
+}
+function handleRelogin(data) {
+  if (data && data.relogin) {
+    Session.clear();
+    showToast('🔐 Tafadhali ingia tena', 'warning');
+    goTo('auth');
+    return true;
+  }
+  return false;
+}
+async function doLogin() {
   try { RateLimiter.check('login'); } catch(e) { showToast(e.message, 'warning'); return; }
   const emailRaw = document.getElementById('l-email')?.value.trim();
   const passRaw  = document.getElementById('l-pass')?.value;
@@ -107,16 +145,16 @@ function doLogin() {
   if (!Sanitizer.email(emailRaw)) { showToast('⚠️ Barua pepe si sahihi', 'warning'); return; }
   if (!Sanitizer.password(passRaw)) { showToast('⚠️ Nywila iwe na herufi 8 hadi 128', 'warning'); return; }
   const email = emailRaw.toLowerCase().trim();
-  const name  = Sanitizer.name(email.split('@')[0]);
-  Session.set('user',  { email, name });
-  Session.set('email', email);
-  updateNavUser(name);
-  showToast('✅ Umeingia!', 'success');
-  goTo('dashboard');
-  showDash('chat');
-  setTimeout(initChat, 300);
+  try {
+    const data = await authRequest({ action: 'login', email, password: passRaw });
+    if (!data.token) throw new Error('Imeshindwa kuingia');
+    showToast('✅ Umeingia!', 'success');
+    startSession(data.user || { email }, data.token);
+  } catch(e) {
+    showToast('⚠️ ' + Sanitizer.text(e.message, 150), 'warning');
+  }
 }
-function doSignup() {
+async function doSignup() {
   try { RateLimiter.check('login'); } catch(e) { showToast(e.message, 'warning'); return; }
   const nameRaw  = document.getElementById('s-name')?.value.trim();
   const emailRaw = document.getElementById('s-email')?.value.trim();
@@ -127,13 +165,18 @@ function doSignup() {
   if (!Sanitizer.email(emailRaw)) { showToast('⚠️ Barua pepe si sahihi', 'warning'); return; }
   if (!Sanitizer.password(passRaw)) { showToast('⚠️ Nywila iwe na herufi 8 hadi 128', 'warning'); return; }
   const email = emailRaw.toLowerCase().trim();
-  Session.set('user',  { name, email });
-  Session.set('email', email);
-  updateNavUser(name);
-  showToast('🎉 Akaunti imeundwa!', 'success');
-  goTo('dashboard');
-  showDash('chat');
-  setTimeout(initChat, 300);
+  try {
+    const data = await authRequest({ action: 'signup', name, email, password: passRaw });
+    if (!data.token) {
+      showToast('📧 Akaunti imeundwa! Thibitisha barua pepe yako, kisha ingia.', 'success');
+      switchAuthTab('login');
+      return;
+    }
+    showToast('🎉 Akaunti imeundwa!', 'success');
+    startSession({ email, name }, data.token);
+  } catch(e) {
+    showToast('⚠️ ' + Sanitizer.text(e.message, 150), 'warning');
+  }
 }
 /* ══════════════════════════════════════════════════
    DEVICE ID — Kitambulisho cha kipekee cha kifaa
@@ -252,7 +295,7 @@ async function generatePoster(prompt) {
   const safePrompt = Sanitizer.text(prompt, 500);
   const res = await fetch('/api/design', {
     method : 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: authHeaders(),
     body   : JSON.stringify({ prompt: safePrompt, type: 'poster', email })
   });
   let data;
@@ -292,7 +335,7 @@ async function generateImage(prompt, type = 'image') {
   const safePrompt = Sanitizer.text(prompt, 500);
   const res = await fetch('/api/image', {
     method : 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: authHeaders(),
     body   : JSON.stringify({ prompt: safePrompt, type, email })
   });
   let data;
@@ -432,7 +475,7 @@ async function sendMessage() {
     const email = Session.get('email') || '';
     const res = await fetch('/api/chat', {
       method : 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: authHeaders(),
       body   : JSON.stringify({
         message: msg,
         history: chatHistory.slice(-10).map(h => ({
@@ -445,6 +488,7 @@ async function sendMessage() {
     const data = await res.json();
     typing.remove();
     if (!res.ok || data.error) {
+      if (handleRelogin(data)) return;
       if (data.showActivation) {
         if (typeof checkTrialStatus === 'function') checkTrialStatus(30, 30, 'trial');
         return;
